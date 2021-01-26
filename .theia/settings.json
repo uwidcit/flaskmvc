@@ -1,0 +1,6 @@
+{
+    "python.pythonPath": "/home/gitpod/.pyenv/versions/3.7.7/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintArgs": ["--load-plugins", "pylint_flask_sqlalcheny"]
+}

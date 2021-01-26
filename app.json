@@ -1,0 +1,7 @@
+{
+  "name": "Pharm App",
+  "description": "UWI Pharmacy Backedn",
+  "repository": "https://github.com/uwidcit/pharm-backend",
+  "logo": "https://node-js-sample.herokuapp.com/node.png",
+  "keywords": ["flask", "mvc", "uwi"]
+}
