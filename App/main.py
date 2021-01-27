@@ -21,7 +21,6 @@ def loadConfig(app):
         DBHOST = os.environ.get("DBHOST")
         DBNAME = os.environ.get("DBNAME")
         SQLITEDB = os.environ.get("SQLITEDB", default="true")
-        app.config["UPLOADED_PHOTOS_DEST"] = os.environ.get("UPLOADED_PHOTOS_DEST")
         app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////test.db" if SQLITEDB in {'True', 'true', 'TRUE'} else 'mysql+pymysql://'+DBUSER+':'+DBPASSWORD+'@'+DBHOST+'/'+DBNAME
 
 def create_app():
@@ -30,6 +29,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.config['PREFERRED_URL_SCHEME'] = 'https'
+    app.config['UPLOADED_PHOTOS_DEST'] = "App/uploads"
     photos = UploadSet('photos', TEXT + DOCUMENTS + IMAGES)
     configure_uploads(app, photos)
     db.init_app(app)

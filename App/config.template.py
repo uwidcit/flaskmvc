@@ -1,4 +1,3 @@
-DEBUG = True
 DBHOST = "https://mydb.com"
 DBNAME = "MYDB"
 DBUSER = "USER"
@@ -6,5 +5,4 @@ DBPASSWORD = "PASSWORD"
 SECRET_KEY = "SECRET"
 JWTDELTADAYS = 14
 ENV = 'development'
-UPLOADED_PHOTOS_DEST = "App/uploads"
 SQLITEDB = True

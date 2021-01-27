@@ -23,10 +23,10 @@ Instead, all config information should provided by manually bringing a config fi
 
 ## In Development
 
-When running the project in a development environment (such as gitpod) you can provide configuration via a config.py file.
-A default template config.template.py is given so to quick start you can simply rename that file to config.py (but do not save config.py to the repository).
+When running the project in a development environment (such as gitpod) you can provide configuration via a config.py file in the App folder.
+A default template config.template.py is given so to quick start you can simply rename that file to config.py (but do not save it to the repository).
 
-By defult, the config uses a sqlite database. If you wish to connect to your own database, you must update the DBHOST, DBPASSWORD, DBUSER and DBNAME and set SQLITEDB to False in config.py.
+By defult, the config uses a sqlite database. If you wish to connect to your own database, you must update the DBHOST, DBPASSWORD, DBUSER and DBNAME and set SQLITEDB to "False" in config.py.
 
 ## In Production
 
@@ -34,13 +34,36 @@ When deploying your application to a production, depending on the environment yo
 in configuration information via enviornment variables. For heroku you need to navigate to your application's setting page (url should look like https://dashboard.heroku.com/apps/[app-name]/settings) and scroll down to config vars.
 Then provide your configuration as shown in the image below. 
 
+![heroku screenshot](images/fig1.png)
 
-When deploying the "ENV" variable should be set to "production"
+When deploying to production the "ENV" variable should be set to "production"
+
+# Manage.py Commands
+
+Manage.py is a utility script for performing various tasks related to the project. You can use it to import and test any code in the project. 
+You just need create a manager command function, for example:
+
+```
+# inside manage.py
+
+
+@manager.command
+def hello():
+    print('hello')
+
+...    
+```
+
+Then execute the command by calling the funciton name as a parameter to the script
+
+```
+$ python3 manage.py hello
+```
 
 
 # Running the Project
 
-_For development (what you execute):_
+_For development run the serve command (what you execute):_
 ```
 $ python3 manage.py serve
 ```

@@ -1,5 +1,5 @@
 tasks:
-  - init: spip3 install -r requirements.txt
+  - init: pip3 install -r requirements.txt
 ports:
   - port: 8080
     onOpen: open-browser
