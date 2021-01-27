@@ -13,6 +13,8 @@ def get_user_page():
 @user_views.route('/api/users')
 def client_app():
     users = User.query.all()
+    if not users:
+        return jsonify([])
     users = [user.toDict() for user in users]
     return jsonify(users)
 
