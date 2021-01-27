@@ -1,4 +1,5 @@
 tasks:
+  - before: printf "\n[settings]\napi_key = $WAKA_TIME_API_KEY\n" > ~/.wakatime.cfg
   - init: pip3 install -r requirements.txt
 ports:
   - port: 8080

@@ -1,9 +1,9 @@
-
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/https://github.com/uwidcit/flaskmvc)
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 # Flask MVC Template
-A template for flask applications sturcutured in the Model View Controller pattern
+A template for flask applications sturcutured in the Model View Controller pattern [Demo](https://dcit-flaskmvc.herokuapp.com/)
+
 
 # Dependencies
 * Python3/pip3
