@@ -14,7 +14,7 @@ from App.views import (
 def loadConfig(app):
     try:
         app.config.from_object('App.config')
-        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db" if app.config['SQLITEDB'] else 'mysql+pymysql://'+app.config['DBUSER']+':'+app.config['DBPASSWORD']+'@'+app.config['DBHOST']+'/'+app.config['DBNAME']
+        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///demo.db" if app.config['SQLITEDB'] else 'mysql+pymysql://'+app.config['DBUSER']+':'+app.config['DBPASSWORD']+'@'+app.config['DBHOST']+'/'+app.config['DBNAME']
     except:
         print("config file not present using environment variables")
         DBUSER = os.environ.get("DBUSER")
