@@ -76,7 +76,7 @@ $ gunicorn -w 4 wsgi:app
 You can deploy your version of this app to heroku by clicking on the "Deploy to heroku" link above.
 
 # Intializing the Database
-When connecting the project to a fresh empty database ensure the appropriate database credentials are set in environment.staging.json file then run the following command.
+When connecting the project to a fresh empty database ensure the appropriate configuration is set then file then run the following command. If you are using sqlite test.db would be created.
 ```
 $ python3 manage.py initdb
 ```

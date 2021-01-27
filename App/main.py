@@ -7,13 +7,14 @@ from flask_uploads import UploadSet, configure_uploads, IMAGES, TEXT, DOCUMENTS
 from App.models import db
 
 from App.views import (
-    api_views
+    api_views,
+    user_views
 )
 
 def loadConfig(app):
     try:
         app.config.from_object('App.config')
-        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////test.db" if app.config['SQLITEDB'] else 'mysql+pymysql://'+app.config['DBUSER']+':'+app.config['DBPASSWORD']+'@'+app.config['DBHOST']+'/'+app.config['DBNAME']
+        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db" if app.config['SQLITEDB'] else 'mysql+pymysql://'+app.config['DBUSER']+':'+app.config['DBPASSWORD']+'@'+app.config['DBHOST']+'/'+app.config['DBNAME']
     except:
         print("config file not present using environment variables")
         DBUSER = os.environ.get("DBUSER")
@@ -21,10 +22,10 @@ def loadConfig(app):
         DBHOST = os.environ.get("DBHOST")
         DBNAME = os.environ.get("DBNAME")
         SQLITEDB = os.environ.get("SQLITEDB", default="true")
-        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////test.db" if SQLITEDB in {'True', 'true', 'TRUE'} else 'mysql+pymysql://'+DBUSER+':'+DBPASSWORD+'@'+DBHOST+'/'+DBNAME
+        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db" if SQLITEDB in {'True', 'true', 'TRUE'} else 'mysql+pymysql://'+DBUSER+':'+DBPASSWORD+'@'+DBHOST+'/'+DBNAME
 
 def create_app():
-    app = Flask(__name__, static_url_path='')
+    app = Flask(__name__, static_url_path='/static')
     loadConfig(app)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -40,6 +41,7 @@ app = create_app()
 app.app_context().push()
 
 app.register_blueprint(api_views)
+app.register_blueprint(user_views)
 
 ''' Set up JWT here (if using flask JWT)'''
 # def authenticate(uname, password):

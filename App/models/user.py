@@ -5,10 +5,12 @@ import datetime
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    uwi_id =  db.Column(db.String, nullable=False)
-    
+    first_name =  db.Column(db.String, nullable=False)
+    last_name =  db.Column(db.String, nullable=False)
+
     def toDict(self):
         return{
             'id': self.id,
-            'uwi_id': self.uwi_id,
+            'first_name': self.first_name,
+            'last_name': self.last_name
         }

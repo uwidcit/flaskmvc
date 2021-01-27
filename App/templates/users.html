@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block title %}App Users{% endblock %}
+{% block page %}App Users{% endblock %}
+
+{{ super() }}
+
+{% block content %}
+    <div class="row">
+        <p>
+            This is table is renderd on the Server. Flask gets the data from the database uses jinja templates to dyanmically creat this page when a request is sent to <a href="/usrs">/users</a>.
+        </p>
+    </div>
+    <div class="row">
+      <table>
+        <thead>
+          <tr>
+            <td>Id</td><td>First Name</td><td>Last Name</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            <tr>
+                <td>{{user.id}}</td>
+                <td>{{user.first_name}}</td>
+                <td>{{user.last_name}}</td>
+            </tr>
+          {% endfor %}
+        <tbody>
+      </table>
+    </div>
+{% endblock %}
