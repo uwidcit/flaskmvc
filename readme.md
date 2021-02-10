@@ -69,7 +69,7 @@ $ python3 manage.py serve
 ```
 _For production using gunicorn (what heroku executes):_
 ```
-$ gunicorn -w 4 wsgi:app
+$ gunicorn -w 4 App.main:app
 ```
 
 # Deploying

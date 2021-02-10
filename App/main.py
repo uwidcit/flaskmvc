@@ -14,7 +14,7 @@ from App.views import (
 def loadConfig(app):
     try:
         app.config.from_object('App.config')
-        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db" if app.config['SQLITEDB'] else 'mysql+pymysql://'+app.config['DBUSER']+':'+app.config['DBPASSWORD']+'@'+app.config['DBHOST']+'/'+app.config['DBNAME']
+        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///demo.db" if app.config['SQLITEDB'] else 'mysql+pymysql://'+app.config['DBUSER']+':'+app.config['DBPASSWORD']+'@'+app.config['DBHOST']+'/'+app.config['DBNAME']
     except:
         print("config file not present using environment variables")
         DBUSER = os.environ.get("DBUSER")
@@ -22,7 +22,7 @@ def loadConfig(app):
         DBHOST = os.environ.get("DBHOST")
         DBNAME = os.environ.get("DBNAME")
         SQLITEDB = os.environ.get("SQLITEDB", default="true")
-        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///test.db" if SQLITEDB in {'True', 'true', 'TRUE'} else 'mysql+pymysql://'+DBUSER+':'+DBPASSWORD+'@'+DBHOST+'/'+DBNAME
+        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///demo.db" if SQLITEDB in {'True', 'true', 'TRUE'} else 'mysql+pymysql://'+DBUSER+':'+DBPASSWORD+'@'+DBHOST+'/'+DBNAME
 
 def create_app():
     app = Flask(__name__, static_url_path='/static')
