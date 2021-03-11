@@ -6,4 +6,3 @@ __pycache__/
 
 App/config.py
 config.prod.py
-App/test.db
