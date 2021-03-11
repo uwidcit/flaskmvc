@@ -2,20 +2,23 @@ from flask import Blueprint, redirect, render_template, request, jsonify, send_f
 
 user_views = Blueprint('user_views', __name__, template_folder='../templates')
 
-from App.models import User
-
-@user_views.route('/users', methods=['GET'])
-def get_user_page():
-    users = User.query.all()
-    return render_template('users.html', users=users)
+# Views cannot import models but can import controllers
+from App.controllers import ( get_users, get_users_json, create_user )
 
 @user_views.route('/api/users')
 def client_app():
-    users = User.query.all()
-    if not users:
-        return jsonify([])
-    users = [user.toDict() for user in users]
-    return jsonify(users)
+    users_json = get_users_json()
+    return jsonify(users_json)
+
+@user_views.route('/api/users', methods=['POST'])
+def client_app():
+    data = request.json
+    create_user(data['firstName'], data['lastName'])
+    return 'Created'  
+
+@user_views.route('/users', methods=['GET'])
+def get_user_page():
+    return render_template('users.html', users=get_users())
 
 @user_views.route('/static/users')
 def static_user_page():

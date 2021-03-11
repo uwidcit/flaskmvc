@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 import datetime
 
-
+# models do not reference views or controllers
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name =  db.Column(db.String, nullable=False)
