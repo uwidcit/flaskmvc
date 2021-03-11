@@ -28,6 +28,7 @@ def loadConfig(app):
         # DBNAME = os.environ.get("DBNAME")
         DBURI = os.environ.get("DBURI")
         SQLITEDB = os.environ.get("SQLITEDB", default="true")
+        app.config['ENV'] = os.environ.get("ENV")
         app.config['SQLALCHEMY_DATABASE_URI'] = get_db_uri() if SQLITEDB in {'True', 'true', 'TRUE'} else DBURI
 
 def create_app():
