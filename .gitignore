@@ -5,4 +5,5 @@ __pycache__/
 *$py.class
 
 App/config.py
+config.prod.py
 App/test.db
