@@ -15,7 +15,6 @@ manager.add_command('db', MigrateCommand)
 @manager.command
 def initDB():
     db.create_all(app=app)
-    print(app.config['SQLALCHEMY_DATABASE_URI'])
     print('database initialized!')
 
 # serve command

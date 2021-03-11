@@ -1,0 +1,22 @@
+{
+  "name": "flaskmvc",
+  "version": "1.0.0",
+  "description": "[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/https://github.com/uwidcit/flaskmvc) [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)",
+  "main": "index.js",
+  "scripts": {
+    "init" : "python3 manage.py init",
+    "serve" : "python3 manage.py serve",
+    "make-users" : "python3 manage.py make_users"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uwidcit/flaskmvc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uwidcit/flaskmvc/issues"
+  },
+  "homepage": "https://github.com/uwidcit/flaskmvc#readme"
+}
