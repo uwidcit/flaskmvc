@@ -11,7 +11,7 @@ def client_app():
     return jsonify(users_json)
 
 @user_views.route('/api/users', methods=['POST'])
-def client_app():
+def create_user():
     data = request.json
     create_user(data['firstName'], data['lastName'])
     return 'Created'  
