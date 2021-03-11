@@ -9,7 +9,6 @@ def get_user_page():
     users = User.query.all()
     return render_template('users.html', users=users)
 
-
 @user_views.route('/api/users')
 def client_app():
     users = User.query.all()
