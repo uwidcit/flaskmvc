@@ -4,5 +4,4 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-App/config.py
 App/test.db
