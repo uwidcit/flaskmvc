@@ -6,7 +6,7 @@ let browser;
 let page;
 let requests = [];
 
-const host = 'https://localhost:8080';
+const host = 'http://localhost:8080';
 
 before(async function(){
   this.timeout(config.timeout);
@@ -21,7 +21,7 @@ before(async function(){
     request.continue();
   });
 
-  await page.goto(config.url, { waitUntil: 'networkidle2'});
+  await page.goto(`${host}/static/users`, { waitUntil: 'networkidle2'});
 });
 
 function getHTML(selector){
@@ -64,17 +64,17 @@ context('The /static/users page', ()=>{
 
   describe("Test 3: Page should have a users table header", () => {
     it("First table header should be 'Id'", async () => {
-      const html = await page.$eval('head>th:nth-child(1)', (e) => e.innerHTML);
+      const html = await page.$eval('tr>th:nth-child(1)', (e) => e.innerHTML);
       expect(html).to.eql("Id")
     });
 
     it("Second table header should be 'First Name'", async () => {
-      const html = await page.$eval('head>th:nth-child(2)', (e) => e.innerHTML);
+      const html = await page.$eval('tr>th:nth-child(2)', (e) => e.innerHTML);
       expect(html).to.eql("First Name")
     });
 
     it("Third table header should be 'Last Name'", async () => {
-      const html = await page.$eval('head>th:nth-child(3)', (e) => e.innerHTML);
+      const html = await page.$eval('tr>th:nth-child(3)', (e) => e.innerHTML);
       expect(html).to.eql("Last Name")
     });
 
