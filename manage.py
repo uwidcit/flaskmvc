@@ -1,12 +1,12 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
-from App.main import app
-from App.models import db
+from App.main import create_app
+from App.models import db, User
+from App.controllers import create_users
 
+app = create_app()
 manager = Manager(app)
 migrate = Migrate(app, db)
-
-from App.models import User
 
 # add migrate command
 manager.add_command('db', MigrateCommand)
@@ -25,13 +25,7 @@ def serve():
 
 @manager.command
 def make_users():
-    bob = User(first_name="Bob", last_name="Smith")
-    sally = User(first_name="Sally", last_name="Smith")
-    rob = User(first_name="Rob", last_name="Smith")
-    db.session.add(bob)
-    db.session.add(sally)
-    db.session.add(rob)
-    db.session.commit()
+    create_users()
     print("users created")
 
 if __name__ == "__main__":

@@ -4,9 +4,9 @@
   "description": "[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/https://github.com/uwidcit/flaskmvc) [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)",
   "main": "index.js",
   "scripts": {
-    "init" : "python3 manage.py init",
-    "serve" : "python3 manage.py serve",
-    "make-users" : "python3 manage.py make_users"
+    "init": "python3 manage.py init",
+    "serve": "python3 manage.py serve",
+    "make-users": "python3 manage.py make_users"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/uwidcit/flaskmvc/issues"
   },
-  "homepage": "https://github.com/uwidcit/flaskmvc#readme"
+  "homepage": "https://github.com/uwidcit/flaskmvc#readme",
+  "dependencies": {
+    "chai": "^4.3.4",
+    "puppeteer": "^11.0.0"
+  }
 }
