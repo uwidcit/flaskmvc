@@ -6,10 +6,8 @@ let browser;
 let page;
 let requests = [];
 
-
-//Testing statics/users
-
 const host = 'https://localhost:8080';
+
 before(async function(){
   this.timeout(config.timeout);
   browser = await puppeteer.launch(config);
@@ -25,7 +23,6 @@ before(async function(){
 
   await page.goto(config.url, { waitUntil: 'networkidle2'});
 });
-
 
 function getHTML(selector){
   return page.evaluate(selector=>{
@@ -47,63 +44,61 @@ function checkElements(a) {
   })
 }
 
+context('The /static/users page', ()=>{
 
+  it('Test 1: Should send a http request to /api/users', async ()=>{
+    let reqs = [`${host}/api/users`];
+    let count = 0;
 
-  context('The /static/users page', ()=>{
-
-    it('Test 1: Should send a http request to /api/users', async ()=>{
-      let reqs = [`${host}/api/users`];
-      let count = 0;
-
-      reqs.forEach(req => {
-        if(requests.includes(req))count++
-      })
-
-      expect(count).to.equal(1);
-
-    }).timeout(2000);
-
-    it("Test 2: Page should have App Users as the title", async () => {
-        expect(await page.title()).to.eql("App Users")
-    });
-
-    describe("Test 3: Page should have a users table header", () => {
-      it("First table header should be 'Id'", async () => {
-        const html = await page.$eval('head>th:nth-child(1)', (e) => e.innerHTML);
-        expect(html).to.eql("Id")
-      });
-
-      it("Second table header should be 'First Name'", async () => {
-        const html = await page.$eval('head>th:nth-child(2)', (e) => e.innerHTML);
-        expect(html).to.eql("First Name")
-      });
-
-      it("Third table header should be 'Last Name'", async () => {
-        const html = await page.$eval('head>th:nth-child(3)', (e) => e.innerHTML);
-        expect(html).to.eql("Last Name")
-      });
-
+    reqs.forEach(req => {
+      if(requests.includes(req))count++
     })
 
-    // it('Test 2: Should user table header on page', async ()=>{
-    //   await page.waitForSelector('#pokemon-detail')
+    expect(count).to.equal(1);
 
-    //   let searchKeys = [ 'grass', '1', '6.9', '0.7' ]
+  }).timeout(2000);
 
-    //   let result = await getHTML('#pokemon-detail');
-
-    //   let count = 0;
-
-    //   for(let key of searchKeys){
-    //     if(result.includes(key))count++
-    //   }
-
-    //   expect(count).to.eql(4);
-       
-    // }).timeout(2000);
-
-
+  it("Test 2: Page should have App Users as the title", async () => {
+      expect(await page.title()).to.eql("App Users")
   });
+
+  describe("Test 3: Page should have a users table header", () => {
+    it("First table header should be 'Id'", async () => {
+      const html = await page.$eval('head>th:nth-child(1)', (e) => e.innerHTML);
+      expect(html).to.eql("Id")
+    });
+
+    it("Second table header should be 'First Name'", async () => {
+      const html = await page.$eval('head>th:nth-child(2)', (e) => e.innerHTML);
+      expect(html).to.eql("First Name")
+    });
+
+    it("Third table header should be 'Last Name'", async () => {
+      const html = await page.$eval('head>th:nth-child(3)', (e) => e.innerHTML);
+      expect(html).to.eql("Last Name")
+    });
+
+  })
+
+  // it('Test 2: Should user table header on page', async ()=>{
+  //   await page.waitForSelector('#pokemon-detail')
+
+  //   let searchKeys = [ 'grass', '1', '6.9', '0.7' ]
+
+  //   let result = await getHTML('#pokemon-detail');
+
+  //   let count = 0;
+
+  //   for(let key of searchKeys){
+  //     if(result.includes(key))count++
+  //   }
+
+  //   expect(count).to.eql(4);
+      
+  // }).timeout(2000);
+
+
+});
 
 after(async () => {
   await browser.close();
