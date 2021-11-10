@@ -9,4 +9,4 @@ RUN alias python=python3
 
 USER gitpod
 
-RUN npm i -g mocha puppetteer
+RUN npm i -g mocha

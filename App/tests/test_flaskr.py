@@ -80,7 +80,7 @@ def test_users_status_code(client):
 def test_get_all_empty_users(client):
     users = get_all_users_json()
     # user logger to print messages in tests
-    # LOGGER.info(users)
+    LOGGER.info(users)
     assert users == []
 
 # Test 5: /api/users view should return json data of user inserted in insert_user_data fixture
@@ -99,14 +99,15 @@ def test_get_all_empty_users(client):
    Integration Tests  
 '''
 # This is an integration test because it has side effects in the database
-# Test 5: crate_user controller should create a user record with the values given to it
-# def test_create_user():
-#     create_user('rob', 'smith', 'rob@mail.com', 'bobpass')
-#     userobj = get_user_by_fname('rob')
-#     checks = False
-#     if userobj.first_name != user['first_name'] or userobj.last_name != user['last_name'] or userobj.email != user['email'] or not userobj.check_password(user['password']):
-#         checks = False
-#     assert checks    
+# Test 5: create_user controller should create a user record with the values given to it
+def test_create_user():
+    create_user('rob', 'smith', 'rob@mail.com', 'bobpass')
+    userobj = get_user_by_fname('rob')
+
+    checks = False
+    if userobj.first_name != 'rob' or userobj.last_name != 'smith' or userobj.email != 'bob@mail.com' or not userobj.check_password('bobpass'):
+        checks = False
+    assert checks    
 
 
 # Test 6: create_users controller should create user objects and store them with the values given to it
