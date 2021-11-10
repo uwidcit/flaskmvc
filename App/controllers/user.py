@@ -1,6 +1,6 @@
 from flask import redirect, render_template, request, url_for, jsonify
 
-from App.models import ( User )
+from App.models import ( User, db )
 
 def create_user(firstname, lastname, uwi_id, email, gender, dob):
     # newuser = use()
@@ -13,7 +13,7 @@ def get_all_users_json():
     users = [user.toDict() for user in users]
     return users
 
-def create_user(fname, lame, email, password):
+def create_user(fname, lname, email, password):
     user = User(first_name=fname, last_name=lname, email=email)
     user.set_password(password)
     db.session.add(user)
@@ -22,6 +22,7 @@ def create_user(fname, lame, email, password):
 def create_users(users):
     for user in users:
         newuser = User(first_name=user['first_name'], last_name=user['last_name'], email=user['email'])
+        newuser.set_password(user['password'])
         db.session.add(newuser)
     db.session.commit()
 
