@@ -21,6 +21,7 @@
   "homepage": "https://github.com/uwidcit/flaskmvc#readme",
   "dependencies": {
     "chai": "^4.3.4",
+    "newman": "^5.3.0",
     "puppeteer": "^11.0.0"
   }
 }
