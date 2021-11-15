@@ -11,7 +11,7 @@ def get_user_page():
 
 @user_views.route('/api/users')
 def client_app():
-    users = get_all_users()
+    users = get_all_users_json()
     return jsonify(users)
 
 @user_views.route('/api/lol')

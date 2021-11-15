@@ -62,20 +62,20 @@ context('The /static/users page', ()=>{
       expect(await page.title()).to.eql("App Users")
   });
 
-  describe("Test 3: Page should have a users table header", () => {
+  describe("Test 3: Page should have a users table with the appropriate structure", () => {
     it("First table header should be 'Id'", async () => {
       const html = await page.$eval('tr>th:nth-child(1)', (e) => e.innerHTML);
-      expect(html).to.eql("Id")
+      expect(html).to.eql("Id");
     });
 
     it("Second table header should be 'First Name'", async () => {
       const html = await page.$eval('tr>th:nth-child(2)', (e) => e.innerHTML);
-      expect(html).to.eql("First Name")
+      expect(html).to.eql("First Name");
     });
 
     it("Third table header should be 'Last Name'", async () => {
       const html = await page.$eval('tr>th:nth-child(3)', (e) => e.innerHTML);
-      expect(html).to.eql("Last Name")
+      expect(html).to.eql("Last Name");
     });
 
   })
