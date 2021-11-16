@@ -47,38 +47,41 @@ function checkElements(a) {
 context('The /static/users page', ()=>{
 
   it('Test 1: Should send a http request to /api/users', async ()=>{
-    let reqs = [`${host}/api/users`];
+    let reqs = [
+      `${host}/api/users`,
+    ];
+
     let count = 0;
 
     reqs.forEach(req => {
       if(requests.includes(req))count++
     })
 
-    expect(count).to.equal(1);
+    expect(count).to.equal(reqs.length);
 
   }).timeout(2000);
 
   it("Test 2: Page should have App Users as the title", async () => {
-      expect(await page.title()).to.eql("App Users")
+      expect(await page.title()).to.eql("App Users");
   });
 
-  describe("Test 3: Page should have a users table with the appropriate structure", () => {
-    it("First table header should be 'Id'", async () => {
-      const html = await page.$eval('tr>th:nth-child(1)', (e) => e.innerHTML);
-      expect(html).to.eql("Id");
-    });
+  // describe("Test 3: Page should have a users table with the appropriate structure", () => {
+  //   it("First table header should be 'Id'", async () => {
+  //     const html = await page.$eval('tr>th:nth-child(1)', (e) => e.innerHTML);
+  //     expect(html).to.eql("Id");
+  //   });
 
-    it("Second table header should be 'First Name'", async () => {
-      const html = await page.$eval('tr>th:nth-child(2)', (e) => e.innerHTML);
-      expect(html).to.eql("First Name");
-    });
+  //   it("Second table header should be 'First Name'", async () => {
+  //     const html = await page.$eval('tr>th:nth-child(2)', (e) => e.innerHTML);
+  //     expect(html).to.eql("First Name");
+  //   });
 
-    it("Third table header should be 'Last Name'", async () => {
-      const html = await page.$eval('tr>th:nth-child(3)', (e) => e.innerHTML);
-      expect(html).to.eql("Last Name");
-    });
+  //   it("Third table header should be 'Last Name'", async () => {
+  //     const html = await page.$eval('tr>th:nth-child(3)', (e) => e.innerHTML);
+  //     expect(html).to.eql("Last Name");
+  //   });
 
-  })
+  // })
 
   // it('Test 2: Should user table header on page', async ()=>{
   //   await page.waitForSelector('#pokemon-detail')
@@ -97,9 +100,28 @@ context('The /static/users page', ()=>{
       
   // }).timeout(2000);
 
+  it('Test 7: Delete button reduces the amount of rows in the table', async ()=>{
+
+    await page.goto('https://snick-flask-sample.herokuapp.com/app1');
+    
+    await page.waitForSelector('.table > tbody > tr:nth-child(1) > td > .btn');
+
+    const rowCountBefore = await page.$$eval('body > .container > .row  tr', (divs) => divs.length);
+    await page.click('.table > tbody > tr:nth-child(1) > td > .btn');
+
+    const rowCountAfter = await page.$$eval('body > .container > .row  tr', (divs) => divs.length);
+    
+    assert(rowCountBefore > rowCountAfter, 'Num rows mush be reduced');
+  });
+      
 
 });
+
+
 
 after(async () => {
   await browser.close();
 });
+
+
+

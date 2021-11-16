@@ -1,6 +1,7 @@
 tasks:
   - init: pip3 install -r requirements.txt
-    command: python manage.py serve
+    command: python manage.py initDB
+  - command: python manage.py serve
   - init: npm install
 
 ports:

@@ -25,7 +25,26 @@ def serve():
 
 @manager.command
 def make_users():
-    create_users()
+    create_users([
+        {
+            'first_name':'Bob',
+            'last_name':'Smith',
+            'email':'bob@mail.com',
+            'password':'bobpass'
+        },
+        {
+            'first_name':'Jame',
+            'last_name':'Smith',
+            'email':'jane@mail.com',
+            'password':'janepass'
+        },
+        {
+            'first_name':'Rick',
+            'last_name':'Smith',
+            'email':'rick@mail.com',
+            'password':'rickpass'
+        }
+    ])
     print("users created")
 
 if __name__ == "__main__":

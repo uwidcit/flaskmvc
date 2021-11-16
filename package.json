@@ -12,6 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/uwidcit/flaskmvc.git"
   },
+  "mocha": {
+    "spec": "e2e"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
