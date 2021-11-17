@@ -1,5 +1,5 @@
 import os, tempfile, pytest, logging
-from App.main import create_app, db
+from App.main import create_app, init_db
 
 from App.controllers import ( 
     get_all_users_json, 
@@ -17,13 +17,10 @@ LOGGER = logging.getLogger(__name__)
 # This fixture creates an empty database for the test
 @pytest.fixture
 def client():
-    # this fixture starts up the app, is needed for testing routes
-    db_fd, db_path = tempfile.mkstemp()
-    app = create_app({'TESTING': True, 'DATABASE': db_path})
-    db.create_all(app=app)
+    app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
+    init_db(app)
     yield app.test_client()
-    os.close(db_fd)
-    os.unlink(db_path)
+    os.unlink('.App/test.db')
 
 # This fixture depends on create_users which is tested in test #5 test_create_user
 # @pytest.fixture

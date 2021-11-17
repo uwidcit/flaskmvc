@@ -25,8 +25,8 @@ def add_views(app, views):
     for view in views:
         app.register_blueprint(view)
 
-def loadConfig(app):
-    
+
+def loadConfig(app, config):
     app.config['ENV'] = os.environ.get('ENV', 'development')
     if app.config['ENV'] == "development":
         app.config.from_object('App.config')
@@ -36,6 +36,9 @@ def loadConfig(app):
         app.config['JWT_EXPIRATION_DELTA'] = os.environ.get('JWT_EXPIRATION_DELTA')
         app.config['DEBUG'] = os.environ.get('DEBUG')
         app.config['ENV'] = os.environ.get('ENV')
+
+    for key,value in config.items():
+        app.config[key] = config[key]
 
 ''' Set up JWT here (if using flask JWT)'''
 def authenticate(email, password):
@@ -50,17 +53,19 @@ def identity(payload):
 
 ''' End JWT Setup '''
 
+def init_db(app):
+    db.init_app(app)
+    db.create_all(app=app)
+
 def create_app(config={}):
     app = Flask(__name__, static_url_path='/static')
-    loadConfig(app)
+    loadConfig(app, config)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.config['PREFERRED_URL_SCHEME'] = 'https'
     app.config['UPLOADED_PHOTOS_DEST'] = "App/uploads"
     photos = UploadSet('photos', TEXT + DOCUMENTS + IMAGES)
     configure_uploads(app, photos)
-    app.config.update(config)
-    db.init_app(app)
     add_views(app, views)  
     jwt = JWT(app, authenticate, identity)
     app.app_context().push()
@@ -68,3 +73,4 @@ def create_app(config={}):
 
 if __name__ == "__main__":
     app = create_app()
+    init_db(app)
