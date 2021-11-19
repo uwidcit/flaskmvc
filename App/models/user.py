@@ -1,10 +1,5 @@
-import datetime
-
-from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-
-db = SQLAlchemy()
-
+from App.database import db
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)

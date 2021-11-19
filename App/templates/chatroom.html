@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %}Chatroom{% endblock %}
+{% block page %}Chatroom{% endblock %}
+
+{{ super() }}
+
+{% block content %}
+<h1>Chat Room</h1>
+
+<section id="message-section">
+    <input type="text" name="message" id="message">
+    <button id="send-message">Send</button>
+</section>
+
+<section id="message-area">
+    <h1>Messages</h1>
+    <textarea disabled name="incoming-messages" id="incoming-messages" cols="30" rows="10"></textarea>
+</section>
+
+<script src="{{ url_for('static', filename='node_modules/socket.io/client-dist/socket.io.min.js') }}"></script>
+<script src="{{ url_for('static',filename='scripts/socket-manager.js') }}"></script>
+<script src="{{ url_for('static',filename='scripts/chat-manager.js') }}"></script>
+<script src="{{ url_for('static',filename='scripts/chatroom.js') }}"></script>
+
+{% endblock %}

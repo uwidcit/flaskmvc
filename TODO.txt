@@ -1,0 +1,6 @@
+TODO:
+1. Run project
+2. Install the SocketIO python package
+    Init socket io in main.py
+3. Get the socket.io javascript library
+    Try using npm to install package
