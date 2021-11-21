@@ -3,6 +3,7 @@
   <head>
   
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/chatroom.css') }}">
      <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
@@ -13,14 +14,14 @@
 
   </head>
   <body>
-    <nav class="purple">
+    <nav class="nav-bar">
       <div class="nav-wrapper">
         <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
         <div class="nav-wrapper">
             <ul id="nav-mobile" class="left">
                 <li><a href="/">Home</a></li>
-                <li><a href="/users">Users Jinja</a></li>
-                <li><a href="/static/users">Users JS</a></li>
+                <li><a href="/api/users">Users</a></li>
+                <li><a href="/chatroom">Chatroom</a></li>
             </ul>
         </div>
       </div>
@@ -39,11 +40,14 @@
     </nav>
     {% endif %}
     {% endwith %}
-
-    <div class="container" id="content">{% block content %}{% endblock %}</div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
     <script src="{{ url_for('static', filename='node_modules/jquery/dist/jquery.min.js') }}"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+    <script src="{{ url_for('static', filename='node_modules/socket.io/client-dist/socket.io.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='scripts/socket-manager.js') }}"></script>
+    <script src="{{ url_for('static',filename='scripts/chat-manager.js') }}"></script>
+    
+    <div class="container" id="content">{% block content %}{% endblock %}</div>
   </body>
 </html>

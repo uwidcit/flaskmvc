@@ -1,4 +1,21 @@
 #incoming-messages {
     border: 1px black solid;
-    border-radius: 5px;
+    border-radius: 10px;
+    height: 400px;
+    overflow-y: auto;
+}
+
+#incoming-messages .from-user {
+    font-weight: bold;
+    font-size: 15px;
+    font-family: monospace;
+}
+
+#incoming-messages .message {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+}
+
+.btn {
+    background-color: #F07167 !important;
 }

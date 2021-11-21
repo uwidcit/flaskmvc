@@ -17,16 +17,21 @@ migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
 
 # initDB command
+
+
 @manager.command
 def initDB():
     db.create_all(app=app)
     print('database initialized!')
 
 # serve command
+
+
 @manager.command
 def serve():
     print('Application running in '+app.config['ENV']+' mode')
-    socketio.run(app, host='localhost', port=8080, debug=app.config['ENV']=='development')
+    socketio.run(app, host='localhost', port=8080,
+                 debug=app.config['ENV'] == 'development')
     # app.run(host='0.0.0.0', port=8080, debug=app.config['ENV']=='development')
 
 
@@ -34,30 +39,32 @@ def serve():
 def addAdmin():
     admin = create_user("Jo", "Slam", "joslam@test.com", "password123")
     return admin
-    
+
+
 @manager.command
 def make_users():
     create_users([
         {
-            'first_name':'Bob',
-            'last_name':'Smith',
-            'email':'bob@mail.com',
-            'password':'bobpass'
+            'first_name': 'Bob',
+            'last_name': 'Smith',
+            'email': 'bob@mail.com',
+            'password': 'bobpass',
         },
         {
-            'first_name':'Jame',
-            'last_name':'Smith',
-            'email':'jane@mail.com',
-            'password':'janepass'
+            'first_name': 'Jame',
+            'last_name': 'Smith',
+            'email': 'jane@mail.com',
+            'password': 'janepass',
         },
         {
-            'first_name':'Rick',
-            'last_name':'Smith',
-            'email':'rick@mail.com',
-            'password':'rickpass'
+            'first_name': 'Rick',
+            'last_name': 'Smith',
+            'email': 'rick@mail.com',
+            'password': 'rickpass',
         }
     ])
     print("users created")
+
 
 if __name__ == "__main__":
     manager.run()

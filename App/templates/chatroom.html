@@ -8,18 +8,17 @@
 <h1>Chat Room</h1>
 
 <section id="message-section">
-    <input type="text" name="message" id="message">
-    <button id="send-message">Send</button>
+    <label for="message">Message</label>
+    <input type="text" name="message-text" id="message-text" placeholder="Enter text here . . .">
+    <button class="waves-effect waves-light btn" id="send-button">
+        Send<i class="material-icons right">send</i></button>
 </section>
 
 <section id="message-area">
     <h1>Messages</h1>
-    <textarea disabled name="incoming-messages" id="incoming-messages" cols="30" rows="10"></textarea>
+    <label for="incoming-messages">Incoming Messages</label>
+    <div disabled name="incoming-messages" id="incoming-messages"></div>
 </section>
-
-<script src="{{ url_for('static', filename='node_modules/socket.io/client-dist/socket.io.min.js') }}"></script>
-<script src="{{ url_for('static',filename='scripts/socket-manager.js') }}"></script>
-<script src="{{ url_for('static',filename='scripts/chat-manager.js') }}"></script>
 <script src="{{ url_for('static',filename='scripts/chatroom.js') }}"></script>
 
 {% endblock %}
