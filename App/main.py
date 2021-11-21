@@ -75,7 +75,7 @@ socketio = create_sockets(app)
 @socketio.event
 def connect(message):
     print("User connected")
-    emit('my_response', {'data': 'Connected'})
+    emit('response', {'data': 'Connected'})
 
 
 if __name__ == "__main__":

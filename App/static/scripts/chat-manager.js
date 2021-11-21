@@ -7,13 +7,8 @@ class ChatManager {
 
   async init() {
     try {
+      this.socketManager.addCustomEventHandler("response", data => console.log(`Data: ${data.data}`));      
       const result = await this.socketManager.connect();
-      const socket = this.socketManager.socket;
-
-      socket.on("my_response", (data) => {
-        console.log(`connected: ${data.data}`);
-      });
-      
     } catch (e) {
       console.log(e);
       alert("Connection Error");
