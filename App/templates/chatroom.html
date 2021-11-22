@@ -7,6 +7,23 @@
 {% block content %}
 <h1>Chat Room</h1>
 
+{% if current_user.is_authenticated %}
+    <input type="text" name="user" id="user" value="{{ current_user.id }}" hidden>
+{% endif %}
+
+<section id="user-section">
+    <label for="to-user">Participant</label>
+    <select name="to-user" id="to-user" class="browser-default">
+        {% for user in users %}
+            {% if user.id != current_user.id %}
+            <option value="{{ user.id }}">{{ user.get_full_name() }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <button class="waves-effect waves-light btn" id="connect-btn">
+        Connect<i class="material-icons right">chat_bubble</i></button>
+</section>
+
 <section id="message-section">
     <label for="message">Message</label>
     <input type="text" name="message-text" id="message-text" placeholder="Enter text here . . .">

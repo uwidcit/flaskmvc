@@ -3,10 +3,12 @@ from App.models import User
 from App.database import db
 
 
-def get_all_users():
+def display_all_users():
     users = User.query.all()
     return render_template('users.html', users=users)
 
+def get_all_users():
+    return User.query.all()
 
 def get_all_users_json():
     users = User.query.all()
@@ -37,3 +39,6 @@ def create_users(users):
 
 def get_user_by_fname(first_name):
     return User.query.filter_by(first_name=first_name).first()
+
+def get_user_by_id(id):
+    return User.query.filter_by(id=id).first()

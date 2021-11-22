@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flask_jwt import JWT
 from flask_login import LoginManager, current_user
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit, join_room
 
 from flask_uploads import (
     UploadSet,
@@ -11,6 +11,7 @@ from flask_uploads import (
     TEXT,
     DOCUMENTS
 )
+from App.controllers.user_controller import get_user_by_id
 from App.models.user import User
 
 from App.modules.auth_module import (authenticate, identity)
@@ -46,13 +47,14 @@ def loadConfig(app, config):
         app.config['DEBUG'] = os.environ.get('DEBUG')
         app.config['ENV'] = os.environ.get('ENV')
 
-    for key,value in config.items():
+    for key, value in config.items():
         app.config[key] = config[key]
 
 
 def init_db(app):
     db.init_app(app)
     db.create_all(app=app)
+
 
 def create_login_manager(app):
     login_manager = LoginManager()
@@ -69,7 +71,7 @@ def create_app(config={}):
     app.config['UPLOADED_PHOTOS_DEST'] = "App/uploads"
     photos = UploadSet('photos', TEXT + DOCUMENTS + IMAGES)
     configure_uploads(app, photos)
-    add_views(app, views)  
+    add_views(app, views)
     jwt = JWT(app, authenticate, identity)
     init_db(app)
 
@@ -79,6 +81,7 @@ def create_app(config={}):
 
 def create_sockets(app):
     return SocketIO(app, cors_allowed_origins="*")
+
 
 app = create_app()
 socketio = create_sockets(app)
@@ -92,20 +95,48 @@ def load_user(user_id):
 
 
 # Socket events
+@socketio.on("join_room")
+def handle_join_room(data):
+    sender_id = str(current_user.id)
+    to_id = str(data['to'])
+    to_user = get_user_by_id(to_id)
+
+    room = get_room(sender_id, to_id)
+    join_room(room)
+
+    emit("join_room", {'message': 'Now messaging ' +
+         to_user.first_name, 'from': 'System', 'to': current_user.first_name}, room=room)
+
+
 @socketio.event
 def connect():
-    print(f"User connected: {current_user.first_name} {current_user.last_name}")
+    print(
+        f"User connected: {current_user.first_name} {current_user.last_name}")
+    emit("user_connect", {"from": "System", "to": "", "message": f"User connected"})
+
 
 @socketio.event
 def message_send(context):
-    from_user = f"{current_user.first_name} {current_user.last_name}"
-    to_user = context['to']
-    message =context['message']
+    sender_name = current_user.get_full_name()
 
-    print(f"Message from user: {from_user} \t To user: {to_user}\t Content: {message}")
-    emit('message_send', {"from": from_user, "to": to_user, "message": message})
+    to_id = str(context['to'])
+    to_user = get_user_by_id(to_id)
+    to_user_name = to_user.get_full_name()
+
+    message = context['message']
+    room = get_room(str(current_user.id), to_id)
+
+    print(f"Message from user: {sender_name} \t To user: {to_user_name}\t Content: {message}")
+    emit("message_send", {"from": sender_name, "to": to_user_name, "message": message}, room=room)
+
+
+def get_room(sender, receiver):
+    list = [sender, receiver]
+    list.sort()
+    return '#'.join(list)
 
 
 if __name__ == "__main__":
     app = create_app()
-    socketio.run(app, host='localhost', port=8080, debug=app.config['ENV'] == 'development')
+    socketio.run(app, host='localhost', port=8080,
+                 debug=app.config['ENV'] == 'development')

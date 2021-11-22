@@ -16,23 +16,19 @@
   <body>
     <nav class="nav-bar">
       <div class="nav-wrapper">
-        <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
+        <a href="#!" class="brand-logo left">{% block page %}{% endblock %}</a>
         <div class="nav-wrapper">
-          <!-- Left side nav -->
-            <ul id="nav-mobile" class="left">
-                <li><a href="/">Home</a></li>
-                <li><a href="/api/users">Users</a></li>
-                <li><a href="/chatroom">Chatroom</a></li>
-            </ul>
-
-            <!-- Right side nav -->
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-              {% if current_user.is_authenticated %}
-                <li>Logged in as: {{ current_user.first_name }}</li>
-                <li><a href="/logout">Logout</a></li>
-              {% else %}
-                <li><a href="/login">Login</a></li>
-              {% endif %}
+              <li><a href="/">Home</a></li>
+              <li><a href="/api/users">Users</a></li>
+            {% if current_user.is_authenticated %}
+              <li><a href="/chatroom">Chatroom</a></li>
+
+              <li>Logged in as: <span style="font-weight: bold;">{{ current_user.first_name }}</span></li>
+              <li><a href="/logout">Logout</a></li>
+            {% else %}
+              <li><a href="/login">Login</a></li>
+            {% endif %}
             </ul>
         </div>
       </div>

@@ -16,6 +16,9 @@ class User(UserMixin, db.Model):
             'last_name': self.last_name,
             'email': self.email
         }
+    
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
 
     def set_password(self, password):
         """Create hashed password."""
