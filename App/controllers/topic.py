@@ -10,7 +10,7 @@ def create_topic(topic_id, topic_name, topic_description, date_timestamp):
     return newTopic
 
 #create new subtopic
-def create_subTopic(Maintopic_id,Subtopic_id ,Subtopic_name, Subtopic_description, date_timestamp):
+def create_subTopic(Maintopic_id, Subtopic_id , Subtopic_name, Subtopic_description, date_timestamp):
     newSubTopic = Topic(Maintopic_id = Maintopic_id,Subtopic_id=Subtopic_id, Subtopic_name = Subtopic_name, Subtopic_description = Subtopic_description, date_timestamp = date_timestamp)
     print("Successfully Created")
     db.session.add(newSubTopic)
