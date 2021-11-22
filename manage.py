@@ -3,6 +3,7 @@ from flask_migrate import Migrate, MigrateCommand
 from App.main import create_app, init_db
 from App.models import db, User
 from App.controllers import create_users
+from App.controllers import register_admin
 
 app = create_app()
 init_db(app)
@@ -48,6 +49,13 @@ def make_users():
         }
     ])
     print("users created")
+
+
+# CREATE ADMIN FROM CONTROLLER
+@manager.command
+def createAdmin():
+    admin = register_admin("Jesse","James","jesse.james@gmail.com","password")
+    return admin
 
 if __name__ == "__main__":
     manager.run()
