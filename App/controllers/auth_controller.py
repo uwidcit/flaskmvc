@@ -1,6 +1,5 @@
 from flask import render_template, request, flash, redirect, url_for
-from werkzeug.security import check_password_hash
-from flask_login import login_user
+from flask_login import login_user, logout_user
 from App.models.user import User
 
 
@@ -24,3 +23,8 @@ def login():
         # if the above check passes, then we know the user has the right credentials
         login_user(user, remember=remember)
         return redirect(url_for('chatroom.get_chatroom'))
+
+
+def logout():
+    logout_user()
+    return redirect(url_for("auth.login"))

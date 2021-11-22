@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from flask_jwt import JWT
-from flask_login import LoginManager, current_user, login_user
+from flask_login import LoginManager, current_user
 from flask_socketio import SocketIO, emit
 
 from flask_uploads import (
