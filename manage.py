@@ -54,7 +54,21 @@ def make_users():
 # CREATE ADMIN FROM CONTROLLER
 @manager.command
 def createAdmin():
-    admin = register_admin("Jesse","James","jesse.james@gmail.com","password")
+    n1 = input('Enter ADMIN firstname :')
+    print (n1)
+    n2 = input('Enter ADMIN lastname :')
+    print (n2)
+    e1 = input('Enter ADMIN email :')
+    print (e1)
+    p1 = input('Enter ADMIN password :')
+    print (p1)
+
+    fname1 = User(first_name=n1)
+    fname2 = User(last_name=n2)
+    email1 = User(email=e1)
+    pass1 = User(password=p1)
+    
+    admin = register_admin(n1,n2,e1,p1)
     return admin
 
 if __name__ == "__main__":
