@@ -1,7 +1,7 @@
 from flask import render_template
 from flask_login import login_required
 
-from App.controllers.user_controller import get_all_users
+from App.controllers.user import get_all_users
 
 @login_required
 def get_chatroom():

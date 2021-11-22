@@ -11,7 +11,7 @@ from flask_uploads import (
     TEXT,
     DOCUMENTS
 )
-from App.controllers.user_controller import get_user_by_id
+from App.controllers.user import get_user_by_id
 from App.models.user import User
 
 from App.modules.auth_module import (authenticate, identity)
