@@ -50,12 +50,9 @@
     {% endif %}
     {% endwith %}
     
-    <script src="{{ url_for('static', filename='node_modules/jquery/dist/jquery.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    
-    <script src="{{ url_for('static', filename='node_modules/socket.io/client-dist/socket.io.min.js') }}"></script>
-    <script src="{{ url_for('static',filename='scripts/socket-manager.js') }}"></script>
-    <script src="{{ url_for('static',filename='scripts/chat-manager.js') }}"></script>
+
 
     <div class="container" id="content">{% block content %}{% endblock %}</div>
   </body>

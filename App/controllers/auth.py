@@ -32,7 +32,7 @@ def login():
 
         # if the above check passes, then we know the user has the right credentials
         login_user(user, remember=remember)
-        return redirect(url_for('chatroom.get_chatroom'))
+        return redirect(url_for('chat_views.get_chatroom'))
 
 
 def logout():

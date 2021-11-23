@@ -70,12 +70,8 @@ def create_app(config={}):
     return app
 
 
-def create_sockets(app):
-    return SocketIO(app, cors_allowed_origins="*")
-
-
 app = create_app()
-socketio = create_sockets(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 login_manager = create_login_manager(app)
 
 
@@ -129,5 +125,4 @@ def get_room(sender, receiver):
 
 if __name__ == "__main__":
     app = create_app()
-    socketio.run(app, host='localhost', port=8080,
-                 debug=app.config['ENV'] == 'development')
+    socketio.run(app, host='localhost', port=8080, debug=app.config['ENV'] == 'development')

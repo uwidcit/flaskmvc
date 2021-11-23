@@ -58,9 +58,8 @@ def register():
     
 # REGISTER ADMIN USER
 def register_admin(firstname, lastname, email, password):
-        adminUser = User(first_name=firstname, last_name=lastname, email=email,password=password)
-        adminUser.set_password(password)
-        db.session.add(adminUser)
-        db.session.commit()
-        print("Administrator Successfully Created!!!")
-        return adminUser
+    adminUser = User(first_name=firstname, last_name=lastname, email=email,password=password)
+    adminUser.set_password(password)
+    db.session.add(adminUser)
+    db.session.commit()
+    return adminUser

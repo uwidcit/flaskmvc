@@ -16,6 +16,7 @@ class SocketManager {
 
 
   constructor(url) {
+    console.log('Socket url: ', url)
     this.socket = io(url, { autoConnect: false });
   }
 

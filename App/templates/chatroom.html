@@ -36,6 +36,11 @@
     <label for="incoming-messages">Incoming Messages</label>
     <div disabled name="incoming-messages" id="incoming-messages"></div>
 </section>
+
+<script src="https://cdn.socket.io/4.4.0/socket.io.min.js"></script>
+
+<script src="{{ url_for('static',filename='scripts/socket-manager.js') }}"></script>
+<script src="{{ url_for('static',filename='scripts/chat-manager.js') }}"></script>
 <script src="{{ url_for('static',filename='scripts/chatroom.js') }}"></script>
 
 {% endblock %}
