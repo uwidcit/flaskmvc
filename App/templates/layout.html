@@ -2,7 +2,8 @@
 <html>
   <head>
   
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/chatroom.css') }}">
      <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
@@ -13,15 +14,23 @@
 
   </head>
   <body>
-    <nav class="purple">
+    <nav class="nav-bar">
       <div class="nav-wrapper">
-        <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
+        <a href="#!" class="brand-logo left">{% block page %}{% endblock %}</a>
         <div class="nav-wrapper">
-            <ul id="nav-mobile" class="left">
-                <li><a href="/">Home</a></li>
-                <li><a href="/users">Users Jinja</a></li>
-                <li><a href="/static/users">Users JS</a></li>
-                <li><a href="/register">Sign Up</a></li>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <li><a href="/">Home</a></li>
+              <li><a href="/api/users">Users</a></li>
+              <li><a href="/users">Users Jinja</a></li>
+              <li><a href="/static/users">Users JS</a></li>
+              <li><a href="/register">Sign Up</a></li>
+              {% if current_user.is_authenticated %}
+                <li><a href="/chatroom">Chatroom</a></li>
+                <li>Logged in as: <span style="font-weight: bold;">{{ current_user.first_name }}</span></li>
+                <li><a href="/logout">Logout</a></li>
+              {% else %}
+                <li><a href="/login">Login</a></li>
+              {% endif %}
             </ul>
         </div>
       </div>
@@ -40,9 +49,14 @@
     </nav>
     {% endif %}
     {% endwith %}
+    
+    <script src="{{ url_for('static', filename='node_modules/jquery/dist/jquery.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+    <script src="{{ url_for('static', filename='node_modules/socket.io/client-dist/socket.io.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='scripts/socket-manager.js') }}"></script>
+    <script src="{{ url_for('static',filename='scripts/chat-manager.js') }}"></script>
 
     <div class="container" id="content">{% block content %}{% endblock %}</div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   </body>
 </html>

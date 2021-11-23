@@ -1,12 +1,12 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
-from App.main import create_app, init_db
-from App.models import db, User
+
+from App.controllers.user import create_user
+from App.main import socketio, app
 from App.controllers import create_users
+from App.database import db
 from App.controllers import register_admin
 
-app = create_app()
-init_db(app)
 
 manager = Manager(app)
 migrate = Migrate(app, db)
@@ -21,31 +21,41 @@ def initDB():
     print('database initialized!')
 
 # serve command
+
+
 @manager.command
 def serve():
     print('Application running in '+app.config['ENV']+' mode')
-    app.run(host='0.0.0.0', port=8080, debug=app.config['ENV']=='development')
+    socketio.run(app, host='localhost', port=8080,
+                 debug=app.config['ENV'] == 'development')
+
+
+@manager.command
+def addAdmin():
+    admin = create_user("Jo", "Slam", "joslam@test.com", "password123")
+    return admin
+
 
 @manager.command
 def make_users():
     create_users([
         {
-            'first_name':'Bob',
-            'last_name':'Smith',
-            'email':'bob@mail.com',
-            'password':'bobpass'
+            'first_name': 'Bob',
+            'last_name': 'Smith',
+            'email': 'bob@mail.com',
+            'password': 'bobpass',
         },
         {
-            'first_name':'Jame',
-            'last_name':'Smith',
-            'email':'jane@mail.com',
-            'password':'janepass'
+            'first_name': 'Jame',
+            'last_name': 'Smith',
+            'email': 'jane@mail.com',
+            'password': 'janepass',
         },
         {
-            'first_name':'Rick',
-            'last_name':'Smith',
-            'email':'rick@mail.com',
-            'password':'rickpass'
+            'first_name': 'Rick',
+            'last_name': 'Smith',
+            'email': 'rick@mail.com',
+            'password': 'rickpass',
         }
     ])
     print("users created")

@@ -1,11 +1,8 @@
-import datetime
-
-from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+from App.database import db
 
-db = SQLAlchemy()
-
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name =  db.Column(db.String, nullable=False)
     last_name =  db.Column(db.String, nullable=False)
@@ -19,6 +16,9 @@ class User(db.Model):
             'last_name': self.last_name,
             'email': self.email
         }
+    
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
 
     def set_password(self, password):
         """Create hashed password."""
