@@ -1,3 +1,4 @@
 from .user import *
-from .chatroom import *
+from .chat import *
 from .auth import *
+from .topic import *

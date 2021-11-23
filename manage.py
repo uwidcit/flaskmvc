@@ -1,12 +1,13 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-from App.controllers.user import create_user
-from App.main import socketio, app
-from App.controllers import create_users
-from App.database import db
-from App.controllers import register_admin
+from App.controllers import (
+    create_user,
+    create_users,
+    register_admin
+)
 
+from App.main import socketio, app, db
 
 manager = Manager(app)
 migrate = Migrate(app, db)
@@ -21,13 +22,10 @@ def initDB():
     print('database initialized!')
 
 # serve command
-
-
 @manager.command
 def serve():
     print('Application running in '+app.config['ENV']+' mode')
-    socketio.run(app, host='localhost', port=8080,
-                 debug=app.config['ENV'] == 'development')
+    socketio.run(app, host='localhost', port=8080, debug=app.config['ENV'] == 'development')
 
 
 @manager.command
