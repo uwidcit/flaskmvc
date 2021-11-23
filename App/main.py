@@ -21,13 +21,15 @@ from App.views import (
     api_bp,
     user_bp,
     chatroom_bp,
-    auth_bp
+    auth_bp,
+    api_views,
+    user_views,
+    user_registration
 )
 
 
-# place all views here
-views = [api_bp, user_bp, chatroom_bp, auth_bp]
-
+#place all views here
+views = [api_views, user_views , user_registration]
 
 def add_views(app, views):
     for view in views:
@@ -39,11 +41,9 @@ def loadConfig(app, config):
     if app.config['ENV'] == "development":
         app.config.from_object('App.config')
     else:
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-            'SQLALCHEMY_DATABASE_URI')
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
         app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-        app.config['JWT_EXPIRATION_DELTA'] = os.environ.get(
-            'JWT_EXPIRATION_DELTA')
+        app.config['JWT_EXPIRATION_DELTA'] = os.environ.get('JWT_EXPIRATION_DELTA')
         app.config['DEBUG'] = os.environ.get('DEBUG')
         app.config['ENV'] = os.environ.get('ENV')
 

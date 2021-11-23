@@ -21,14 +21,16 @@
             <ul id="nav-mobile" class="right hide-on-med-and-down">
               <li><a href="/">Home</a></li>
               <li><a href="/api/users">Users</a></li>
-            {% if current_user.is_authenticated %}
-              <li><a href="/chatroom">Chatroom</a></li>
-
-              <li>Logged in as: <span style="font-weight: bold;">{{ current_user.first_name }}</span></li>
-              <li><a href="/logout">Logout</a></li>
-            {% else %}
-              <li><a href="/login">Login</a></li>
-            {% endif %}
+              <li><a href="/users">Users Jinja</a></li>
+              <li><a href="/static/users">Users JS</a></li>
+              <li><a href="/register">Sign Up</a></li>
+              {% if current_user.is_authenticated %}
+                <li><a href="/chatroom">Chatroom</a></li>
+                <li>Logged in as: <span style="font-weight: bold;">{{ current_user.first_name }}</span></li>
+                <li><a href="/logout">Logout</a></li>
+              {% else %}
+                <li><a href="/login">Login</a></li>
+              {% endif %}
             </ul>
         </div>
       </div>
