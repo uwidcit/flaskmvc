@@ -37,7 +37,7 @@ def update_user_topic():
 @topic_views.route('/topic_id', methods=["GET"])
 def get_topic_id():
      topic_id = request.args.get("id")
-     order = get_topic_by_id(topic_id)
+     topic = get_topic_by_id(topic_id)
      return jsonify(Topic.toDict())
 
 
@@ -59,7 +59,7 @@ def display_topics():
  # get  Topic by level id
  #not entirely sure about this method
 @topic_views.route('/topic_level', methods=["GET"])
-def get_topic_id():
+def get_topic_levelid():
      topic_level = request.args.get("topic_level")
-     topic_level = get_topic_by_id(topic_level)
+     level = get_topic_by_level(topic_level)
      return jsonify(Topic.toDict())
