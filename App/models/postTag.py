@@ -6,8 +6,8 @@ db = SQLAlchemy()
 
 class PostTag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    tagId = db.Column(db.Integer, db.ForeignKey('user.id'))
-    postId = db.relationship("Topic", back_populates="subscription")
+    tagId = db.Column(db.Integer, db.ForeignKey('tag.id'))
+    postId = db.Column(db.Integer, db.ForeignKey('post.id'))
     
 
     def __init__(self, tagId, postId):
