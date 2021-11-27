@@ -22,8 +22,8 @@ class Inbox(db.Model):
     def __repr__(self):
         return f"{self.postId}"
 
-    #def sendNotification(self, notification):
-        #self.notified = notification
+    def sendNotification(self, notification):
+        self.notified = notification
 
     def toDict(self):
         return {
