@@ -18,11 +18,11 @@ class Topic(db.Model):
     def __repr__(self):
         return f"{self.text}"
 
-    #def subscribe(self, userId):
-        #self.level = userId
+    def subscribe(self, userId):
+        self.text = userId
 
-    #def unsubscribe(self, userId):
-        #self.level = userId
+    def unsubscribe(self, userId):
+        self.text = userId
 
     def toDict(self):
         return {
