@@ -6,8 +6,8 @@ db = SQLAlchemy()
 
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.Integer, db.ForeignKey('user.id'))
-    created = db.relationship("Topic", back_populates="subscription")
+    text = db.Column(db.String(300), nullable=False)
+    created = db.Column(db.Boolean, default=False, nullable=False)
     
 
     def __init__(self, text, created):
