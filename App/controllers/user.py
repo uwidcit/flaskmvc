@@ -1,7 +1,10 @@
-from flask import render_template
+from flask import redirect, render_template, request, url_for, jsonify
+
 from App.models import User
 from App.models import ( User, db )
 
+
+from App.models import user
 
 def display_all_users():
     users = User.query.all()
