@@ -23,8 +23,8 @@ class Post(db.Model):
         return f"{self.userID}"
 
     
-    #def notifySubscribers(self, subscribers):
-        #self.created = subscribers
+    def notifySubscribers(self, subscribers):
+        self.text = subscribers
 
 
     def toDict(self):
