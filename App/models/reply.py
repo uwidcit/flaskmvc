@@ -6,7 +6,7 @@ db = SQLAlchemy()
 
 class Reply(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    originalPostId = db.Column(db.Integer, db.ForeignKey('user.id'))
+    originalPostId = db.Column(db.Integer, db.ForeignKey('post.id'))
     
 
     def __init__(self, originalPostId):
