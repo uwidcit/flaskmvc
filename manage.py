@@ -79,11 +79,11 @@ def createAdmin():
     print (e1)
     p1 = input('Enter ADMIN password :')
     print (p1)
-
-    fname1 = User(first_name=n1)
-    fname2 = User(last_name=n2)
-    email1 = User(email=e1)
-    pass1 = User(password=p1)
+    
+    User (first_name = n1)
+    User (last_name = n2)
+    User (email = e1)
+    User (password = p1)
     
     admin = register_admin(n1,n2,e1,p1)
     return admin
