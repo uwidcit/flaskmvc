@@ -1,6 +1,9 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
+from App.main import create_app, init_db
+from App.models import db
+
 from App.controllers import (
     create_user,
     create_users,
@@ -61,9 +64,19 @@ def make_users():
 
 #creates an admin
 @manager.command
-def createAdmin(fname="robAdmin", lname="Smith", email="robadmin@mail.com", password="bobpass"):
+def makeAdmin(fname="robAdmin", lname="Smith", email="robadmin@mail.com", password="bobpass"):
     register_admin(fname, lname, email, password)
     print(fname+' created!')
 
+# CREATE ADMIN 
+@manager.command
+def createAdmin():
+    firstname = input('Enter ADMIN firstname :')
+    lastname = input('Enter ADMIN lastname :')
+    email = input('Enter ADMIN email :')
+    password = input('Enter ADMIN password :')    
+    admin = register_admin(firstname, lastname, email, password)
+    print('Admin '+firstname+' created ')
+    
 if __name__ == "__main__":
     manager.run()
