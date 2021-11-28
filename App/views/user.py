@@ -23,12 +23,15 @@ def static_user_page():
   return send_from_directory('static', 'static-user.html')
 
 # REGISTRATION NORMAL USER
-
 @user_views.route('/register', methods=['GET','POST'])
 def get_user_reg_page():
     if request.method == 'POST':
         try:
-            RegisterUser = register()
+            fname = request.form['first_name']
+            lname = request.form['last_name']
+            email = request.form['email']
+            password = request.form['password']
+            RegisterUser = register(fname,lname,email,password)
         except IntegrityError:
             db.session.rollback()
             return jsonify('Something went wrong. User NOT Registered')
