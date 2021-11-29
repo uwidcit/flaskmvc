@@ -49,7 +49,7 @@ def delete_subTopic():
      return jsonify({"deleted" : deleted})
 
 # get all topics
-@order_views.route('/topics', methods=["GET"])
+@topic_views.route('/topics', methods=["GET"])
 @jwt_required()
 def display_topics():
     topiclist = get_topics()
