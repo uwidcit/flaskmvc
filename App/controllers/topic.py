@@ -9,7 +9,7 @@ def create_topic(topic_data,topic_lvl):
      db.session.commit()
      return newTopic
 
-#update
+#update a topic that exists already in the system
 def update_topic(topic_id, topic_data , topic_lvl):
     print("getting Topic")
     topic_update = Topic.query.filter(topic.id == topic_id).first()
