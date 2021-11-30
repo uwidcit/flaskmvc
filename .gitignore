@@ -6,3 +6,4 @@ __pycache__/
 
 App/test.db
 App/temp-dataase.db
+App/package-lock.json
