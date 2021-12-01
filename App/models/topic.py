@@ -8,16 +8,17 @@ class Topic(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(300), nullable=False)
     level = db.relationship("Admin",back_populates="topic")
-    
-
-    def __init__(self, text, level):
-        self.text = text
-        self.level = level
-        
+    posts = db.relationship("Post", back_populates="topic")
+            
 
     def __repr__(self):
         return f"{self.text}"
 
+    @property
+    def post_count(self):
+        return len(self.posts)
+
+    # TODO: Implement observer pattern
     def subscribe(self, userId):
         self.text = userId
 

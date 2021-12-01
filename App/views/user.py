@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.utils import secure_filename
 
 from App.models.user import db
-from App.controllers import ( get_all_users_json, get_all_users, register, display_all_users )
+from App.controllers import ( get_all_users_json, get_all_users, register )
 
 user_views = Blueprint('user_views', __name__, template_folder='../templates')
 

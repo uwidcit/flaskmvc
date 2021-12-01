@@ -1,11 +1,9 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-from App.main import create_app, init_db
 from App.models import db
 
 from App.controllers import (
-    create_user,
     create_users,
     register_admin
 )
@@ -29,12 +27,6 @@ def initDB():
 def serve():
     print('Application running in '+app.config['ENV']+' mode')
     socketio.run(app, host='localhost', port=8080, debug=app.config['ENV'] == 'development')
-
-
-@manager.command
-def addAdmin():
-    admin = create_user("Jo", "Slam", "joslam@test.com", "password123")
-    return admin
 
 
 @manager.command

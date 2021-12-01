@@ -20,10 +20,12 @@ from App.views import (
     home_views,
     topic_views,
     user_views,
+    distress_views,
+    notifcation_views
 )
 
 #place all views here
-views = [ auth_views, chat_views, home_views, topic_views, user_views]
+views = [ auth_views, chat_views, home_views, topic_views, user_views, distress_views, notifcation_views]
 
 def add_views(app, views):
     for view in views:

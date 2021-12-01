@@ -1,12 +1,5 @@
-from flask import render_template
-from App.models import User
 from App.models import ( User, db )
-
-from App.models import user
-
-def display_all_users():
-    users = User.query.all()
-    return render_template('users.html', users=users)
+from App.models.admin import Admin
 
 def get_all_users():
     return User.query.all()
@@ -44,6 +37,13 @@ def get_user_by_fname(first_name):
 def get_user_by_id(id):
     return User.query.filter_by(id=id).first()
 
+    
+def get_user_by_email(email):
+    return User.query.filter_by(email=email).first()
+    
+
+def get_all_users():
+    return  User.query.all()
 
 # REGISTER A NORMAL USER
 def register(fname,lname,email,password):
@@ -54,7 +54,7 @@ def register(fname,lname,email,password):
     
 # REGISTER ADMIN USER
 def register_admin(firstname, lastname, email, password):
-    adminUser = User(first_name=firstname, last_name=lastname, email=email,password=password)
+    adminUser = User(first_name=firstname, last_name=lastname, email=email)
     adminUser.set_password(password)
     db.session.add(adminUser)
     db.session.commit()

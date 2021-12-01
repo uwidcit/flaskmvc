@@ -6,21 +6,16 @@ db = SQLAlchemy()
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    userID = db.Column(db.Integer, db.ForeignKey('user.id'))
-    topicid = db.relationship("Topic", back_populates="post")
-    text = db.relationship("Topic",back_populates="post")
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship("User", back_populates="posts")
+    topic_id = db.Column(db.Integer, db.ForeignKey('topic.id'))
+    topic = db.relationship("Topic", back_populates="posts")
+    text = db.Column(db.String(200), nullable=False)
     created = db.Column(db.Boolean, default=False, nullable=False)
-    
-
-    def __init__(self, userID, topicid, text, created):
-        self.userID = userID
-        self.topicid = topicid
-        self.text = text
-        self.created = created
         
 
     def __repr__(self):
-        return f"{self.userID}"
+        return f"{self.user_id}"
 
     
     def notifySubscribers(self, subscribers):
@@ -29,8 +24,8 @@ class Post(db.Model):
 
     def toDict(self):
         return {
-            "userID": self.userID,
-            "topicid": self.topicid,
+            "user_id": self.user_id,
+            "topic_id": self.topic_id,
             "text": self.text,
             "created": self.created
         }

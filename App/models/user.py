@@ -12,6 +12,8 @@ class User(UserMixin, db.Model):
     last_name =  db.Column(db.String, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+    posts = db.relationship("Post", back_populates="user")
+
 
     def toDict(self):
         return{
