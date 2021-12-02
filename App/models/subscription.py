@@ -6,13 +6,13 @@ db = SQLAlchemy()
 
 class Subscription(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    userID = db.Column(db.Integer, db.ForeignKey('user.id'))
-    Topicid = db.relationship("Topic", back_populates="subscription")
+    userID = db.Column(db.Integer, db.ForeignKey('user.id')) 
+    TopicId = db.Column(db.Integer, db.ForeignKey('topic.id'))
     
 
-    def __init__(self, userID, topicid):
+    def __init__(self, userID, topicId):
         self.userID = userID
-        self.Topicid = Topicid
+        self.TopicId = TopicId
         
 
     def __repr__(self):
@@ -22,5 +22,5 @@ class Subscription(db.Model):
     def toDict(self):
         return {
             "userID": self.userID,
-            "Topicid": self.Topicid
+            "TopicId": self.TopicId
         }
