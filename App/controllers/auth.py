@@ -1,5 +1,4 @@
 import flask_login
-from App.controllers.user import get_user_by_email
 from App.models import User
 
 

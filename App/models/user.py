@@ -1,9 +1,6 @@
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from flask_sqlalchemy import SQLAlchemy
-
-# init db
-db = SQLAlchemy()
+from werkzeug.security import check_password_hash, generate_password_hash
+from App.database import db
 
 
 class User(UserMixin, db.Model):
@@ -13,6 +10,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
     posts = db.relationship("Post", back_populates="user")
+    subscriptions = db.relationship("Subscription", back_populates="user")
 
 
     def toDict(self):

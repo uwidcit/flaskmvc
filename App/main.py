@@ -1,44 +1,39 @@
 import os
+
 from flask import Flask
 from flask_jwt import JWT
 from flask_login import LoginManager, current_user
 from flask_socketio import SocketIO, emit, join_room
+from flask_uploads import DOCUMENTS, IMAGES, TEXT, UploadSet, configure_uploads
 
-from flask_uploads import (
-    UploadSet,
-    configure_uploads,
-    IMAGES,
-    TEXT,
-    DOCUMENTS
-)
+from App.controllers import authenticate, get_user_by_id, identity
+from App.models import User
+from App.views import (auth_views, chat_views, distress_views, home_views,
+                       notification_views, post_views, reply_views,
+                       topic_views, user_views)
 
-from App.controllers import ( get_user_by_id, authenticate, identity)
-from App.models import (User, db)
-from App.views import (
-    auth_views,
-    chat_views,
-    home_views,
-    topic_views,
-    user_views,
-    distress_views,
-    notifcation_views
-)
+from .database import init_db
 
-#place all views here
-views = [ auth_views, chat_views, home_views, topic_views, user_views, distress_views, notifcation_views]
+# place all views here
+views = [auth_views, chat_views, home_views, topic_views, user_views,
+         distress_views, notification_views, post_views, reply_views]
+
 
 def add_views(app, views):
     for view in views:
         app.register_blueprint(view)
+
 
 def loadConfig(app, config):
     app.config['ENV'] = os.environ.get('ENV', 'development')
     if app.config['ENV'] == "development":
         app.config.from_object('App.config')
     else:
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+            'SQLALCHEMY_DATABASE_URI')
         app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-        app.config['JWT_EXPIRATION_DELTA'] = os.environ.get('JWT_EXPIRATION_DELTA')
+        app.config['JWT_EXPIRATION_DELTA'] = os.environ.get(
+            'JWT_EXPIRATION_DELTA')
         app.config['DEBUG'] = os.environ.get('DEBUG')
         app.config['ENV'] = os.environ.get('ENV')
 
@@ -46,14 +41,11 @@ def loadConfig(app, config):
         app.config[key] = config[key]
 
 
-def init_db(app):
-    db.init_app(app)
-    db.create_all(app=app)
-
 def create_login_manager(app):
     login_manager = LoginManager()
     login_manager.init_app(app)
     return login_manager
+
 
 def create_app(config={}):
     app = Flask(__name__, static_url_path='/static')
@@ -65,7 +57,7 @@ def create_app(config={}):
     photos = UploadSet('photos', TEXT + DOCUMENTS + IMAGES)
     configure_uploads(app, photos)
     add_views(app, views)
-    jwt = JWT(app, authenticate, identity)
+    JWT(app, authenticate, identity)
     init_db(app)
 
     app.app_context().push()
@@ -101,7 +93,8 @@ def handle_join_room(data):
 def connect():
     print(
         f"User connected: {current_user.first_name} {current_user.last_name}")
-    emit("user_connect", {"from": "System", "to": "", "message": f"User connected"})
+    emit("user_connect", {"from": "System",
+         "to": "", "message": f"User connected"})
 
 
 @socketio.event
@@ -115,8 +108,10 @@ def message_send(context):
     message = context['message']
     room = get_room(str(current_user.id), to_id)
 
-    print(f"Message from user: {sender_name} \t To user: {to_user_name}\t Content: {message}")
-    emit("message_send", {"from": sender_name, "to": to_user_name, "message": message}, room=room)
+    print(
+        f"Message from user: {sender_name} \t To user: {to_user_name}\t Content: {message}")
+    emit("message_send", {"from": sender_name,
+         "to": to_user_name, "message": message}, room=room)
 
 
 def get_room(sender, receiver):
@@ -127,4 +122,5 @@ def get_room(sender, receiver):
 
 if __name__ == "__main__":
     app = create_app()
-    socketio.run(app, host='localhost', port=8080, debug=app.config['ENV'] == 'development')
+    socketio.run(app, host='localhost', port=8080,
+                 debug=app.config['ENV'] == 'development')

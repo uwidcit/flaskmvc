@@ -1,9 +1,11 @@
+
+from . import db
+
 from flask_sqlalchemy import SQLAlchemy
 
 from datetime import datetime
 
-# init db
-db = SQLAlchemy()
+
 
 
 class Post(db.Model):

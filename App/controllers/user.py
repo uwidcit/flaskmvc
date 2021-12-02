@@ -1,5 +1,5 @@
-from App.models import ( User, db )
-from App.models.admin import Admin
+from App.models import User
+from App.database import db
 
 def get_all_users():
     return User.query.all()

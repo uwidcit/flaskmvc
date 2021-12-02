@@ -1,8 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
-
-# init db
-db = SQLAlchemy()
-
+from . import db
 
 class Admin(db.Model):
     level = db.Column(db.Integer, primary_key=True)

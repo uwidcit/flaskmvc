@@ -1,18 +1,11 @@
-from flask_sqlalchemy import SQLAlchemy
-
-# init db
-db = SQLAlchemy()
+from datetime import datetime
+from . import db
 
 
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(300), nullable=False)
-    created = db.Column(db.Boolean, default=False, nullable=False)
-    
-
-    def __init__(self, text, created):
-        self.text = text
-        self.created = created
+    created = db.Column(db.DateTime, nullable=False, default=datetime.now)
         
 
     def __repr__(self):

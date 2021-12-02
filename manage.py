@@ -1,14 +1,13 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-from App.models import db
-
 from App.controllers import (
     create_users,
     register_admin
 )
 
-from App.main import socketio, app, db
+from App.main import socketio, app
+from App import db
 
 manager = Manager(app)
 migrate = Migrate(app, db)
