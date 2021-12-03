@@ -2,9 +2,6 @@ from App.modules.serialization_module import serialize_list
 from flask import Blueprint, jsonify, request
 from flask_jwt import jwt_required
 
-from App.controllers.topic import (create_topic, delete_topic_by_id,
-                                   edit_topic, get_popular_topics,
-                                   get_topic_by_id, get_topics)
 
 
 from App.controllers.topic import (
