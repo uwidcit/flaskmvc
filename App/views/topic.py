@@ -66,3 +66,10 @@ def get_topic(topic_id):
 def delete_topic(topic_id):
     result = delete_topic_by_id(topic_id)
     return jsonify(result.toDict()) if result else 404
+
+#get all popular topics
+@topic_views.route('/topics/', methods=["DELETE"])
+def popular_topics():
+    popular_topic = get_popular_topics()
+    return jsonify(popular_topic.toDict())if popular_topic else 404
+
