@@ -1,4 +1,4 @@
-from App.models import User
+from App.models import User, Admin
 from App.database import db
 
 def get_all_users():
@@ -12,14 +12,10 @@ def get_all_users_json():
     return users
 
 
-def create_user(fname, lname, email, password, commit=True):
+def create_user(fname, lname, email, password):
     user = User(first_name=fname, last_name=lname, email=email)
-    user.set_password(password)
-
-    if commit:
-        db.session.add(user)
-        db.session.commit()
-
+    db.session.add(user)
+    db.session.commit()
     print(f"User created: {user.email}")
     return user
 
@@ -44,18 +40,9 @@ def get_user_by_email(email):
 
 def get_all_users():
     return  User.query.all()
-
-# REGISTER A NORMAL USER
-def register(fname,lname,email,password):
-    publicUser = User(first_name=fname, last_name=lname, email=email, password=password)
-    publicUser.set_password(password)
-    db.session.add(publicUser)
-    db.session.commit()
     
 # REGISTER ADMIN USER
-def register_admin(firstname, lastname, email, password):
-    adminUser = User(first_name=firstname, last_name=lastname, email=email)
-    adminUser.set_password(password)
-    db.session.add(adminUser)
+def create_admin(firstname, lastname, email, password):
+    admin = Admin(first_name=firstname, last_name=lastname, email=email, password=password)
+    db.session.add(admin)
     db.session.commit()
-    return adminUser

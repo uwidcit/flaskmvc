@@ -3,7 +3,7 @@ from flask_migrate import Migrate, MigrateCommand
 
 from App.controllers import (
     create_users,
-    register_admin
+    create_admin
 )
 
 from App.main import socketio, app
@@ -56,7 +56,7 @@ def make_users():
 #creates an admin
 @manager.command
 def makeAdmin(fname="robAdmin", lname="Smith", email="robadmin@mail.com", password="bobpass"):
-    register_admin(fname, lname, email, password)
+    create_admin(fname, lname, email, password)
     print(fname+' created!')
 
 # CREATE ADMIN 
@@ -66,7 +66,7 @@ def createAdmin():
     lastname = input('Enter ADMIN lastname :')
     email = input('Enter ADMIN email :')
     password = input('Enter ADMIN password :')    
-    admin = register_admin(firstname, lastname, email, password)
+    admin = create_admin(firstname, lastname, email, password)
     print('Admin '+firstname+' created ')
     
 if __name__ == "__main__":

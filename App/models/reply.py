@@ -3,7 +3,7 @@ db = SQLAlchemy()
 
 from App.models import Post
 
-class Reply(Post):
+class Reply(db.Model, Post):
 
     originalPostId = db.Column(db.Integer, db.ForeignKey('post.id'))
     originalPost = db.relationship('Post', backref='replies', lazy=True)

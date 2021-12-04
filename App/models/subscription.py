@@ -12,7 +12,6 @@ class Subscription(db.Model):
 
     userId = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     topicId = db.Column(db.Integer, db.ForeignKey('topic.id'), primary_key=True, )
-    user = db.relationship("User", backref="subscriptions", lazy=True)
     created = db.Column(db.DateTime, nullable=False, default=datetime.now)
     status = db.Column(db.Enum(Status), default=Status.ACTIVE)
 

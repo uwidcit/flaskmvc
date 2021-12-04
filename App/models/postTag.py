@@ -6,7 +6,7 @@ class PostTag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tagId = db.Column(db.Integer, db.ForeignKey('tag.id'))
     postId = db.Column(db.Integer, db.ForeignKey('post.id'))
-    posts = db.relationship('posts', lazy=True, backref="tags")
+    
 
     def __init__(self, tagId, postId):
         self.tagId = tagId
