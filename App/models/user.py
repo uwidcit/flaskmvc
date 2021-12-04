@@ -1,17 +1,15 @@
-from flask_login import UserMixin
 from werkzeug.security import check_password_hash, generate_password_hash
-from App.database import db
+from flask_sqlalchemy import SQLAlchemy
 
+db = SQLAlchemy()
 
-class User(UserMixin, db.Model):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name =  db.Column(db.String, nullable=False)
     last_name =  db.Column(db.String, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    posts = db.relationship("Post", back_populates="user")
-    subscriptions = db.relationship("Subscription", back_populates="user")
-
+    posts = db.relationship("Post", backref="user", lazy=True)
 
     def toDict(self):
         return{
