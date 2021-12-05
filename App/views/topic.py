@@ -17,7 +17,7 @@ topic_views = Blueprint('topic_views', __name__, template_folder='../templates')
 
 
 # Get all topics
-@topic_views.route('/topics', methods=["GET"])
+@topic_views.route('/topics/all', methods=["GET"])
 @jwt_required()
 def get_all_topics():
     filter_popular = request.args.get('popular')
@@ -30,7 +30,7 @@ def get_all_topics():
     return jsonify(topics)
 
 # create Topic
-@topic_views.route('/topics', methods=["POST"])
+@topic_views.route('/topics/create', methods=["POST"])
 @jwt_required()
 def create_new_topic():
     text = request.json.get('text')
@@ -68,7 +68,7 @@ def delete_topic(topic_id):
     return jsonify(result.toDict()) if result else 404
 
 #get all popular topics
-@topic_views.route('/topics/', methods=["DELETE"])
+@topic_views.route('/topics/<int:topic_id>', methods=["DELETE"])
 def popular_topics():
     popular_topic = get_popular_topics()
     return jsonify(popular_topic.toDict())if popular_topic else 404
