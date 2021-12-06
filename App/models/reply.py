@@ -1,12 +1,12 @@
-from flask_sqlalchemy import SQLAlchemy
-db = SQLAlchemy()
-
+from sqlalchemy.orm import backref
+from App.database import db
 from App.models import Post
 
-class Reply(db.Model, Post):
+class Reply(Post):
+    __mapper_args__ = {'polymorphic_identity': 'reply'}
 
     originalPostId = db.Column(db.Integer, db.ForeignKey('post.id'))
-    originalPost = db.relationship('Post', backref='replies', lazy=True)
+    originalPost = db.relationship('Post', backref='replies', remote_side='Post.id', lazy=True)
 
     def __init__(self, originalPostId):
         self.originalPostId = originalPostId

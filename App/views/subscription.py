@@ -12,6 +12,7 @@ subscription_views = Blueprint('subscription_views', __name__, template_folder='
 
 # get subscription by id
 @subscription_views.route('/subscriptions/<int:subscription_id>', methods=["GET"])
+@jwt_required()
 def get_subscription(subscription_id):
     subscription = get_subscription_by_id(subscription_id)
     return jsonify(subscription.toDict())
@@ -19,14 +20,14 @@ def get_subscription(subscription_id):
 
 # get all subscriptions
 @subscription_views.route("/subscriptions", methods=["GET"])
-@jwt_required
+@jwt_required()
 def get_all_subscriptions():
     subscriptions = Subscription.query.all()
     return jsonify(serialize_list(subscriptions))
 
 
 @subscription_views.route("/subscriptions", methods=["POST"])
-@jwt_required
+@jwt_required()
 def create_subscription():
     user_id = request.json.get("user_id")
     topic_id = request.json.get("topic_id")
@@ -37,7 +38,7 @@ def create_subscription():
 
 
 @subscription_views.route("/subscriptions/<int:subscription_id>", methods=["PUT"])
-@jwt_required
+@jwt_required()
 def update_subscription(subscription_id):
     status = request.json.get("status")
     subscription = edit_subscription(subscription_id, status)
@@ -46,7 +47,7 @@ def update_subscription(subscription_id):
     
 
 @subscription_views.route("/subscriptions/<int:subscription_id>", methods=["DELETE"])
-@jwt_required
+@jwt_required()
 def delete_subscription(subscription_id):
     result = delete_subscription_by_id(subscription_id)
     return jsonify(result.toDict()) if result else 404

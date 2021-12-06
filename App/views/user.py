@@ -1,4 +1,5 @@
 from flask import Blueprint, redirect, render_template, request, jsonify, send_from_directory, url_for, flash
+from flask_jwt import jwt_required
 
 from sqlalchemy.exc import IntegrityError
 from werkzeug.utils import secure_filename
@@ -14,6 +15,7 @@ def get_user_page():
     return render_template('users.html', users=users)
 
 @user_views.route('/api/users')
+@jwt_required()
 def client_app():
     users = get_all_users_json()
     return jsonify(users)

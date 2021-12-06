@@ -1,5 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
-db = SQLAlchemy()
+from App.database import db
+
 
 
 class Inbox(db.Model):

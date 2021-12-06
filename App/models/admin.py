@@ -1,9 +1,6 @@
 import enum
-from flask_sqlalchemy import SQLAlchemy
 from .user import User
-
-db = SQLAlchemy()
-
+from App.database import db
 
 class Admin(User):
     position = db.Column(db.String(200))

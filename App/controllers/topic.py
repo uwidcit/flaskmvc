@@ -15,7 +15,7 @@ def get_topic_by_id(id):
 # Get top 5 topics by post count
 def get_popular_topics():
     topics = get_topics()
-    sorted(topics, key=lambda i: i.post_count)
+    sorted(topics, key=lambda i: i.get_post_count())
     return topics[:5]
     
 

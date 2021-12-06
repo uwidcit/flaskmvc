@@ -36,8 +36,7 @@ def create_new_topic():
     text = request.json.get('text')
     level = request.json.get('level')
     topic = create_topic(text, level)
-    return jsonify(topic.toDict())
-
+    return "Created", 201
 
 
 # edit Topic

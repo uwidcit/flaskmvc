@@ -9,8 +9,13 @@ def get_tag_by_id(id):
     return tag
 
 
-def create_new_tag(text, created_date):
-    new_tag = Tag(text=text, created=created_date)
+def get_tag_by_text(text):
+    print(f"Getting tag with text: {text}")
+    return Tag.query.filter_by(text=text).first()
+
+
+def create_new_tag(text):
+    new_tag = Tag(text=text)
     print(f"Creating tag with text: {text}")
 
     db.session.add(new_tag)
@@ -23,7 +28,7 @@ def edit_tag(tag_id, text):
 
     if tag:
         tag.text = text
-        tag.created = datetime.now
+        tag.created = datetime.utcnow()
 
         print(f"Updated tag: {tag_id}")
         db.session.add(tag)

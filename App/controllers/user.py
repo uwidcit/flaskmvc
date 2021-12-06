@@ -22,7 +22,7 @@ def create_user(fname, lname, email, password):
 
 def create_users(users):
     for user in users:
-        newUser = create_user(user['first_name'], user['last_name'], user['email'], user['password'], False)
+        newUser = create_user(user['first_name'], user['last_name'], user['email'], user['password'])
         db.session.add(newUser)
     db.session.commit()
 

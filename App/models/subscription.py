@@ -1,8 +1,7 @@
 import enum
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
+from App.database import db
 
-db = SQLAlchemy()
 
 class Status(enum.Enum):
     ACTIVE = "ACTIVE"
@@ -11,13 +10,13 @@ class Status(enum.Enum):
 class Subscription(db.Model):
 
     userId = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
-    topicId = db.Column(db.Integer, db.ForeignKey('topic.id'), primary_key=True, )
-    created = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    topicId = db.Column(db.Integer, db.ForeignKey('topic.id'), primary_key=True)
+    created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     status = db.Column(db.Enum(Status), default=Status.ACTIVE)
 
     def __init__(self, userId, topicId):
         self.userId = userId
-        self.topicId = TopicId
+        self.topicId = topicId
 
     def __repr__(self):
         return f"{self.user_id}"
@@ -29,7 +28,8 @@ class Subscription(db.Model):
         self.status = Status.INACTIVE
 
     def get_created_string(self):
-        return created.strftime("%m/%d/%Y, %H:%M:%S")
+        return self.created.strftime("%Y-%m-%dT%H:%M:%SZ")
+
 
     def toDict(self):
         return {

@@ -23,7 +23,7 @@ def edit_subscription(subscription_id, status):
 
     if subscription:
         subscription.status = status
-        subscription.created = datetime.now
+        subscription.created = datetime.utcnow()
 
         print(f"Updated subscription: {subscription_id}")
         db.session.add(subscription)

@@ -1,29 +1,34 @@
-from flask_sqlalchemy import SQLAlchemy
-db = SQLAlchemy()
+from App.database import db
 from datetime import datetime
+
+from App.modules.serialization_module import serialize_list
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    userId = db.Column(db.Integer, db.ForeignKey('user.id'))
     topicId = db.Column(db.Integer, db.ForeignKey('topic.id'))
     text = db.Column(db.String(200), nullable=False) 
     created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    tags = db.relationship('Tag', lazy=True, backref="posts")
-  
+    tags = db.relationship('PostTag', lazy=True, backref="post")
         
 
     def __repr__(self):
-        return f"{self.user_id}"
+        return f"{self.userId}"
 
     
     def notifySubscribers(self, subscribers):
         self.text = subscribers
 
+    def get_created_string(self):
+        return self.created.strftime("%Y-%m-%dT%H:%M:%SZ")
+
 
     def toDict(self):
         return {
-            "user_id": self.user_id,
+            "id": self.id,
+            "user_id": self.userId,
             "topicId": self.topicId,
             "text": self.text,
-            "created": self.created
+            "created": self.get_created_string(),
+            "tags": serialize_list(list(map(lambda postTag: postTag.tag, self.tags)))
         }
