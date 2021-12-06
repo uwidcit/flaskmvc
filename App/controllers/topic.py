@@ -82,4 +82,7 @@ def delete_topic_by_id(id):
 def get_topic_by_level(topiclvl_id):
      print("getting Topic")
      topic_lvl = Topic.query.filter(Topic.level == topiclvl_id).first() 
-     return topic_lvl
+     if topic_lvl:
+        return topic_lvl
+    else:
+        raise Exception("Topic not found")
