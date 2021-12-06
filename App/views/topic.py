@@ -30,7 +30,7 @@ def get_all_topics():
     return jsonify(topics)
 
 # create Topic
-@topic_views.route('/topics/create', methods=["POST"])
+@topic_views.route('/topics', methods=["POST"])
 @jwt_required()
 def create_new_topic():
     text = request.json.get('text')
