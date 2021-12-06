@@ -17,7 +17,7 @@ topic_views = Blueprint('topic_views', __name__, template_folder='../templates')
 
 
 # Get all topics
-@topic_views.route('/topics/all', methods=["GET"])
+@topic_views.route('/topics', methods=["GET"])
 @jwt_required()
 def get_all_topics():
     filter_popular = request.args.get('popular')
