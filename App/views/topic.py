@@ -36,7 +36,11 @@ def create_new_topic():
     text = request.json.get('text')
     level = request.json.get('level')
     topic = create_topic(text, level)
-    return jsonify(topic.toDict())
+    if topic:
+        return jsonify(topic)
+    else:
+        
+    return 201
 
 
 
@@ -51,7 +55,7 @@ def update_topic(topic_id):
     if topic:
         return jsonify(topic)
     else: 
-        return 404
+        return 200
 
 
 # get specific Topic by ID
