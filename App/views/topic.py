@@ -51,7 +51,7 @@ def create_new_topic():
 def update_topic(topic_id):
     text = request.json.get('text')
     level = request.json.get('level')
-    
+       
     topic = edit_topic(topic_id, text, level)
     if topic:
         return jsonify(topic)
