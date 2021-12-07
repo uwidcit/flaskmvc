@@ -41,7 +41,7 @@ def create_new_topic():
         return jsonify(topic)
     else:
         
-    return 201
+        return 201
 
 
 
@@ -83,7 +83,4 @@ def popular_topics():
 @topic_views.route('/topics', methods=["GET"])
 def topic_level():
     level_topics= get_topic_by_level()
-    return jsonify(serialize_list(level_topics) if level_topics else 404
-    
-
-
+    return jsonify(serialize_list(level_topics)) if level_topics else 404
