@@ -11,6 +11,7 @@ from App.controllers.topic import (
     create_topic,
     get_topic_by_id,
     delete_topic_by_id,
+    get_topic_by_level
 )
 
 topic_views = Blueprint('topic_views', __name__, template_folder='../templates')
@@ -36,7 +37,16 @@ def create_new_topic():
     text = request.json.get('text')
     level = request.json.get('level')
     topic = create_topic(text, level)
+
     return "Created", 201
+
+    if topic:
+        return jsonify(topic)
+    else:
+        
+        return 201
+
+
 
 
 # edit Topic
@@ -45,12 +55,12 @@ def create_new_topic():
 def update_topic(topic_id):
     text = request.json.get('text')
     level = request.json.get('level')
-    
+       
     topic = edit_topic(topic_id, text, level)
     if topic:
         return jsonify(topic)
     else: 
-        return 404
+        return 200
 
 
 # get specific Topic by ID
@@ -67,8 +77,15 @@ def delete_topic(topic_id):
     return jsonify(result.toDict()) if result else 404
 
 #get all popular topics
-@topic_views.route('/topics/', methods=["GET"])
+
+@topic_views.route('/topics', methods=["GET"])
 def popular_topics():
     popular_topic = get_popular_topics()
     return jsonify(popular_topic.toDict())if popular_topic else 404
 
+
+#get all topics by level 
+@topic_views.route('/topics', methods=["GET"])
+def topic_level():
+    level_topics= get_topic_by_level()
+    return jsonify(serialize_list(level_topics)) if level_topics else 404
