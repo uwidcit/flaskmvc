@@ -1,3 +1,4 @@
+from App.controllers.user import get_user_by_id
 from . import db
 from App.models import Subscription
 from datetime import datetime
@@ -9,9 +10,17 @@ def get_subscription_by_id(id):
     return subscription
 
 
-def create_new_subscription(user_id, topic_id, status):
-    new_subscription = Subscription(user_id=user_id, topic_id=topic_id, status=status)
-    print(f"Creating subscription for user: {user_id} and topic: {topic_id}")
+def get_subscriptions_by_user(user_id):
+    user = get_user_by_id(user_id)
+    if user:
+        return user.subscriptions
+    else:
+        raise Exception("User not found")
+
+
+def create_new_subscription(user_id, topic_id):
+    new_subscription = Subscription(userId=user_id, topicId=topic_id)
+    print(f"Creating new subscription for user: {user_id} for topic: {topic_id}")
 
     db.session.add(new_subscription)
     db.session.commit()
@@ -38,7 +47,9 @@ def delete_subscription_by_id(id):
 
     if subscription:
         print(f"Deleting subscription with id: {id}")
-        db.session.delete(subscription)
+        subscription.set_inactive()
+
+        db.session.add(subscription)
         db.session.commit()
         return subscription
     return None

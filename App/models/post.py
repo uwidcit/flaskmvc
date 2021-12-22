@@ -12,6 +12,13 @@ class Post(db.Model):
     tags = db.relationship('PostTag', lazy=True, backref="post")
         
 
+    def __init__(self, user_id, topic_id, text, created):
+        self.userId = user_id
+        self.topicId = topic_id
+        self.text = text
+        self.created = created
+
+
     def __repr__(self):
         return f"{self.userId}"
 

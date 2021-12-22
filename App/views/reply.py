@@ -1,9 +1,8 @@
 from App.controllers.reply import (create_new_reply, delete_reply_by_id, get_reply_by_id)
 from App.models.reply import Reply
 from App.modules.serialization_module import serialize_list
-from flask import Blueprint, request
-from flask.json import jsonify
-from flask_jwt import jwt_required
+from flask import Blueprint, jsonify, request
+from flask_jwt import jwt_required, current_identity
 
 reply_views = Blueprint('reply_views', __name__, template_folder='../templates')
 
@@ -28,23 +27,15 @@ def get_all_replies():
 @reply_views.route("/replies", methods=["POST"])
 @jwt_required()
 def create_reply():
-    post_id = request.json.get("post_id")
+    post_id = request.json.get("replyTo")
+    topic_id = request.json.get("topic_id")
+    text = request.json.get("text")
+    created = request.json.get("created_date")
+    tag_list = request.json.get("tags")
 
-    new_reply = create_new_reply(post_id)
-    return jsonify(new_reply.toDict())
+    create_new_reply(post_id, current_identity.id, topic_id, text, created, tag_list)
+    return jsonify({"message": "Created"}), 201
 
-# TODO: Implement when more details are obtained
-# @reply_views.route("/replies/<int:reply_id>", methods=["PUT"])
-# @jwt_required
-# def update_reply(reply_id):
-#     reply_id = request.json.get("reply_id")
-#     text = request.json.get("text")
-#     created_date = request.json.get("created_date")
-
-#     reply = edit_reply(reply_id, text, created_date)
-
-#     return jsonify(reply.toDict()) if reply else 404
-    
 
 @reply_views.route("/replies/<int:reply_id>", methods=["DELETE"])
 @jwt_required()

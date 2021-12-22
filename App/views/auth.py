@@ -1,4 +1,4 @@
-from App.controllers.auth import login_user, validate_user_credentials
+from App.controllers.auth import login_user, logout_user, validate_user_credentials
 from flask import Blueprint, flash, render_template, request
 from flask.helpers import url_for
 from werkzeug.utils import redirect
@@ -28,5 +28,5 @@ def login():
 
 @auth_views.route("/logout", methods=["GET"])
 def logout():
-    logout()
+    logout_user()
     return redirect(url_for("auth.login"))

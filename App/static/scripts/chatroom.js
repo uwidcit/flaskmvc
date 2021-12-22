@@ -1,5 +1,5 @@
 async function main(){
-    const serverUrl = "https://8080-scarlet-dolphin-dvpmbcot.ws-us17.gitpod.io";
+    const serverUrl = "http://localhost:8080/";
     const chatManager = new ChatManager(serverUrl);
 
     await chatManager.init();

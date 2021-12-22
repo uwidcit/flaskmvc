@@ -10,13 +10,13 @@ from App.controllers import authenticate, get_user_by_id, identity
 from App.models import User
 from App.views import (auth_views, chat_views, distress_views, home_views,
                        notification_views, post_views, reply_views,
-                       topic_views, user_views)
+                       topic_views, user_views, subscription_views)
 
 from .database import init_db
 
 # place all views here
 views = [auth_views, chat_views, home_views, topic_views, user_views,
-         distress_views, notification_views, post_views, reply_views]
+         distress_views, notification_views, post_views, reply_views, subscription_views]
 
 
 def add_views(app, views):

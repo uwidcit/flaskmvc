@@ -1,6 +1,7 @@
 import datetime
 from App.controllers.postTag import create_new_post_tag, create_post_tags
 from App.controllers.tag import create_new_tag, get_tag_by_text
+from App.controllers.topic import get_topic_by_id
 
 from App.controllers.user import get_user_by_id
 from App.models import Post
@@ -15,13 +16,22 @@ def get_post_by_id(id):
     return post
 
 
-def get_user_posts(user_id):
+def get_posts_by_user(user_id):
     user = get_user_by_id(user_id)
 
     if user:
         return user.posts
     else:
         raise Exception("User not found")
+
+
+def get_posts_by_topic(topic_id):
+    topic = get_topic_by_id(topic_id)
+
+    if topic:
+        return topic.posts
+    else:
+        raise Exception("Topic not found")
 
 
 def create_new_post(user_id, topic_id, text, tag_list, created_date):
