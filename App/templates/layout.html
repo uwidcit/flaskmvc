@@ -16,14 +16,14 @@
   <body>
     <nav class="nav-bar">
       <div class="nav-wrapper">
-        <a href="#!" class="brand-logo left">{% block page %}{% endblock %}</a>
+        <a href="#!" class="brand-logo left">Swarm NET</a>
         <div class="nav-wrapper">
             <ul id="nav-mobile" class="right hide-on-med-and-down">
               <li><a href="/">Home</a></li>
               <li><a href="/api/users">Users</a></li>
               <li><a href="/users">Users Jinja</a></li>
               <li><a href="/static/users">Users JS</a></li>
-              <li><a href="/register">Sign Up</a></li>
+              <li><a href="/signup">Sign Up</a></li>
               {% if current_user.is_authenticated %}
                 <li><a href="/chatroom">Chatroom</a></li>
                 <li>Logged in as: <span style="font-weight: bold;">{{ current_user.first_name }}</span></li>

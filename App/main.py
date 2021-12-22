@@ -8,15 +8,35 @@ from flask_uploads import DOCUMENTS, IMAGES, TEXT, UploadSet, configure_uploads
 
 from App.controllers import authenticate, get_user_by_id, identity
 from App.models import User
-from App.views import (auth_views, chat_views, distress_views, home_views,
-                       notification_views, post_views, reply_views,
-                       topic_views, user_views, subscription_views)
-
 from .database import init_db
 
+
+from App.views import (
+    auth_views, chat_views,
+    distress_views,
+    home_views,
+    notification_views,
+    post_views,
+    reply_views,
+    topic_views,
+    user_views, 
+    subscription_views
+)
+
+
 # place all views here
-views = [auth_views, chat_views, home_views, topic_views, user_views,
-         distress_views, notification_views, post_views, reply_views, subscription_views]
+views = [
+    auth_views,
+    chat_views,
+    home_views, 
+    topic_views, 
+    user_views,
+    distress_views, 
+    notification_views, 
+    post_views, 
+    reply_views, 
+    subscription_views
+]
 
 
 def add_views(app, views):
@@ -29,14 +49,11 @@ def loadConfig(app, config):
     if app.config['ENV'] == "development":
         app.config.from_object('App.config')
     else:
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-            'SQLALCHEMY_DATABASE_URI')
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
         app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-        app.config['JWT_EXPIRATION_DELTA'] = os.environ.get(
-            'JWT_EXPIRATION_DELTA')
+        app.config['JWT_EXPIRATION_DELTA'] = os.environ.get('JWT_EXPIRATION_DELTA')
         app.config['DEBUG'] = os.environ.get('DEBUG')
         app.config['ENV'] = os.environ.get('ENV')
-
     for key, value in config.items():
         app.config[key] = config[key]
 
@@ -122,5 +139,4 @@ def get_room(sender, receiver):
 
 if __name__ == "__main__":
     app = create_app()
-    socketio.run(app, host='localhost', port=8080,
-                 debug=app.config['ENV'] == 'development')
+    socketio.run(app, host='localhost', port=8080, debug=app.config['ENV'] == 'development')

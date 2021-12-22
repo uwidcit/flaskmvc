@@ -1,3 +1,4 @@
+from sqlalchemy.exc import IntegrityError
 from App.models import User, Admin
 from App.database import db
 
@@ -13,12 +14,13 @@ def get_all_users_json():
 
 
 def create_user(fname, lname, email, password):
-    user = User(first_name=fname, last_name=lname, email=email, password=password)
-    db.session.add(user)
-    db.session.commit()
-    print(f"User created: {user.email}")
-    return user
-
+    try:
+        user = User(first_name=fname, last_name=lname, email=email, password=password)
+        db.session.add(user)
+        db.session.commit()
+        return user
+    except IntegrityError:
+        return None
 
 def create_users(users):
     for user in users:
@@ -40,8 +42,7 @@ def get_user_by_email(email):
 
 def get_all_users():
     return  User.query.all()
-    
-# REGISTER ADMIN USER
+
 def create_admin(firstname, lastname, email, password):
     admin = Admin(first_name=firstname, last_name=lastname, email=email, password=password)
     db.session.add(admin)
