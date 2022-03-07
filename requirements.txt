@@ -26,3 +26,4 @@ python-editor==1.0.4
 SQLAlchemy==1.4.26
 Werkzeug==0.16.1
 WTForms==3.0.0
+markupsafe==2.0.1
