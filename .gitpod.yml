@@ -1,12 +1,12 @@
 tasks:
-  - init: pip3 install -r requirements.txt
-    command: python manage.py initDB
-  - command: python manage.py serve
+  - init: pip install -r requirements.txt
+    command: python manage.py serve
   - init: npm install
 
 ports:
   - port: 8080
     onOpen: open-browser
+    visibility: public
 image:
   file: .gitpod.Dockerfile
 

@@ -34,8 +34,7 @@ def loadConfig(app, config):
         app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
         app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
         app.config['JWT_EXPIRATION_DELTA'] = os.environ.get('JWT_EXPIRATION_DELTA')
-        app.config['DEBUG'] = os.environ.get('DEBUG')
-        app.config['ENV'] = os.environ.get('ENV')
+        app.config['DEBUG'] = os.environ.get('DEBUG', 'false').upper() == "TRUE"
 
     for key,value in config.items():
         app.config[key] = config[key]
