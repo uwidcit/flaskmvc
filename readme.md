@@ -22,19 +22,27 @@ Instead, all config is provided by a config file or via [environment varables](h
 
 ## In Development
 
-When running the project in a development environment (such as gitpod) the app is configured via config.py file in the App folder. By default, the config for development uses a sqlite database test.db.
+When running the project in a development environment (such as gitpod) the app is configured via config.py file in the App folder. By default, the config for development uses a sqlite database.
+
+config.py
+```python
+SQLALCHEMY_DATABASE_URI = "sqlite:///temp-database.db"
+SECRET_KEY = "secret key"
+JWT_EXPIRATION_DELTA = 7
+ENV = "DEVELOPMENT"
+```
 
 ## In Production
 
 When deploying your application to production/staging you must pass
-in configuration information via enviornment variables. For heroku you need to navigate to your application's setting page (url should look like https://dashboard.heroku.com/apps/[app-name]/settings) and scroll down to config vars.
-Then provide your configuration as shown in the image below. 
+in configuration information via enviornment variables. For heroku, you need to navigate to your application's setting page (url should look like https://dashboard.heroku.com/apps/[app-name]/settings) and scroll down to config vars.
+Then provide your configuration by defining the same values given in config.py 
 
 ![heroku screenshot](images/fig1.png)
 
-When deploying to production the "ENV" variable should be set to "production". 
+When deploying to production the "ENV" variable should be set to "PRODUCTION". 
 
-**Note** heroku provides a default variable "DATABASE_URL" for heorku postgres. If you want the app to use this database you must copy the value to the variable "SQLALCHEMY_DATABASE_URL".
+**Note** heroku provides a default variable "DATABASE_URL" for heorku postgres. If you want the app to use this database you must copy the value to the variable "SQLALCHEMY_DATABASE_URL" and change the protocl to "postgresql://" for sql alchemmy.
 
 # Manage.py Commands
 

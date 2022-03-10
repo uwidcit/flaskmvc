@@ -28,3 +28,6 @@ SQLAlchemy==1.4.26
 Werkzeug==0.16.1
 WTForms==3.0.0
 markupsafe==2.0.1
+flask-script==2.0.6
+gunicorn==20.1.0
+flask-sqlalchemy==2.5.1

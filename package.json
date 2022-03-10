@@ -4,9 +4,10 @@
   "description": "[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/https://github.com/uwidcit/flaskmvc) [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)",
   "main": "index.js",
   "scripts": {
-    "init": "python3 manage.py init",
-    "serve": "python3 manage.py serve",
-    "make-users": "python3 manage.py make_users"
+    "init": "python manage.py init",
+    "serve": "python manage.py serve",
+    "make-users": "python manage.py make_users",
+    "prod-serve": "gunicorn -w 4 App.main:app"
   },
   "repository": {
     "type": "git",
