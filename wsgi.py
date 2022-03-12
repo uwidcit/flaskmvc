@@ -2,12 +2,13 @@ import click
 from flask import Flask
 from flask.cli import with_appcontext
 
+from App.database import create_db
 from App.main import app, migrate
 from App.controllers import ( create_user, get_all_users_json )
 
 
 @app.cli.command("init")
-def initiialize():
+def initialize():
     create_db(app)
     print('database intialized')
 

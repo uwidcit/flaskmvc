@@ -2,7 +2,7 @@
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 # Flask MVC Template
-A template for flask applications sturcutured in the Model View Controller pattern [Demo](https://dcit-flaskmvc.herokuapp.com/)
+A template for flask applications structured in the Model View Controller pattern [Demo](https://dcit-flaskmvc.herokuapp.com/)
 
 
 # Dependencies
@@ -14,11 +14,11 @@ A template for flask applications sturcutured in the Model View Controller patte
 $ pip install -r requirements.txt
 ```
 
-# Configuration Mangement
+# Configuration Management
 
 
 Configuration information such as the database url/port, credentials, API keys etc are to be supplied to the application. However, it is bad practice to stage production information in publicly visible repositories.
-Instead, all config is provided by a config file or via [environment varables](https://linuxize.com/post/how-to-set-and-list-environment-variables-in-linux/).
+Instead, all config is provided by a config file or via [environment variables](https://linuxize.com/post/how-to-set-and-list-environment-variables-in-linux/).
 
 ## In Development
 
@@ -35,14 +35,14 @@ ENV = "DEVELOPMENT"
 ## In Production
 
 When deploying your application to production/staging you must pass
-in configuration information via enviornment variables. For heroku, you need to navigate to your application's setting page (url should look like https://dashboard.heroku.com/apps/[app-name]/settings) and scroll down to config vars.
+in configuration information via environment variables. For heroku, you need to navigate to your application's setting page (url should look like https://dashboard.heroku.com/apps/[app-name]/settings) and scroll down to config vars.
 Then provide your configuration by defining the same values given in config.py 
 
 ![heroku screenshot](images/fig1.png)
 
 When deploying to production the "ENV" variable should be set to "PRODUCTION". 
 
-**Note** heroku provides a default variable "DATABASE_URL" for heorku postgres. If you want the app to use this database you must copy the value to the variable "SQLALCHEMY_DATABASE_URL" and change the protocl to "postgresql://" for sql alchemmy.
+**Note** heroku provides a default variable "DATABASE_URL" for heorku postgres. If you want the app to use this database you must copy the value to the variable "SQLALCHEMY_DATABASE_URL" and change the protocol to "postgresql://" for sqlalchemmy.
 
 # Flask Commands
 
@@ -84,8 +84,8 @@ $ gunicorn App.main:app
 # Deploying
 You can deploy your version of this app to heroku by clicking on the "Deploy to heroku" link above.
 
-# Intializing the Database
-When connecting the project to a fresh empty database ensure the appropriate configuration is set then file then run the following command. This must aslo be execuited once when running the app on heroku by opening the heroku console, executing bash and running the command in the dyno.
+# Initializing the Database
+When connecting the project to a fresh empty database ensure the appropriate configuration is set then file then run the following command. This must aslo be executed once when running the app on heroku by opening the heroku console, executing bash and running the command in the dyno.
 
 ```
 $ flask init
