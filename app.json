@@ -1,7 +1,0 @@
-{
-  "name": "Flask MVC",
-  "description": "A MVC Template for Flask Apps",
-  "repository": "https://github.com/uwidcit",
-  "logo": "https://github.com/uwidcit/flaskmvc/raw/main/images/flask.png",
-  "keywords": ["flask", "mvc", "uwi"]
-}

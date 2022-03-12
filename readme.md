@@ -11,7 +11,7 @@ A template for flask applications sturcutured in the Model View Controller patte
 
 # Installing Dependencies
 ```
-$ pip3 install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 # Configuration Mangement
@@ -44,26 +44,28 @@ When deploying to production the "ENV" variable should be set to "PRODUCTION".
 
 **Note** heroku provides a default variable "DATABASE_URL" for heorku postgres. If you want the app to use this database you must copy the value to the variable "SQLALCHEMY_DATABASE_URL" and change the protocl to "postgresql://" for sql alchemmy.
 
-# Manage.py Commands
+# Flask Commands
 
-Manage.py is a utility script for performing various tasks related to the project. You can use it to import and test any code in the project. 
+wsgi.py is a utility script for performing various tasks related to the project. You can use it to import and test any code in the project. 
 You just need create a manager command function, for example:
 
 ```
-# inside manage.py
+# inside wsgi.py
 
 
-@manager.command
-def hello():
-    print('hello')
-
-...    
+@app.cli.command("create-user")
+@click.argument("username")
+@click.argument("password")
+def create_user_command(username, password):
+    create_user(username, password)
+    print(f'{username} created!')
+    
 ```
 
-Then execute the command by calling the funciton name as a parameter to the script
+Then execute the command invoking with flask cli with command name and the relevant parameters
 
 ```
-$ python3 manage.py hello
+$ flask create-user bob bobpass
 ```
 
 
@@ -71,20 +73,22 @@ $ python3 manage.py hello
 
 _For development run the serve command (what you execute):_
 ```
-$ python3 manage.py serve
+$ flask run
 ```
+
 _For production using gunicorn (what heroku executes):_
 ```
-$ gunicorn -w 4 App.main:app
+$ gunicorn App.main:app
 ```
 
 # Deploying
 You can deploy your version of this app to heroku by clicking on the "Deploy to heroku" link above.
 
 # Intializing the Database
-When connecting the project to a fresh empty database ensure the appropriate configuration is set then file then run the following command. If you are using sqlite test.db would be created.
+When connecting the project to a fresh empty database ensure the appropriate configuration is set then file then run the following command. This must aslo be execuited once when running the app on heroku by opening the heroku console, executing bash and running the command in the dyno.
+
 ```
-$ python3 manage.py initdb
+$ flask init
 ```
 
 # Database Migrations
@@ -92,8 +96,8 @@ If changes to the models are made, the database must be'migrated' so that it can
 Then execute following commands using manage.py. More info [here](https://flask-migrate.readthedocs.io/en/latest/)
 
 ```
-$ python3 manage.py db init
-$ python3 manage.py db migrate
-$ python3 manage.py db upgrade
-$ python3 manage.py db --help
+$ flask db init
+$ flask db migrate
+$ flask db upgrade
+$ flask db --help
 ```

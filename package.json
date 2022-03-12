@@ -1,31 +1,22 @@
 {
-  "name": "flaskmvc",
+  "name": "flask-template",
   "version": "1.0.0",
-  "description": "[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/https://github.com/uwidcit/flaskmvc) [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "init": "python manage.py init",
-    "serve": "python manage.py serve",
-    "make-users": "python manage.py make_users",
-    "prod-serve": "gunicorn -w 4 App.main:app"
+    "init": "flask init",
+    "serve": "flask run",
+    "prod-serve": "gunicorn -b 0.0.0.0:8080 -w 4 App.main:app"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/uwidcit/flaskmvc.git"
-  },
-  "mocha": {
-    "spec": "e2e"
+    "url": "git+https://github.com/Snickdx/flask-template.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/uwidcit/flaskmvc/issues"
+    "url": "https://github.com/Snickdx/flask-template/issues"
   },
-  "homepage": "https://github.com/uwidcit/flaskmvc#readme",
-  "dependencies": {
-    "chai": "^4.3.4",
-    "newman": "^5.3.0",
-    "puppeteer": "^11.0.0"
-  }
+  "homepage": "https://github.com/Snickdx/flask-template#readme"
 }
