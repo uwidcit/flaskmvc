@@ -52,20 +52,23 @@ You just need create a manager command function, for example:
 ```
 # inside wsgi.py
 
+user_cli = AppGroup('user', help='User object commands')
 
-@app.cli.command("create-user")
+@user_cli.cli.command("create-user")
 @click.argument("username")
 @click.argument("password")
 def create_user_command(username, password):
     create_user(username, password)
     print(f'{username} created!')
-    
+
+app.cli.add_command(user_cli) # add the group to the cli
+
 ```
 
 Then execute the command invoking with flask cli with command name and the relevant parameters
 
 ```
-$ flask create-user bob bobpass
+$ flask user create bob bobpass
 ```
 
 
@@ -85,7 +88,7 @@ $ gunicorn App.main:app
 You can deploy your version of this app to heroku by clicking on the "Deploy to heroku" link above.
 
 # Initializing the Database
-When connecting the project to a fresh empty database ensure the appropriate configuration is set then file then run the following command. This must aslo be executed once when running the app on heroku by opening the heroku console, executing bash and running the command in the dyno.
+When connecting the project to a fresh empty database ensure the appropriate configuration is set then file then run the following command. This must also be executed once when running the app on heroku by opening the heroku console, executing bash and running the command in the dyno.
 
 ```
 $ flask init

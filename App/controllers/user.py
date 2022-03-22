@@ -16,3 +16,6 @@ def get_all_users_json():
         return []
     users = [user.toDict() for user in users]
     return users
+
+def get_all_users():
+    return User.query.all()
