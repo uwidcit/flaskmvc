@@ -14,7 +14,7 @@ user_views = Blueprint('user_views', __name__, template_folder='../templates')
 @user_views.route('/users', methods=['GET'])
 def get_user_page():
     users = get_all_users()
-    return render_template('users.html', users=users)
+    return render_template('Game.html', users=users)
 
 @user_views.route('/api/users')
 def client_app():
