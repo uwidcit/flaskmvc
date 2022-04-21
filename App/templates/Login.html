@@ -25,6 +25,25 @@ body {
   font-family: 'Rubik', sans-serif;
 }
 
+body {
+  font-family: 'Rubik', sans-serif;
+  background: linear-gradient(-45deg, #eeff00, #adadad, #ffd000, #ffee00);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 
 #beepic{
   width: 25%;
@@ -182,7 +201,9 @@ body {
     <script  src="./script.js"></script>
 
     <audio controls >
-      <source src="/workspace/flaskmvc/audio/Star Guardian 2017 - Login Music (instrumental) - League Of Legends.mp3" type="audio/mpeg">
+      <source src="/workspace/flaskmvc/audio/The Beekeepers - Spelling Bee (Instrumental).mp3" type="audio/mpeg">
+      <source src="/workspace/flaskmvc/audio/The Beekeepers - Spelling Bee (Instrumental).mp3" type="audio/wav">
+      <source src="/workspace/flaskmvc/audio/The Beekeepers - Spelling Bee (Instrumental).mp3" type="audio/ogg">
     Your browser does not support the audio element.
     </audio>
 

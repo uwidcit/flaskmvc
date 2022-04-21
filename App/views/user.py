@@ -25,6 +25,11 @@ def client_app():
 def lol():
     return 'lol'
 
+@user_views.route('/highscore', methods=['GET'])
+def get_highscore():
+    users = get_all_users()
+    return render_template('High Score.html', users=users)
+
 @user_views.route('/static/users')
 def static_user_page():
-  return send_from_directory('static', 'static-user.html')
+    return render_template('High Score.html')

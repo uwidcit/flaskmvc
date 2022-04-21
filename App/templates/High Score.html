@@ -21,10 +21,8 @@
 }
 
 body {
+  background: #fbff00;
   font-family: 'Rubik', sans-serif;
-  background: linear-gradient(-45deg, #eeff00, #adadad, #ffd000, #ffee00);
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
 }
 
 
@@ -130,122 +128,12 @@ body {
 .login-form .action button:nth-child(2):hover {
   background: #3c4d6d;
 }
-*{
-  margin: 0;
-  padding: 0;
+body {
+  font-family: 'Rubik', sans-serif;
+  background: linear-gradient(-45deg, #eeff00, #adadad, #ffd000, #ffee00);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
 }
-
-body{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-canvas{
-  background: rgb(75, 32, 32);
-}
-
-canvas:active { 
-    cursor: default;
-}
-
-button{
-  font-size: 18px;
-}
-/* CSS */
-.button-19 {
-  appearance: button;
-  background-color: #1899D6;
-  border: solid transparent;
-  border-radius: 16px;
-  border-width: 0 0 4px;
-  box-sizing: border-box;
-  color: #FFFFFF;
-  cursor: pointer;
-  display: inline-block;
-  font-family: din-round,sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: .8px;
-  line-height: 20px;
-  margin: 5%;
-  outline: none;
-  overflow: visible;
-  padding: 13px 16px;
-  text-align: center;
-  text-transform: uppercase;
-  touch-action: manipulation;
-  transform: translateZ(0);
-  transition: filter .2s;
-  user-select: none;
-  -webkit-user-select: none;
-  vertical-align: middle;
-  white-space: nowrap;
-  width: 100%;
-}
-
-.button-19:after {
-  background-clip: padding-box;
-  background-color: #ffaf0160;
-  border: solid transparent;
-  border-radius: 16px;
-  border-width: 0 0 4px;
-  bottom: -4px;
-  content: "";
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: -1;
-}
-
-.button-19:main,
-.button-19:focus {
-  user-select: auto;
-}
-
-.button-19:hover:not(:disabled) {
-  filter: brightness(1.1);
-  -webkit-filter: brightness(1.1);
-}
-
-.button-19:disabled {
-  cursor: auto;
-}
-/* CSS */
-.button-32 {
-  background-color: #ffffff;
-  border-radius: 12px;
-  color: #000;
-  cursor: pointer;
-  font-weight: bold;
-  padding: 10px 15px;
-  text-align: center;
-  transition: 200ms;
-  width: 100%;
-  box-sizing: border-box;
-  border: 0;
-  font-size: 16px;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-}
-
-.button-32:not(:disabled):hover,
-.button-32:not(:disabled):focus {
-  outline: 0;
-  background: #f4e603;
-  box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
-}
-
-.button-32:disabled {
-  filter: saturate(0.2) opacity(0.5);
-  -webkit-filter: saturate(0.2) opacity(0.5);
-  cursor: not-allowed;
-}
-
-
 
 @keyframes gradient {
     0% {
@@ -258,8 +146,74 @@ button{
         background-position: 0% 50%;
     }
 }
- 
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+table {
+font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+font-size: 14px;
+border-radius: 10px;
+border-spacing: 0;
+text-align: center;
+}
+
+caption {
+  color: white;
+  margin-bottom: 7px;
+  font-size: 20px;
+}
+
+th {
+background: rgb(0, 0, 0);
+padding: 10px 20px;
+  color: rgba(129, 69, 0, 1);
+}
+th, td {
+border-style: solid;
+border-width: 0 1px 1px 0;
+border-color: rgba(0,0,0,0.1);
+}
+
+th:first-child {
+border-top-left-radius: 5px;
+}
+th:last-child {
+border-top-right-radius: 5px;
+border-right: none;
+}
+th:first-child, td:first-child {
+padding: 7px 8px;
+}
+
+td {
+  padding: 7px 20px;
+  background: rgba(230,230,230,1);
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.player td {
+  color: rgba(0, 0, 0, 1.0);
+  font-weight: bold;
+  background: rgba(215, 215, 215, 1);
+  color: rgba(0, 0, 0, 0.8);
+  
+}
+
+tr:last-child td:first-child {
+border-radius: 0 0 0 5px;
+}
+tr:last-child td:last-child {
+border-radius: 0 0 5px 0;
+}
+tr td:last-child {
+border-right: none;
+}
    </Style>
+
   </head>
   <nav class="black">
     <div class="nav-wrapper">
@@ -288,83 +242,31 @@ button{
   </nav>
   {% endif %}
   {% endwith %}
-<!-- HTML !-->
+
+ 
   
-  <h1>Spelling Game</h1>
-  <div>
-    <div><h3>Instructions:</h3></div>
-    <div>Listen to the pronunciation of the word and attempt to spell the word.</div>
-
+  <div class="wrapper">
+    <table>
+      <caption><h1>High Scores (total 20)</h1></caption>
+  <tr>
+    <th>Pos</th>
+    <th>Name</th>
+    <th>Score</th>
+  </tr>
+   <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    </tr>
+   </table>
   </div>
-  <button id="playB" class="button-19" role="button" style="width: 30%;" onclick="playWord('something')">Play Audio</button>
+  <!-- partial -->
+    <script  src="./script.js"></script>
 
-<div>
-  <input class="fname" type="text" name="name" placeholder="Your Spelling">
-  <button class="button-32" role="button" >Submit</button>
-</div>
-<div>
-</div>
-
-
-<!-- partial -->    
-  <script>
-
-var synth = window.speechSynthesis;
-
-var voices = [];
-
-function populateVoiceList() {
-  voices = synth.getVoices().sort(function (a, b) {
-      const aname = a.name.toUpperCase(), bname = b.name.toUpperCase();
-      if ( aname < bname ) return -1;
-      else if ( aname == bname ) return 0;
-      else return +1;
-  });
-}
-
-populateVoiceList();
-if (speechSynthesis.onvoiceschanged !== undefined) {
-  speechSynthesis.onvoiceschanged = populateVoiceList;
-}
-
-function speak(word){
-    if (synth.speaking) {
-        console.error('speechSynthesis.speaking');
-        alert("Please wait for playback to conclude before pressing play again!");
-        return;
-    }
-    if (inputTxt.value !== '') {
-    var utterThis = new SpeechSynthesisUtterance(word);
-    utterThis.onend = function (event) {
-        console.log('SpeechSynthesisUtterance.onend');
-    }
-    utterThis.onerror = function (event) {
-        console.error('SpeechSynthesisUtterance.onerror');
-    }
-
-    utterThis.voice = voices[20];
-    utterThis.pitch = 1;
-    utterThis.rate = 1;
-    synth.speak(utterThis);
-  }
-}
-
-function playWord(word){
-  speak(word);
-}
-
-//Init the game
-newGame()
-
-//Start the canvas drawing function
-draw()
-
-
-
-
-   </script>
+    <audio controls >
+      <source src="/workspace/flaskmvc/audio/Star Guardian 2017 - Login Music (instrumental) - League Of Legends.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
 
   </body>
 </html>
-<!-- HTML !-->
-

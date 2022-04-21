@@ -60,3 +60,11 @@ def create_app(config={}):
 
 app = create_app()
 migrate = get_migrate(app)
+
+#@app.route('/')
+#def login():
+#  return render_template('Login.html')
+
+#@app.route('/game')
+#def game():
+#  return render_template('Game.html')
