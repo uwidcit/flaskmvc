@@ -5,8 +5,8 @@ from App.database import db
 def get_all_users():
     return User.query.all()
 
-def create_user(username, password):
-    newuser = User(username=username, password=password)
+def create_user(username, password, score):
+    newuser = User(username=username, password=password, score=score)
     db.session.add(newuser)
     db.session.commit()
 

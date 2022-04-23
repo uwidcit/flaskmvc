@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spelling Bee</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <!--Import Google Icon Font-->
@@ -218,8 +219,8 @@ border-right: none;
       <div class="nav-wrapper">
           <ul id="nav-mobile" class="left">
               <li><a href="/">Login</a></li>
-              <li><a href="/users">Game </a></li>
-              <li><a href="/static/users">Highscore</a></li>
+              <li><a href="/game">Game </a></li>
+              <li><a href="/scores">Highscore</a></li>
           </ul>
       </div>
     </div>
@@ -251,9 +252,13 @@ border-right: none;
     <th>Score</th>
   </tr>
    <tr>
-    <td></td>
-    <td></td>
-    <td></td>
+    {% for users in result %}
+              <TR>
+                <TD>{{users.id}}</TD>
+                <TD>{{users.username}}</TD>
+                <TD>{{users.score}}</TD>
+              </TR>
+    {% endfor %}
     </tr>
    </table>
   </div>

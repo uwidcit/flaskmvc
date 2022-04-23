@@ -6,8 +6,10 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
 from datetime import timedelta
-
-
+from flask import Flask, request, render_template
+from flask_jwt import JWT, jwt_required, current_identity
+from sqlalchemy.exc import IntegrityError
+from App.models.user import User
 from App.database import create_db, get_migrate
 
 from App.controllers import (
@@ -61,10 +63,52 @@ def create_app(config={}):
 app = create_app()
 migrate = get_migrate(app)
 
-#@app.route('/')
-#def login():
-#  return render_template('Login.html')
+''' Set up JWT here '''
+def authenticate(uname, password):
+  #search for the specified user
+  user = User.query.filter_by(username=uname).first()
+  #if user is found and password matches
+  if user and user.check_password(password):
+    return user
 
-#@app.route('/game')
-#def game():
-#  return render_template('Game.html')
+#Payload is a dictionary which is passed to the function by Flask JWT
+def identity(payload):
+  return User.query.get(payload['identity'])
+
+jwt = JWT(app, authenticate, identity)
+''' End JWT Setup '''
+
+@app.route('/app')
+def client_app():
+  return app.send_static_file('Login.html')
+
+@app.route('/')
+def login():
+  return render_template('Login.html')
+
+@app.route('/game')
+#@jwt_required()
+def playgame():
+    with open("/workspace/flaskmvc/App/dictionary.txt",'r') as words:
+        lines = words.readlines()
+
+    wList=[]
+    i=0
+ 
+    while i<len(lines):
+        if(len(lines[i])<=9 and len(lines[i])>=5 and lines[i].__contains__("-")==False and lines[i].__contains__("(")==False):
+            wList.append(lines[i].rstrip())
+
+        i+=1  
+    return render_template('Game.html',word1=wList)
+
+@app.route('/scores')
+def showscores():
+    result = []
+    i=1
+    while(i<20):
+        result.append(User.query.get(i))
+        i+=1
+    
+    return render_template('High Score.html',result=result)        
+

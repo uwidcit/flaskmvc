@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spelling Bee</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <!--Import Google Icon Font-->
@@ -268,8 +269,8 @@ button{
       <div class="nav-wrapper">
           <ul id="nav-mobile" class="left">
               <li><a href="/">Login</a></li>
-              <li><a href="/users">Game </a></li>
-              <li><a href="/static/users">Highscore</a></li>
+              <li><a href="/game">Game </a></li>
+              <li><a href="/scores">Highscore</a></li>
           </ul>
       </div>
     </div>
@@ -297,11 +298,11 @@ button{
     <div>Listen to the pronunciation of the word and attempt to spell the word.</div>
 
   </div>
-  <button id="playB" class="button-19" role="button" style="width: 30%;" onclick="playWord('something')">Play Audio</button>
+  <button id="playB" class="button-19" role="button" style="width: 30%;" onclick="playWord(setWord())">Play Audio</button>
 
 <div>
-  <input class="fname" type="text" name="name" placeholder="Your Spelling">
-  <button class="button-32" role="button" >Submit</button>
+  <input id = "inputField" class="fname" type="text" name="name" placeholder="Your Spelling">
+  <button class="button-32" role="button" onclick="SubmitWord()">Submit</button>
 </div>
 <div>
 </div>
@@ -309,6 +310,7 @@ button{
 
 <!-- partial -->    
   <script>
+
 
 var synth = window.speechSynthesis;
 
@@ -328,13 +330,46 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
   speechSynthesis.onvoiceschanged = populateVoiceList;
 }
 
+
+let p=0;
+wordlist=[];
+{% for pokes in word1 %}
+  wordlist[p]=`{{pokes}}`
+  p+=1
+{%endfor%}
+
+let x=0;
+x=RandomNum();
+
+function RandomNum(){
+  x = Math.floor((Math.random() * 34777) + 1);
+  return x;
+}
+
+function SubmitWord(){
+  if(document.getElementById('inputField').value === wordlist[x]){
+    alert("Correct Spelling!\nScore +1");
+    document.getElementById('inputField').value = ""
+    RandomNum();
+  }
+  else{
+    alert(`Incorrect Spelling!\nCorrect Spelling: ${wordlist[x]}`);
+    document.getElementById('inputField').value = ""
+    RandomNum();
+  }
+}
+
+function setWord(word){
+  wordio=wordlist[x]
+  return wordio
+}
 function speak(word){
     if (synth.speaking) {
         console.error('speechSynthesis.speaking');
         alert("Please wait for playback to conclude before pressing play again!");
         return;
     }
-    if (inputTxt.value !== '') {
+    if (word.value !== '') {
     var utterThis = new SpeechSynthesisUtterance(word);
     utterThis.onend = function (event) {
         console.log('SpeechSynthesisUtterance.onend');
@@ -344,7 +379,7 @@ function speak(word){
     }
 
     utterThis.voice = voices[20];
-    utterThis.pitch = 1;
+    utterThis.pitch = 0.8;
     utterThis.rate = 1;
     synth.speak(utterThis);
   }

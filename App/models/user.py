@@ -5,17 +5,18 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username =  db.Column(db.String, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    #score = db.Column(db.Integer, nullable=False)
+    score = db.Column(db.Integer, nullable=False)
 
     def __init__(self, username, password, score):
         self.username = username
         self.set_password(password)
-       # self.score  =0
+        self.score  =0
         
     def toDict(self):
         return{
             'id': self.id,
-            'username': self.username
+            'username': self.username,
+            'score': self.score
         }
 
     def set_password(self, password):
@@ -26,3 +27,11 @@ class User(db.Model):
         """Check hashed password."""
         return check_password_hash(self.password, password)
 
+class gDictionary(db.Model):
+    wid = db.Column(db.Integer, primary_key=True)
+    word =  db.Column(db.String, unique=True, nullable=False)
+
+    def toDict(self):
+        return{
+            'word': self.word
+        }
