@@ -99,8 +99,27 @@ If changes to the models are made, the database must be'migrated' so that it can
 Then execute following commands using manage.py. More info [here](https://flask-migrate.readthedocs.io/en/latest/)
 
 ```
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+$ python3 manage.py db init
+$ python3 manage.py db migrate
+$ python3 manage.py db upgrade
+$ python3 manage.py db --help
+```
+=======
+>>>>>>> Stashed changes
 $ flask db init
 $ flask db migrate
 $ flask db upgrade
 $ flask db --help
+<<<<<<< Updated upstream
 ```
+=======
+```
+
+# Testing
+
+f
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
