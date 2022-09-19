@@ -113,18 +113,26 @@ $ flask db --help
 Unit and Integration tests are created in the App/test. You can then create commands to run them. Look at the unit test command in wsgi.py for example
 
 ```python
-@test.command("user", help="Runs User unit tests")
-def user_unit_tests_command():
-    sys.exit(pytest.main(["-k", "UserUnitTests"]))
+@test.command("user", help="Run User tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "UserUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "User"]))
 ```
 
-You can then execute this test as follows
+You can then execute all user tests as follows
 
 ```bash
 $ flask test user
 ```
 
-You can run all tests with the following command
+You can also supply "unit" or "int" at the end of the comand to execute only unit or integration tests.
+
+You can run all application tests with the following command
 
 ```bash
 $ pytest
@@ -144,8 +152,29 @@ You can also generate a detailed html report in a directory named htmlcov with t
 $ coverage html
 ```
 
-## API Tests
+# Troubleshooting
 
+## Views 404ing
 
-## End to End Tests
+If your newly created views are returning 404 ensure that they are added to the list in main.py.
 
+```python
+from App.views import (
+    user_views,
+    index_views
+)
+
+# New views must be imported and added to this list
+views = [
+    user_views,
+    index_views
+]
+```
+
+## Cannot Update Workflow file
+
+If you are running into errors in gitpod when updateding your github actions file, ensure your [github permissions](https://gitpod.io/integrations) in gitpod has workflow enabled ![perms](./images/gitperms.png)
+
+## Database Issues
+
+If you are adding models you may need to migrate the database with the commands given in the previous database migration section. Alternateively you can delete you database file.

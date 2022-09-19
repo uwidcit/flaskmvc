@@ -8,7 +8,7 @@ from werkzeug.datastructures import  FileStorage
 from datetime import timedelta
 
 
-from App.database import create_db, get_migrate
+from App.database import create_db
 
 from App.controllers import (
     setup_jwt
@@ -60,6 +60,3 @@ def create_app(config={}):
     setup_jwt(app)
     app.app_context().push()
     return app
-
-app = create_app()
-migrate = get_migrate(app)

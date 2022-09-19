@@ -1,7 +1,7 @@
 import os, tempfile, pytest, logging, unittest
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from App.main import app
+from App.main import create_app
 from App.database import create_db
 from App.models import User
 from App.controllers import (
@@ -9,19 +9,9 @@ from App.controllers import (
     get_all_users_json
 )
 
+from wsgi import app
+
 LOGGER = logging.getLogger(__name__)
-
-
-#Base fixture all fixtures should inherit from
-@pytest.fixture()
-def app_fixture():
-    app.config.update({"TESTING": True})
-    yield app
-
-# Simple fixture for a flask app
-@pytest.fixture()
-def client(app_fixture):
-    return app.test_client()
 
 
 
@@ -54,9 +44,12 @@ class UserUnitTests(unittest.TestCase):
     Integration Tests
 '''
 
+
+
 class UserIntegrationTests(unittest.TestCase):
 
     # This fixture creates an empty database for the test and deletes it after the test
+    # scope="class" would execute the fixture once and resued for all methods in the class
     @pytest.fixture(autouse=True, scope="class")
     def empty_db(self):
         app.config.update({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
@@ -72,4 +65,5 @@ class UserIntegrationTests(unittest.TestCase):
         create_user("rick", "rickpass")
         users_json = get_all_users_json()
         self.assertListEqual([{"id": 1, "username":"bob"}, {"id":2, "username":"rick"}], users_json)
-    
+
+

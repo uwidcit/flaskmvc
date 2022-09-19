@@ -7,7 +7,7 @@
     "init": "flask init",
     "serve": "flask run",
     "e2e": "mocha ./e2e/test.js",
-    "prod-serve": "gunicorn -b 0.0.0.0:8080 -w 4 App.main:app"
+    "prod-serve": "gunicorn -b 0.0.0.0:8080 -w 4 wsgi:app"
   },
   "repository": {
     "type": "git",

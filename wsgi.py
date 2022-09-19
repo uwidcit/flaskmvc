@@ -2,11 +2,15 @@ import click, pytest, sys
 from flask import Flask
 from flask.cli import with_appcontext, AppGroup
 
-from App.database import create_db
-from App.main import app, migrate
+from App.database import create_db, get_migrate
+from App.main import create_app
 from App.controllers import ( create_user, get_all_users_json, get_all_users )
 
 # This commands file allow you to create convenient CLI commands for testing controllers
+
+
+app = create_app()
+migrate = get_migrate(app)
 
 # This command creates and initializes the database
 @app.cli.command("init", help="Creates and initializes the database")
@@ -60,13 +64,15 @@ Test Commands
 
 test = AppGroup('test', help='Testing commands') 
 
-@test.command("user-unit", help="Runs User unit tests")
-def user_unit_tests_command():
-    sys.exit(pytest.main(["-k", "UserUnitTests"]))
-
-@test.command("user-int", help="Runs User integration tests")
-def user_integration_tests_command():
-    sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
-
+@test.command("user", help="Run User tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "UserUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "User"]))
+    
 
 app.cli.add_command(test)
