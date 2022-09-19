@@ -41,6 +41,7 @@ def loadConfig(app, config):
         app.config['JWT_EXPIRATION_DELTA'] =  timedelta(days=int(os.environ.get('JWT_EXPIRATION_DELTA')))
         app.config['DEBUG'] = os.environ.get('ENV').upper() != 'PRODUCTION'
         app.config['ENV'] = os.environ.get('ENV')
+        
     for key, value in config.items():
         app.config[key] = config[key]
 

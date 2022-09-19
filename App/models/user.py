@@ -10,7 +10,7 @@ class User(db.Model):
         self.username = username
         self.set_password(password)
 
-    def toDict(self):
+    def toJSON(self):
         return{
             'id': self.id,
             'username': self.username

@@ -1,1 +1,1 @@
-from .test_flaskr import *
+from .test_user import *
