@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const { expect, assert }  = require('chai');
 const config = require('./config.json');
 
