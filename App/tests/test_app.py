@@ -7,7 +7,10 @@ from App.models import User
 from App.controllers import (
     create_user,
     get_all_users_json,
-    authenticate
+    authenticate,
+    get_user,
+    get_user_by_username,
+    update_user
 )
 
 from wsgi import app
@@ -67,3 +70,8 @@ class UsersIntegrationTests(unittest.TestCase):
     def test_get_all_users_json(self):
         users_json = get_all_users_json()
         self.assertListEqual([{"id":1, "username":"bob"}, {"id":2, "username":"rick"}], users_json)
+
+    def test_update_user(self):
+        update_user(1, "ronnie")
+        user = get_user(1)
+        assert user.username == "ronnie"
