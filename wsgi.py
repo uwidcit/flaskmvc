@@ -8,7 +8,6 @@ from App.controllers import ( create_user, get_all_users_json, get_all_users )
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
-
 app = create_app()
 migrate = get_migrate(app)
 
@@ -72,7 +71,7 @@ def user_tests_command(type):
     elif type == "int":
         sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
     else:
-        sys.exit(pytest.main(["-k", "User"]))
+        sys.exit(pytest.main(["-k", "App"]))
     
 
 app.cli.add_command(test)
