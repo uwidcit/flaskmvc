@@ -33,7 +33,7 @@ def add_views(app, views):
 
 def loadConfig(app, config):
     app.config['ENV'] = os.environ.get('ENV', 'DEVELOPMENT')
-    delta
+    delta = 7
     if app.config['ENV'] == "DEVELOPMENT":
         app.config.from_object('App.config')
         delta = app.config['JWT_EXPIRATION_DELTA']
@@ -44,7 +44,8 @@ def loadConfig(app, config):
         app.config['ENV'] = os.environ.get('ENV')
         delta = app.config['JWT_EXPIRATION_DELTA']
         
-    app.config['JWT_EXPIRATION_DELTA'] = timedelta(days=int(delta))    
+    app.config['JWT_EXPIRATION_DELTA'] = timedelta(days=int(delta))
+        
     for key, value in config.items():
         app.config[key] = config[key]
 
