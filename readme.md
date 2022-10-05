@@ -83,7 +83,7 @@ $ flask run
 
 _For production using gunicorn (what heroku executes):_
 ```bash
-$ gunicorn App.main:app
+$ gunicorn wsgi:app
 ```
 
 # Deploying
