@@ -5,7 +5,9 @@ class StudentModel (db.Model):
     studentId = db.Column(db.Integer, unique=True , nullable=False)
     name = db.Column(db.String(120), nullable=False)
     karma = db.Column(db.Float)
-    # reviews = db.relationship('Reviews', backref=db.backref('StudentModel', lazy='joined'))
+    # reviews = db.relationship('Reviews', backref=db.backref('studentModel', lazy='joined'))
+    # reviews = db.relationship("Reviews", backref="studentModel", lazy="joined")
+    reviews = db.relationship('Reviews', backref='studentModel')
 
     def __init__(self, studentId, name):
         self.studentId = studentId
@@ -15,9 +17,9 @@ class StudentModel (db.Model):
 
     def toJSON(self):
         return{
-            # 'reviewId': self.reviewId,
             'id': self._id,
             'studentId': self.studentId,
             'name': self.name,
-            'karma': self.karma,  
+            'karma': self.karma, 
+            'reviews': self.reviews
         }

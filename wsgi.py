@@ -54,9 +54,26 @@ def create_user_command(id, name):
     print(f'{id} created!')
 
 # Then define the command and any parameters and annotate it with the group (@)
+@user_cli.command("review", help="Creates a review")
+@click.argument("message", default="peepeepoopoo")
+@click.argument("id", default=9)
+@click.argument("upvote", default=1)
+@click.argument("downvote", default=0)
+def create_review_command(message, id, upvote,downvote):
+    create_review( message, id, upvote, downvote)
+    print(f'{message} created!')
+
+# Then define the command and any parameters and annotate it with the group (@)
 @user_cli.command("student_get", help="Creates a student")
 def get_user_command( ):
     print(get_all_students())
+
+# Then define the command and any parameters and annotate it with the group (@)
+# @user_cli.command("f", help="Creates a f")
+# def get_f( ):
+#     myapp.db.session.commit()   #<--- solution!
+#     myapp.db.drop_all()
+#     print(get_all_students())
 
 app.cli.add_command(user_cli) # add the group to the cli
 
