@@ -14,6 +14,8 @@ def create_review( message, id, upvote, downvote):
     db.session.commit()
     return newReview
 
+
+
 # def get_student_by_studentname(studentname):
 #     return student.query.filter_by(name=studentname).first()
 
@@ -21,7 +23,19 @@ def create_review( message, id, upvote, downvote):
 #     return student.query.get(id)
 
 def get_all_students():
-    return StudentModel.query.all()[0].toJSON()
+    students = StudentModel.query.all()
+    newReviews = []
+    for student in students:
+        for review in student.reviews:
+            review = review.toJSON()
+            newReviews.append(review)
+            print(newReviews)
+        student = student.toJSON()
+        student['reviews'] = newReviews
+        print(student)
+    return student 
+
+
 
 # def get_all_students_json():
 #     students = student.query.all()
