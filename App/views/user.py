@@ -6,6 +6,11 @@ from App.controllers import *
 
 user_views = Blueprint('user_views', __name__, template_folder='../templates')
 
+@user_views.route('/api/students', methods=['GET'])
+def get_students_action():
+    users = get_all_students()
+    return jsonify(users)
+
 @user_views.route('/users', methods=['GET'])
 def get_user_page():
     users = get_all_users()
@@ -19,8 +24,10 @@ def get_users_action():
 @user_views.route('/api/users', methods=['POST'])
 def create_user_action():
     data = request.json
+    print(data)
     create_user(data['username'], data['password'])
     return jsonify({'message': f"user {data['username']} created"})
+    # return jsonify("")
 
 
 @user_views.route('/identify', methods=['GET'])

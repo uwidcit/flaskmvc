@@ -1,15 +1,12 @@
-from flask import Blueprint, render_template, jsonify, request, send_from_directory
-from flask_jwt import jwt_required, current_identity
+# from flask import Blueprint, render_template, jsonify, request, send_from_directory
+# from flask_jwt import jwt_required, current_identity
 
 
-from App.controllers import *
+# from App.controllers import *
 
-user_views = Blueprint('user_views', __name__, template_folder='../templates')
+# user_views = Blueprint('user_views', __name__, template_folder='../templates')
 
-@user_views.route('/api/students', methods=['GET'])
-def get_students_action():
-    users = get_all_students()
-    return jsonify(users)
+
 
 # @user_views.route('/users', methods=['GET'])
 # def get_user_page():
