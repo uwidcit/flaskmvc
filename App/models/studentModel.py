@@ -6,8 +6,6 @@ class StudentModel (db.Model):
     studentId = db.Column(db.Integer, unique=True , nullable=False)
     name = db.Column(db.String(120), nullable=False)
     karma = db.Column(db.Float)
-    # reviews = db.relationship('Reviews', backref=db.backref('studentModel', lazy='joined'))
-    # reviews = db.relationship("Reviews", backref="studentModel", lazy="joined")
     reviews = db.relationship('Reviews', backref='studentModel')
 
     def __init__(self, studentId, name):

@@ -1,28 +1,56 @@
-# from flask import Blueprint, render_template, jsonify, request, send_from_directory
-# from flask_jwt import jwt_required, current_identity
+from flask import Blueprint, render_template, jsonify, request, send_from_directory
+from flask_jwt import jwt_required, current_identity
+
+from App.controllers import *
+
+student_views = Blueprint('student_views', __name__, template_folder='../templates')
 
 
-# from App.controllers import *
 
-# user_views = Blueprint('user_views', __name__, template_folder='../templates')
-
-
-
-# @user_views.route('/users', methods=['GET'])
+# @student_views.route('/students', methods=['GET'])
 # def get_user_page():
 #     users = get_all_users()
 #     return render_template('users.html', users=users)
 
-# @user_views.route('/api/users', methods=['GET'])
-# def get_users_action():
-#     users = get_all_users_json()
-#     return jsonify(users)
+@student_views.route('/api/students', methods=['GET'])
+def get_students_action():
+    students = get_all_students()
+    return jsonify(students)
 
-# @user_views.route('/api/users', methods=['POST'])
-# def create_user_action():
-#     data = request.json
-#     create_user(data['username'], data['password'])
-#     return jsonify({'message': f"user {data['username']} created"})
+# @student_views.route('/api/students', methods=['GET'])
+# def get_student_action():
+#     students = get_all_students()
+#     return jsonify(students)
+
+
+@student_views.route('/api/students', methods=['POST'])
+def create_student_action():
+    data = request.json
+    is_valid,message = validate_student_id(data['studentId'])
+    if(is_valid):
+        return message
+    valid = create_student(data['studentId'], data['name'])
+    if (valid == False):
+        return jsonify({'message': f"failed to create Student with id: {data['studentId']}"})
+    return jsonify({'message': f"student {data['studentId']} created"})
+
+@student_views.route('/api/students', methods=['PUT'])
+def update_student_action():
+    data = request.json
+    is_valid,message = validate_student_id(data['studentId'])
+    if(is_valid):
+        return message    
+    value = update_student(data["studentId"], data['name'])
+    if (value == False):
+        return jsonify({'message': f"failed to update name:  {data['name']} "})
+    else:
+        return jsonify({'message': f"student name updated to:  {data['name']} "})
+
+@student_views.route('/api/student', methods=['GET', 'POST'])
+def get_student_action():
+    data = request.json
+    student = get_student_toJSON(data['studentId'])
+    return jsonify({'message': f"Student found:{data['studentId']} with name: {student['name']}"} )
 
 
 # @user_views.route('/identify', methods=['GET'])
