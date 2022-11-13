@@ -6,3 +6,4 @@ RUN sudo apt-get install -y  libgbm-dev gconf-service libxext6 libxfixes3 libxi6
 RUN python -m pip install --upgrade pip
 
 USER gitpod
+RUN pyenv install
