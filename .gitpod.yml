@@ -1,6 +1,10 @@
 tasks:
-  - init: pip install -r requirements.txt
+  - init: | 
+      pyenv install 
+      gp sync-done pyenv
     command: pip install -r requirements.txt
+  - init: gp synce-await pyenv
+    command: flask run
 
 ports:
   - port: 8080
@@ -15,4 +19,4 @@ github:
     branches: false
     pullRequests: true
     addCheck: true
-    addComment: false
+    addComment: true
