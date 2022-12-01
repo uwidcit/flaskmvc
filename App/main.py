@@ -14,19 +14,10 @@ from App.controllers import (
     setup_jwt
 )
 
-from App.views import (
-    user_views,
-    index_views
-)
+from App.views import views
 
-# New views must be imported and added to this list
 
-views = [
-    user_views,
-    index_views
-]
-
-def add_views(app, views):
+def add_views(app):
     for view in views:
         app.register_blueprint(view)
 
@@ -55,11 +46,12 @@ def create_app(config={}):
     loadConfig(app, config)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['TEMPLATES_AUTO_RELOAD'] = True
+    app.config['SEVER_NAME'] = '0.0.0.0'
     app.config['PREFERRED_URL_SCHEME'] = 'https'
     app.config['UPLOADED_PHOTOS_DEST'] = "App/uploads"
     photos = UploadSet('photos', TEXT + DOCUMENTS + IMAGES)
     configure_uploads(app, photos)
-    add_views(app, views)
+    add_views(app)
     create_db(app)
     setup_jwt(app)
     app.app_context().push()

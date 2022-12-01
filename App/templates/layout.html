@@ -27,17 +27,17 @@
     </nav>
     
     {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <nav class="white black-text" style="padding: 10px">
-      <div class="nav-wrapper">
-          <ul class="flashes">
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-          </ul>
-      </div>
-    </nav>
-    {% endif %}
+      {% if messages %}
+      <nav class="white black-text" style="padding: 10px">
+        <div class="nav-wrapper">
+            <ul class="flashes">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+      </nav>
+      {% endif %}
     {% endwith %}
 
     <div class="container" id="content">{% block content %}{% endblock %}</div>

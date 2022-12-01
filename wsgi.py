@@ -57,6 +57,10 @@ def initialize():
     create_db(app)
     print('database intialized')
 
+@app.cli.command("run")
+def initialize():
+    print('hello')
+
 '''
 Test Commands
 '''

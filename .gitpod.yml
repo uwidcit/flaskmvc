@@ -3,7 +3,7 @@ tasks:
       pyenv install 
       gp sync-done pyenv
     command: pip install -r requirements.txt
-  - init: gp synce-await pyenv
+  - init: gp sync-await pyenv
     command: flask run
 
 ports:

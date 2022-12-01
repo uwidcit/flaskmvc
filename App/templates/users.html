@@ -10,6 +10,30 @@
             This is table is renderd on the Server. Flask gets the data from the database and uses jinja templates to dyanmically render this page when a request is sent to <a href="/users">/users</a>.
         </p>
     </div>
+
+    <div class="row">
+      <form class="col s12" method="POST" action="/users">
+        
+        <div class="row">
+          <div class="input-field col s6">
+            <input placeholder="Username" name="username" type="text" class="validate">
+            <label for="username">Username</label>
+          </div>
+          <div class="input-field col s6">
+            <input placeholder="password" name="password" type="password" class="validate">
+            <label for="password">Password</label>
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="input-field col s12">
+            <button class="btn waves-effect waves-light right purple" type="submit" name="action">Submit</button>
+          </div>
+        </div> 
+
+      </form>
+    </div>
+
     <div class="row">
       <table>
         <thead>
@@ -27,4 +51,5 @@
         <tbody>
       </table>
     </div>
+
 {% endblock %}

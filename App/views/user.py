@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, jsonify, request, send_from_directory
+from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
 from flask_jwt import jwt_required, current_identity
 
+from.index import index_views
 
 from App.controllers import (
     create_user, 
@@ -22,10 +23,18 @@ def get_users_action():
     return jsonify(users)
 
 @user_views.route('/api/users', methods=['POST'])
-def create_user_action():
+def create_user_endpoint():
     data = request.json
     create_user(data['username'], data['password'])
     return jsonify({'message': f"user {data['username']} created"})
+
+@user_views.route('/users', methods=['POST'])
+def create_user_action():
+    data = request.form
+    flash(f"User {data['username']} created!")
+    create_user(data['username'], data['password'])
+    return redirect(url_for('user_views.get_user_page'))
+    
 
 
 @user_views.route('/identify', methods=['GET'])
