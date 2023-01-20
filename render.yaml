@@ -39,4 +39,5 @@ envVarGroups:
 
 databases:
 - name: flask-postgres-api-db
+  plan: free
   databaseName: mydb
