@@ -1,0 +1,42 @@
+
+services:
+- type: web
+  name: flask-postgres-api
+  env: python
+  repo: https://github.com:uwidcit/flaskmvc.git
+  plan: starter
+  branch: main
+  healthCheckPath: /healthcheck
+  buildCommand: "pip install -r requirements.txt"
+  startCommand: "gunicorn wsgi:app"
+  envVars:
+  - fromGroup: flask-postgres-api-settings
+  - key: POSTGRES_URL
+    fromDatabase:
+      name: flask-postgres-api-db
+      property: host
+  - key: POSTGRES_USER
+    fromDatabase:
+      name: flask-postgres-api-db
+      property: user
+  - key: POSTGRES_PASSWORD
+    fromDatabase:
+      name: flask-postgres-api-db
+      property: password
+  - key: POSTGRES_DB
+    fromDatabase:
+      name: flask-postgres-api-db
+      property: database 
+
+envVarGroups:
+- name: flask-postgres-api-settings
+  envVars:
+  - key: ENV
+    value: production
+  - key: FLASK_APP
+    value: wsgi.py
+    
+
+databases:
+- name: flask-postgres-api-db
+  databaseName: mydb

@@ -1,5 +1,7 @@
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/uwidcit/flaskmvc)
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+<a href="https://render.com/deploy?repo=https://github.com/uwidcit/flaskmvc">
+  <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
+</a>
 
 ![Tests](https://github.com/uwidcit/flaskmvc/actions/workflows/dev.yml/badge.svg)
 
@@ -37,14 +39,9 @@ ENV = "DEVELOPMENT"
 ## In Production
 
 When deploying your application to production/staging you must pass
-in configuration information via environment variables. For heroku, you need to navigate to your application's setting page (url should look like https://dashboard.heroku.com/apps/[app-name]/settings) and scroll down to config vars.
-Then provide your configuration by defining the same values given in config.py 
+in configuration information via environment tab of your render project's dashboard.
 
-![heroku screenshot](images/fig1.png)
-
-When deploying to production the "ENV" variable should be set to "PRODUCTION". 
-
-**Note** heroku provides a default variable "DATABASE_URL" for heorku postgres. If you want the app to use this database you must copy the value to the variable "SQLALCHEMY_DATABASE_URL" and change the protocol to "postgresql://" for sqlalchemmy.
+![perms](./images/fig1.png)
 
 # Flask Commands
 
