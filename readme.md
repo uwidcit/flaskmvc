@@ -1,13 +1,12 @@
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/uwidcit/flaskmvc)
-<a href="https://render.com/deploy?repo=https://github.com/uwidcit/flaskmvc">
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/DSS-3604/flask-3604)
+<a href="https://render.com/deploy?repo=https://github.com/DSS-3604/flask-3604">
   <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
 </a>
 
-![Tests](https://github.com/uwidcit/flaskmvc/actions/workflows/dev.yml/badge.svg)
+![Tests](https://github.com/DSS-3604/flask-3604/actions/workflows/dev.yml/badge.svg)
 
-# Flask MVC Template
-A template for flask applications structured in the Model View Controller pattern [Demo](https://dcit-flaskmvc.herokuapp.com/). [Postman Collection](https://documenter.getpostman.com/view/583570/2s83zcTnEJ)
-
+# Flask Backend for INFO 3604 Project by DSS
+- Based on the [Flask MVC Template](https://github.com/uwidcit/flaskmvc) by [UWIDCIT](https://github.com/uwidcit)
 
 # Dependencies
 * Python3/pip3
@@ -167,10 +166,6 @@ views = [
     index_views
 ]
 ```
-
-## Cannot Update Workflow file
-
-If you are running into errors in gitpod when updateding your github actions file, ensure your [github permissions](https://gitpod.io/integrations) in gitpod has workflow enabled ![perms](./images/gitperms.png)
 
 ## Database Issues
 
