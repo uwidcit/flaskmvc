@@ -1,8 +1,8 @@
 from App.models import User
 from App.database import db
 
-def create_user(username, password):
-    newuser = User(username=username, password=password)
+def create_user(email, password, first_name, middle_name, last_name, institution, faculty, department, image_url, title):
+    newuser = User(email, password, first_name, middle_name, last_name, institution, faculty, department, image_url)
     db.session.add(newuser)
     db.session.commit()
     return newuser
@@ -20,7 +20,7 @@ def get_all_users_json():
     users = User.query.all()
     if not users:
         return []
-    users = [user.toJSON() for user in users]
+    users = [user.toDict() for user in users]
     return users
 
 def update_user(id, username):

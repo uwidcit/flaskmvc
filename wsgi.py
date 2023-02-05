@@ -2,7 +2,7 @@ import click, pytest, sys
 from flask import Flask
 from flask.cli import with_appcontext, AppGroup
 
-from App.database import create_db, get_migrate
+from App.database import create_db, get_migrate, drop_db
 from App.main import create_app
 from App.controllers import ( create_user, get_all_users_json, get_all_users )
 
@@ -29,11 +29,19 @@ user_cli = AppGroup('user', help='User object commands')
 
 # Then define the command and any parameters and annotate it with the group (@)
 @user_cli.command("create", help="Creates a user")
-@click.argument("username", default="rob")
-@click.argument("password", default="robpass")
-def create_user_command(username, password):
-    create_user(username, password)
-    print(f'{username} created!')
+@click.argument("email", default="test@mail.com")
+@click.argument("password", default="testpass")
+@click.argument("first_name", default="Bob")
+@click.argument("middle_name", default="Rob")
+@click.argument("last_name", default="Bobbert")
+@click.argument("institution", default="UWI")
+@click.argument("faculty", default="FST")
+@click.argument("department", default="DCIT")
+@click.argument("image_url", default="null")
+@click.argument("title", default="Mr.")
+def create_user_command(email, password, first_name, middle_name, last_name, institution, faculty, department, image_url,title):
+    create_user(email, password, first_name, middle_name, last_name, institution, faculty, department, image_url,title)
+    print(f'{first_name} {last_name} created!')
 
 # this command will be : flask user create bob bobpass
 
@@ -56,6 +64,11 @@ Generic Commands
 def initialize():
     create_db(app)
     print('database intialized')
+
+@app.cli.command("drop")
+def initialize():
+    create_db(app)
+    print('database destroyed')
 
 @app.cli.command("run")
 def initialize():

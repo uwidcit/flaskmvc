@@ -10,10 +10,6 @@ from datetime import timedelta
 
 from App.database import create_db
 
-from App.controllers import (
-    setup_jwt
-)
-
 from App.views import views
 
 
@@ -53,6 +49,5 @@ def create_app(config={}):
     configure_uploads(app, photos)
     add_views(app)
     create_db(app)
-    setup_jwt(app)
     app.app_context().push()
     return app

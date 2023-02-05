@@ -8,5 +8,5 @@ class Subject():
     def removeSubscriber(user):
         pass
 
-    def notify()
+    def notify():
         pass

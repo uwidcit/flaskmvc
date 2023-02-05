@@ -7,21 +7,21 @@ class User(db.Model):
     password = db.Column(db.String(120), nullable=False)
     first_name = db.Column(db.String(60), nullable=False)
     last_name = db.Column(db.String(60), nullable=False)
-    middle_name = db.Column(db.String(120), nullable=False)
+    middle_name = db.Column(db.String(120), nullable=True)
     image_url = db.Column(db.String(120), nullable=True)
     institution = db.Column(db.String(120), nullable=False)
     faculty = db.Column(db.String(120), nullable=False)
     department = db.Column(db.String(120), nullable=False)
 
-    def __init__(self, email, password, first_name, middle_name, last_name, institution, faculty, department):
-        self.email = email
-        self.set_password(password)
-        self.first_name = first_name
-        self.middle_name = middle_name
-        self.last_name = last_name
-        self.institution = institution
-        self.faculty = faculty
-        self.department = department
+    # def __init__(self, email, password, first_name, middle_name, last_name, institution, faculty, department):
+    #     self.email = email
+    #     self.set_password(password)
+    #     self.first_name = first_name
+    #     self.middle_name = middle_name
+    #     self.last_name = last_name
+    #     self.institution = institution
+    #     self.faculty = faculty
+    #     self.department = department
 
     def __init__(self, email, password, first_name, middle_name, last_name, institution, faculty, department, image_url):
         self.email = email
@@ -44,6 +44,12 @@ class User(db.Model):
 
     def toDict(self):
         return{
-            'id': self.id,
-            'username': self.username
+            'email': self.email,
+            'first_name': self.first_name,
+            'middle_name': self.middle_name,
+            'last_name': self.last_name,
+            'institution': self.institution,
+            'faculty': self.faculty,
+            'department': self.department,
+            'image_url': self.image_url
         }
