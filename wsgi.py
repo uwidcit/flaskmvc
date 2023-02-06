@@ -4,7 +4,9 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import create_db, get_migrate, drop_db
 from App.main import create_app
-from App.controllers import ( create_researcher, get_researcher_by_email, get_all_users_json, get_all_users )
+from App.controllers import ( create_researcher, get_researcher_by_email, get_all_users_json, get_all_users,
+                                create_topic, set_topic_parent, get_topic, get_all_topics
+)
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -25,7 +27,7 @@ User Commands
 
 # create a group, it would be the first argument of the comand
 # eg : flask user <command>
-user_cli = AppGroup('researcher', help='User object commands') 
+user_cli = AppGroup('researcher', help='Researcher object commands') 
 
 # Then define the command and any parameters and annotate it with the group (@)
 @user_cli.command("create", help="Creates a researcher")
@@ -63,6 +65,28 @@ def get_researcher_command(email):
 
 app.cli.add_command(user_cli) # add the group to the cli
 
+
+topic_cli = AppGroup('topic', help='Topic object commands') 
+
+@topic_cli.command("create", help="Creates a topic")
+@click.argument("name")
+def create_topic_command(name):
+    topic = create_topic(name)
+    print(f'{topic.name} created')
+
+@topic_cli.command("setParent", help="Updates topic parent")
+@click.argument("name")
+@click.argument("id")
+def set_parent_id_command(name, id):
+    topic = set_topic_parent(name, id)
+    print(topic.parent_topic.name)
+
+@topic_cli.command("list", help="Lists all topics")
+def list_topics():
+    topics = get_all_topics()
+    print(topics)
+
+app.cli.add_command(topic_cli)
 
 '''
 Generic Commands

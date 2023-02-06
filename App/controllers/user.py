@@ -1,7 +1,8 @@
 from App.models import Researcher, User
 from App.database import db
 
-def create_researcher(email, password, first_name, middle_name, last_name, institution, faculty, department, title, position, start_year, qualifications, skills):
+def create_researcher(email, password, first_name, middle_name, last_name, institution, faculty, department, title, position, 
+                    start_year, qualifications, skills):
     newresearcher = Researcher(email, password, first_name, middle_name, last_name, institution, faculty, department, title, position, start_year, qualifications, skills)
     db.session.add(newresearcher)
     db.session.commit()
@@ -20,6 +21,9 @@ def get_all_users_json():
     users = User.query.all()
     if not users:
         return []
+    
+    for user in users:
+        print(user)
     users = [user.toDict() for user in users]
     return users
 
