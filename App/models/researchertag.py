@@ -3,7 +3,7 @@ from sqlalchemy import ForeignKey
 
 class ResearcherTag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    researcher_id = db.Column(db.Integer, ForeignKey("researcher.id"), nullable=False)
+    researcher_id = db.Column(db.Integer, ForeignKey("user.id"), nullable=False)
     topic_id = db.Column(db.Integer, ForeignKey("topic.id"), nullable=False)
 
     def __init__(self, researcher_id, topic_id):

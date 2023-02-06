@@ -1,9 +1,10 @@
 from App.models import User
+from .subject import Subject
 from App.database import db
 from flask_login import UserMixin
-from .subject import Subject
 
 class Researcher(UserMixin, User, Subject):
+    __tablename__="researcher"
     title = db.Column(db.String(8), nullable=False)
     position = db.Column(db.String(32), nullable=False)
     start_year = db.Column(db.String(8), nullable=False)
@@ -12,7 +13,7 @@ class Researcher(UserMixin, User, Subject):
     skills = db.Column(db.String(300), nullable=False)
     website_url = db.Column(db.String(120), nullable=True)
     introduction = db.Column(db.String(500), nullable=True)
-    research_interests = db.relationship("ResearchTag", backref="researcher", lazy=True, cascade="all, delete-orphan")
+    research_interests = db.relationship("ResearcherTag", backref="researcher", lazy=True, cascade="all, delete-orphan")
     records = db.relationship("PubRecord", backref="researcher", lazy=True, cascade="all, delete-orphan")
 
     def __init__(self, email, password, first_name, middle_name, last_name, institution, faculty, department, title, position, start_year, qualifications, skills):

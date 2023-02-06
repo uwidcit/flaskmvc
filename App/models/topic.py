@@ -6,6 +6,8 @@ class Topic(db.Model):
     name = db.Column(db.String(60), unique=True, nullable=False)
     parent_topic_id = db.Column(db.Integer, ForeignKey("topic.id"), nullable=True)
     parent_topic = db.relationship("Topic", backref="subtopics", remote_side=id)
+    researcher_tags = db.relationship("ResearcherTag", backref="topic", lazy=True, cascade="all, delete-orphan")
+    publication_tags = db.relationship("PublicationTag", backref="topic", lazy=True, cascade="all, delete-orphan")
 
     def __init__(self, name):
         self.name = name
