@@ -1,10 +1,9 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
-from flask_jwt import jwt_required, current_identity
 
 from.index import index_views
 
 from App.controllers import (
-    create_user, 
+    create_researcher, 
     get_all_users,
     get_all_users_json,
 )
@@ -38,7 +37,6 @@ def create_user_action():
 
 
 @user_views.route('/identify', methods=['GET'])
-@jwt_required()
 def identify_user_action():
     return jsonify({'message': f"username: {current_identity.username}, id : {current_identity.id}"})
 

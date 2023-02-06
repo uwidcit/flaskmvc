@@ -4,7 +4,7 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import create_db, get_migrate, drop_db
 from App.main import create_app
-from App.controllers import ( create_user, get_all_users_json, get_all_users )
+from App.controllers import ( create_researcher, get_researcher_by_email, get_all_users_json, get_all_users )
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -25,10 +25,10 @@ User Commands
 
 # create a group, it would be the first argument of the comand
 # eg : flask user <command>
-user_cli = AppGroup('user', help='User object commands') 
+user_cli = AppGroup('researcher', help='User object commands') 
 
 # Then define the command and any parameters and annotate it with the group (@)
-@user_cli.command("create", help="Creates a user")
+@user_cli.command("create", help="Creates a researcher")
 @click.argument("email", default="test@mail.com")
 @click.argument("password", default="testpass")
 @click.argument("first_name", default="Bob")
@@ -37,10 +37,13 @@ user_cli = AppGroup('user', help='User object commands')
 @click.argument("institution", default="UWI")
 @click.argument("faculty", default="FST")
 @click.argument("department", default="DCIT")
-@click.argument("image_url", default="null")
 @click.argument("title", default="Mr.")
-def create_user_command(email, password, first_name, middle_name, last_name, institution, faculty, department, image_url,title):
-    create_user(email, password, first_name, middle_name, last_name, institution, faculty, department, image_url,title)
+@click.argument("position", default="Tutor")
+@click.argument("start_year", default="2019")
+@click.argument("qualifications", default="B.Sc. Computer Science (UWI)\nM.Sc. Computer Science (UWI)")
+@click.argument("skills", default="Android Development\nData Mining\nAlgorithm Design")
+def create_researcher_command(email, password, first_name, middle_name, last_name, institution, faculty, department, title, position, start_year, qualifications, skills):
+    create_researcher(email, password, first_name, middle_name, last_name, institution, faculty, department, title, position, start_year, qualifications, skills)
     print(f'{first_name} {last_name} created!')
 
 # this command will be : flask user create bob bobpass
@@ -52,6 +55,11 @@ def list_user_command(format):
         print(get_all_users())
     else:
         print(get_all_users_json())
+
+@user_cli.command("get", help="Gets a specific researcher")
+@click.argument("email", default="test@mail.com")
+def get_researcher_command(email):
+    print(get_researcher_by_email(email).toDict())
 
 app.cli.add_command(user_cli) # add the group to the cli
 

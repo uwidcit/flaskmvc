@@ -1,14 +1,14 @@
-from App.models import User
+from App.models import Researcher, User
 from App.database import db
 
-def create_user(email, password, first_name, middle_name, last_name, institution, faculty, department, image_url, title):
-    newuser = User(email, password, first_name, middle_name, last_name, institution, faculty, department, image_url)
-    db.session.add(newuser)
+def create_researcher(email, password, first_name, middle_name, last_name, institution, faculty, department, title, position, start_year, qualifications, skills):
+    newresearcher = Researcher(email, password, first_name, middle_name, last_name, institution, faculty, department, title, position, start_year, qualifications, skills)
+    db.session.add(newresearcher)
     db.session.commit()
-    return newuser
+    return newresearcher
 
-def get_user_by_username(username):
-    return User.query.filter_by(username=username).first()
+def get_researcher_by_email(email):
+    return Researcher.query.filter_by(email=email).first()
 
 def get_user(id):
     return User.query.get(id)

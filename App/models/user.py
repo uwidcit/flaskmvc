@@ -13,17 +13,7 @@ class User(db.Model):
     faculty = db.Column(db.String(120), nullable=False)
     department = db.Column(db.String(120), nullable=False)
 
-    # def __init__(self, email, password, first_name, middle_name, last_name, institution, faculty, department):
-    #     self.email = email
-    #     self.set_password(password)
-    #     self.first_name = first_name
-    #     self.middle_name = middle_name
-    #     self.last_name = last_name
-    #     self.institution = institution
-    #     self.faculty = faculty
-    #     self.department = department
-
-    def __init__(self, email, password, first_name, middle_name, last_name, institution, faculty, department, image_url):
+    def __init__(self, email, password, first_name, middle_name, last_name, institution, faculty, department):
         self.email = email
         self.set_password(password)
         self.first_name = first_name
@@ -32,7 +22,17 @@ class User(db.Model):
         self.institution = institution
         self.faculty = faculty
         self.department = department
-        self.image_url = image_url
+
+    # def __init__(self, email, password, first_name, middle_name, last_name, institution, faculty, department, image_url):
+    #     self.email = email
+    #     self.set_password(password)
+    #     self.first_name = first_name
+    #     self.middle_name = middle_name
+    #     self.last_name = last_name
+    #     self.institution = institution
+    #     self.faculty = faculty
+    #     self.department = department
+    #     self.image_url = image_url
 
     def set_password(self, password):
         """Create hashed password."""
@@ -44,6 +44,7 @@ class User(db.Model):
 
     def toDict(self):
         return{
+            'id': self.id,
             'email': self.email,
             'first_name': self.first_name,
             'middle_name': self.middle_name,
