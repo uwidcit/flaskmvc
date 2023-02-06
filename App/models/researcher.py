@@ -12,6 +12,8 @@ class Researcher(UserMixin, User, Subject):
     skills = db.Column(db.String(300), nullable=False)
     website_url = db.Column(db.String(120), nullable=True)
     introduction = db.Column(db.String(500), nullable=True)
+    research_interests = db.relationship("ResearchTag", backref="researcher", lazy=True, cascade="all, delete-orphan")
+    records = db.relationship("PubRecord", backref="researcher", lazy=True, cascade="all, delete-orphan")
 
     def __init__(self, email, password, first_name, middle_name, last_name, institution, faculty, department, title, position, start_year, qualifications, skills):
         super(Researcher, self).__init__(email, password, first_name, middle_name, last_name, institution, faculty, department) #need to populate arguments
