@@ -8,7 +8,7 @@ class Topic(db.Model):
     parent_topic = db.relationship("Topic", backref="subtopics", remote_side=id)
     researcher_tags = db.relationship("ResearcherTag", backref="topic", lazy=True, cascade="all, delete-orphan")
     pub_tags = db.relationship("PublicationTag", backref="topic", lazy=True, cascade="all, delete-orphan")
-    sub_records = db.relationship("SubscriptionRecord", backref="topic", lazy=True, cascade="all, delete-orphan")
+    sub_records = db.relationship("TopicSubRecord", backref="topic", lazy=True, cascade="all, delete-orphan")
 
     def __init__(self, name):
         self.name = name

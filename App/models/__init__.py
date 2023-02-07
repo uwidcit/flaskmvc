@@ -9,3 +9,5 @@ from .libraryrecord import *
 from .pubrecord import *
 from .researchertag import *
 from .publicationtag import *
+from .researchersubrecord import *
+from .topicsubrecord import *

@@ -8,6 +8,8 @@ from App.controllers import ( create_researcher, get_researcher_by_email, get_al
                                 create_topic, set_topic_parent, get_topic, get_all_topics
 )
 
+from App.models import User, Student
+
 # This commands file allow you to create convenient CLI commands for testing controllers
 
 app = create_app()
@@ -27,10 +29,10 @@ User Commands
 
 # create a group, it would be the first argument of the comand
 # eg : flask user <command>
-user_cli = AppGroup('researcher', help='Researcher object commands') 
+researcher_cli = AppGroup('researcher', help='Researcher object commands') 
 
 # Then define the command and any parameters and annotate it with the group (@)
-@user_cli.command("create", help="Creates a researcher")
+@researcher_cli.command("create", help="Creates a researcher")
 @click.argument("email", default="test@mail.com")
 @click.argument("password", default="testpass")
 @click.argument("first_name", default="Bob")
@@ -50,7 +52,7 @@ def create_researcher_command(email, password, first_name, middle_name, last_nam
 
 # this command will be : flask user create bob bobpass
 
-@user_cli.command("list", help="Lists users in the database")
+@researcher_cli.command("list", help="Lists users in the database")
 @click.argument("format", default="string")
 def list_user_command(format):
     if format == 'string':
@@ -58,12 +60,25 @@ def list_user_command(format):
     else:
         print(get_all_users_json())
 
-@user_cli.command("get", help="Gets a specific researcher")
+@researcher_cli.command("get", help="Gets a specific researcher")
 @click.argument("email", default="test@mail.com")
 def get_researcher_command(email):
     print(get_researcher_by_email(email).toDict())
 
-app.cli.add_command(user_cli) # add the group to the cli
+app.cli.add_command(researcher_cli) # add the group to the cli
+
+
+user_cli = AppGroup("user", help="User object commands")
+
+@user_cli.command("create")
+def create_user_command():
+    user = Student()
+    user.set_password('test')
+    if user:
+        print("User created")
+        print(user.password)
+
+app.cli.add_command(user_cli)
 
 
 topic_cli = AppGroup('topic', help='Topic object commands') 
