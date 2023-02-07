@@ -19,16 +19,6 @@ class User(db.Model):
     def __init__(self):
         pass
 
-    # def __init__(self, email, password, first_name, middle_name, last_name, institution, faculty, department):
-    #     self.email = email
-    #     self.set_password(password)
-    #     self.first_name = first_name
-    #     self.middle_name = middle_name
-    #     self.last_name = last_name
-    #     self.institution = institution
-    #     self.faculty = faculty
-    #     self.department = department
-
     # def __init__(self, email, password, first_name, middle_name, last_name, institution, faculty, department, image_url):
     #     self.email = email
     #     self.set_password(password)
