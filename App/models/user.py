@@ -14,6 +14,7 @@ class User(db.Model):
     department = db.Column(db.String(120), nullable=False)
     researcher_sub_records = db.relationship("ResearcherSubRecord", foreign_keys='ResearcherSubRecord.user_id', backref="subscriber", lazy=True, cascade="all, delete-orphan")
     topic_sub_records = db.relationship("TopicSubRecord", backref="subscriber", lazy=True, cascade="all, delete-orphan")
+    notification_records = db.relationship("NotificationRecord", backref="user", lazy=True, cascade="all, delete-orphan")
 
     def __init__(self):
         pass
