@@ -8,7 +8,7 @@ from App.controllers import ( create_researcher, get_researcher_by_email, get_al
                                 create_topic, set_topic_parent, get_topic, get_all_topics
 )
 
-from App.models import User, Student
+from App.models import User, Student, Researcher
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -72,8 +72,10 @@ user_cli = AppGroup("user", help="User object commands")
 
 @user_cli.command("create")
 def create_user_command():
-    user = Student()
+    user = Researcher()
+    user2 = Student()
     user.set_password('test')
+    user.addSubscriber(user2)
     if user:
         print("User created")
         print(user.password)

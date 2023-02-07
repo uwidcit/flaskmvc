@@ -17,13 +17,16 @@ class Researcher(UserMixin, User, Subject):
     pub_records = db.relationship("PubRecord", backref="researcher", lazy=True, cascade="all, delete-orphan")
     sub_records = db.relationship("ResearcherSubRecord", foreign_keys='ResearcherSubRecord.researcher_id', backref="researcher", lazy=True, cascade="all, delete-orphan")
 
-    def __init__(self, email, password, first_name, middle_name, last_name, institution, faculty, department, title, position, start_year, qualifications, skills):
-        super(Researcher, self).__init__(email, password, first_name, middle_name, last_name, institution, faculty, department) #need to populate arguments
-        self.title = title
-        self.position = position
-        self.start_year = start_year
-        self.qualifications = qualifications
-        self.skills = skills
+    def __init__(self):
+        pass
+
+    # def __init__(self, email, password, first_name, middle_name, last_name, institution, faculty, department, title, position, start_year, qualifications, skills):
+    #     super(Researcher, self).__init__(email, password, first_name, middle_name, last_name, institution, faculty, department) #need to populate arguments
+    #     self.title = title
+    #     self.position = position
+    #     self.start_year = start_year
+    #     self.qualifications = qualifications
+    #     self.skills = skills
 
     # def __init__(self, title, position, start_year, qualifications, skills):
     #     super().__init__() #need to populate arguments

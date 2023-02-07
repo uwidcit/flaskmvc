@@ -2,10 +2,10 @@ from App.database import db
 
 class Subject():
 
-    def addSubscriber(user):
+    def addSubscriber(self, user):
         pass
 
-    def removeSubscriber(user):
+    def removeSubscriber(self, user):
         pass
 
     def notify():

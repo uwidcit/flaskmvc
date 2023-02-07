@@ -11,3 +11,5 @@ from .researchertag import *
 from .publicationtag import *
 from .researchersubrecord import *
 from .topicsubrecord import *
+from .notification import *
+from .notificationrecord import *
