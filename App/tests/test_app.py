@@ -10,7 +10,7 @@ from App.controllers import (
     authenticate,
     get_user,
     get_user_by_username,
-    update_user
+    update_user,
 )
 
 from wsgi import app
@@ -18,11 +18,12 @@ from wsgi import app
 
 LOGGER = logging.getLogger(__name__)
 
-'''
+"""
    Unit Tests
-'''
-class UserUnitTests(unittest.TestCase):
+"""
 
+
+class UserUnitTests(unittest.TestCase):
     def test_new_user(self):
         user = User("bob", "bobpass")
         assert user.username == "bob"
@@ -31,11 +32,11 @@ class UserUnitTests(unittest.TestCase):
     def test_toJSON(self):
         user = User("bob", "bobpass")
         user_json = user.toJSON()
-        self.assertDictEqual(user_json, {"id":None, "username":"bob"})
-    
+        self.assertDictEqual(user_json, {"id": None, "username": "bob"})
+
     def test_hashed_password(self):
         password = "mypass"
-        hashed = generate_password_hash(password, method='sha256')
+        hashed = generate_password_hash(password, method="sha256")
         user = User("bob", password)
         assert user.password != password
 
@@ -44,33 +45,37 @@ class UserUnitTests(unittest.TestCase):
         user = User("bob", password)
         assert user.check_password(password)
 
-'''
+
+"""
     Integration Tests
-'''
+"""
+
 
 # This fixture creates an empty database for the test and deletes it after the test
 # scope="class" would execute the fixture once and resued for all methods in the class
 @pytest.fixture(autouse=True, scope="module")
 def empty_db():
-    app.config.update({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
+    app.config.update({"TESTING": True, "SQLALCHEMY_DATABASE_URI": "sqlite:///test.db"})
     create_db(app)
     yield app.test_client()
-    os.unlink(os.getcwd()+'/App/test.db')
+    os.unlink(os.getcwd() + "/App/test.db")
 
 
 def test_authenticate():
     user = create_user("bob", "bobpass")
     assert authenticate("bob", "bobpass") != None
 
-class UsersIntegrationTests(unittest.TestCase):
 
+class UsersIntegrationTests(unittest.TestCase):
     def test_create_user(self):
         user = create_user("rick", "bobpass")
         assert user.username == "rick"
 
     def test_get_all_users_json(self):
         users_json = get_all_users_json()
-        self.assertListEqual([{"id":1, "username":"bob"}, {"id":2, "username":"rick"}], users_json)
+        self.assertListEqual(
+            [{"id": 1, "username": "bob"}, {"id": 2, "username": "rick"}], users_json
+        )
 
     # Tests data changes in the database
     def test_update_user(self):
