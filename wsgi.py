@@ -107,8 +107,8 @@ product_cli = AppGroup("product", help="Product object commands")
 @click.argument("image", default="https://picsum.photos/200/300")
 @click.argument("price", default=1.0)
 @click.argument("quantity", default=1)
-def create_product_command(name, description, image, price, quantity):
-    create_product(name, description, image, price, quantity)
+def create_product_command(name, description, image, price, quantity, farmer_id=1):
+    create_product(name, description, image, price, quantity, farmer_id)
     print(f"{name} created!")
 
 
