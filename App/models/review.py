@@ -4,23 +4,22 @@ from App.database import db
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     product_id = db.Column(db.Integer, db.ForeignKey("product.id"), nullable=False)
-    name = db.Column(db.String, nullable=False)
-    email = db.Column(db.String, nullable=False)
-    rating = db.Column(db.Integer, nullable=False)
-    comment = db.Column(db.String, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    body = db.Column(db.String(1024), nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False)
+    replies = db.relationship("Reply", backref="review", lazy=True)
 
-    def __init__(self, product_id, name, email, rating, comment):
+    def __init__(self, product_id, user_id, body, timestamp):
         self.product_id = product_id
-        self.name = name
-        self.email = email
-        self.rating = rating
-        self.comment = comment
+        self.user_id = user_id
+        self.body = body
+        self.timestamp = timestamp
 
     def to_json(self):
         return {
             "id": self.id,
-            "name": self.name,
-            "email": self.email,
-            "rating": self.rating,
-            "comment": self.comment,
+            "product_id": self.product_id,
+            "user_id": self.user_id,
+            "body": self.body,
+            "timestamp": self.timestamp,
         }
