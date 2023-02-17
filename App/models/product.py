@@ -12,13 +12,15 @@ class Product(db.Model):
     product_quantity = db.Column(db.Integer, nullable=False)
     reviews = db.relationship("Review", backref="product", lazy=True)
     archived = db.Column(db.Boolean, nullable=False, default=False)
+    farmer_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
-    def __init__(self, name, description, image, retail_price, product_quantity):
+    def __init__(self, name, description, image, retail_price, product_quantity, farmer_id):
         self.name = name
         self.description = description
         self.image = image
         self.retail_price = retail_price
         self.product_quantity = product_quantity
+        self.farmer_id = farmer_id
 
     def to_json(self):
         return {
@@ -27,6 +29,7 @@ class Product(db.Model):
             "description": self.description,
             "image": self.image,
             "retail_price": round(self.retail_price, 2),
+            # "wholesale_price": round(self.wholesale_price, 2),
             "product_quantity": self.product_quantity,
             "reviews": [review.to_json() for review in self.reviews],
             "archived": self.archived,

@@ -9,6 +9,10 @@ class User(db.Model):
     username = db.Column(db.String, nullable=False)
     password = db.Column(db.String(120), nullable=False)
     access = db.Column(db.Integer, nullable=False)
+    p_reviews = db.relationship("Review", backref="user", lazy=True)
+    p_replies = db.relationship("Reply", backref="user", lazy=True)
+    products = db.relationship("Product", backref="user", lazy=True)
+
     # email = db.Column(db.String(120), nullable=False)
     # phone = db.Column(db.String(120), nullable=False)
     # address = db.Column(db.String(120), nullable=False)
@@ -16,7 +20,7 @@ class User(db.Model):
     # units = db.Column(db.String(10), nullable=False)
     # avatar = db.Column(db.String(120), nullable=False)
 
-    def __init__(self, username, password, access="user"):
+    def __init__(self, username, password, access="user", ):
         self.username = username
         self.set_password(password)
         # self.email = email
