@@ -10,54 +10,77 @@ from flask import (
 )
 from flask_jwt import jwt_required, current_identity
 
-from .index import index_views
 
 from App.controllers import (
     create_user,
-    get_all_users,
+    create_farmer,
     get_all_users_json,
+    get_user_by_id,
+    get_user_by_username,
+
 )
 
 user_views = Blueprint("user_views", __name__, template_folder="../templates")
 
 
-@user_views.route("/users", methods=["GET"])
-def get_user_page():
-    users = get_all_users()
-    return render_template("users.html", users=users)
-
-
+# Get all users
 @user_views.route("/api/users", methods=["GET"])
 def get_users_action():
     users = get_all_users_json()
     return jsonify(users)
 
 
-@user_views.route("/api/users", methods=["POST"])
-def create_user_endpoint():
-    data = request.json
-    create_user(data["username"], data["password"])
-    return jsonify({"message": f"user {data['username']} created"})
-
-
-@user_views.route("/users", methods=["POST"])
-def create_user_action():
-    data = request.form
-    flash(f"User {data['username']} created!")
-    create_user(data["username"], data["password"])
-    return redirect(url_for("user_views.get_user_page"))
-
-
+# Identify user
 @user_views.route("/identify", methods=["GET"])
 @jwt_required()
-def identify_user_action():
+def identify():
     return jsonify(
         {
-            "message": f"username: {current_identity.username}, id : {current_identity.id}"
+            "id": current_identity.id,
+            "username": current_identity.username,
         }
     )
 
 
-@user_views.route("/static/users", methods=["GET"])
-def static_user_page():
-    return send_from_directory("static", "static-user.html")
+# Create normal user route
+@user_views.route("/api/users", methods=["POST"])
+def create_user_action():
+    data = request.json
+    user = get_user_by_username(data["username"])
+    if user:
+        return jsonify({"message": "Username already exists"}), 400
+    new_user = create_user(data["username"], data["password"])
+    if new_user:
+        return jsonify({"message": "User created successfully"}), 201
+    return jsonify({"message": "User could not be created"}), 400
+
+
+# Create farmer user route
+@user_views.route("/api/users/farmer", methods=["POST"])
+def create_farmer_action():
+    data = request.json
+    user = get_user_by_username(data["username"])
+    if user:
+        return jsonify({"message": "Username already exists"}), 400
+    new_user = create_farmer(data["username"], data["password"])
+    if new_user:
+        return jsonify({"message": "Farmer created successfully"}), 201
+    return jsonify({"message": "Farmer could not be created"}), 400
+
+
+# Get user by id
+@user_views.route("/api/users/<int:id>", methods=["GET"])
+def get_user_action(id):
+    user = get_user_by_id(id)
+    if user:
+        return jsonify(user.to_json())
+    return jsonify({"message": "User not found"}), 404
+
+
+# Get user by username
+@user_views.route("/api/users/<string:username>", methods=["GET"])
+def get_user_by_username_action(username):
+    user = get_user_by_username(username)
+    if user:
+        return jsonify(user.to_json())
+    return jsonify({"message": "User not found"}), 404

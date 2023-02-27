@@ -5,13 +5,13 @@ ACCESS = {"user": 1, "farmer": 2, "admin": 3}
 
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, nullable=False)
-    password = db.Column(db.String(120), nullable=False)
-    access = db.Column(db.Integer, nullable=False)
-    p_reviews = db.relationship("Review", backref="user", lazy=True)
-    p_replies = db.relationship("Reply", backref="user", lazy=True)
-    products = db.relationship("Product", backref="user", lazy=True)
+    id = db.Column(db.Integer, primary_key=True)  # primary keys are required by SQLAlchemy
+    username = db.Column(db.String, nullable=False)  # username of user
+    password = db.Column(db.String(120), nullable=False)  # password of user
+    access = db.Column(db.Integer, nullable=False)  # access level of user
+    p_reviews = db.relationship("Review", backref="user", lazy=True)  # reviews of product
+    p_replies = db.relationship("Reply", backref="user", lazy=True)  # replies to review
+    products = db.relationship("Product", backref="user", lazy=True)  # products of farmer
 
     # email = db.Column(db.String(120), nullable=False)
     # phone = db.Column(db.String(120), nullable=False)
@@ -20,7 +20,7 @@ class User(db.Model):
     # units = db.Column(db.String(10), nullable=False)
     # avatar = db.Column(db.String(120), nullable=False)
 
-    def __init__(self, username, password, access="user", ):
+    def __init__(self, username, password, access="user"):
         self.username = username
         self.set_password(password)
         # self.email = email
@@ -51,3 +51,6 @@ class User(db.Model):
     def check_password(self, password):
         """Check hashed password."""
         return check_password_hash(self.password, password)
+
+    def get_access(self):
+        return self.access

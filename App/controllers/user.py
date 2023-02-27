@@ -1,4 +1,4 @@
-from App.models.user import User
+from App.models.user import User, ACCESS
 from App.database import db
 
 
@@ -7,6 +7,14 @@ def create_user(username, password, access):
     db.session.add(new_user)
     db.session.commit()
     return new_user
+
+
+def create_admin(username, password):
+    return create_user(username, password, "admin")
+
+
+def create_farmer(username, password):
+    return create_user(username, password, "farmer")
 
 
 def get_user_by_username(username):
@@ -32,3 +40,11 @@ def update_user(id, username):
         db.session.add(user)
         return db.session.commit()
     return None
+
+
+def is_admin(user):
+    return user.get_access() == ACCESS["admin"]
+
+
+def is_farmer(user):
+    return user.get_access() == ACCESS["farmer"]
