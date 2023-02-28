@@ -3,10 +3,12 @@ from App.models.product import Product
 
 
 def create_product(name, description, image, retail_price, product_quantity, farmer_id):
-    product = Product(name, description, image, retail_price, product_quantity, farmer_id)
+    product = Product(
+        name, description, image, retail_price, product_quantity, farmer_id
+    )
     db.session.add(product)
     db.session.commit()
-    return product.to_json()
+    return product
 
 
 def get_all_products():

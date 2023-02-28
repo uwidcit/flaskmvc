@@ -14,10 +14,7 @@ from App.controllers.product import (
     get_all_products_json,
 )
 
-from App.controllers.user import (
-    is_farmer,
-    is_admin
-)
+from App.controllers.user import is_farmer, is_admin
 
 product_views = Blueprint("product_views", __name__, template_folder="../templates")
 
@@ -37,9 +34,14 @@ def create_product_action():
     if not is_farmer(current_identity):
         return jsonify({"message": "You are not authorized to create a product"}), 403
 
-    create_product(name=data["name"], description=data["description"], image=data["image"],
-                   retail_price=data["retail_price"], product_quantity=data["product_quantity"],
-                   farmer_id=current_identity.id)
+    create_product(
+        name=data["name"],
+        description=data["description"],
+        image=data["image"],
+        retail_price=data["retail_price"],
+        product_quantity=data["product_quantity"],
+        farmer_id=current_identity.id,
+    )
     return jsonify({"message": f"Product {data['name']} created"}), 201
 
 
@@ -58,11 +60,23 @@ def update_product_action(id):
     product = get_product_by_id(id)
     if product:
         if not is_farmer(current_identity):
-            return jsonify({"message": "You are not authorized to update a product"}), 403
+            return (
+                jsonify({"message": "You are not authorized to update a product"}),
+                403,
+            )
         if product.farmer_id != current_identity.id:
-            return jsonify({"message": "You are not authorized to update this product"}), 403
-        update_product(product, data["name"], data["description"], data["image"], data["retail_price"],
-                       data["product_quantity"])
+            return (
+                jsonify({"message": "You are not authorized to update this product"}),
+                403,
+            )
+        update_product(
+            id=id,
+            name=data["name"],
+            description=data["description"],
+            image=data["image"],
+            retail_price=data["retail_price"],
+            product_quantity=data["product_quantity"],
+        )
         return jsonify({"message": f"Product {data['name']} updated"}), 200
     return jsonify({"message": "No product found"}), 404
 
@@ -73,13 +87,19 @@ def delete_product_action(id):
     product = get_product_by_id(id)
     if product:
         if not is_farmer(current_identity) and not is_admin(current_identity):
-            return jsonify({"message": "You are not authorized to delete a product"}), 403
+            return (
+                jsonify({"message": "You are not authorized to delete a product"}),
+                403,
+            )
         if product.farmer_id != current_identity.id and not is_admin(current_identity):
-            return jsonify({"message": "You are not authorized to delete this product"}), 403
+            return (
+                jsonify({"message": "You are not authorized to delete this product"}),
+                403,
+            )
         if product.archived:
-            delete_product(product)
+            delete_product(id)
             return jsonify({"message": f"Product {product.name} deleted"}), 200
-        archive_product(product)
+        archive_product(id)
         return jsonify({"message": f"Product {product.name} deleted"}), 200
     return jsonify({"message": "No product found"}), 404
 
@@ -90,10 +110,16 @@ def archive_product_action(id):
     product = get_product_by_id(id)
     if product:
         if not is_farmer(current_identity) and not is_admin(current_identity):
-            return jsonify({"message": "You are not authorized to archive a product"}), 403
+            return (
+                jsonify({"message": "You are not authorized to archive a product"}),
+                403,
+            )
         if product.farmer_id != current_identity.id and not is_admin(current_identity):
-            return jsonify({"message": "You are not authorized to archive this product"}), 403
-        archive_product(product)
+            return (
+                jsonify({"message": "You are not authorized to archive this product"}),
+                403,
+            )
+        archive_product(id)
         return jsonify({"message": f"Product {product.name} archived"}), 200
     return jsonify({"message": "No product found"}), 404
 
@@ -104,9 +130,17 @@ def unarchive_product_action(id):
     product = get_product_by_id(id)
     if product:
         if not is_farmer(current_identity) and not is_admin(current_identity):
-            return jsonify({"message": "You are not authorized to unarchive a product"}), 403
+            return (
+                jsonify({"message": "You are not authorized to unarchive a product"}),
+                403,
+            )
         if product.farmer_id != current_identity.id and not is_admin(current_identity):
-            return jsonify({"message": "You are not authorized to unarchive this product"}), 403
-        unarchive_product(product)
+            return (
+                jsonify(
+                    {"message": "You are not authorized to unarchive this product"}
+                ),
+                403,
+            )
+        unarchive_product(id)
         return jsonify({"message": f"Product {product.name} unarchived"}), 200
     return jsonify({"message": "No product found"}), 404

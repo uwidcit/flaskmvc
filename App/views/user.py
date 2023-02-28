@@ -18,7 +18,7 @@ from App.controllers import (
     get_user_by_id,
     get_user_by_username,
     get_user_by_email,
-
+    update_user,
 )
 
 user_views = Blueprint("user_views", __name__, template_folder="../templates")
@@ -110,7 +110,17 @@ def update_user_action(id):
     user = get_user_by_id(id)
     if user:
         if user.id == current_identity.id:
-            user.update(data)
+            update_user(
+                id=data["id"],
+                username=data["username"],
+                email=data["email"],
+                password=data["password"],
+                phone=data["phone"],
+                address=data["address"],
+                currency=data["currency"],
+                units=data["units"],
+                avatar=data["avatar"],
+            )
             return jsonify({"message": "User updated successfully"}), 200
         return jsonify({"message": "You are not authorized to update this user"}), 403
     return jsonify({"message": "User not found"}), 404

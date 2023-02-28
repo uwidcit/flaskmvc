@@ -2,20 +2,63 @@ from App.models.user import User, ACCESS
 from App.database import db
 
 
-def create_user(username, email, password, access, phone="", address="", currency="USD", units="kg", avatar=""):
-    new_user = User(username=username, email=email, password=password, access=access, phone=phone, address=address,
-                    currency=currency, units=units, avatar=avatar)
+def create_user(
+        username,
+        email,
+        password,
+        access,
+        phone="",
+        address="",
+        currency="USD",
+        units="kg",
+        avatar="",
+):
+    user1 = get_user_by_email(email)
+    user2 = get_user_by_username(username)
+    if user1 or user2:
+        return None
+    new_user = User(
+        username=username,
+        email=email,
+        password=password,
+        access=access,
+        phone=phone,
+        address=address,
+        currency=currency,
+        units=units,
+        avatar=avatar,
+    )
     db.session.add(new_user)
     db.session.commit()
     return new_user
 
 
 def create_admin(username, email, password):
-    return create_user(username, email, password, "admin", phone="", address="", currency="USD", units="kg", avatar="")
+    return create_user(
+        username,
+        email,
+        password,
+        "admin",
+        phone="",
+        address="",
+        currency="USD",
+        units="kg",
+        avatar="",
+    )
 
 
 def create_farmer(username, email, password):
-    return create_user(username, email, password, "farmer", phone="", address="", currency="USD", units="kg", avatar="")
+    return create_user(
+        username,
+        email,
+        password,
+        "farmer",
+        phone="",
+        address="",
+        currency="USD",
+        units="kg",
+        avatar="",
+    )
 
 
 def get_user_by_email(email):
@@ -38,10 +81,27 @@ def get_all_users_json():
     return [user.to_json() for user in get_all_users()]
 
 
-def update_user(id, username):
+def update_user(
+        id,
+        username,
+        email,
+        password,
+        phone="",
+        address="",
+        currency="USD",
+        units="kg",
+        avatar="",
+):
     user = get_user_by_id(id)
     if user:
         user.username = username
+        user.email = email
+        user.password = password
+        user.phone = phone
+        user.address = address
+        user.currency = currency
+        user.units = units
+        user.avatar = avatar
         db.session.add(user)
         return db.session.commit()
     return None

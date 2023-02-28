@@ -2,8 +2,8 @@ from App.models.review import Review
 from App.database import db
 
 
-def create_review(product_id, user_id, body, timestamp):
-    new_review = Review(product_id=product_id, user_id=user_id, body=body, timestamp=timestamp)
+def create_review(product_id, user_id, body):
+    new_review = Review(product_id=product_id, user_id=user_id, body=body)
     db.session.add(new_review)
     db.session.commit()
     return new_review

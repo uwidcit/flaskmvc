@@ -2,8 +2,8 @@ from App.models.reply import Reply
 from App.database import db
 
 
-def create_reply(review_id, user_id, body, timestamp):
-    new_reply = Reply(review_id=review_id, user_id=user_id, body=body, timestamp=timestamp)
+def create_reply(review_id, user_id, body):
+    new_reply = Reply(review_id=review_id, user_id=user_id, body=body)
     db.session.add(new_reply)
     db.session.commit()
     return new_reply
@@ -48,5 +48,3 @@ def delete_reply(reply_id):
         db.session.delete(reply)
         return db.session.commit()
     return None
-
-

@@ -1,21 +1,24 @@
 from App.database import db
+import datetime
 
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    product_id = db.Column(db.Integer, db.ForeignKey("product.id"),
-                           nullable=False)  # foreign key links to product.id in product table
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"),
-                        nullable=False)  # foreign key links to user.id in user table
+    product_id = db.Column(
+        db.Integer, db.ForeignKey("product.id"), nullable=False
+    )  # foreign key links to product.id in product table
+    user_id = db.Column(
+        db.Integer, db.ForeignKey("user.id"), nullable=False
+    )  # foreign key links to user.id in user table
     body = db.Column(db.String(1024), nullable=False)  # body of review
     timestamp = db.Column(db.DateTime, nullable=False)  # timestamp of review
     replies = db.relationship("Reply", backref="review", lazy=True)  # replies to review
 
-    def __init__(self, product_id, user_id, body, timestamp):
+    def __init__(self, product_id, user_id, body):
         self.product_id = product_id
         self.user_id = user_id
         self.body = body
-        self.timestamp = timestamp
+        self.timestamp = datetime.datetime.now()
 
     def to_json(self):
         return {
