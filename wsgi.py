@@ -6,7 +6,7 @@ from App.database import create_db, get_migrate
 from App.main import create_app
 from App.controllers.user import (
     create_user,
-    get_user_by_username,
+    get_user_by_email,
     get_user_by_id,
     get_all_users,
     get_all_users_json,
@@ -60,27 +60,27 @@ user_cli = AppGroup("user", help="User object commands")
 
 # Then define the command and any parameters and annotate it with the group (@)
 @user_cli.command("create-user", help="Creates a user")
-@click.argument("username", default="rob")
+@click.argument("email", default="bob@bobmail.com")
 @click.argument("password", default="robpass")
-def create_user_command(username, password):
-    create_user(username, password, "user")
-    print(f"{username} created!")
+def create_user_command(email, password):
+    create_user(email, password, "user")
+    print(f"{email} created!")
 
 
 @user_cli.command("create-farmer", help="Creates a farmer")
-@click.argument("username", default="robfarm")
+@click.argument("email", default="rob@robmail.com")
 @click.argument("password", default="robpass")
-def create_farmer_command(username, password):
-    create_user(username, password, "farmer")
-    print(f"{username} created!")
+def create_farmer_command(email, password):
+    create_user(email, password, "farmer")
+    print(f"{email} created!")
 
 
 @user_cli.command("create-admin", help="Creates an admin")
-@click.argument("username", default="robadmin")
+@click.argument("email", default="admin@admin.com")
 @click.argument("password", default="robpass")
-def create_admin_command(username, password):
-    create_user(username, password, "admin")
-    print(f"{username} created!")
+def create_admin_command(email, password):
+    create_user(email, password, "admin")
+    print(f"{email} created!")
 
 
 # this command will be : flask user create bob bobpass

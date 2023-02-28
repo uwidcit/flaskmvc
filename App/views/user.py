@@ -16,7 +16,7 @@ from App.controllers import (
     create_farmer,
     get_all_users_json,
     get_user_by_id,
-    get_user_by_username,
+    get_user_by_email,
 
 )
 
@@ -37,7 +37,7 @@ def identify():
     return jsonify(
         {
             "id": current_identity.id,
-            "username": current_identity.username,
+            "email": current_identity.email,
         }
     )
 
@@ -46,10 +46,10 @@ def identify():
 @user_views.route("/api/users", methods=["POST"])
 def create_user_action():
     data = request.json
-    user = get_user_by_username(data["username"])
+    user = get_user_by_email(data["email"])
     if user:
-        return jsonify({"message": "Username already exists"}), 400
-    new_user = create_user(data["username"], data["password"])
+        return jsonify({"message": "email already exists"}), 400
+    new_user = create_user(data["email"], data["password"])
     if new_user:
         return jsonify({"message": "User created successfully"}), 201
     return jsonify({"message": "User could not be created"}), 400
@@ -59,10 +59,10 @@ def create_user_action():
 @user_views.route("/api/users/farmer", methods=["POST"])
 def create_farmer_action():
     data = request.json
-    user = get_user_by_username(data["username"])
+    user = get_user_by_email(data["email"])
     if user:
-        return jsonify({"message": "Username already exists"}), 400
-    new_user = create_farmer(data["username"], data["password"])
+        return jsonify({"message": "email already exists"}), 400
+    new_user = create_farmer(data["email"], data["password"])
     if new_user:
         return jsonify({"message": "Farmer created successfully"}), 201
     return jsonify({"message": "Farmer could not be created"}), 400
@@ -77,10 +77,10 @@ def get_user_action(id):
     return jsonify({"message": "User not found"}), 404
 
 
-# Get user by username
-@user_views.route("/api/users/<string:username>", methods=["GET"])
-def get_user_by_username_action(username):
-    user = get_user_by_username(username)
+# Get user by email
+@user_views.route("/api/users/<string:email>", methods=["GET"])
+def get_user_by_email_action(email):
+    user = get_user_by_email(email)
     if user:
         return jsonify(user.to_json())
     return jsonify({"message": "User not found"}), 404
