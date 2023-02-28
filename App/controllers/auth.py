@@ -3,8 +3,8 @@ from flask_jwt import JWT
 from App.models import User
 
 
-def authenticate(email, password):
-    user = User.query.filter_by(email).first()
+def authenticate(username, password):
+    user = User.query.filter_by(username).first()
     if user and user.check_password(password):
         return user
     return None

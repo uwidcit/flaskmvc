@@ -6,6 +6,7 @@ ACCESS = {"user": 1, "farmer": 2, "admin": 3}
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # primary keys are required by SQLAlchemy
+    username = db.Column(db.String(120), nullable=False, unique=True)
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(120), nullable=False)  # password of user
     access = db.Column(db.Integer, nullable=False)  # access level of user
@@ -18,7 +19,9 @@ class User(db.Model):
     units = db.Column(db.String(10), nullable=False, default="kg")  # preferred units of user
     avatar = db.Column(db.String(120), nullable=True)  # avatar of user
 
-    def __init__(self, email, password, access="user", phone="", address="", currency="USD", units="kg", avatar=""):
+    def __init__(self, username, email, password, access="user", phone="", address="", currency="USD", units="kg",
+                 avatar=""):
+        self.username = username
         self.set_password(password)
         self.email = email
         self.phone = phone

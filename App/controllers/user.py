@@ -2,23 +2,28 @@ from App.models.user import User, ACCESS
 from App.database import db
 
 
-def create_user(email, password, access, phone="", address="", currency="USD", units="kg", avatar=""):
-    new_user = User(email, password, access, phone, address, currency, units, avatar)
+def create_user(username, email, password, access, phone="", address="", currency="USD", units="kg", avatar=""):
+    new_user = User(username=username, email=email, password=password, access=access, phone=phone, address=address,
+                    currency=currency, units=units, avatar=avatar)
     db.session.add(new_user)
     db.session.commit()
     return new_user
 
 
-def create_admin(username, password):
-    return create_user(username, password, "admin", phone="", address="", currency="USD", units="kg", avatar="")
+def create_admin(username, email, password):
+    return create_user(username, email, password, "admin", phone="", address="", currency="USD", units="kg", avatar="")
 
 
-def create_farmer(username, password):
-    return create_user(username, password, "farmer", phone="", address="", currency="USD", units="kg", avatar="")
+def create_farmer(username, email, password):
+    return create_user(username, email, password, "farmer", phone="", address="", currency="USD", units="kg", avatar="")
 
 
 def get_user_by_email(email):
     return User.query.filter_by(email=email).first()
+
+
+def get_user_by_username(username):
+    return User.query.filter_by(username=username).first()
 
 
 def get_user_by_id(id):

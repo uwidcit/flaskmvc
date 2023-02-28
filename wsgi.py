@@ -60,27 +60,30 @@ user_cli = AppGroup("user", help="User object commands")
 
 # Then define the command and any parameters and annotate it with the group (@)
 @user_cli.command("create-user", help="Creates a user")
+@click.argument("username", default="bob")
 @click.argument("email", default="bob@bobmail.com")
-@click.argument("password", default="robpass")
-def create_user_command(email, password):
-    create_user(email, password, "user")
-    print(f"{email} created!")
+@click.argument("password", default="bobpass")
+def create_user_command(username, email, password):
+    create_user(username, email, password, "user")
+    print(f"{username} created!")
 
 
 @user_cli.command("create-farmer", help="Creates a farmer")
-@click.argument("email", default="rob@robmail.com")
-@click.argument("password", default="robpass")
-def create_farmer_command(email, password):
-    create_user(email, password, "farmer")
-    print(f"{email} created!")
+@click.argument("username", default="bob")
+@click.argument("email", default="bob@bobmail.com")
+@click.argument("password", default="bobpass")
+def create_farmer_command(username, email, password):
+    create_user(username, email, password, "farmer")
+    print(f"{username} created!")
 
 
 @user_cli.command("create-admin", help="Creates an admin")
-@click.argument("email", default="admin@admin.com")
-@click.argument("password", default="robpass")
-def create_admin_command(email, password):
-    create_user(email, password, "admin")
-    print(f"{email} created!")
+@click.argument("username", default="bob")
+@click.argument("email", default="bob@bobmail.com")
+@click.argument("password", default="bobpass")
+def create_admin_command(username, email, password):
+    create_user(username, email, password, "admin")
+    print(f"{username} created!")
 
 
 # this command will be : flask user create bob bobpass

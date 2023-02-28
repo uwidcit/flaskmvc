@@ -16,6 +16,7 @@ from App.controllers import (
     create_farmer,
     get_all_users_json,
     get_user_by_id,
+    get_user_by_username,
     get_user_by_email,
 
 )
@@ -37,7 +38,7 @@ def identify():
     return jsonify(
         {
             "id": current_identity.id,
-            "email": current_identity.email,
+            "username": current_identity.username,
         }
     )
 
@@ -49,7 +50,10 @@ def create_user_action():
     user = get_user_by_email(data["email"])
     if user:
         return jsonify({"message": "email already exists"}), 400
-    new_user = create_user(data["email"], data["password"])
+    user = get_user_by_username(data["username"])
+    if user:
+        return jsonify({"message": "username already exists"}), 400
+    new_user = create_user(data["username"], data["email"], data["password"])
     if new_user:
         return jsonify({"message": "User created successfully"}), 201
     return jsonify({"message": "User could not be created"}), 400
@@ -62,7 +66,10 @@ def create_farmer_action():
     user = get_user_by_email(data["email"])
     if user:
         return jsonify({"message": "email already exists"}), 400
-    new_user = create_farmer(data["email"], data["password"])
+    user = get_user_by_username(data["username"])
+    if user:
+        return jsonify({"message": "username already exists"}), 400
+    new_user = create_farmer(data["username"], data["email"], data["password"])
     if new_user:
         return jsonify({"message": "Farmer created successfully"}), 201
     return jsonify({"message": "Farmer could not be created"}), 400
@@ -83,4 +90,27 @@ def get_user_by_email_action(email):
     user = get_user_by_email(email)
     if user:
         return jsonify(user.to_json())
+    return jsonify({"message": "User not found"}), 404
+
+
+# Get user by username
+@user_views.route("/api/users/<string:username>", methods=["GET"])
+def get_user_by_username_action(username):
+    user = get_user_by_username(username)
+    if user:
+        return jsonify(user.to_json())
+    return jsonify({"message": "User not found"}), 404
+
+
+# Update user
+@user_views.route("/api/users/<int:id>", methods=["PUT"])
+@jwt_required()
+def update_user_action(id):
+    data = request.json
+    user = get_user_by_id(id)
+    if user:
+        if user.id == current_identity.id:
+            user.update(data)
+            return jsonify({"message": "User updated successfully"}), 200
+        return jsonify({"message": "You are not authorized to update this user"}), 403
     return jsonify({"message": "User not found"}), 404
