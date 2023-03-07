@@ -1,7 +1,5 @@
 tasks:
-  - init: | 
-      pyenv install 
-      gp sync-done pyenv
+  - init: pyenv install -f
     command: pip install -r requirements.txt
   - init: gp sync-await pyenv
     command: flask run

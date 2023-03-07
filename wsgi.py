@@ -2,7 +2,7 @@ import click, pytest, sys
 from flask import Flask
 from flask.cli import with_appcontext, AppGroup
 
-from App.database import create_db, get_migrate
+from App.database import db, get_migrate
 from App.main import create_app
 from App.controllers import ( create_user, get_all_users_json, get_all_users )
 
@@ -14,7 +14,8 @@ migrate = get_migrate(app)
 # This command creates and initializes the database
 @app.cli.command("init", help="Creates and initializes the database")
 def initialize():
-    create_db(app)
+    db.drop_all()
+    db.create_all()
     print('database intialized')
 
 '''
@@ -46,20 +47,6 @@ def list_user_command(format):
         print(get_all_users_json())
 
 app.cli.add_command(user_cli) # add the group to the cli
-
-
-'''
-Generic Commands
-'''
-
-@app.cli.command("init")
-def initialize():
-    create_db(app)
-    print('database intialized')
-
-@app.cli.command("run")
-def initialize():
-    print('hello')
 
 '''
 Test Commands
