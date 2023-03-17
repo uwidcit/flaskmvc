@@ -1,8 +1,6 @@
 tasks:
-  - init: pyenv install -f
-    command: pip install -r requirements.txt
-  - init: gp sync-await pyenv
-    command: flask run
+  - init: install -f & pip install -r requirements.txt
+    command: flask init & flask run
 
 ports:
   - port: 8080
