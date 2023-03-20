@@ -13,7 +13,7 @@ def init():
     db.drop_all()
     db.create_all()
     create_user('bob', 'bobpass')
-    return jsonfiy(message='db initialized!')
+    return jsonify(message='db initialized!')
 
 @index_views.route('/health', methods=['GET'])
 def health_check():
