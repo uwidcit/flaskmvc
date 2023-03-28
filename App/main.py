@@ -11,7 +11,8 @@ from datetime import timedelta
 from App.database import init_db
 
 from App.controllers import (
-    setup_jwt
+    setup_jwt,
+    setup_flask_login
 )
 
 from App.views import views
@@ -55,5 +56,6 @@ def create_app(config={}):
     add_views(app)
     init_db(app)
     setup_jwt(app)
+    setup_flask_login(app)
     app.app_context().push()
     return app

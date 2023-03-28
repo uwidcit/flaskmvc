@@ -1,5 +1,5 @@
 tasks:
-  - init: install -f & pip install -r requirements.txt
+  - init: pyenv install -f & pip install -r requirements.txt
     command: flask init & flask run
 
 ports:
