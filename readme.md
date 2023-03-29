@@ -26,14 +26,30 @@ Instead, all config is provided by a config file or via [environment variables](
 
 ## In Development
 
-When running the project in a development environment (such as gitpod) the app is configured via config.py file in the App folder. By default, the config for development uses a sqlite database.
+When running the project in a development environment (such as gitpod) the app is configured via default_config.py file in the App folder. By default, the config for development uses a sqlite database.
 
-config.py
+default_config.py
 ```python
 SQLALCHEMY_DATABASE_URI = "sqlite:///temp-database.db"
 SECRET_KEY = "secret key"
 JWT_ACCESS_TOKEN_EXPIRES = 7
 ENV = "DEVELOPMENT"
+```
+
+These values would be imported and added to the app in load_config() function in config.py
+
+config.py
+```python
+# must be updated to inlude addtional secrets/ api keys & use a gitignored custom-config file instad
+def load_config():
+    config = {'ENV': os.environ.get('ENV', 'DEVELOPMENT')}
+    delta = 7
+    if config['ENV'] == "DEVELOPMENT":
+        from .default_config import JWT_ACCESS_TOKEN_EXPIRES, SQLALCHEMY_DATABASE_URI, SECRET_KEY
+        config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+        config['SECRET_KEY'] = SECRET_KEY
+        delta = JWT_ACCESS_TOKEN_EXPIRES
+...
 ```
 
 ## In Production
