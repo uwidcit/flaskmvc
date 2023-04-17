@@ -29,6 +29,12 @@ def get_user(id):
 def get_all_users():
     return User.query.all()
 
+def get_user_json(id):
+    user = get_user(id)
+    if user:
+        return user.to_json()
+    return None  
+
 def get_all_users_json():
     users = User.query.all()
     if not users:
