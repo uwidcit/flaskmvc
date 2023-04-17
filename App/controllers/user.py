@@ -47,6 +47,7 @@ def update_user(id, username):
     if user:
         user.username = username
         db.session.add(user)
-        return db.session.commit()
+        db.session.commit()
+        return user
     return None
     
