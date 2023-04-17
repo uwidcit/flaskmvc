@@ -16,8 +16,12 @@ def create_user(username, password):
         return new_user
     return None
 
+#def get_user_by_username(username):
+    #return User.query.filter_by(username=username).first()
+
 def get_user_by_username(username):
-    return User.query.filter_by(username=username).first()
+    user = User.query.filter_by(username=username).first()
+    return user
 
 def get_user(id):
     return User.query.get(id)
