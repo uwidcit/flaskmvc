@@ -3,6 +3,7 @@ from flask_jwt_extended import create_access_token, jwt_required, JWTManager
 
 from App.models import User
 
+#inital commit for Ethan branch
 def jwt_authenticate(username, password):
   user = User.query.filter_by(username=username).first()
   if user and user.check_password(password):
