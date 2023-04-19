@@ -23,12 +23,12 @@ def get_all_competition_json():
 
 #Function to get competition by name
 def get_competition_by_Name(name):
-    competition = competition.query.fliter_by(name = name).all()
+    competition = competition.query.filter_by(name = name).all()
     return competition
 
 #Function to get competition by name in json format
 def get_competition_by_name(name):
-    competition = competition.query.fliter_by(name = name).all()
+    competition = competition.query.filter_by(name = name).all()
     return [competition.to_json() for competition in competition]
 
 #Function to get Start Date
