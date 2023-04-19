@@ -10,7 +10,7 @@ class Team(db.Model):
     teamName = db.Column(db.String(120), nullable=False)
     score = db.Column(db.String(120), nullable = False)
     #memberID = db.Column(db.String(120), db.ForeignKey("member.id"), nullable = False)
-    comps = db.relationship('Competition', backref='team', lazy=True)
+    #comps = db.relationship('Competition', backref='team', lazy=True)
     members = db.relationship('Member', backref='team', lazy=True)
     
     def __init__(self, teamName, score):
