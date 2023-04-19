@@ -12,9 +12,9 @@ class Member(db.Model):
     team = db.relationship('Team', backref='member', lazy=True)
     
 
-    def __init__(self, id, memberName):
+    def __init__(self, memberName):
         self.memberName = memberName
-        self.id = id
+        #self.id = id
     
     def get_json(self):
         return{
