@@ -48,6 +48,22 @@ def list_user_command(format):
     else:
         print(get_all_users_json())
 
+@user_cli.command("create-user", help="Creates a user")
+@click.argument("username", default="bob")
+@click.argument("email", default="bob@bobmail.com")
+@click.argument("password", default="bobpass")
+def create_user_command(username, email, password):
+    user = create_user(username, email, password, "user")
+    print(user.to_json())
+
+@user_cli.command("create-admin", help="Creates an admin")
+@click.argument("username", default="adminbob")
+@click.argument("email", default="adminbob@bobmail.com")
+@click.argument("password", default="bobpass")
+def create_admin_command(username, email, password):
+    user = create_user(username, email, password, "admin")
+    print(user.to_json())
+
 app.cli.add_command(user_cli) # add the group to the cli
 
 '''
