@@ -9,7 +9,7 @@ class Competition(db.Model):
     compCode = db.Column(db.Integer, primary_key=True)
     #create a new realationship with the Team table
     #teamId = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
-    adminId = db.Column(db.Integer, db.ForeignKey('admin_user.id'), nullable=False)
+    adminId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     compName = db.Column(db.String(120), nullable=False)
     startDate = db.Column(db.Date, nullable=False)
     endDate = db.Column(db.Date, nullable=False)
