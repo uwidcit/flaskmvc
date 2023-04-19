@@ -15,7 +15,7 @@ class Team(db.Model):
     
     def __init__(self, teamName, members, score):
         self.teamName = teamName
-        self.members = members
+        #self.members = members
         self.score = score
     
     def get_json(self):
