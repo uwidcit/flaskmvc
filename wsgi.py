@@ -89,3 +89,5 @@ def create_user_command(number):
         print(f"bob{number} created!")
     else:
         print(f"bob{number} already exists")
+
+
