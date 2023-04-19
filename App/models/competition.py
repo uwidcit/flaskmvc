@@ -22,6 +22,7 @@ class Competition(db.Model):
     def get_json(self):
         return{
             "id": self.id,
+            "adminId": self.adminId,
             "compName": self.compName,
             "startDate": self.startDate,
             "endDate": self.endDate,
