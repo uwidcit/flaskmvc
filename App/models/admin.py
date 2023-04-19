@@ -38,7 +38,7 @@ class Admin(User):
         return self.comps
 
     
-    def get_json(self):
+    def to_json(self):
         return{
             "id": self.id,
             "username": self.username,

@@ -17,10 +17,12 @@ class Team(db.Model):
         self.teamName = teamName
         self.score = score
     
-    def get_json(self):
+    def to_json(self):
         return{
             "id": self.id,
+            "competitionId": self.competitionId,
             "teamName": self.teamName,
-            "members": self.members,
             "score": self.score,
+            "members": [member.to_json() for member in self.members],
+            
         }

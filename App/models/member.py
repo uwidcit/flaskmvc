@@ -16,7 +16,7 @@ class Member(db.Model):
         self.memberName = memberName
         #self.id = id
     
-    def get_json(self):
+    def to_json(self):
         return{
             "id": self.id,
             "memberName": self.memberName

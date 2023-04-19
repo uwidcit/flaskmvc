@@ -19,7 +19,7 @@ class Competition(db.Model):
         self.startDate = startDate
         self.endDate = endDate
         
-    def get_json(self):
+    def to_json(self):
         return{
             "id": self.id,
             "adminId": self.adminId,
