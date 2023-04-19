@@ -1,7 +1,7 @@
 from App.database import db
 from App.models import competition
 
-#Function to get competition
+#Function to get competition by id
 def get_competition_by_id(id):
     competition = competition.query.get(id)
     return competition

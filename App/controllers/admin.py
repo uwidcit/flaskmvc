@@ -2,6 +2,7 @@ from App.database import db
 from App.models import admin, Competition, Team
 from App.controllers.team import get_team_by_id
 
+#Function to get admin
 def get_admin(id):
     user = admin.query.get(id)
     return user
