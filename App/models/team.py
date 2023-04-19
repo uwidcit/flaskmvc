@@ -9,12 +9,13 @@ class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True) 
     teamName = db.Column(db.String(120), nullable=False)
     score = db.Column(db.String(120), nullable = False)
-    memberID = db.Column(db.String(120), db.ForeignKey("member.id"), nullable = False)
-    comps = db.relationship('Competition', backref='team', lazy=True)
+    #memberID = db.Column(db.String(120), db.ForeignKey("member.id"), nullable = False)
+    #comps = db.relationship('Competition', backref='team', lazy=True)
+    members = db.relationship('Member', backref='team', lazy=True)
     
-    def __init__(self, teamName, members, score):
+    def __init__(self, teamName, score):
         self.teamName = teamName
-        self.members = members
+        #self.members = members
         self.score = score
     
     def get_json(self):
