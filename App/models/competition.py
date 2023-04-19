@@ -15,7 +15,8 @@ class Competition(db.Model):
     endDate = db.Column(db.Date, nullable=False)
     teams = db.relationship("Team", backref="competition", lazy=True)
 
-    def __init__(self, compName, startDate, endDate):
+    def __init__(self, adminId, compName, startDate, endDate):
+        self.adminId = adminId
         self.compName = compName
         self.startDate = startDate
         self.endDate = endDate
