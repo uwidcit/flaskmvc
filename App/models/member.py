@@ -7,17 +7,13 @@ db = SQLAlchemy()
 
 class Member(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    memberName = db.Column(db.String(200), nullable = False)
-    #Create a relationship between Member and Team
-    team = db.relationship('Team', backref='member', lazy=True)
+    name = db.Column(db.String(200), nullable = False)
     
-
     def __init__(self, memberName):
         self.memberName = memberName
-        #self.id = id
     
-    def get_json(self):
+    def to_json(self):
         return{
             "id": self.id,
-            "memberName": self.memberName
+            "memberName": self.memberName,
         }
