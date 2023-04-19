@@ -1,4 +1,4 @@
-from App.database import init_db
+from App.database import db
 from App.models.team import Team 
 from App.controllers.competition import get_competition_by_id;
 
