@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>CEEJ login</title>
+  <link rel="stylesheet" type="text/css" href="../static/style.css">
+</head>
+
+<body>
+  <nav>
+    <div>
+      <a href="index.html" class="logo">
+        <img src="../../images/CEEJ_Final_Logo_white.png" alt="Logo">
+      </a>
+    </div>
+  </nav>
+  <div class="space"></div>
+  <div class="login-container">
+    <div class="center">
+      <img src="greenplaceholder293211.png" alt="Login Image">
+    </div>
+    <div class="login-right">
+      <!-- Add the "action" and "method" attributes to the form tag -->
+      <form action="competitionsPage.html" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password-field" placeholder="Enter your password">
+
+        <!-- Change the input type to "submit" -->
+        <input type="submit" value="Login">
+
+        <div class="login_signup_button">
+          <div class="text">Don't have an account?</div>
+          <a href="signupPage.html">SignUp</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

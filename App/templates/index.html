@@ -1,14 +1,31 @@
-{% extends "layout.html" %}
-{% block title %}Flask MVC App{% endblock %}
-{% block page %}Flask MVC App{% endblock %}
-
-<!-- Initial commit -->
-<!-- Initial commit -->
-{{ super() }}
-
-{% block content %}
-    <h1>Flask MVC</h1>
-    <p>This is a boileplate flask application which follows the MVC pattern for structuring the project.</p>
-{% endblock %}
-
-<!--Finished Templates 18/04/2023-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Navbar Example</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <script src="../static/main.js"></script>
+  </head>
+  <body>
+    
+    <nav>
+      <div class="logo">
+        <img src="../../images/CEEJ_Final_Logo_white.png" alt="Logo">
+      </div>
+    </nav>
+    <div class="center">
+			   <img src="greenplaceholder293211.png" alt="Login Image">
+		    </div>
+    <!-- this is the login button-->
+      <div class="login_button">
+        <a href="loginPage.html">Login</a>
+      </div>
+    
+    <div class="text">
+      <p>Don't have an account?</p>
+    </div>
+    <!-- this is the signup button-->
+      <div class="signup_button">
+        <a href="signupPage.html">SignUp</a>
+      </div>
+  </body>
+</html>
