@@ -13,7 +13,7 @@ class Competition(db.Model):
     compName = db.Column(db.String(120), nullable=False)
     startDate = db.Column(db.Date, nullable=False)
     endDate = db.Column(db.Date, nullable=False)
-    teams = db.relationship("Team", backref="competition", lazy=True)
+    teams = db.relationship("Team", backref="competition", lazy=True, cascade = "all, delete-orphan")
 
     def __init__(self, adminId, compName, startDate, endDate):
         self.adminId = adminId

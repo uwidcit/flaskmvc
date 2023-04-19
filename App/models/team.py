@@ -7,11 +7,12 @@ db = SQLAlchemy()
 
 class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True) 
+    competitionId = db.Column(db.Integer, db.ForeignKey("compCode"),nullable=False)
     teamName = db.Column(db.String(120), nullable=False)
     score = db.Column(db.String(120), nullable = False)
     #memberID = db.Column(db.String(120), db.ForeignKey("member.id"), nullable = False)
     #comps = db.relationship('Competition', backref='team', lazy=True)
-    members = db.relationship('Member', backref='team', lazy=True)
+    members = db.relationship('Member', backref='team', lazy=True, cascade="all, delete-orphan")
     
     def __init__(self, teamName, score):
         self.teamName = teamName

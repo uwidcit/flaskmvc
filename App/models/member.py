@@ -9,7 +9,7 @@ class Member(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     memberName = db.Column(db.String(200), nullable = False)
     #Create a relationship between Member and Team
-    team = db.relationship('Team', backref='member', lazy=True)
+    team = db.relationship('Team', backref='member', lazy=True, cascade = "all, delete-orphan")
     
 
     def __init__(self, memberName):
