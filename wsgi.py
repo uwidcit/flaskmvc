@@ -116,4 +116,5 @@ def update_competition_command(self, compCode, name, start_date, end_date, team)
 @click.argument("compCode", default="1")
 def delete_competition_command(self, compCode):
     delete_competition(self, compCode)
-    print("f{compCode} deleated")
+    print("f{compCode} deleted")
+
