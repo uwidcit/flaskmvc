@@ -8,7 +8,7 @@ db = SQLAlchemy()
 
 class Admin(User):
     __tablename__='admin_user'
-    comps = db.relationship('Competition', backref='user', lazy=True) 
+    comps = db.relationship('Competition', backref='user', lazy=True, cascade = "all, delete-orphan") 
     
     def add_comp(self, compName, startDate, endDate, teamID):
         new_comp = Competition(compName=compName, startDate=startDate, endDate=endDate, teamID = teamID)
@@ -38,7 +38,7 @@ class Admin(User):
         return self.comps
 
     
-    def get_json(self):
+    def to_json(self):
         return{
             "id": self.id,
             "username": self.username,
