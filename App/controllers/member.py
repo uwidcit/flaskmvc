@@ -29,3 +29,6 @@ def delete_member(memberId):
         db.session.commit()
         return True
     return False
+
+def get_member_by_id_json(memberId):
+    return get_member(memberId).to_json()
