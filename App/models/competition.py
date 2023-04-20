@@ -13,11 +13,12 @@ class Competition(db.Model):
     endDate = db.Column(db.Date, nullable=False)
     teams = db.relationship("Team", backref="competition", lazy=True, cascade = "all, delete-orphan")
 
-    def __init__(self, adminId, compName, startDate, endDate):
+    def __init__(self, adminId, compName, startDate, endDate, teams):
         self.adminId = adminId
         self.compName = compName
         self.startDate = startDate
         self.endDate = endDate
+        self.teams = teams
         
     def to_json(self):
         return{
