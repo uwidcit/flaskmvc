@@ -1,6 +1,5 @@
 from App.database import db
 from App.models.team import Team 
-from App.controllers.competition import get_competition_by_id;
 
 def create_team(teamName, score):
     team = Team(teamName = teamName, score = score)
