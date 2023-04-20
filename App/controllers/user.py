@@ -11,8 +11,8 @@ def create_user(username, email, password, access ="user"):
     db.session.commit()
     return new_user
 
-def create_admin(username, email, password, access="admin"):
-    return create_user(username, email, password, access)
+def create_admin(username, email, password):
+    return create_user(username, email, password, "admin")
 
 def update_access(id, access):
     user = get_user_by_id(id)
