@@ -1,17 +1,10 @@
 from flask_login import login_user, login_manager, logout_user, LoginManager
 from flask_jwt_extended import create_access_token, jwt_required, JWTManager
 
-from App.models import User, admin
+from App.models import User
 
-#inital commit for Ethan branch
 def jwt_authenticate(username, password):
   user = User.query.filter_by(username=username).first()
-  if user and user.check_password(password):
-    return create_access_token(identity=username)
-  return None
-
-def admin_login(username, password):
-  user = admin.query.filter_by(username=username).first()
   if user and user.check_password(password):
     return create_access_token(identity=username)
   return None
@@ -19,7 +12,7 @@ def admin_login(username, password):
 def login(username, password):
     user = User.query.filter_by(username=username).first()
     if user and user.check_password(password):
-        return create_access_token(identity=username)
+        return user
     return None
 
 def setup_flask_login(app):
