@@ -8,17 +8,20 @@ class User(db.Model, UserMixin):
     username =  db.Column(db.String, nullable=False, unique=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+    access = db.Column(db.String(120), nullable=False)
 
-    def __init__(self, username, password, email):
+    def __init__(self, username, email,password,access):
         self.username = username
         self.email = email
         self.set_password(password)
+        self.access = access
 
     def to_json(self):
         return{
             "id": self.id,
             "username": self.username,
-            "email":self.email
+            "email":self.email,
+            "access": self.access,
         }
 
     def set_password(self, password):
@@ -28,4 +31,6 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         """Check hashed password."""
         return check_password_hash(self.password, password)
-
+    
+    def get_access(self):
+        return self.access

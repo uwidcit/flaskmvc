@@ -50,6 +50,22 @@ def list_user_command(format):
     else:
         print(get_all_users_json())
 
+@user_cli.command("create-user", help="Creates a user")
+@click.argument("username", default="bob")
+@click.argument("email", default="bob@bobmail.com")
+@click.argument("password", default="bobpass")
+def create_user_command(username, email, password):
+    user = create_user(username, email, password, "user")
+    print(user.to_json())
+
+@user_cli.command("create-admin", help="Creates an admin")
+@click.argument("username", default="adminbob")
+@click.argument("email", default="adminbob@bobmail.com")
+@click.argument("password", default="bobpass")
+def create_admin_command(username, email, password):
+    user = create_user(username, email, password, "admin")
+    print(user.to_json())
+
 app.cli.add_command(user_cli) # add the group to the cli
 
 '''
@@ -70,28 +86,6 @@ def user_tests_command(type):
     
 
 app.cli.add_command(test)
-
-#creates users for tests
-@app.cli.command("create-users")
-@click.argument("number", default=4)
-def create_users_command(number):
-    for i in range(1, number + 1):
-        user = get_user_by_username(f"rob{i}")
-        if not user:
-            create_user(f"rob{i}", f"rob{i}pass")
-            print(f"rob{i} created!")
-        else:
-            print(f"rob{i} already exists")
-
-@app.cli.command("create-user")
-@click.argument("number", default="1")
-def create_user_command(number):
-    user = get_user_by_username(f"bob{number}")
-    if not user:
-        create_user(f"bob{number}", "bobpass")
-        print(f"bob{number} created!")
-    else:
-        print(f"bob{number} already exists")
 
 competition_cli = AppGroup("competition", help = "to test competition commands")
 
@@ -119,6 +113,11 @@ def update_competition_command(self, compCode, name, start_date, end_date, team)
 def delete_competition_command(self, compCode):
     delete_competition(self, compCode)
     print("f{compCode} deleted")
+
+
+app.cli.add_command(competition_cli)
+
+
 
 team_cli = AppGroup("team", help ="to test team commands")
 
@@ -167,3 +166,4 @@ def delete_member_command(id):
     print("f{id} deleted")
 
 app.cli.add_command(member_cli)
+
