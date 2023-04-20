@@ -1,22 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}CEEJ Competitions Page{% endblock %}
+{% block page %}Competitions Page{% endblock %}
+
+{{ super() }}
+
+{% block content %}
 <!-- index.html -->
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>CEEJ Competitions View Page</title>
-    <link rel="stylesheet" type="text/css" href="../static/style.css">
-    <script src="../static/main.js"></script>
- </head>
-<body>
-  <nav>
-    <div>
-      <a href="index.html" class="logo">
-        <img src="../../images/CEEJ_Final_Logo_white.png" alt="Logo">
-      </a>
-    </div>
-  </nav>
   <!-- Add the Competitions span under the nav bar -->
   <div class="competitionspan">
-    <span>Participants</span>
+    <span>{{team.teamName}} ({{team.score}})</span>
   </div>
   <div class="filter-container">
     <button class="filter-buttons1">Filter 1</button>
@@ -30,7 +22,7 @@
     <!-- Add your sidebar content here -->
     <ul>
       <!-- Use Jinja for username here -->
-      <li class="usernameSidebar"><a href="">Username</a></li> 
+      <li class="usernameSidebar"><a href="">{{username}}</a></li> 
       <li class="logoutSidebar"><a href="index.html">Logout</a></li>
     </ul>
   </div>
@@ -40,20 +32,18 @@
       <thead>
         <tr>
           <th>Player Name</th>
-          <th>Score</th>
         </tr>
       </thead>
       <tbody>
+        {%for p in participants%}
         <tr>
-          <td>Player 1</td>
-          <td>10</td>
+          <td>p.name</td>
         </tr>
-        <tr>
-          <td>Player 2</td>
-          <td>8</td>
-        </tr>
+        {%endfor%}
       </tbody>
     </table>
   </div>
 </body>
 </html>
+    
+{% endblock %}

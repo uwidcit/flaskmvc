@@ -1,19 +1,10 @@
-<!-- index.html -->
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>CEEJ Competitions</title>
-    <link rel="stylesheet" type="text/css" href="../static/style.css">
-    <script src="../static/main.js"></script>
- </head>
-<body>
-  <nav>
-    <div>
-      <a href="index.html" class="logo">
-        <img src="../../images/CEEJ_Final_Logo_white.png" alt="Logo">
-      </a>
-    </div>
-  </nav>
+{% extends "layout.html" %}
+{% block title %}CEEJ Admin Home Page{% endblock %}
+{% block page %}Admin Home Page{% endblock %}
+
+{{ super() }}
+
+{% block content %}
   <!-- Add the Competitions span under the nav bar -->
   <div class="competitionspan">
     <span>Competitions (Admin)</span>
@@ -21,7 +12,7 @@
   <div class="filter-container">
     <button class="filter-buttons1">Filter 1</button>
     <button class="filter-buttons2">Filter 2</button>
-    <button class="add-button" href="createCompetitionPage.html"> Add Competition</button>
+    <a class="add-button" href="createCompetitionPage.html"> Add Competition</a>
   </div> 
   <div>
       <input type="text" class="search-bar" placeholder="Search">
@@ -31,30 +22,21 @@
     <!-- Add your sidebar content here -->
     <ul>
       <!-- Use Jinja for username here -->
-      <li class="usernameSidebar"><a href="#home">Username</a></li> 
+      <li class="usernameSidebar"><a href="adminPage">{{ username }}</a></li>
       <li class="logoutSidebar"><a href="index.html">Logout</a></li>
     </ul>
   </div>
   <div class="content" id="card-container">
     <!-- Cards will be dynamically appended here -->
-    <div class="card">
-      <div class="card-text">
-        <h3>Competition Name 1</h3>
-        <p>Competition Code 1</p>
-        <p>Start Date: </p>
-        <p>End Date: </p>
-        <p>Status: </p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-text">
-        <h3>Competition Name 2</h3>
-        <p>Competition Code 2</p>
-        <p>Start Date: </p>
-        <p>End Date: </p>
-        <p>Status: </p>
-      </div>
-    </div>
+    {%for c in competitions%}
+      <a href="teamViewPage.html" class="card"> <!-- add the link to the "teamViewPage.html" page -->
+        <div class="card-text">
+          <h3>{{c.compName}}</h3>
+          <p>{{c.id}}</p>
+          <p>{{c.startDate}}</p>
+          <p>{{c.endDate}}</p>
+        </div>
+      </a>
+    {%endfor%}
   </div>
-</body>
-</html>
+{% endblock %}

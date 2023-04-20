@@ -1,23 +1,16 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Navbar Example</title>
-    <link rel="stylesheet" type="text/css" href="../static/style.css">
-    <script src="../static/main.js"></script>
-  </head>
-  <body>
-    
-    <nav>
-      <div class="logo">
-        <img src="../../images/CEEJ_Final_Logo_white.png" alt="Logo">
-      </div>
-    </nav>
+{% extends "layout.html" %}
+{% block title %}CEEJ Landing Page{% endblock %}
+{% block page %}Landing Page{% endblock %}
+
+{{ super() }}
+
+{% block content %}
     <div class="center">
-			   <img src="greenplaceholder293211.png" alt="Login Image">
-		    </div>
+			<img src="../../images/CEEJ Landing Page gif.gif" alt="Login Image">
+		</div>
     <!-- this is the login button-->
       <div class="login_button">
-        <a href="loginPage.html">Login</a>
+        <a href="{{ url_for('login') }}">Login</a>
       </div>
     
     <div class="text">
@@ -25,7 +18,6 @@
     </div>
     <!-- this is the signup button-->
       <div class="signup_button">
-        <a href="signupPage.html">SignUp</a>
+        <a href="{{ url_for('signUp') }}">SignUp</a>
       </div>
-  </body>
-</html>
+{% endblock %}

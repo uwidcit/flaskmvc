@@ -1,25 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
+{% block title %}CEEJ Add Competition Page{% endblock %}
+{% block page %}Add Competition Page{% endblock %}
 
-<head>
-  <title>CEEJ Create Competitions</title>
-  <link rel="stylesheet" type="text/css" href="../static/style.css">
-</head>
+{{ super() }}
 
-<body>
-  <nav>
-  <nav>
-    <div>
-      <a href="index.html" class="logo">
-        <img src="../../images/CEEJ_Final_Logo_white.png" alt="Logo">
-      </a>
-    </div>
-  </nav>
-  </nav>
-    <div class = signup_space></div>
+{% block content %}
+<div class = signup_space></div>
     <div class="login-container">
       <div class="center">
-			<img src="greenplaceholder293211.png" alt="SignUp Image">
+			<img src="../../images/createcompspexels-cottonbro-studio-4709291.jpg" alt="SignUp Image">
 		</div>
 		<div class="login-right">
 <!-- 			<h1>Login</h1> -->
@@ -44,5 +33,4 @@
 			</form>
 		</div>
 	</div>
-</body>
-</html>
+{% endblock %}

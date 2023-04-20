@@ -35,7 +35,7 @@
 
 body {
   margin-top: 10vh;
-  background-image: url(grey_background_eb5a6f519466c8b0be4ec7613ed734e2.jpg);
+  background-image: url("../../images/backgroundpexels-tima-miroshnichenko-6474345.jpg");
   background-size: cover;
   background-color: #595959;
   color: white;
@@ -451,7 +451,7 @@ img {
         align-items: center;
         color:white;
         text-decoration: none;
-        background-color:#333;
+        background-color:#000000;
         margin-top: 10px;
         margin-left:30vw;
         margin-right:40vw;
@@ -461,7 +461,8 @@ img {
         
       }
       .card:hover{
-        background-color:#000000;
+        background-color:#00ff1e;
+        color: #000000;
         transform: scale(1.1);
       }
       @media only screen and (max-width: 1000px) {

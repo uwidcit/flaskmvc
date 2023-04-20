@@ -1,23 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
+{% block title %}CEEJ Login Page{% endblock %}
+{% block page %}Login Page{% endblock %}
 
-<head>
-  <title>CEEJ login</title>
-  <link rel="stylesheet" type="text/css" href="../static/style.css">
-</head>
+{{ super() }}
 
-<body>
-  <nav>
-    <div>
-      <a href="index.html" class="logo">
-        <img src="../../images/CEEJ_Final_Logo_white.png" alt="Logo">
-      </a>
-    </div>
-  </nav>
+{% block content %}
   <div class="space"></div>
   <div class="login-container">
     <div class="center">
-      <img src="greenplaceholder293211.png" alt="Login Image">
+      <img src="../../images/loginpexels-mikhail-nilov-6963944.jpg" alt="Login Image">
     </div>
     <div class="login-right">
       <!-- Add the "action" and "method" attributes to the form tag -->
@@ -33,11 +24,9 @@
 
         <div class="login_signup_button">
           <div class="text">Don't have an account?</div>
-          <a href="signupPage.html">SignUp</a>
+          <a href="{{ url_for('signUp') }}">SignUp</a>
         </div>
       </form>
     </div>
   </div>
-</body>
-
-</html>
+{% endblock %}
