@@ -9,6 +9,9 @@ db = SQLAlchemy()
 class Admin(User):
     __tablename__='admin_user'
     comps = db.relationship('Competition', backref='user', lazy=True, cascade = "all, delete-orphan") 
+
+    def __init__(self, username, email, password):
+        super().__init__(self, username, email, password) 
     
     def add_comp(self, compName, startDate, endDate, teamID):
         new_comp = Competition(compName=compName, startDate=startDate, endDate=endDate, teamID = teamID)
