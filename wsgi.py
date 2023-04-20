@@ -4,10 +4,11 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import db, get_migrate
 from App.main import create_app
-from App.controllers import ( create_user, get_all_users_json, get_all_users, get_user_by_username)
-from App.controllers.admin import ( create_competition, update_competition, delete_competition)
+from App.controllers import ( create_user, get_all_users_json, get_all_users)
+from App.controllers.competition import ( create_competition, update_competition, delete_competition, get_competition_by_name_json)
 from App.controllers.team import  (create_team, update_team, delete_team)
 from App.controllers.member import (create_member, update_member, delete_member)
+from App.controllers.user import (create_user, create_admin, get_all_users, get_all_users_json)
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -83,7 +84,41 @@ def user_tests_command(type):
         sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
     else:
         sys.exit(pytest.main(["-k", "App"]))
+
+@test.command("tests",help="Run tests for demonstration")
+def demo_tests_command():
+    admin1 = create_admin("admin", "admin@gmail.com", "adminpass")
+    user1 = create_user("bob", "bob@gmail.com", "bobpass", "user")
+    print(f"admin1: {admin1.to_json()}")
+    print(f"user1: {user1.to_json()}")
+
+    member1 = create_member(team1.id, admin1.id, "Timmy")
+    member2 = create_member(team1.id, admin1.id,"Jimbo")
+    member3 = create_member(team1.id, admin1.id,"Suzy")
     
+    member4 = create_member(team2.id, admin1.id,"Sachin")
+    member5 = create_member(team2.id, admin1.id,"Ceejay")
+    member6 = create_member(team2.id, admin1.id,"Pappan")
+          
+    team1 = create_team(comp1.id, admin1.id, "Noir", "20")
+    team2 = create_team(comp2.id, admin1.id, "Ceej", "13")
+
+    print(f"team1: {team1.to_json()}")
+    print(f"team2: {team2.to_json()}")
+
+    comp1 = create_competition(admin1.id,"Comp123", "01/12/2018", "14/12/2018")
+    comp2 = create_competition(admin1.id,"Comp123", "02/12/2020", "10/12/2020")
+    comp3 = create_competition(admin1.id,"Comp123", "03/11/2019", "01/12/2020")
+
+    print(f"comp1: {comp1.to_json()}")
+    print(f"comp2: {comp2.to_json()}")
+    print(f"comp3: {comp3.to_json()}")
+
+@test.command("competitions", help="Search for competitions")
+@click.argument("name")
+def competition_search_command(name):
+    competition = get_competition_by_name_json(name)
+    print(competition)
 
 app.cli.add_command(test)
 
@@ -114,10 +149,7 @@ def delete_competition_command(self, compCode):
     delete_competition(self, compCode)
     print("f{compCode} deleted")
 
-
 app.cli.add_command(competition_cli)
-
-
 
 team_cli = AppGroup("team", help ="to test team commands")
 
