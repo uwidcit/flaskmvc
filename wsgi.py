@@ -55,7 +55,7 @@ def list_user_command(format):
 @click.argument("username", default="bob")
 @click.argument("email", default="bob@bobmail.com")
 @click.argument("password", default="bobpass")
-def create_user_command(username, email, password):
+def create_user_command_2(username, email, password):
     user = create_user(username, email, password, "user")
     print(user.to_json())
 
@@ -124,78 +124,84 @@ app.cli.add_command(test)
 
 competition_cli = AppGroup("competition", help = "to test competition commands")
 
-@competition_cli("create", help = "create a new competition")
-@click.argument("name", default="Hackathon")
-@click.argument("start date", default="07/12/2015")
-@click.argument("end date", default="14/12/2015")
-@click.argument("team", default="Victors")
-def create_competition_command(name, start_date, end_date, team):
-    competition = create_competition(name, start_date, end_date, team)
+@competition_cli.command("create", help="create a new competition")
+@click.argument("admin_id", default=2)
+@click.argument("compName", default="Hackathon")
+@click.argument("startDate", default="07/12/2015")
+@click.argument("endDate", default="14/12/2015")
+def create_competition_command(admin_id, compName, startDate, endDate):
+    competition = create_competition(admin_id, compName, startDate, endDate)
     print(competition.to_json())
 
-@competition_cli("update", help = "update a competition")
-@click.argument("compCode", default="1")
-@click.argument("name", default="Hackathon")
-@click.argument("start date", default="07/12/2015")
-@click.argument("end date", default="16/12/2015")
-@click.argument("team", default = "Victors")
-def update_competition_command(self, compCode, name, start_date, end_date, team):
-    update_competition(self, compCode, name, start_date, end_date, team)
-    print("f{compCode} updated")
+@competition_cli.command("update", help="update a competition")
+@click.argument("id", default="1")
+@click.argument("admin_id", default=2)
+@click.argument("compName", default="Hackar")
+@click.argument("startDate", default="07/11/2015")
+@click.argument("endDate", default="10/11/2015")
+def update_competition_command(id,admin_id, compName, startDate, endDate):
+    competition = update_competition(id,admin_id, compName, startDate, endDate)
+    print(f"{id} updated")
 
-@competition_cli("delete", help = "delete a competition")
-@click.argument("compCode", default="1")
-def delete_competition_command(self, compCode):
-    delete_competition(self, compCode)
-    print("f{compCode} deleted")
+@competition_cli.command("delete", help="delete a competition")
+@click.argument("id", default="1")
+def delete_competition_command(id):
+    delete_competition(id)
+    print(f"{id} deleted")
 
 app.cli.add_command(competition_cli)
 
 team_cli = AppGroup("team", help ="to test team commands")
 
-@team_cli("create", help = "create a new team")
+@team_cli.command("create", help="create a new team")
+@click.argument("comp_id", default="1")
+@click.argument("admin_id", default="2")
 @click.argument("teamName", default="Victors")
-@click.argument("score", default = "100")
-def create_team_command(teamName, score):
-    team = create_team(teamName, score)
+@click.argument("score", default="100")
+def create_team_command(comp_id, admin_id,teamName, score):
+    team = create_team(comp_id, admin_id, teamName, score)
     print(team.to_json())
 
-@team_cli("update", help = "update a team")
-@click.argument("id", default="1")
+@team_cli.command("update", help="update a team")
+@click.argument("id", default="3")
 @click.argument("teamName", default="Victors")
 @click.argument("score", default="50")
-def update_team_command(id, teamName, score):
+def update_team_command(id,teamName, score):
     update_team(id, teamName, score)
-    print("f{id} updated")
+    print(f"{id} updated")
 
-@team_cli("delete", help = "delete a team")
-@click.argument("id", default="1")
+@team_cli.command("delete", help="delete a team")
+@click.argument("id", default="3")
 def delete_team_command(id):
     delete_team(id)
-    print("f{id} deleted")
+    print(f"{id} deleted")
 
 app.cli.add_command(team_cli)
 
 member_cli = AppGroup("member", help = "to test member commands")
 
-@member_cli("create", help = "create a member")
+@member_cli.command("create", help="create a member")
+@click.argument("teamId", default="1")
+@click.argument("adminId", default="2")
 @click.argument("memberName", default="Joe")
-def create_member_command(memberName):
-    member = create_member(memberName)
+def create_member_command(teamId, adminId, memberName):
+    member = create_member(teamId, adminId, memberName)
     print(member.to_json())
 
-@member_cli("update", help = "update a member")
-@click.argument("id", default="1")
+@member_cli.command("update", help="update a member")
+@click.argument("id", default="3")
+@click.argument("teamId", default="1")
+@click.argument("adminId", default="2")
 @click.argument("memberName", default="Jane")
 def update_member_command(id, memberName):
-    update_member(id, memberName)
-    print("f{id} updated")
+    update_member(id,memberName)
+    print(f"{id} updated")
 
-@member_cli("delete", help = "delete a member")
+@member_cli.command("delete", help="delete a member")
 @click.argument("id", default="1")
 def delete_member_command(id):
     delete_member(id)
-    print("f{id} deleted")
+    print(f"{id} deleted")
 
 app.cli.add_command(member_cli)
 
