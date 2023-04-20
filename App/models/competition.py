@@ -18,7 +18,7 @@ class Competition(db.Model):
         self.compName = compName
         self.startDate = startDate
         self.endDate = endDate
-        self.teams = teams
+        #self.teams = teams
         
     def to_json(self):
         return{
