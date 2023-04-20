@@ -2,438 +2,566 @@
 
 /* Style the scrollbar */
 ::-webkit-scrollbar {
-    width: 8px;
-    background-color: #F5F5F5;
-  }
-  
-  /* Style the thumb */
-  ::-webkit-scrollbar-thumb {
-    background-color: #00ff08;
-    border-radius: 10px;
-  }
-  
-  /* Style the track */
-  ::-webkit-scrollbar-track {
-    background-color: #F5F5F5;
-  }
-  
-  
-  @keyframes shake {
-    0% { transform: translateY(0); }
-    10% { transform: translateY(-5px) rotateX(-2.5deg); }
-    20% { transform: translateY(5px) rotateX(2.5deg); }
-    30% { transform: translateY(-5px) rotateX(-2.5deg); }
-    40% { transform: translateY(5px) rotateX(2.5deg); }
-    50% { transform: translateY(-5px) rotateX(-2.5deg); }
-    60% { transform: translateY(5px) rotateX(2.5deg); }
-    70% { transform: translateY(-5px) rotateX(-2.5deg); }
-    80% { transform: translateY(5px) rotateX(2.5deg); }
-    90% { transform: translateY(-5px) rotateX(-2.5deg); }
-    100% { transform: translateY(0); }
-  }
-  
-  
-  body {
-    margin-top: 10vh;
-    background-image: url(grey_background_eb5a6f519466c8b0be4ec7613ed734e2.jpg);
-    background-size: cover;
-    background-color: #595959;
-    color: white;
-    font-family: Arial;
-  }
-  
-  nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 10vh;
-    background-color: #000000;
-    color: #fff;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 999;
-  }
-  
-  
-  .logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
-  }
-  
-  .logo img {
-    height: 100%;
-  }
-  
-  .center {
-    flex: 1;
-    text-align: center;
-  }
-  
+  width: 8px;
+  background-color: #F5F5F5;
+}
+
+/* Style the thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #00ff08;
+  border-radius: 10px;
+}
+
+/* Style the track */
+::-webkit-scrollbar-track {
+  background-color: #F5F5F5;
+}
+
+
+@keyframes shake {
+  0% { transform: translateY(0); }
+  10% { transform: translateY(-5px) rotateX(-2.5deg); }
+  20% { transform: translateY(5px) rotateX(2.5deg); }
+  30% { transform: translateY(-5px) rotateX(-2.5deg); }
+  40% { transform: translateY(5px) rotateX(2.5deg); }
+  50% { transform: translateY(-5px) rotateX(-2.5deg); }
+  60% { transform: translateY(5px) rotateX(2.5deg); }
+  70% { transform: translateY(-5px) rotateX(-2.5deg); }
+  80% { transform: translateY(5px) rotateX(2.5deg); }
+  90% { transform: translateY(-5px) rotateX(-2.5deg); }
+  100% { transform: translateY(0); }
+}
+
+
+body {
+  margin-top: 10vh;
+  background-image: url(grey_background_eb5a6f519466c8b0be4ec7613ed734e2.jpg);
+  background-size: cover;
+  background-color: #595959;
+  color: white;
+  font-family: Arial;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  background-color: #000000;
+  color: #fff;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+.logo img {
+  height: 100%;
+}
+
+.center {
+  flex: 1;
+  text-align: center;
+}
+
+.center img {
+  padding: 20px 60px;
+  max-width: 50vw;
+  max-height: auto;
+}
+
+@media only screen and (max-width: 1000px) {
   .center img {
-    padding: 20px 60px;
-    max-width: 50vw;
-    max-height: auto;
+        max-width: 80vw;
+        max-height: auto;
   }
-  
-  @media only screen and (max-width: 1000px) {
-    .center img {
-          max-width: 80vw;
-          max-height: auto;
-    }
-  }
-  
-  
-  .login_button {
-    flex: 1;
-    text-align: center;
-    margin-bottom: 10px;
-    font-family: 'Impact';
-  }
-  
+}
+
+
+.login_button {
+  flex: 1;
+  text-align: center;
+  margin-bottom: 10px;
+  font-family: 'Impact';
+}
+
+.login_button a {
+  display: inline-block;
+  padding: 3vh 10vw;
+  background-color: #11ff00;
+  color: #333;
+  min-width: 100px;
+  min-height: 30px;
+  font-size: 30px;
+  border-radius: 50px;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 1000px) {
   .login_button a {
-    display: inline-block;
-    padding: 3vh 10vw;
-    background-color: #11ff00;
-    color: #333;
-    min-width: 100px;
-    min-height: 30px;
-    font-size: 30px;
-    border-radius: 50px;
-    transition: background-color 0.3s ease;
-    text-decoration: none;
+      font-size: 30px;
+      border-radius: 100px;
+      min-height: 30px;
   }
-  
-  @media only screen and (max-width: 1000px) {
-    .login_button a {
-        font-size: 30px;
-        border-radius: 100px;
-        min-height: 30px;
-    }
-  }
-  
-  .login_button a:hover {
-    background-color: #333;
-    color: #fff;
-    animation: shake 1s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
-    animation-iteration-count: 1;
-  }
-  
-  
-  .signup_button {
-    flex: 1;
-    text-align: center;
-    margin-bottom: 10px;
-    font-family: 'Impact';
-  }
-  
+}
+
+.login_button a:hover {
+  background-color: #333;
+  color: #fff;
+  animation: shake 1s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+  animation-iteration-count: 1;
+}
+
+
+.signup_button {
+  flex: 1;
+  text-align: center;
+  margin-bottom: 10px;
+  font-family: 'Impact';
+}
+
+.signup_button a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #000000;
+  color: #ffffff;
+  min-width: 50px;
+  min-height: 20px;
+  font-size: 15px;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 1000px) {
   .signup_button a {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #000000;
-    color: #ffffff;
-    min-width: 50px;
-    min-height: 20px;
-    font-size: 15px;
-    border-radius: 20px;
-    transition: background-color 0.3s ease;
-    text-decoration: none;
+      font-size: 30px;
+      border-radius: 100px;
+      min-height: 30px;
   }
-  
-  @media only screen and (max-width: 1000px) {
-    .signup_button a {
-        font-size: 30px;
-        border-radius: 100px;
-        min-height: 30px;
-    }
-  }
-  
-  .signup_button a:hover {
-    background-color: #00ff1e;
-    color: #000000;
-    animation: shake 1s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
-    animation-iteration-count: 1;
-  }
-  
-  .text {
-    text-align: center;
-    color:white;
-    padding: 10px 10vw;
-  }
-  
-  
-  /*/////////////////////////////////////////////////////////////////////////////////////////////////////  */
-  /* Login Page */
-  
-  .space {
-    height: 15vh;
-  }
+}
+
+.signup_button a:hover {
+  background-color: #00ff1e;
+  color: #000000;
+  animation: shake 1s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+  animation-iteration-count: 1;
+}
+
+.text {
+  text-align: center;
+  color:white;
+  padding: 10px 10vw;
+}
+
+
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////  */
+/* Login Page */
+
+.space {
+  height: 15vh;
+}
+.login-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 50vh;
+}
+
+.login-left {
+	flex-basis: 50%;
+	padding: 50px;
+  padding-top: 10vh;
+}
+
+.login-right {
+	flex-basis: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+h1 {
+	text-align: center;
+	font-size: 28px;
+	margin-bottom: 30px;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+  padding: 2vh;
+}
+
+label {
+	font-size: 18px;
+	margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"] {
+	padding: 20px;
+	margin-bottom: 20px;
+	border: none;
+	border-radius: 75px;
+	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+}
+
+input[type="submit"] {
+	background-color: #00ff1e;
+	color: #000000;
+	border: none;
+	padding: 20px 40px;
+	border-radius: 75px;
+	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+	cursor: pointer;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+
+@media (max-width: 1000px) {
   .login-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 50vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   
-  .login-left {
-      flex-basis: 50%;
-      padding: 50px;
+  .image {
+    width: 100%;
+    margin-bottom: 200px;
     padding-top: 10vh;
   }
   
-  .login-right {
-      flex-basis: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  .form {
+    width: 100%;
+    height: 100vh;
   }
-  
-  h1 {
-      text-align: center;
-      font-size: 28px;
-      margin-bottom: 30px;
-  }
-  
-  form {
-      display: flex;
-      flex-direction: column;
-    padding: 2vh;
-  }
-  
-  label {
-      font-size: 18px;
-      margin-bottom: 5px;
-  }
-  
-  input[type="text"],
-  input[type="password"] {
-      padding: 20px;
-      margin-bottom: 20px;
-      border: none;
-      border-radius: 75px;
-      box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
-  }
-  
-  input[type="submit"] {
-      background-color: #00ff1e;
-      color: #000000;
-      border: none;
-      padding: 20px 40px;
-      border-radius: 75px;
-      box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
-      cursor: pointer;
-  }
-  
-  img {
-      max-width: 100%;
-      height: auto;
-  }
-  
-  
-  @media (max-width: 1000px) {
-    .login-container {
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+}
+
+.login_signup_button {
+  flex: 1;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.login_signup_button a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #000000;
+  color: #ffffff;
+  min-width: 50px;
+  min-height: 20px;
+  font-size: 15px;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+.signup_space {
+  height: 220px;
+}
+/* //////////////////////////////// */
+
+.sidebar {
+      width: 10vw; 
+      height: 100vh; 
+      background-color: black; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      padding-top: 40vh; 
     }
-    
-    .image {
-      width: 100%;
-      margin-bottom: 200px;
-      padding-top: 10vh;
+
+    /* Define the sidebar links */
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0; 
     }
-    
-    .form {
-      width: 100%;
-      height: 100vh;
+
+    .sidebar li {
+      padding: 10px; 
     }
-  }
-  
-  .login_signup_button {
-    flex: 1;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-  
-  .login_signup_button a {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #000000;
-    color: #ffffff;
-    min-width: 50px;
-    min-height: 20px;
-    font-size: 15px;
-    border-radius: 20px;
-    transition: background-color 0.3s ease;
-    text-decoration: none;
-  }
-  
-  .signup_space {
-    height: 220px;
-  }
-  /* //////////////////////////////// */
-  
-  .sidebar {
-        width: 10vw; /* Set the width of the sidebar */
-        height: 100vh; /* Set the height of the sidebar to fill the viewport */
-        background-color: black; /* Set the background color of the sidebar */
-        position: fixed; /* Fix the position of the sidebar */
-        top: 0; /* Set the top position of the sidebar to 0 */
-        left: 0; /* Set the left position of the sidebar to 0 */
-        padding-top: 40vh; /* Add padding to the top of the sidebar for the logo */
+
+    .sidebar a {
+      color: #fff; 
+      text-decoration: none; 
+    }
+
+.usernameSidebar {
+  text-align: center;
+  margin-bottom: 2px;
+  font-family: 'Arial';
+}
+
+.usernameSidebar a {
+  display: inline-block;
+  padding: 1vh .5vw;
+  background-color: #000000;
+  color: #00ff1e;
+  min-width: 0px;
+  min-height: 0px;
+  font-size: 16px;
+  border-radius: 50px;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+.usernameSidebar a:hover {
+  background-color: #00ff1e;
+  color: #000000;
+}
+
+.logoutSidebar {
+  text-align: center;
+  margin-bottom: 2px;
+  font-family: 'Arial';
+}
+
+.logoutSidebar a {
+  display: inline-block;
+  padding: 1vh .5vw;
+  background-color: black;
+  color: white;
+  min-width: 0px;
+  min-height: 0px;
+  font-size: 16px;
+  border-radius: 50px;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+.logoutSidebar a:hover {
+  background-color: #ff0000;
+  color: #000000;
+}
+
+.competitionspan {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px; 
+  font-size: 24px;
+  background-color: #333; 
+  color: #fff; 
+  width:99.65vw;
+  z-index: 999;
       }
-  
-      /* Define the sidebar links */
-      .sidebar ul {
-        list-style-type: none; /* Remove bullet points from the list */
-        padding: 0; /* Remove padding from the list */
+
+@media only screen and (max-width: 1000px) {
+.competitionspan{
+  width: 99vw;
+}
+.sidebar{
+  width:17vw;
+}
+}
+
+/*///////////////////////mobile sidebar//////////////////////////////*/
+
+
+
+/* ///////////////////////////////////////////////////// */
+
+      .filter-buttons1 {
+        justify-content: left; 
+        margin-top: 10px; 
+        margin-left:10vw;
+        margin-right: 10px; 
+        display: inline-block;
+        padding: 1vh 2vw;
+        background-color: #00ff1e;
+        color: #000000;
+        min-width: 0px;
+        min-height: 0px;
+        font-size: 16px;
+        border-radius: 50px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        font-family: 'Impact';
       }
-  
-      .sidebar li {
-        padding: 10px; /* Add padding to each list item */
+.filter-buttons1:hover {
+  background-color: #000000;
+  color: #00ff1e;
+}
+    .filter-buttons2 {
+        justify-content: left; 
+        margin-top: 10px; 
+        margin-left:0vw;
+        margin-right: 10px; 
+        display: inline-block;
+        padding: 1vh 2vw;
+        background-color: #00ff1e;
+        color: #000000;
+        min-width: 0px;
+        min-height: 0px;
+        font-size: 16px;
+        border-radius: 50px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        font-family: 'Impact';
       }
-  
-      .sidebar a {
-        color: #fff; /* Set the color of the sidebar links */
-        text-decoration: none; /* Remove underline from the sidebar links */
+.filter-buttons2:hover {
+  background-color: #000000;
+  color: #00ff1e;
+}
+
+
+      .search-bar {
+        /* Add styles for the search bar */
+      margin-left: 85vw; 
+        display: flex;
+        margin-top: -5vh;
       }
-  
-  .usernameSidebar {
-    text-align: center;
-    margin-bottom: 2px;
-    font-family: 'Arial';
-  }
-  
-  .usernameSidebar a {
-    display: inline-block;
-    padding: 1vh .5vw;
-    background-color: #000000;
-    color: #00ff1e;
-    min-width: 0px;
-    min-height: 0px;
-    font-size: 16px;
-    border-radius: 50px;
-    transition: background-color 0.3s ease;
-    text-decoration: none;
-  }
-  
-  .usernameSidebar a:hover {
-    background-color: #00ff1e;
-    color: #000000;
-  }
-  
-  .logoutSidebar {
-    text-align: center;
-    margin-bottom: 2px;
-    font-family: 'Arial';
-  }
-  
-  .logoutSidebar a {
-    display: inline-block;
-    padding: 1vh .5vw;
-    background-color: black;
-    color: white;
-    min-width: 0px;
-    min-height: 0px;
-    font-size: 16px;
-    border-radius: 50px;
-    transition: background-color 0.3s ease;
-    text-decoration: none;
-  }
-  
-  .logoutSidebar a:hover {
-    background-color: #ff0000;
-    color: #000000;
-  }
-  
-  .competitionspan {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60px; /* Set the height of the span */
-    font-size: 24px; /* Set the font size of the span */
-    background-color: #333; /* Set the background color of the span */
-    color: #fff; /* Set the text color of the span */
-    width:99.65vw;
-    z-index: 999;
+      @media only screen and (max-width: 1000px) {
+        .search-bar{
+          margin-left: 37vw; 
+          margin-top: 1vh;
         }
-  
-  @media only screen and (max-width: 1000px) {
-  .competitionspan{
-    width: 99vw;
-  }
-  .sidebar{
-    width:17vw;
-  }
-  }
-  
-  /*///////////////////////mobile sidebar//////////////////////////////*/
-  
-  
-  
-  /* ///////////////////////////////////////////////////// */
-  
-        .filter-buttons {
-          display: flex;
-          justify-content: left; /* Center the filter buttons */
-          margin-top: 10px; /* Add margin between the buttons and Competitions span */
-          margin-left:10vw;
+        .filter-buttons1{
+          margin-left:5vw;
         }
-  
-        .filter-buttons button {
-          /* Add styles for the filter buttons if needed */
-          margin-right: 10px; /* Add margin between the buttons */
-          display: inline-block;
-          padding: 1vh 2vw;
-          background-color: #00ff1e;
-          color: #000000;
-          min-width: 0px;
-          min-height: 0px;
-          font-size: 16px;
-          border-radius: 50px;
-          transition: background-color 0.3s ease;
-          text-decoration: none;
-          font-family: 'Impact';
+        .filter-container {
+
+          margin-left:30vw;
+        margin-top: 10px; 
+      }
+      }
+      
+      .search-bar {
+        width: 200px;
+      }
+
+
+/* /////////////////////////////////////////////// */
+      .card {
+        display: flex;
+        align-items: center;
+        color:white;
+        text-decoration: none;
+        background-color:#333;
+        margin-top: 10px;
+        margin-left:30vw;
+        margin-right:40vw;
+        border-radius: 25px;
+        padding: 10px;
+        transition: transform 0.2s ease-in-out;
+        
+      }
+      .card:hover{
+        background-color:#000000;
+        transform: scale(1.1);
+      }
+      @media only screen and (max-width: 1000px) {
+        .card{
+          margin-right:10vw;
         }
-  
-        .search-bar {
-          /* Add styles for the search bar */
-          margin-top: 10px; /* Add margin between the search bar and filter buttons */
-          margin-left: 85vw; /* Add margin to align the search bar to the right */
+      }
+
+      .card-text {
+        /* Add styles for the text in the card */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 1vw;
+      }
+
+      .card-text h3, .card-text p {
+        margin: 0; 
+      }
+
+      .add-button{
+        justify-content: left; 
+        margin-top: 10px; 
+        margin-left:0vw;
+        margin-right: 10px; 
+        display: inline-block;
+        padding: 1vh 2vw;
+        background-color: #00ff1e;
+        color: #000000;
+        min-width: 0px;
+        min-height: 0px;
+        font-size: 16px;
+        border-radius: 50px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        font-family: 'Impact';
+}
+.add-button:hover {
+  background-color: #000000;
+  color: #00ff1e;
+}
+
+.csvButton{
+  display: inline-block;
+  padding: 1vh .5vw;
+  background-color: #e6e6e6;
+  color: #000000;
+  min-width: 0px;
+  min-height: 0px;
+  font-size: 16px;
+  border-radius: 50px;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  margin-bottom: 20px;
+}
+
+
+/* /////////////////////////////////////////////////////////////////////// */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+  margin-left:10vw;
+  max-width: 87vw;
+  background-color: black;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #00ff1e;
+  color: black;
+}
+
+tr:hover {
+  background-color: #333;
+}
+
+.team-name {
+  width: 30%;
+}
+
+.name {
+  width: 30%;
+}
+
+.score {
+  width: 40%;
+}
+      @media only screen and (max-width: 1000px) {
+        table{
+          max-width:70vw;
+          margin-left:20vw;
         }
-        @media only screen and (max-width: 1000px) {
-          .search-bar{
-            margin-left: 37vw; 
-          }
-          .filter-buttons {
-           justify-content: center;
-            margin-left:0vw;
-          margin-top: 10px; /* Add margin between the buttons and Competitions span */
-        }
-        }
-        /* Additional style to adjust width of search bar if needed */
-        .search-bar {
-          width: 200px;
-        }
-  
-  
-  /* /////////////////////////////////////////////// */
-        .card {
-          display: flex;
-          align-items: center;
-          margin-top: 10px;/* Add margin between the card and search bar */
-          margin-left:50vw;
-        }
-  
-        .card-text {
-          /* Add styles for the text in the card */
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-  
-        .card-text h3, .card-text p {
-          margin: 0; /* Remove margin on heading and paragraph elements */
-        }
+      }
+
+.viewTeamButton{
+  color: #00ff1e;
+}
