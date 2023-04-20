@@ -41,6 +41,30 @@ def get_end_date(id):
     competition = Competition.query.get(id)
     return competition.endDate
 
+def create_competition(adminId,compName,startDate,endDate,teams):
+    competition = Competition(adminId,compName,startDate,endDate,teams)
+    db.session.add(competition)
+    db.session.commit()
+    return competition
+
+def update_competition(id,adminId,compName,startDate,endDate,teams):
+    competition = get_competition_by_id(id)
+    if competition:
+        if adminId:
+            competition.adminId = adminId
+        if compName:
+            competition.compName = compName
+        if startDate:
+            competition.startDate = startDate
+        if endDate:
+            competition.endDate = endDate
+        if teams:
+            competition.teams = teams
+            db.session.add(competition)
+            db.session.commit()
+            return competition
+        return None
+    
 #Function to delete competition
 def delete_competition(id):
     competition = Competition.query.get(id)
