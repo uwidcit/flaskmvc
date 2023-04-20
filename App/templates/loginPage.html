@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
+{% block title %}CEEJ Login Page{% endblock %}
+{% block page %}Login Page{% endblock %}
 
-<head>
-  <title>CEEJ login</title>
-  <link rel="stylesheet" type="text/css" href="../static/style.css">
-</head>
+{{ super() }}
 
-<body>
-  <nav>
-    <div>
-      <a href="index.html" class="logo">
-        <img src="../../images/CEEJ_Final_Logo_white.png" alt="Logo">
-      </a>
-    </div>
-  </nav>
+{% block content %}
   <div class="space"></div>
   <div class="login-container">
     <div class="center">
@@ -33,11 +24,9 @@
 
         <div class="login_signup_button">
           <div class="text">Don't have an account?</div>
-          <a href="signupPage.html">SignUp</a>
+          <a href="{{ url_for('signUp') }}">SignUp</a>
         </div>
       </form>
     </div>
   </div>
-</body>
-
-</html>
+{% endblock %}
