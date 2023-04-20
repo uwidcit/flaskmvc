@@ -6,6 +6,8 @@ from App.database import db, get_migrate
 from App.main import create_app
 from App.controllers import ( create_user, get_all_users_json, get_all_users, get_user_by_username)
 from App.controllers.admin import ( create_competition, update_competition, delete_competition)
+from App.controllers.team import  (create_team, update_team, delete_team)
+from App.controllers.member import (create_member, update_member, delete_member)
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -116,4 +118,52 @@ def update_competition_command(self, compCode, name, start_date, end_date, team)
 @click.argument("compCode", default="1")
 def delete_competition_command(self, compCode):
     delete_competition(self, compCode)
-    print("f{compCode} deleated")
+    print("f{compCode} deleted")
+
+team_cli = AppGroup("team", help ="to test team commands")
+
+@team_cli("create", help = "create a new team")
+@click.argument("teamName", default="Victors")
+@click.argument("score", default = "100")
+def create_team_command(teamName, score):
+    team = create_team(teamName, score)
+    print(team.to_json())
+
+@team_cli("update", help = "update a team")
+@click.argument("id", default="1")
+@click.argument("teamName", default="Victors")
+@click.argument("score", default="50")
+def update_team_command(id, teamName, score):
+    update_team(id, teamName, score)
+    print("f{id} updated")
+
+@team_cli("delete", help = "delete a team")
+@click.argument("id", default="1")
+def delete_team_command(id):
+    delete_team(id)
+    print("f{id} deleted")
+
+app.cli.add_command(team_cli)
+
+member_cli = AppGroup("member", help = "to test member commands")
+
+@member_cli("create", help = "create a member")
+@click.argument("memberName", default="Joe")
+def create_member_command(memberName):
+    member = create_member(memberName)
+    print(member.to_json())
+
+@member_cli("update", help = "update a member")
+@click.argument("id", default="1")
+@click.argument("memberName", default="Jane")
+def update_member_command(id, memberName):
+    update_member(id, memberName)
+    print("f{id} updated")
+
+@member_cli("delete", help = "delete a member")
+@click.argument("id", default="1")
+def delete_member_command(id):
+    delete_member(id)
+    print("f{id} deleted")
+
+app.cli.add_command(member_cli)
