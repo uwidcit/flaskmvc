@@ -75,3 +75,13 @@ def delete_user(id):
         db.session.commit()
         return True
     return False
+
+def create_su():
+    user = get_user_by_username("admin123")
+    if not user:
+        user = create_admin("admin123", "admin123@gmail.com", "admin123")
+        print("admin created")
+        db.session.add(user)
+        return db.session.commit()
+    return None
+
