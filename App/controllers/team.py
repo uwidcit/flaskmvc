@@ -1,8 +1,8 @@
 from App.database import db
 from App.models.team import Team 
 
-def create_team(teamName, score):
-    team = Team(teamName = teamName, score = score)
+def create_team(competitionId, adminId, teamName, score):
+    team = Team(competitionId = competitionId, adminId = adminId, teamName = teamName, score = score)
     db.session.add(team)
     db.session.commit()
     return team
@@ -14,7 +14,7 @@ def update_team(id, teamName, score):
     team = get_team_by_id(id)
     if team:
         if teamName:
-            team.name = teamName
+            team.teamName = teamName
         if score:
             team.score = score
         db.session.add(team)
