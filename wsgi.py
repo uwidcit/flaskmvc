@@ -8,6 +8,7 @@ from App.controllers import ( create_user, get_all_users_json, get_all_users, ge
 from App.controllers.admin import ( create_competition, update_competition, delete_competition)
 from App.controllers.team import  (create_team, update_team, delete_team)
 from App.controllers.member import (create_member, update_member, delete_member)
+from App.controllers.user import (create_user, create_admin, get_all_users, get_all_users_json)
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -83,6 +84,16 @@ def user_tests_command(type):
         sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
     else:
         sys.exit(pytest.main(["-k", "App"]))
+
+@test.command("tests",help="Run tests for demonstration")
+def demo_tests_command():
+    admin1 = create_admin("admin", "admin@gmail.com", "adminpass")
+    user1 = create_user("bob", "bob@gmail.com", "bobpass", "user")
+    print(f"admin1: {admin1.to_json()}")
+    print(f"user1: {user1.to_json()}")
+    competition1 = create_competition_command("Comp123","07/12/2020", "14/12/2020",)
+
+
     
 
 app.cli.add_command(test)
