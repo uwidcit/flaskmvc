@@ -14,10 +14,7 @@
 # python-dotenv==0.21.1
 # Flask-JWT-Extended==4.4.4
 # Flask-Migrate==3.1.0
-nes (40 sloc)  1.45 KB
- 
-
-﻿alembic==1.8.1
+alembic==1.8.1
 atomicwrites==1.4.1
 attrs==22.1.0
 black==22.10.0
