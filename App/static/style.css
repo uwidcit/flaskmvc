@@ -51,7 +51,8 @@ nav {
   color: #fff;
   position: fixed;
   top: 0;
-  width: 100%;
+  left: -5vw;
+  width: 110vw;
   z-index: 999;
 }
 
@@ -446,30 +447,45 @@ img {
 
 
 /* /////////////////////////////////////////////// */
-      .card {
-        display: flex;
-        align-items: center;
-        color:white;
-        text-decoration: none;
-        background-color:#000000;
-        margin-top: 10px;
-        margin-left:30vw;
-        margin-right:40vw;
-        border-radius: 25px;
-        padding: 10px;
-        transition: transform 0.2s ease-in-out;
-        
-      }
-      .card:hover{
-        background-color:#00ff1e;
-        color: #000000;
-        transform: scale(1.1);
-      }
-      @media only screen and (max-width: 1000px) {
-        .card{
-          margin-right:10vw;
-        }
-      }
+.card-left {
+  margin-right: 20vw;
+}
+
+.card-right {
+  margin-left: 20vw;
+  justify-content:right;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  background-color: #000000;
+  margin-top: 10px;
+  border-radius: 25px;
+  margin-left:20vw;
+  margin-right:20vw;
+  padding: 10px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  background-color: #00ff1e;
+  color: #000000;
+  transform: scale(1.1);
+}
+
+@media only screen and (max-width: 1000px) {
+  .card-left,
+  .card-right {
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .card{
+    margin-right:0vw;
+  }
+}
 
       .card-text {
         /* Add styles for the text in the card */
@@ -565,4 +581,48 @@ tr:hover {
 
 .viewTeamButton{
   color: #00ff1e;
+}
+/* /////////////////////////////////////////////////////////// */
+
+      .competition-buttons1 {
+        justify-content: left; 
+        margin-top: 0vh; 
+        margin-left:10vw;
+        margin-right: 10px; 
+        display: inline-block;
+        padding: 1vh 2vw;
+        background-color: white;
+        color: black;
+        min-width: 0px;
+        min-height: 0px;
+        font-size: 16px;
+        border-radius: 50px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        font-family: 'Impact';
+      }
+.competition-buttons1:hover {
+  background-color: #000000;
+  color: white;
+}
+    .competition-buttons2 {
+        justify-content: left; 
+        margin-top: 10px; 
+        margin-left:0vw;
+        margin-right: 10px; 
+        display: inline-block;
+        padding: 1vh 2vw;
+        background-color: white;
+        color: black;
+        min-width: 0px;
+        min-height: 0px;
+        font-size: 16px;
+        border-radius: 50px;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        font-family: 'Impact';
+      }
+.competition-buttons2:hover {
+  background-color: red;
+  color: white;
 }
