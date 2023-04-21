@@ -140,3 +140,10 @@ def delete_user_action(id):
         delete_user(id)
         return jsonify({"message": "User deleted"}), 200
     return jsonify({"message": "User not found"}), 404
+
+@user_views.route("/", methods=["GET"])
+def index():
+    return render_template("index.html")
+
+# @user_views.route("/signup", methods=["GET"])
+# def signup_up()
