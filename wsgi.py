@@ -1,11 +1,18 @@
+# import click
+# import pytest
+# import sys
+# from flask import Flask
+# from flask.cli import with_appcontext, AppGroup
+
 import click
 import pytest
 import sys
-from flask import Flask
-from flask.cli import with_appcontext, AppGroup
-
-from App.database import db, get_migrate, create_db
+from flask.cli import AppGroup
+from App.database import create_db, get_migrate
 from App.main import create_app
+
+# from App.database import db, get_migrate, create_db
+# from App.main import create_app
 from App.controllers import ( create_user, get_all_users_json, get_all_users)
 from App.controllers.competition import ( create_competition, update_competition, delete_competition, get_competition_by_name_json)
 from App.controllers.team import  (create_team, update_team, delete_team)
