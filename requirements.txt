@@ -15,5 +15,4 @@ python-dotenv==0.21.1
 Flask-JWT-Extended==4.4.4
 Flask-Migrate==3.1.0
 Flask-JWT==0.3.2
-
-PyJWT==2.0.0
+PyJWT==1.4.0
