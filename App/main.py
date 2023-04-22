@@ -7,12 +7,13 @@ from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
 from datetime import timedelta
 
-from App.database import init_db, create_db, get_migrate_db
+from App.database import init_db, create_db, get_migrate
 from App.config import config
 
 from App.controllers import (
     setup_jwt,
-    setup_flask_login
+    setup_flask_login,
+    load_user_from_id
 )
 
 from App.views import(index_views, user_views)
