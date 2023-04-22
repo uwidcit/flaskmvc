@@ -36,23 +36,17 @@ def loadConfig(app, config):
 def create_app(config={}):
     app = Flask(__name__, static_url_path="/static")
     CORS(app)
-    loadConfig(app, config)
+    load_config(app, config)
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["TEMPLATES_AUTO_RELOAD"] = True
-    app.config["SEVER_NAME"] = "0.0.0.0"
     app.config["PREFERRED_URL_SCHEME"] = "https"
     app.config["UPLOADED_PHOTOS_DEST"] = "App/uploads"
     photos = UploadSet("photos", TEXT + DOCUMENTS + IMAGES)
     configure_uploads(app, photos)
-    excel.init_excel(app)
-    add_views(app)
+    add_views(app, views)
     create_db(app)
     setup_jwt(app)
-    with app.app_context() as app_context:
-        from App.controllers.user import create_su, create_default_farmer
-        create_su()
-        create_default_farmer()
-        app_context.push()
+    app.app_context().push()
     return app
 
     
