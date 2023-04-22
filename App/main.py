@@ -4,7 +4,7 @@ from flask_uploads import DOCUMENTS, IMAGES, TEXT, UploadSet, configure_uploads
 from flask_cors import CORS
 from datetime import timedelta
 from App.database import create_db, get_migrate
-from App.controllers import setup_jwt, load_user_from_id
+from App.controllers import setup_jwt
 from App.views import user_views, index_views
 views = [user_views, index_views]
 
