@@ -1,5 +1,6 @@
 from App.database import db
-from App.models.team import Team 
+from App.models.team import Team
+from datetime import datetime, timedelta
 
 def create_team(competitionId, adminId, teamName, score):
     team = Team(competitionId = competitionId, adminId = adminId, teamName = teamName, score = score)
