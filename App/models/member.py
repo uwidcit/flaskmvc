@@ -1,9 +1,5 @@
-from werkzeug.security import check_password_hash, generate_password_hash
-from flask_login import UserMixin
 from App.database import db
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql.expression import func
-db = SQLAlchemy()
+from datetime import datetime
 
 class Member(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
