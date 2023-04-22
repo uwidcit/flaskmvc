@@ -50,4 +50,6 @@ def create_app(config={}):
         app_context.push()
     return app
 
+app = create_app()
+migrate = get_migrate(app)
     
