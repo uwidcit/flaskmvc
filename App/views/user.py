@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
-from flask_jwt_extended import jwt_required, current_user as jwt_current_user
+#from flask_jwt_extended import jwt_required, current_user as jwt_current_user
 from flask_login import current_user, login_required
-from flask_jwt import current_identity
+from flask_jwt import current_identity, jwt_required
 
 from flask_jwt import jwt_required, current_identity
 
