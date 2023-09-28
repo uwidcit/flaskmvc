@@ -34,7 +34,7 @@ class Staff(db.Model):
   def add_programme(self, programme):
     self.programmes.append(programme)
 
-  def remove_programme(self, programme):  
+  def remove_programme(self, programme):
     self.programmes.remove(programme)
     
   def __repr__(self):
