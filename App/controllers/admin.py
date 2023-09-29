@@ -1,7 +1,7 @@
 from App.models import User 
 from App.models import Student
 from App.models import Staff 
-from App.models import db
+from App.database import db
 
 def addStudent(id,username,password):       #creates new student
     newstudent=Student(id=id,username=username,password=password) 
