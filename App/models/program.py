@@ -7,13 +7,11 @@ class Program(db.Model):
     coursesCodes = db.Column(db.String(150))
 
     def __init__(self, file_path):
-
         try:
             with open(file_path, 'r') as file:
                 lines = file.readlines()
                 self.name = lines[0].strip()
-                self.courseCodes = [code.strip() for code in lines[1:]]  
-                #self.courseCodes = json.dumps([code.strip() for code in lines[1:]])
+                self.coursesCodes = json.dumps([code.strip() for code in lines[1:]])
                  
         except FileNotFoundError:
             print("File not found.")
@@ -21,8 +19,9 @@ class Program(db.Model):
         except Exception as e:
             print(f"An error occurred: {e}")
     
-    # def get_course_codes(self):
-    #     return json.loads(self.coursesCodes) if self.coursesCodes else []
+    def get_course_codes(self):
+        return json.loads(self.coursesCodes) if self.coursesCodes else []
+
 
 
     def get_json(self):

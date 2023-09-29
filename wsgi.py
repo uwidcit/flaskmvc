@@ -10,7 +10,7 @@ from App.controllers import (
     get_all_users, 
     create_program,
     get_program,
-    get_program_by_name,
+    create_course,
     print_program_info
     )
 
@@ -111,3 +111,19 @@ def get_Program_command(id):
 
 app.cli.add_command(program)
 
+
+'''
+Course Commands
+'''
+
+course = AppGroup('course', help = 'Program object commands')
+
+@course.command('create', help='Create a new course')
+@click.argument('file_path')
+def create_course_command(file_path):  
+    with open(file_path, 'r') as file:
+        newcourse = create_course(file_path)
+        print(f'Course created with course code "{newcourse.courseCode}", name "{newcourse.courseName}", credits "{newcourse.credits}", ratings "{newcourse.rating}" and prerequites "{newcourse.prerequisites}"')
+
+
+app.cli.add_command(course)
