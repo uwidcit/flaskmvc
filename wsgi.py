@@ -4,7 +4,16 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import db, get_migrate
 from App.main import create_app
-from App.controllers import ( create_user, get_all_users_json, get_all_users )
+from App.controllers import ( 
+    create_user, 
+    get_all_users_json, 
+    get_all_users, 
+    create_program,
+    get_program,
+    get_program_by_name,
+    print_program_info
+    )
+
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -67,3 +76,38 @@ def user_tests_command(type):
     
 
 app.cli.add_command(test)
+
+
+'''
+Program Commands
+'''
+
+program = AppGroup('program', help = 'Program object commands')
+
+@program.command('create', help='Create a new program')
+@click.argument('file_path')
+def create_program_command(file_path):  
+    with open(file_path, 'r') as file:
+        course_codes = [code.strip() for code in file.readlines()[1:]]
+        print('Course codes:', course_codes)  # Print the course codes
+        newprogram = create_program(file_path)
+        print(f'Program created with ID {newprogram.id} and name "{newprogram.name}" and courses of this program are {newprogram.get_course_codes()}')
+
+# @program.command('display', help='Display program information')
+# @click.argument('program_id', type=int)
+# def display_program_command(program_id):
+#     print_program_info(program_id)
+
+
+@program.command('getProgram', help='Get program by name')
+@click.argument('id', type=int)
+def get_Program_command(id):
+    program = get_program(id)
+    if program:
+        r = program.get_json()
+        print(r)
+    else:
+        print(f'Program with ID "{id}" not found.')
+
+app.cli.add_command(program)
+
