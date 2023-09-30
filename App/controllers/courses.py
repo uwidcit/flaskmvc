@@ -14,22 +14,17 @@ def create_course(file_path):
         print(f"An error occurred: {e}")
 
 def get_course_by_courseCode(code):
-    return Course.query.get(courseCode=code).first()
+    return Course.query.filter_by(courseCode=code).first()
 
 def get_prerequisites(code):
     course = get_course_by_courseCode(code)
-    if course:
-        return course.prerequisites
-    else: 
-        return None
+    return course.prerequisites if course else None
 
 def get_credits(code):
     course = get_course_by_courseCode(code)
-    if course:
-        return course.credits
-    else: 
-        return None
+    return course.credits if course else 0
 
 def get_ratings(code):
     course = get_course_by_courseCode(code)
     return course.rating if course else 0
+

@@ -10,7 +10,10 @@ from App.controllers import (
     get_all_users, 
     create_program,
     get_core_courses,
+    get_core_credits,
     create_course,
+    get_course_by_courseCode,
+    get_prerequisites,
     )
 
 
@@ -91,27 +94,45 @@ def create_program_command(file_path):
         print(f'Program created with ID {newprogram.id} and name "{newprogram.name}"')
 
 @program.command('core', help='Get program core courses')
-@click.argument('programName', type=str)
-def get_CoreCourses(name):
-    courses = get_core_courses(name)
+@click.argument('programname', type=str)
+def get_CoreCourses(programname):
+    courses = get_core_courses(programname)
     print(f'{courses}') if courses else print(f'error')
+
+@program.command('corecredits', help='Get program core courses')
+@click.argument('programname', type=str)
+def get_CoreCredits(programname):
+    credits = get_core_credits(programname)
+    print(f'Total Core Credits = {credits}') if credits else print(f'error')
 
 
 app.cli.add_command(program)
 #################################################################
 
-# '''
-# Course Commands
-# '''
+'''
+Course Commands
+'''
 
-# course = AppGroup('course', help = 'Program object commands')
+course = AppGroup('course', help = 'Program object commands')
 
-# @course.command('create', help='Create a new course')
-# @click.argument('file_path')
-# def create_course_command(file_path):  
-#     with open(file_path, 'r') as file:
-#         newcourse = create_course(file_path)
-#         print(f'Course created with course code "{newcourse.courseCode}", name "{newcourse.courseName}", credits "{newcourse.credits}", ratings "{newcourse.rating}" and prerequites "{newcourse.prerequisites}"')
+@course.command('create', help='Create a new course')
+@click.argument('file_path')
+def create_course_command(file_path):  
+    newcourse = create_course(file_path)
+    print(f'Course created with course code "{newcourse.courseCode}", name "{newcourse.courseName}", credits "{newcourse.credits}", ratings "{newcourse.rating}" and prerequites "{newcourse.prerequisites}"')
 
 
-# app.cli.add_command(course)
+@course.command('prereqs', help='Create a new course')
+@click.argument('code', type=str)
+def create_course_command(code):  
+    prereqs = get_prerequisites(code)
+    print(f'These are the prerequisites for {code}: {prereqs}') if prereqs else print(f'error')
+
+@course.command('getcourse', help='Get a course by course code')
+@click.argument('code', type=str)
+def get_course(code):  
+    course = get_course_by_courseCode(code)
+    print(f'Course Name: {course.courseName}') if course else print(f'error')
+
+
+app.cli.add_command(course)
