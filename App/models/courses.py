@@ -16,7 +16,7 @@ class Course(db.Model):
                 self.courseName = lines[1].strip()
                 self.credits = lines[2].strip()
                 self.rating = lines[3].strip()
-                self.prerequisites = json.dumps([code.strip() for code in lines[4:]])  
+                self.prerequisites = json.dumps(lines[4].strip().split(','))  
         
         except FileNotFoundError:
             print("File not found.")

@@ -13,9 +13,6 @@ def create_course(file_path):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-def get_course_by_name(name):
-    return Course.query.filter_by(courseName=name).first()
-
 def get_course_by_courseCode(code):
     return Course.query.get(courseCode=code).first()
 
@@ -33,6 +30,6 @@ def get_credits(code):
     else: 
         return None
 
-
-def get_all_courses():
-    return Course.query.all()
+def get_ratings(code):
+    course = get_course_by_courseCode(code)
+    return course.rating if course else 0

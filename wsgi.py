@@ -9,9 +9,8 @@ from App.controllers import (
     get_all_users_json, 
     get_all_users, 
     create_program,
-    get_program,
+    get_core_courses,
     create_course,
-    print_program_info
     )
 
 
@@ -76,7 +75,7 @@ def user_tests_command(type):
     
 
 app.cli.add_command(test)
-
+#################################################################
 
 '''
 Program Commands
@@ -88,42 +87,31 @@ program = AppGroup('program', help = 'Program object commands')
 @click.argument('file_path')
 def create_program_command(file_path):  
     with open(file_path, 'r') as file:
-        course_codes = [code.strip() for code in file.readlines()[1:]]
-        print('Course codes:', course_codes)  # Print the course codes
         newprogram = create_program(file_path)
-        print(f'Program created with ID {newprogram.id} and name "{newprogram.name}" and courses of this program are {newprogram.get_course_codes()}')
+        print(f'Program created with ID {newprogram.id} and name "{newprogram.name}"')
 
-# @program.command('display', help='Display program information')
-# @click.argument('program_id', type=int)
-# def display_program_command(program_id):
-#     print_program_info(program_id)
+@program.command('core', help='Get program core courses')
+@click.argument('programName', type=str)
+def get_CoreCourses(name):
+    courses = get_core_courses(name)
+    print(f'{courses}') if courses else print(f'error')
 
-
-@program.command('getProgram', help='Get program by name')
-@click.argument('id', type=int)
-def get_Program_command(id):
-    program = get_program(id)
-    if program:
-        r = program.get_json()
-        print(r)
-    else:
-        print(f'Program with ID "{id}" not found.')
 
 app.cli.add_command(program)
+#################################################################
+
+# '''
+# Course Commands
+# '''
+
+# course = AppGroup('course', help = 'Program object commands')
+
+# @course.command('create', help='Create a new course')
+# @click.argument('file_path')
+# def create_course_command(file_path):  
+#     with open(file_path, 'r') as file:
+#         newcourse = create_course(file_path)
+#         print(f'Course created with course code "{newcourse.courseCode}", name "{newcourse.courseName}", credits "{newcourse.credits}", ratings "{newcourse.rating}" and prerequites "{newcourse.prerequisites}"')
 
 
-'''
-Course Commands
-'''
-
-course = AppGroup('course', help = 'Program object commands')
-
-@course.command('create', help='Create a new course')
-@click.argument('file_path')
-def create_course_command(file_path):  
-    with open(file_path, 'r') as file:
-        newcourse = create_course(file_path)
-        print(f'Course created with course code "{newcourse.courseCode}", name "{newcourse.courseName}", credits "{newcourse.credits}", ratings "{newcourse.rating}" and prerequites "{newcourse.prerequisites}"')
-
-
-app.cli.add_command(course)
+# app.cli.add_command(course)

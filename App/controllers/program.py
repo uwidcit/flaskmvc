@@ -16,21 +16,41 @@ def create_program(file_path):
 def get_program_by_name(programName):
     return Program.query.filter_by(name=programName).first()
 
-def get_program(id):
-    return Program.query.get(id)
+def get_level1_credits(programName):
+    program = get_program_by_name(programName)
+    return program.level1_credits if program else 0
 
-def get_all_programs():
-    return Program.query.all()
+def get_level1_courses(programName):
+    program = get_program_by_name(programName)
+    courses = program.str_level1_courses
+    return courses if program else []
 
-# def get_all_users_json():
-#     program = Program.query.all()
-#     if not program:
-#         return []
-    
-#     users = [user.get_json() for user in users]
-#     return users
+def get_core_credits(programName):
+    program = get_program_by_name(programName)
+    return program.core_credits if program else 0
 
-def print_program_info(id):
-    program = get_program(id)
-    program.get_json()
+def get_core_courses(programName):
+    program = get_program_by_name(programName)
+    courses = program.str_core_courses()
+    return courses if program else []
+
+def get_elective_credits(programName):
+    program = get_program_by_name(programName)
+    return program.elective_credits if program else 0
+
+def get_elective_courses(programName):
+    program = get_program_by_name(programName)
+    courses = program.str_elective_courses
+    return courses if program else []
+
+def get_foun_credits(programName):
+    program = get_program_by_name(programName)
+    return program.foun_credits if program else 0
+
+def get_foun_courses(programName):
+    program = get_program_by_name(programName)
+    courses = program.str_foun_courses
+    return courses if program else []
+
+
 
