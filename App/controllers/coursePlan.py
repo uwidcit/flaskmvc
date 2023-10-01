@@ -1,11 +1,12 @@
 from App.database import db 
 from App.models import Student
 from App.models import CoursePlan
-from App.models import Programme
+from App.models import Program
 from App.models import Course
 
 def addCourse(Student, courseCode):
     plan=CoursePlan.query.filter_by(studentId=Student.id).first()
+    #verify prereqs
     plan.courses.append(courseCode)
     print(f'Course added')
 
@@ -18,7 +19,7 @@ def removeCourse(Student, courseCode):
     print(f'Course not found')
 
 def getProgramme(Student):
-    return Programme.query.filter_by(programmeId=Student.programme_id).first()
+    return Program.query.filter_by(programmeId=Student.programme_id).first()
 
 def getRemainingCourses(completed, required):
     remaining=required.copy()
@@ -29,33 +30,33 @@ def getRemainingCourses(completed, required):
 
 def getRemainingCore(Student):
     programme=getProgramme(Student)
-    reqCore=programme.cores
+    reqCore=programme.get_core_courses(programme.name)
     remaining=getRemainingCourses(Student.courseHistory,reqCore)
     return remaining
 
 def getRemainingFoun(Student):
     programme=getProgramme(Student)
-    reqFoun=programme.foun
+    reqFoun=programme.get_foun_courses(programme.name)
     remaining=getRemainingCourses(Student.courseHistory,reqFoun)
     return remaining
 
 def getRemainingElec(Student):
     programme=getProgramme(Student)
-    reqElec=programme.electives
+    reqElec=programme.get_elective_courses(programme.name)
     remaining=getRemainingCourses(Student.courseHistory,reqElec)
     return remaining
 
 def remElecCredits(Student):
     programme=getProgramme(Student)
-    requiredCreds=programme.elecCredits
-    for course in programme.electives:
+    requiredCreds=programme.get_elective_credits(programme.name)
+    for course in programme.get_elective_courses(programme.name):
         if course in Student.courseHistory:
             c=Course.query.filter_by(courseCode=course).first()     #get course
-            requiredCreds=requiredCreds-c.credits     #subtract credits
+            requiredCreds=requiredCreds-c.get_credits(course)     #subtract credits
     return requiredCreds
 
 def findAvailable(courseList):
-    listing=1   #FIX - courses offered (posted by staff)
+    listing=[]   #FIX - courses offered (posted by staff)
     available=[]
     for course in courseList:
         if course in listing:
@@ -64,6 +65,21 @@ def findAvailable(courseList):
                 available.append(c)
     return available        #returns an array of course objects
 
+def checkPrereq(Student, listing):
+    completed=Student.courseHistory
+    validCourses=[]
+
+    for course in listing:
+        satisfied=True
+        prereq=course.get_prerequisites(course.courseCode)
+        #check if the student did all the prereq courses
+        for c in prereq:
+            if c not in completed:      #if at least one was not done, the student can't take the course
+                satisfied=False
+        if satisfied:
+            validCourses.append(c)
+    
+    return validCourses
 
 def prioritizeElectives(Student):
     #get available electives
@@ -71,7 +87,7 @@ def prioritizeElectives(Student):
     credits=remElecCredits(Student)
     courses=[]
     
-    #select courses to satisfy the programme's credit requiremen
+    #select courses to satisfy the programme's credit requirements
     for c in electives:     
         if credits>0:
             courses.append(c)
@@ -79,6 +95,7 @@ def prioritizeElectives(Student):
     
     #merge available, required core and foundation courses
     courses=courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
+    courses=checkPrereq(Student,courses)
     return courses
 
 
@@ -98,6 +115,7 @@ def easyCourses(Student):
     #merge available core and foundation courses and sort by difficulty
     courses= courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
     courses.sort(key=lambda x:getattr(x, "rating", 0)) 
+    courses=checkPrereq(Student,courses)
     return courses
 
 
@@ -116,4 +134,5 @@ def fastestGraduation(Student):
 
     #get available, required core and foundation courses
     courses= courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
+    courses=checkPrereq(Student,courses)
     return courses
