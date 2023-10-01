@@ -1,4 +1,4 @@
-from App.models import Student, CoursePlan, Program, PassCourses
+from App.models import CoursePlan, Program, PassCourses
 from App.database import db
 
 
