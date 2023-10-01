@@ -1,38 +1,50 @@
-from program import Program
-from course import Course
-from App.models import Staff
+from App.models import Program, Course
+from App.database import db
 
-class StaffController:
-    def __init__(self):
-        self.programmes = []  # Store programme instances here
-        self.courses = []     # Store course instances here
 
-    def add_programme(self, programme_name, description):
-        programme = Programme(programme_name, description)
-        self.programmes.append(programme)
+def add_programme(self, program_name, description):
+    try:
+        new_program = Program(name=program_name, description=description)
+        db.session.add(new_program)
+        db.session.commit()
+        return new_program
+    except Exception as e:
+        db.session.rollback()
+        print(f"An error occurred while adding the program: {e}")
 
-    def remove_programme(self, programme_name):
-        programme = self.get_programme_by_name(programme_name)
-        if programme:
-            self.programmes.remove(programme)
 
-    def add_course(self, course_code, course_name, credits):
-        course = Course(course_code, course_name, credits)
-        self.courses.append(course)
+def remove_programme(self, program_name):
+    try:
+        program = Program.query.filter_by(name=program_name).first()
+        if program:
+            db.session.delete(program)
+            db.session.commit()
+        else:
+            print(f"Program '{program_name}' not found.")
+    except Exception as e:
+        db.session.rollback()
+        print(f"An error occurred while removing the program: {e}")
 
-    def remove_course(self, course_code):
-        course = self.get_course_by_code(course_code)
+
+def add_course(self, course_code, course_name, credits):
+    try:
+        new_course = Course(code=course_code, name=course_name, credits=credits)
+        db.session.add(new_course)
+        db.session.commit()
+        return new_course
+    except Exception as e:
+        db.session.rollback()
+        print(f"An error occurred while adding the course: {e}")
+
+
+def remove_course(self, course_code):
+    try:
+        course = Course.query.filter_by(code=course_code).first()
         if course:
-            self.courses.remove(course)
-
-    def get_programme_by_name(self, programme_name):
-        for programme in self.programmes:
-            if programme.name == programme_name:
-                return programme
-        return None
-
-    def get_course_by_code(self, course_code):
-        for course in self.courses:
-            if course.code == course_code:
-                return course
-        return None
+            db.session.delete(course)
+            db.session.commit()
+        else:
+            print(f"Course '{course_code}' not found.")
+    except Exception as e:
+        db.session.rollback()
+        print(f"An error occurred while removing the course: {e}")
