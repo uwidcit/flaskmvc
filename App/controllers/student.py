@@ -1,33 +1,35 @@
-from App.models import Student
+from App.models import Student, CoursePlan, Program, PassCourses
 from App.database import db
 
-def enroll_in_programme(self, username, password, student_id, name, programme):
-    student = Student(username, password, student_id, name)
-    programme.add_student(student)
-    self.students.append(student)
 
-def add_course_to_plan(self, student_id, course):
-    student = self.get_student_by_id(student_id)
-    if student:
-        student.add_course_to_plan(course)
+def enroll_in_programme(self, programme_id):
+        programme = Program.query.get(programme_id)
+        if programme:
+            self.student.programmes.append(programme)
+            db.session.commit()
 
-def remove_course_from_plan(self, student_id, course):
-    student = self.get_student_by_id(student_id)
-    if student:
-        student.remove_course_from_plan(course)
+def add_course_to_plan(self, course_id):
+        course = CoursePlan.query.get(course_id)
+        if course:
+            self.student.courses.append(course)
+            db.session.commit()
 
-def view_course_plan(self, student_id):
-    student = self.get_student_by_id(student_id)
-    if student:
-        return student.view_course_plan()
+def remove_course_from_plan(self, course_id):
+        course = CoursePlan.query.get(course_id)
+        if course:
+            self.student.courses.remove(course)
+            db.session.commit()
 
-def add_course(self, student_id, courses, file):
-    student = self.get_student_by_id(student_id)
-    if student:
-        student.add_course(courses, file)
+def view_course_plan(self):
+        return [course.get_json() for course in self.student.courses]
 
-def get_student_by_id(self, student_id):
-    for student in self.students:
-        if student.id == student_id:
-            return student
-    return None
+def add_courses_from_file(self, file_path):
+        try:
+            with open(file_path, 'r') as file:
+                course_ids = [line.strip() for line in file.readlines()]
+                for course_id in course_ids:
+                    self.add_course_to_plan(course_id)
+        except FileNotFoundError:
+            return "File not found."
+        except Exception as e:
+            return str(e)
