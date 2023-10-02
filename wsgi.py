@@ -14,6 +14,8 @@ from App.controllers import (
     create_course,
     get_course_by_courseCode,
     get_prerequisites,
+    get_all_courses,
+    getRemainingCourses,
     )
 
 
@@ -127,6 +129,12 @@ def get_CoreCredits(programname):
     credits = get_core_credits(programname)
     print(f'Total Core Credits = {credits}') if credits else print(f'error')
 
+@program.command('allcourses', help='Get all courses')
+@click.argument('programname', type=str)
+def allCourses(programname):
+    all = get_all_courses(programname)
+    print(f'All courses are = {all}') if credits else print(f'error')
+
 
 app.cli.add_command(program)
 #################################################################
@@ -158,3 +166,22 @@ def get_course(code):
 
 
 app.cli.add_command(course)
+
+###########################################################
+
+'''
+Course Plan Commands
+'''
+
+coursePlan = AppGroup('plan', help = 'Course Plan object commands')
+
+@coursePlan.command('remaining', help='Get remaining program courses')
+@click.argument('programname', type=str)
+def remaining(programname):  
+    required = get_all_courses(programname)
+    completed = ['COMP1600']
+    newRemaining = getRemainingCourses(completed, required)
+    print(f'Remaining courses are: {newRemaining}')
+
+
+app.cli.add_command(coursePlan)
