@@ -1,8 +1,8 @@
-from user import User  # Import the User class from user.py
+from .user import User  # Import the User class from user.py
 from App.database import db
 
 class Student(User):
-    id = db.Column(db.String(10), foreign_key=True, unique=True)
+    id = db.Column(db.String(10), db.ForeignKey('user.id'), primary_key=True)
     name = db.Column(db.String(50))
 
     # Define a one-to-many relationship with PassCourses
