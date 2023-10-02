@@ -1,15 +1,16 @@
 from flask_login import UserMixin
 from App.database import db
+import json
 
 class CoursePlan(db.Model,UserMixin):
     planId=db.Column(db.Integer, primary_key=True)
-    #studentId=db.Column(db.Integer,  db.foreignkey('student.id'), nullable=False)
-    courses=db.Column(db.String(255), nullable=True)
-    #student=db.relationship('Student', db.backref('CoursePlan'))
+    studentId=db.Column(db.Integer,  db.foreignkey('student.id'), nullable=False)
+    courses=db.Column(db.ARRAY(db.String), nullable=True)
+    student=db.relationship('Student', db.backref('CoursePlan'))
     
     def __init__(self, studentId, courses=None):
         self.studentId = studentId
-        self.courses=courses
+        self.courses=json.dumps(courses)
 
     def get_json(self):
         return{

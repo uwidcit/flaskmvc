@@ -1,8 +1,9 @@
 from App.database import db 
-from App.models import Student
+#from App.models import Student
 from App.models import CoursePlan
 from App.models import Program
 from App.models import Course
+from App.models import OfferedCourses
 
 def addCourse(Student, courseCode):
     plan=CoursePlan.query.filter_by(studentId=Student.id).first()
@@ -17,9 +18,6 @@ def removeCourse(Student, courseCode):
         print(f'Course removed')
         return
     print(f'Course not found')
-
-def getProgramme(Student):
-    return Program.query.filter_by(programmeId=Student.programme_id).first()
 
 def getRemainingCourses(completed, required):
     remaining=required.copy()
