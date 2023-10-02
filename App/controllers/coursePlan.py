@@ -91,7 +91,7 @@ def prioritizeElectives(Student):
     for c in electives:     
         if credits>0:
             courses.append(c)
-            credits=credits-c.credits
+            credits=credits-c.get_credits(c.courseCode)
     
     #merge available, required core and foundation courses
     courses=courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
@@ -110,7 +110,7 @@ def easyCourses(Student):
     for c in electives:    
         if credits>0:
             courses.append(c)
-            credits=credits-c.credits
+            credits=credits-c.get_credits(c.courseCode)
 
     #merge available core and foundation courses and sort by difficulty
     courses= courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
@@ -130,7 +130,7 @@ def fastestGraduation(Student):
     for c in electives:    
         if credits>0:
             courses.append(c)
-            credits=credits-c.credits
+            credits=credits-c.get_credits(c.courseCode)
 
     #get available, required core and foundation courses
     courses= courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
