@@ -1,40 +1,55 @@
 from .user import User  # Import the User class from user.py
 from App.database import db
+import json
 
 class Student(User):
     id = db.Column(db.String(10), db.ForeignKey('user.id'), primary_key=True)
     name = db.Column(db.String(50))
+    course_history = db.Column(db.String(500))
+    nextSemCourses = db.Column(db.String(50))
+    program = db.Column(db.String(50))
 
-    # Define a one-to-many relationship with PassCourses
-    course_history = db.relationship('PassCourses', backref='student', lazy=True)
+# def __init__(self, file_path):
+#         try:
+#             with open(file_path, 'r') as file:
+#                 lines = file.readlines()
+#                 self.name = lines[0].strip()
+#                 self.level1_credits = lines[1].strip()
+#                 self.level1_courses = json.dumps(lines[2].strip().split(','))
+#                 self.core_credits = lines[3].strip()
+#                 self.core_courses = json.dumps(lines[4].strip().split(','))
+#                 self.elective_credits = lines[5].strip()
+#                 self.elective_courses = json.dumps(lines[6].strip().split(','))
+#                 self.foun_credits = lines[7].strip()
+#                 self.foun_courses = json.dumps(lines[8].strip().split(','))
+                 
+#         except FileNotFoundError:
+#             print("File not found.")
 
-    # Define a many-to-many relationship with CoursePlan
-    courses = db.relationship('CoursePlan', secondary='student_course', back_populates='students')
+#         except Exception as e:
+#             print(f"An error occurred: {e}")
 
-    # Define a many-to-many relationship with Programme
-    programmes = db.relationship('Programme', secondary='student_programme', back_populates='students')
-
-    def __init__(self, username, password, student_id, name):
+def __init__(self, username, password, student_id, name, file_path):
         super().__init__(username, password)
         self.id = student_id
         self.name = name
+        
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
 
-    def get_json(self):
-        user_json = super().get_json()
-        user_json['student_id'] = self.id
-        user_json['name'] = self.name
-        return user_json
 
-    # You can add more methods specific to the Student class here
+        # course History, courses, programmes using a file, 
 
-# Define the many-to-many association table for courses
-student_course_association = db.Table('student_course',
-    db.Column('student_id', db.String(10), db.ForeignKey('student.id')),
-    db.Column('course_id', db.Integer, db.ForeignKey('course_plan.id'))
-)
+# needed for nextSemCourses and Course history 
+# def get_prerequisites(self):
+#     return json.loads(self.prerequisites) if self.prerequisites else [] 
 
-# Define the many-to-many association table for programmes
-student_programme_association = db.Table('student_programme',
-    db.Column('student_id', db.String(10), db.ForeignKey('student.id')),
-    db.Column('programme_id', db.Integer, db.ForeignKey('programme.id'))
-)
+def get_json(self):
+        return{
+            'student_id': self.id,
+            'name': self.name,
+            'course history': self.course_history,
+            'next semester courses': self.nextSemCourses,
+            'program' : self.program
+        }
+
