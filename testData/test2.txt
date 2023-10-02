@@ -1,0 +1,4 @@
+Computer Science (Major)
+COMP1600
+COMP1601
+INFO1600

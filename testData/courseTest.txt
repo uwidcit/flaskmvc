@@ -1,0 +1,5 @@
+COMP3605
+Data Analytics
+3
+3
+COMP2611, MATH2250
