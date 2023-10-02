@@ -1,15 +1,35 @@
 from App.database import db 
-#from App.models import Student
+from App.models import Student
+from App.models import Staff
 from App.models import CoursePlan
 from App.models import Program
 from App.models import Course
 from App.models import OfferedCourses
 
+
+def getProgramme(Student):
+    return Program.query.filter_by(programmeId=Student.programme_id).first()
+
+
+def getOfferedCourses():
+    staff=Staff.first()
+    return staff.get_all_courses()
+
+
 def addCourse(Student, courseCode):
     plan=CoursePlan.query.filter_by(studentId=Student.id).first()
-    #verify prereqs
-    plan.courses.append(courseCode)
-    print(f'Course added')
+    course=checkPrereq(Student,[{courseCode}])    #verify prereqs
+    if course:
+        validCourse=findAvailable(course)#check availability
+    else:
+        print(f'Pre-req unsatisfied')
+    
+    if validCourse:
+        plan.courses.append(courseCode)
+        print(f'Course added')
+    else:
+        print(f'Course not available')
+
 
 def removeCourse(Student, courseCode):
     plan=CoursePlan.query.filter_by(studentId=Student.id).first()
@@ -19,6 +39,7 @@ def removeCourse(Student, courseCode):
         return
     print(f'Course not found')
 
+
 def getRemainingCourses(completed, required):
     remaining=required.copy()
     for course in required:
@@ -26,11 +47,13 @@ def getRemainingCourses(completed, required):
             remaining.remove(course)
     return remaining
 
+
 def getRemainingCore(Student):
     programme=getProgramme(Student)
     reqCore=programme.get_core_courses(programme.name)
     remaining=getRemainingCourses(Student.courseHistory,reqCore)
     return remaining
+
 
 def getRemainingFoun(Student):
     programme=getProgramme(Student)
@@ -38,11 +61,13 @@ def getRemainingFoun(Student):
     remaining=getRemainingCourses(Student.courseHistory,reqFoun)
     return remaining
 
+
 def getRemainingElec(Student):
     programme=getProgramme(Student)
     reqElec=programme.get_elective_courses(programme.name)
     remaining=getRemainingCourses(Student.courseHistory,reqElec)
     return remaining
+
 
 def remElecCredits(Student):
     programme=getProgramme(Student)
@@ -53,8 +78,9 @@ def remElecCredits(Student):
             requiredCreds=requiredCreds-c.get_credits(course)     #subtract credits
     return requiredCreds
 
+
 def findAvailable(courseList):
-    listing=[]   #FIX - courses offered (posted by staff)
+    listing=getOfferedCourses()
     available=[]
     for course in courseList:
         if course in listing:
@@ -62,6 +88,7 @@ def findAvailable(courseList):
             if c:
                 available.append(c)
     return available        #returns an array of course objects
+
 
 def checkPrereq(Student, listing):
     completed=Student.courseHistory
@@ -78,6 +105,7 @@ def checkPrereq(Student, listing):
             validCourses.append(c)
     
     return validCourses
+
 
 def prioritizeElectives(Student):
     #get available electives
