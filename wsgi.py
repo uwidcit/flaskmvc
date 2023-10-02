@@ -24,12 +24,14 @@ from App.controllers import (
 app = create_app()
 migrate = get_migrate(app)
 
+
 # This command creates and initializes the database
 @app.cli.command("init", help="Creates and initializes the database")
 def initialize():
     db.drop_all()
     db.create_all()
     create_user('bob', 'bobpass')
+    
     print('database intialized')
 
 '''
@@ -61,6 +63,26 @@ def list_user_command(format):
         print(get_all_users_json())
 
 app.cli.add_command(user_cli) # add the group to the cli
+
+
+# ... (previous code remains the same)
+
+'''
+Student
+'''
+student_cli = AppGroup("student", help="Student object commands")
+
+# Define the student create command
+@student_cli.command("create", help="Creates a student")
+@click.argument("username")
+@click.argument("password")
+@click.argument("student_id")
+@click.argument("name")
+def create_student_command(username, password, student_id, name):
+    create_student(username, password, student_id, name)
+    print(f"Student {username} created.")
+
+app.cli.add_command(student_cli)
 
 '''
 Test Commands
