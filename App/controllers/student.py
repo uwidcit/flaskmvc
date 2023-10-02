@@ -1,35 +1,68 @@
-from App.models import CoursePlan, Program, PassCourses
+from App.models import Student, CoursePlan, Program
 from App.database import db
 
+def create_student(username, password, student_id, name):
+    new_student = Student(username=username, password=password, id=student_id, name=name)
+    db.session.add(new_student)
+    db.session.commit()
+    return new_student
 
-def enroll_in_programme(self, programme_id):
-        programme = Program.query.get(programme_id)
-        if programme:
-            self.student.programmes.append(programme)
-            db.session.commit()
+def get_student_by_username(username):
+    return Student.query.filter_by(username=username).first()
 
-def add_course_to_plan(self, course_id):
-        course = CoursePlan.query.get(course_id)
-        if course:
-            self.student.courses.append(course)
-            db.session.commit()
+def get_student(id):
+    return Student.query.get(id)
 
-def remove_course_from_plan(self, course_id):
-        course = CoursePlan.query.get(course_id)
-        if course:
-            self.student.courses.remove(course)
-            db.session.commit()
+def get_all_students():
+    return Student.query.all()
 
-def view_course_plan(self):
-        return [course.get_json() for course in self.student.courses]
+def get_all_students_json():
+    students = Student.query.all()
+    if not students:
+        return []
+    students_json = [student.get_json() for student in students]
+    return students_json
 
-def add_courses_from_file(self, file_path):
-        try:
-            with open(file_path, 'r') as file:
-                course_ids = [line.strip() for line in file.readlines()]
-                for course_id in course_ids:
-                    self.add_course_to_plan(course_id)
-        except FileNotFoundError:
-            return "File not found."
-        except Exception as e:
-            return str(e)
+def update_student(id, username):
+    student = get_student(id)
+    if student:
+        student.username = username
+        db.session.add(student)
+        db.session.commit()
+        return student
+
+def enroll_in_programme(student, programme_id):
+    programme = Program.query.get(programme_id)
+    if programme:
+        student.programmes.append(programme)
+        db.session.add(student)  # Add the student object to the session
+        db.session.commit()
+
+def add_course_to_plan(student, course_id):
+    course = CoursePlan.query.get(course_id)
+    if course:
+        student.courses.append(course)
+        db.session.add(student)  # Add the student object to the session
+        db.session.commit()
+
+def remove_course_from_plan(student, course_id):
+    course = CoursePlan.query.get(course_id)
+    if course:
+        student.courses.remove(course)
+        db.session.add(student)  # Add the student object to the session
+        db.session.commit()
+
+def view_course_plan(student):
+    return [course.get_json() for course in student.courses]
+
+def add_courses_from_file(student, file_path):
+    try:
+        with open(file_path, 'r') as file:
+            course_ids = [line.strip() for line in file.readlines()]
+            for course_id in course_ids:
+                add_course_to_plan(student, course_id)
+        db.session.commit()  # Commit the changes after adding courses
+    except FileNotFoundError:
+        return "File not found."
+    except Exception as e:
+        return str(e)

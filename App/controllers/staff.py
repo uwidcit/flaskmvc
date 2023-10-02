@@ -2,7 +2,7 @@ from App.models import Program, Course
 from App.database import db
 
 
-def add_programme(self, program_name, description):
+def add_program(self, program_name, description):
     try:
         new_program = Program(name=program_name, description=description)
         db.session.add(new_program)
@@ -13,7 +13,7 @@ def add_programme(self, program_name, description):
         print(f"An error occurred while adding the program: {e}")
 
 
-def remove_programme(self, program_name):
+def remove_program(self, program_name):
     try:
         program = Program.query.filter_by(name=program_name).first()
         if program:
