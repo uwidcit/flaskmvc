@@ -22,7 +22,7 @@ def get_level1_credits(programName):
 
 def get_level1_courses(programName):
     program = get_program_by_name(programName)
-    courses = program.str_level1_courses
+    courses = program.str_level1_courses()
     return courses if program else []
 
 def get_core_credits(programName):
@@ -40,7 +40,7 @@ def get_elective_credits(programName):
 
 def get_elective_courses(programName):
     program = get_program_by_name(programName)
-    courses = program.str_elective_courses
+    courses = program.str_elective_courses()
     return courses if program else []
 
 def get_foun_credits(programName):
@@ -49,8 +49,17 @@ def get_foun_credits(programName):
 
 def get_foun_courses(programName):
     program = get_program_by_name(programName)
-    courses = program.str_foun_courses
+    courses = program.str_foun_courses()
     return courses if program else []
+
+def get_all_courses(programName):
+    level1_courses = get_level1_courses(programName)
+    core_courses = get_core_courses(programName)
+    elective_courses = get_elective_courses(programName)
+    foun_courses = get_foun_courses(programName)
+
+    all = level1_courses + core_courses + elective_courses + foun_courses
+    return all
 
 
 
