@@ -1,6 +1,6 @@
 from App.database import db 
-#from App.models import Student
-#from App.models import Staff
+from App.models import Student
+from App.models import Staff
 from App.models import CoursePlan
 from App.models import Program
 from App.models import Course
@@ -20,15 +20,20 @@ def addCourse(Student, courseCode):
     plan=CoursePlan.query.filter_by(studentId=Student.id).first()
     course=checkPrereq(Student,[{courseCode}])    #verify prereqs
     if course:
-        validCourse=findAvailable(course)#check availability
+        availableCourse=findAvailable(course)    #check availability
+        if availableCourse:
+          requiredCourses=getRemainingCore(Student)+getRemainingElec(Student)+getRemainingFoun(Student)
+          remainingCourses=getRemainingCourses(Student.courseHistory, requiredCourses)
+          if courseCode in remainingCourses:    #if course is listed as a degree requirement
+            plan.courses.append(courseCode)
+            print(f'Course added')
+          else:                           #course is not listed as a degree requirement
+            print(f'Course added. NOTE: This course is not required for your degree.')
+        else:
+            print(f'Course not available')
     else:
         print(f'Pre-req unsatisfied')
-    
-    if validCourse:
-        plan.courses.append(courseCode)
-        print(f'Course added')
-    else:
-        print(f'Course not available')
+    return
 
 
 def removeCourse(Student, courseCode):
