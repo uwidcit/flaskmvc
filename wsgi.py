@@ -1,5 +1,7 @@
 import click, pytest, sys
 from flask import Flask
+from App.controllers.admin import addStaff, createAdmin, removeAccount
+from App.controllers.student import create_student
 from flask.cli import with_appcontext, AppGroup
 
 from App.database import db, get_migrate
@@ -17,7 +19,6 @@ from App.controllers import (
     get_all_courses,
     getRemainingCourses,
     )
-
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -83,6 +84,37 @@ def create_student_command(username, password, student_id, name):
     print(f"Student {username} created.")
 
 app.cli.add_command(student_cli)
+
+'''
+Admin Commands
+'''
+
+admin_cli = AppGroup("admin", help="Admin object commands")
+
+# Define the admin create command
+@admin_cli.command("create_admin", help="Creates an admin")
+@click.argument("id")
+@click.argument("username")
+@click.argument("password")
+@click.argument("name")
+def create_admin_command(id, username, password, name):
+  createAdmin(id, username, password, name)
+
+@admin_cli.command("create_staff", help="Creates a staff member")
+@click.argument("id")
+@click.argument("username")
+@click.argument("password")
+@click.argument("name")
+def create_staff_command(id, username, password, name):
+  addStaff(id, username, password, name)
+  print(f"Staff member {username} created")
+
+@admin_cli.command("delete", help="Creates a staff member")
+@click.argument("id")
+def delete_user_command(id):
+  removeAccount(id)
+
+app.cli.add_command(admin_cli)
 
 '''
 Test Commands
