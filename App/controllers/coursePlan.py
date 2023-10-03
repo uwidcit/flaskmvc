@@ -1,6 +1,6 @@
 from App.database import db 
-from App.models import Student
-from App.models import Staff
+#from App.models import Student
+#from App.models import Staff
 from App.models import CoursePlan
 from App.models import Program
 from App.models import Course
@@ -12,8 +12,8 @@ def getProgramme(Student):
 
 
 def getOfferedCourses():
-    staff=Staff.first()
-    return staff.get_all_courses()
+    listing=OfferedCourses.first()
+    return listing.offered
 
 
 def addCourse(Student, courseCode):
