@@ -4,9 +4,10 @@ import json
 
 class CoursePlan(db.Model,UserMixin):
     planId=db.Column(db.Integer, primary_key=True)
-    #studentId=db.Column(db.Integer,  db.foreignkey('student.id'), nullable=False)
-    courses = db.Column((db.String(200)), nullable=True)
+    studentId=db.Column(db.Integer,  db.ForeignKey('student.id'), nullable=False)
+    courses=db.Column(db.String(100), nullable=True)
     #student=db.relationship('Student', db.backref('CoursePlan'))
+    student = db.relationship('Student', backref=db.backref('course_plans', uselist=True))
     
     def __init__(self, studentId, courses=None):
         self.studentId = studentId

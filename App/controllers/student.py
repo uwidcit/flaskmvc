@@ -1,8 +1,13 @@
 from App.models import Student, CoursePlan, Program
 from App.database import db
 
+<<<<<<< HEAD
 def create_student(file_path):
     new_student = Student(file_path)
+=======
+def create_student(student_id, password, name):
+    new_student = Student(username=student_id, password=password, name=name)
+>>>>>>> development
     db.session.add(new_student)
     db.session.commit()
     return new_student
@@ -24,9 +29,20 @@ def get_course_history(username):
     student = get_student_by_username(username)
     return student.course_history if student else []
 
+<<<<<<< HEAD
 def get_program(username):
     student = get_student_by_username(username)
     return student.program if student else ""
+=======
+def enroll_in_programme(student_id, programme_id):
+    student = get_student(student_id)
+    if student:
+        programme = Program.query.get(programme_id)
+        if programme:
+            student.program_id = programme_id
+            db.session.add(student)
+            db.session.commit()
+>>>>>>> development
 
 def get_nextSemCourses(username):
     student = get_student_by_username(username)
