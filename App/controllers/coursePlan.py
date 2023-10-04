@@ -27,7 +27,7 @@ def updateCoursePlan(studentId, courses):
 
 
 def getProgramme(Student):
-    return Program.query.filter_by(programmeId=Student.programme_id).first()
+    return Program.query.filter_by(id=Student.program_id).first()
 
 
 def getOfferedCourses():
@@ -66,6 +66,11 @@ def removeCourse(Student, courseCode):
 
 def getRemainingCourses(completed, required):
     remaining=required.copy()
+
+    # Check if either 'completed' or 'required' is None
+    if completed is None or required is None:
+        return []  # Return an empty list or handle it in a way that makes sense for your application
+    
     for course in required:
         if course in completed:
             remaining.remove(course)
@@ -74,33 +79,46 @@ def getRemainingCourses(completed, required):
 
 def getRemainingCore(Student):
     programme=getProgramme(Student)
+<<<<<<< HEAD
     reqCore=programme.get_level1_courses(programme.name) + programme.get_core_courses(programme.name)
     remaining=getRemainingCourses(Student.courseHistory,reqCore)
+=======
+    reqCore=programme.get_core_courses(programme.name)
+    remaining=getRemainingCourses(Student.course_history,reqCore)
+>>>>>>> fb66afb1efd67da59ad1be48f435f99ff99ed345
     return remaining
 
 
 def getRemainingFoun(Student):
     programme=getProgramme(Student)
     reqFoun=programme.get_foun_courses(programme.name)
-    remaining=getRemainingCourses(Student.courseHistory,reqFoun)
+    remaining=getRemainingCourses(Student.course_history,reqFoun)
     return remaining
 
 
 def getRemainingElec(Student):
-    programme=getProgramme(Student)
-    reqElec=programme.get_elective_courses(programme.name)
-    remaining=getRemainingCourses(Student.courseHistory,reqElec)
-    return remaining
+    program = getProgramme(Student)  # Get the student's program
+    if program:
+        reqElec = program.str_elective_courses()  # Use the instance method to get elective courses
+        if reqElec:
+            remaining = getRemainingCourses(Student.course_history, reqElec)
+            return remaining
+    return []
 
 
 def remElecCredits(Student):
-    programme=getProgramme(Student)
-    requiredCreds=programme.get_elective_credits(programme.name)
-    for course in programme.get_elective_courses(programme.name):
-        if course in Student.courseHistory:
-            c=Course.query.filter_by(courseCode=course).first()     #get course
-            requiredCreds=requiredCreds-c.get_credits(course)     #subtract credits
-    return requiredCreds
+    program = getProgramme(Student)  # Get the student's program
+    if program:
+        requiredCreds = program.elective_credits  # Access the elective_credits attribute
+        elective_courses = program.str_elective_courses()  # Use the instance method to get elective courses
+        if elective_courses:
+            for course in elective_courses:
+                if course in Student.course_history:
+                    c = Course.query.filter_by(courseCode=course).first()  # Get course
+                    if c:
+                        requiredCreds = requiredCreds - c.credits  # Subtract credits
+            return requiredCreds
+    return 0
 
 
 def findAvailable(courseList):
@@ -187,5 +205,24 @@ def fastestGraduation(Student):
     #get available, required core and foundation courses
     courses= courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
     courses=checkPrereq(Student,courses)
+<<<<<<< HEAD
     updateCoursePlan(Student.id,courses)
     return courses
+=======
+    return courses
+
+def create_easy_plan(studentId):
+    # Get the student object based on studentId
+    student = Student.query.get(studentId)
+    # Generate a list of courses using the easyCourses function
+    courses = easyCourses(student)
+
+    # Create a new CoursePlan for the student with the generated courses
+    new_course_plan = CoursePlan(studentId=studentId, courses=courses)
+
+    # Add the new course plan to the database and commit the changes
+    db.session.add(new_course_plan)
+    db.session.commit()
+
+    return new_course_plan
+>>>>>>> fb66afb1efd67da59ad1be48f435f99ff99ed345
