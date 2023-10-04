@@ -16,6 +16,7 @@ from App.controllers import (
     get_prerequisites,
     get_all_courses,
     getRemainingCourses,
+    addSemesterCourses
     )
 
 
@@ -164,6 +165,11 @@ def get_course(code):
     course = get_course_by_courseCode(code)
     print(f'Course Name: {course.courseName}') if course else print(f'error')
 
+@course.command('nextsem', help='Add a course to offered courses')
+@click.argument('code', type=str)
+def add_course(code):
+    course = addSemesterCourses(code)
+    print(f'Course Name: {course.courseName}') if course else print(f'error')
 
 app.cli.add_command(course)
 
