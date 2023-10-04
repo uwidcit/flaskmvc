@@ -4,13 +4,13 @@ import json
 
 class CoursePlan(db.Model,UserMixin):
     planId=db.Column(db.Integer, primary_key=True)
-    studentId=db.Column(db.Integer,  db.ForeignKey('student.id'), nullable=False)
-    #courses=db.Column(db.ARRAY(db.String), nullable=True)
-    #student=db.relationship('Student', db.backref('CoursePlan'))
+    studentId=db.Column(db.Integer,  db.ForeignKey('student.id'), nullable=False)    
+    courses=db.Column(db.String(200), nullable=True)
     
-    def __init__(self, studentId, courses=None):
+    
+    def __init__(self, studentId):
         self.studentId = studentId
-        self.courses=json.dumps(courses)
+        self.courses=""
 
     def get_json(self):
         return{

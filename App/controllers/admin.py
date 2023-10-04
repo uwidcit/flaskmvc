@@ -4,9 +4,9 @@ from App.models import Staff
 from App.models import Admin
 from App.database import db
 from App.models import OfferedCourses
-from App.controllers import create_user, removeAllCourses
+# from App.controllers import removeAllCourses
 from App.controllers.staff import create_staff
-
+import json
 
 
 def createAdmin(id, username, password, name):

@@ -1,6 +1,7 @@
 from App.models import Student, CoursePlan, Program
 from App.database import db
 
+
 def create_student(file_path):
     new_student = Student(file_path)
     db.session.add(new_student)

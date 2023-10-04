@@ -7,6 +7,25 @@ from App.models import Course
 from App.models import OfferedCourses
 
 
+def createCoursePlan(id):
+    blankPlan=CoursePlan(id)
+    db.session.add(blankPlan)
+    db.session.commit()
+    return blankPlan
+
+
+def getCoursePlan(id):
+  plan=CoursePlan.query.filter_by(studentId=id).first()
+  return plan.courses
+
+
+def updateCoursePlan(studentId, courses):
+    plan=CoursePlan.query.filter_by(studentId=studentId).first()
+    for c in courses:
+        plan.courses.append(c)
+    db.session.commit()
+
+
 def getProgramme(Student):
     return Program.query.filter_by(programmeId=Student.programme_id).first()
 
@@ -127,6 +146,7 @@ def prioritizeElectives(Student):
     #merge available, required core and foundation courses
     courses=courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
     courses=checkPrereq(Student,courses)
+    updateCoursePlan(Student.id,courses)
     return courses
 
 
@@ -147,6 +167,7 @@ def easyCourses(Student):
     courses= courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
     courses.sort(key=lambda x:getattr(x, "rating", 0)) 
     courses=checkPrereq(Student,courses)
+    updateCoursePlan(Student.id,courses)
     return courses
 
 
@@ -166,4 +187,5 @@ def fastestGraduation(Student):
     #get available, required core and foundation courses
     courses= courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
     courses=checkPrereq(Student,courses)
+    updateCoursePlan(Student.id,courses)
     return courses

@@ -7,7 +7,7 @@ class Admin(User):
     # user=db.relationship('User',backref=db.backref('Admin'))
 
     def __init__(self, username, password, name):
-        super().__init__(username=username,password=password)
+        super().__init__(username,password)
         self.name=name
         self.id=id
 

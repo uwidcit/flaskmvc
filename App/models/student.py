@@ -6,10 +6,9 @@ class Student(User):
     id = db.Column( db.ForeignKey('user.id'), primary_key=True)
     name = db.Column(db.String(50))
     course_history = db.Column(db.String(500))
-    plan_id = db.Column( db.ForeignKey('courseplan.planId'))
     nextSemCourses = db.Column(db.String(50))
     program = db.Column(db.String(50))
-
+    plan=db.relationship('CoursePlan',backref='student',lazy=True)
 
     def __init__(self, file_path):
         with open(file_path, 'r') as file:
