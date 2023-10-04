@@ -16,6 +16,10 @@ from App.controllers import (
     get_prerequisites,
     get_all_courses,
     getRemainingCourses,
+    create_student,
+    create_easy_plan,
+    enroll_in_programme,
+    get_student,
     )
 
 
@@ -76,11 +80,21 @@ student_cli = AppGroup("student", help="Student object commands")
 @student_cli.command("create", help="Creates a student")
 @click.argument("username")
 @click.argument("password")
-@click.argument("student_id")
+
 @click.argument("name")
-def create_student_command(username, password, student_id, name):
-    create_student(username, password, student_id, name)
+def create_student_command(username, password, name):
+    create_student(username, password, name)
     print(f"Student {username} created.")
+
+
+@student_cli.command("enroll", help="Enroll student in programme")
+@click.argument("student_id")
+@click.argument("programme_id")
+def enroll_student(student_id, programme_id):
+    enroll_in_programme(student_id, programme_id)
+    print(f"Student, added a programme.")
+
+
 
 app.cli.add_command(student_cli)
 
@@ -183,5 +197,13 @@ def remaining(programname):
     newRemaining = getRemainingCourses(completed, required)
     print(f'Remaining courses are: {newRemaining}')
 
+
+# Define the course plan create command
+@coursePlan.command("create_easy", help="Creates a course plan")
+@click.argument("student_id")
+
+def create_plan(student_id):
+    create_easy_plan(student_id)
+    print(f"Course plan created for {student_id}.")
 
 app.cli.add_command(coursePlan)

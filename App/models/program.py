@@ -11,6 +11,8 @@ class Program(db.Model):
     elective_courses = db.Column(db.String(200))
     foun_credits = db.Column(db.Integer)
     foun_courses = db.Column(db.String(30))
+    students = db.relationship('Student', backref='program', lazy=True)
+    
 
     def __init__(self, file_path):
         try:

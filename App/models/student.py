@@ -7,7 +7,9 @@ class Student(User):
     name = db.Column(db.String(50))
     course_history = db.Column(db.String(500))
     nextSemCourses = db.Column(db.String(50))
-    program = db.Column(db.String(50))
+    program_id = db.Column(db.String(10), db.ForeignKey('program.id'))
+    associated_program = db.relationship('Program', back_populates='students', overlaps="program")
+
 
 # def __init__(self, file_path):
 #         try:
@@ -29,13 +31,21 @@ class Student(User):
 #         except Exception as e:
 #             print(f"An error occurred: {e}")
 
-def __init__(self, username, password, student_id, name, file_path):
+def __init__(self, username, password, name, course_history=None, next_sem_courses=None, program_id=None):
+        # Call the parent class's __init__ method
         super().__init__(username, password)
-        self.id = student_id
+
+        # Initialize the additional fields
         self.name = name
+        self.course_history = course_history
+        self.nextSemCourses = next_sem_courses
+        self.program_id = program_id
+        #program_id = db.Column(db.String(10), db.ForeignKey('program.id'))
+        #program = db.relationship('Program', back_populates='students')
+
         
-        with open(file_path, 'r') as file:
-            lines = file.readlines()
+        #with open(file_path, 'r') as file:
+        #    lines = file.readlines()
 
 
         # course History, courses, programmes using a file, 
