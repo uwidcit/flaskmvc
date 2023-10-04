@@ -1,6 +1,8 @@
 from App.models import User  
 from App.database import db
 import json
+from App.models.coursePlan import CoursePlan
+
 
 class Student(User):
     id = db.Column( db.ForeignKey('user.id'), primary_key=True)
@@ -20,6 +22,7 @@ class Student(User):
             self.name = lines[2].strip()
             self.program = lines[3].strip()
             self.course_history = json.dumps(lines[4].strip().split(','))
+            self.plan=CoursePlan(id)
 
     def str_course_history(self):
         return json.loads(self.course_history) if self.course_history else [] 
