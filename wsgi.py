@@ -31,7 +31,7 @@ def initialize():
     db.drop_all()
     db.create_all()
     create_user('bob', 'bobpass')
-    
+    create_course('testData/courseTest.txt')
     print('database intialized')
 
 '''
@@ -79,7 +79,7 @@ student_cli = AppGroup("student", help="Student object commands")
 @click.argument("student_id")
 @click.argument("name")
 def create_student_command(username, password, student_id, name):
-    create_student(username, password, student_id, name)
+    #create_student(username, password, student_id, name)
     print(f"Student {username} created.")
 
 app.cli.add_command(student_cli)

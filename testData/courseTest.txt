@@ -3,3 +3,9 @@ Data Analytics
 3
 3
 COMP2611, MATH2250
+
+COMP3610
+Big Data Analytics
+3
+3
+COMP3605
