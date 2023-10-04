@@ -74,7 +74,7 @@ def getRemainingCourses(completed, required):
 
 def getRemainingCore(Student):
     programme=getProgramme(Student)
-    reqCore=programme.get_core_courses(programme.name)
+    reqCore=programme.get_level1_courses(programme.name) + programme.get_core_courses(programme.name)
     remaining=getRemainingCourses(Student.courseHistory,reqCore)
     return remaining
 
