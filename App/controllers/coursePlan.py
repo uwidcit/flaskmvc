@@ -79,13 +79,8 @@ def getRemainingCourses(completed, required):
 
 def getRemainingCore(Student):
     programme=getProgramme(Student)
-<<<<<<< HEAD
-    reqCore=programme.get_level1_courses(programme.name) + programme.get_core_courses(programme.name)
-    remaining=getRemainingCourses(Student.courseHistory,reqCore)
-=======
     reqCore=programme.get_core_courses(programme.name)
     remaining=getRemainingCourses(Student.course_history,reqCore)
->>>>>>> fb66afb1efd67da59ad1be48f435f99ff99ed345
     return remaining
 
 
@@ -205,10 +200,6 @@ def fastestGraduation(Student):
     #get available, required core and foundation courses
     courses= courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
     courses=checkPrereq(Student,courses)
-<<<<<<< HEAD
-    updateCoursePlan(Student.id,courses)
-    return courses
-=======
     return courses
 
 def create_easy_plan(studentId):
@@ -225,4 +216,3 @@ def create_easy_plan(studentId):
     db.session.commit()
 
     return new_course_plan
->>>>>>> fb66afb1efd67da59ad1be48f435f99ff99ed345
