@@ -1,4 +1,5 @@
 from App.models import Student, CoursePlan, Program
+from App.controllers.coursePlan import addCourse, getCoursePlan, removeCourse
 from App.database import db
 
 
@@ -40,25 +41,17 @@ def get_nextSemCourses(username):
 #         db.session.add(student)  # Add the student object to the session
 #         db.session.commit()
 
-# def add_course_to_plan(student, course_id):
-#     #Ashely needed here 
-#     course = CoursePlan.query.get(course_id)
-#     if course:
-#         student.courses.append(course)
-#         db.session.add(student)  
-#         db.session.commit()
+def add_course_to_plan(student, course_id):
+    addCourse(student,course_id)
+    return
 
-# def remove_course_from_plan(student, course_id):
-#     #Ashely needed here
-#     course = CoursePlan.query.get(course_id)
-#     if course:
-#         student.courses.remove(course)
-#         db.session.add(student)  # Add the student object to the session
-#         db.session.commit()
+def remove_course_from_plan(student, course_id):
+    removeCourse(student,course_id)
+    return
 
-# def view_course_plan(student):
-#     #Ashely needed here
-#     return [course.get_json() for course in student.courses]
+def view_course_plan(student):
+    plan=getCoursePlan(student.id)
+    return plan
 
 # def add_courses_from_file(student, file_path):
 #     try:
