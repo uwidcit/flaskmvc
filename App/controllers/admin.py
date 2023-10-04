@@ -3,8 +3,10 @@ from App.models import Student
 from App.models import Staff 
 from App.models import Admin
 from App.database import db
-from App.controllers import create_user
+from App.models import OfferedCourses
+from App.controllers import create_user, removeAllCourses
 from App.controllers.staff import create_staff
+
 
 
 def createAdmin(id, username, password, name):
@@ -19,21 +21,15 @@ def createAdmin(id, username, password, name):
   return newadmin
 
 
-# def addStudent(id,username,password):       #creates new student
-#     newstudent=Student(id=id,username=username,password=password) 
-#     try:
-#         db.session.add(newstudent)
-#         db.session.commit()
-#     except Exception as e:      #student already exists
-#         db.session.rollback()
-#         print(f'Username or ID already taken')
-#     print(f'Student created.')
-#     return newstudent
-
-
 def addStaff(id,username,password,name):     #creates new staff member
     newstaff = create_staff(password, id, name)
     return newstaff
+
+
+def removeCourseListing():
+   semcourses=OfferedCourses.query.first()
+   removeAllCourses(semcourses)
+   print(f'Course listing removed')
 
 
 def removeAccount(id):      #removes account by id
