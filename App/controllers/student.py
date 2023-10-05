@@ -1,9 +1,8 @@
 from App.models import Student, CoursePlan, Program
 from App.database import db
 
-def create_student(username, password, name):
-    new_student = Student(username=username, password=password)
-    new_student.name = name
+def create_student(student_id, password, name):
+    new_student = Student(username=student_id, password=password, name=name)
     db.session.add(new_student)
     db.session.commit()
     return new_student
@@ -38,9 +37,8 @@ def enroll_in_programme(student_id, programme_id):
         programme = Program.query.get(programme_id)
         if programme:
             student.program_id = programme_id
-            db.session.add(student)     # Add the student object to the session
+            db.session.add(student)
             db.session.commit()
-            
 
 def add_course_to_plan(student, course_id):
     course = CoursePlan.query.get(course_id)
