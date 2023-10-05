@@ -1,6 +1,8 @@
 import click, pytest, sys
+import csv
 from flask import Flask
 from flask.cli import with_appcontext, AppGroup
+
 
 from App.database import db, get_migrate
 from App.main import create_app
@@ -16,7 +18,8 @@ from App.controllers import (
     get_prerequisites,
     get_all_courses,
     getRemainingCourses,
-    addSemesterCourses
+    addSemesterCourses,
+    create_student
     )
 
 
@@ -32,8 +35,14 @@ def initialize():
     db.drop_all()
     db.create_all()
     create_user('bob', 'bobpass')
-    create_course('testData/courseTest.txt')
+    create_course('testData/courseData.csv')
     print('database intialized')
+
+    # with open('/Users/jerrellejohnson/Desktop/softEng2/flaskmvc/testData/courseData.csv', 'r') as csvfile:
+    #     csv_reader = csv.reader(csvfile)
+        
+    #     for row in csv_reader:
+    #         print(row)  # Display the row
 
 '''
 User Commands
@@ -75,13 +84,12 @@ student_cli = AppGroup("student", help="Student object commands")
 
 # Define the student create command
 @student_cli.command("create", help="Creates a student")
-@click.argument("username")
 @click.argument("password")
 @click.argument("student_id")
 @click.argument("name")
-def create_student_command(username, password, student_id, name):
-    #create_student(username, password, student_id, name)
-    print(f"Student {username} created.")
+def create_student_command(student_id, password, name):
+    student = create_student(student_id, password, name)
+    print(f"Student {student.id} created.")
 
 app.cli.add_command(student_cli)
 
@@ -165,6 +173,12 @@ def get_course(code):
     course = get_course_by_courseCode(code)
     print(f'Course Name: {course.courseName}') if course else print(f'error')
 
+@course.command('getprereqs', help='Get all prerequistes for a course')
+@click.argument('code', type=str)
+def get_course(code):  
+    course = get_course_by_courseCode(code)
+    print(f'Course Prerequisites: {course.prerequisites}') if course else print(f'error')
+
 @course.command('nextsem', help='Add a course to offered courses')
 @click.argument('code', type=str)
 def add_course(code):
@@ -181,13 +195,14 @@ Course Plan Commands
 
 coursePlan = AppGroup('plan', help = 'Course Plan object commands')
 
-@coursePlan.command('remaining', help='Get remaining program courses')
-@click.argument('programname', type=str)
-def remaining(programname):  
-    required = get_all_courses(programname)
-    completed = ['COMP1600']
-    newRemaining = getRemainingCourses(completed, required)
-    print(f'Remaining courses are: {newRemaining}')
+# @coursePlan.command('remaining', help='Get remaining program courses')
+# @click.argument('programname', type=str)
+# def remaining(programname):  
+
+#     # required = get_all_courses(programname)
+#     # completed = ['COMP1600']
+#     # newRemaining = getRemainingCourses(completed, required)
+#     # print(f'Remaining courses are: {newRemaining}')
 
 
 app.cli.add_command(coursePlan)
