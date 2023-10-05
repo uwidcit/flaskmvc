@@ -7,3 +7,4 @@ from .student import *
 from .courses import *
 from .coursePlan import *
 from .offeredCourses import *
+from .prerequistes import *
