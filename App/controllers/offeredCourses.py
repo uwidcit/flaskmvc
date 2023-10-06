@@ -1,4 +1,4 @@
-from App.models import OfferedCourses
+from App.models import CoursesOfferedPerSem
 from App.controllers import get_course_by_courseCode
 from App.database import db
 import json

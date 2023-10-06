@@ -8,9 +8,12 @@ class Course(db.Model):
     credits = db.Column(db.Integer)
     rating = db.Column(db.Integer)
 
-    #prerequisites_rel = db.relationship('Prerequisites', foreign_keys='Prerequisites.course_id', backref='prerequisite_rels')
-    #prerequisite_for = db.relationship('Prerequisites', foreign_keys='Prerequisites.prereq_code', back_populates='course', overlaps="prerequisites_rel")
-
+    offered = db.relationship('CoursesOfferedPerSem', backref ='courses', lazy=True)
+    students = db.relationship('StudentCourseHistory', backref='courses', lazy=True)
+    programs = db.relationship('ProgramCourses', backref='courses', lazy=True)
+    prerequisites = db.relationship('Prerequisites', backref='courses', lazy = True)
+   
+    
     def __init__(self):
         pass
         

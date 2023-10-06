@@ -18,6 +18,7 @@ class ProgramCourses(db.Model):
     
     def get_json(self):
         return{
+            'Program Course ID:' : self.id,
             'Program ID:': self.program_id,
             'Course Code: ': self.code,
             'Course Type: ': self.courseType

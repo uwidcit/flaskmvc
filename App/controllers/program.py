@@ -1,17 +1,14 @@
 from App.models import Program
 from App.database import db
 
-def create_program(file_path):
-    try:
-        newProgram = Program(file_path)
-        db.session.add(newProgram)
-        db.session.commit()
-        return newProgram
+def create_program(name, core, elective, foun):
+    newProgram = Program(name, core, elective, foun)
+    db.session.add(newProgram)
+    print("Program successfully created")
+    db.session.commit()
+    return newProgram
     
-    except FileNotFoundError:
-        print("File not found.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+    
 
 def get_program_by_name(programName):
     return Program.query.filter_by(name=programName).first()

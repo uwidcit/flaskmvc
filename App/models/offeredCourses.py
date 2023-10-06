@@ -1,9 +1,11 @@
 import json
 from App.database import db 
 
-class OfferedCourses(db.Model):
+class CoursesOfferedPerSem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    offered = db.Column(db.String(10))
+    code = db.Column(db.ForeignKey('course.courseCode'))
+    
+    associated_course = db.relationship('Course', back_populates='offered', overlaps="courses")
 
     def __init__(self, courseCode):
         self.offered = courseCode
