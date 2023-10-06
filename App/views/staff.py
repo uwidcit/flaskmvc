@@ -15,13 +15,26 @@ from App.controllers import (
 
 staff_views = Blueprint('staff_views', __name__, template_folder='../templates')
 
-@staff_views.route('/staff/addNextSemesterCourse/<courseCode>', methods=['POST'])
+@staff_views.route('/staff/addProgram/<name>/<core>/<elective>/<foun>',
+                   methods=['POST'])
+@login_required
+def addProgram(name, core, elective, foun):
+  newprogram = create_program(name, core, elective, foun)
+  return jsonify({'message': f"Program {newprogram['name']} added"
+                  }) if newprogram else 200
+
+
+@staff_views.route('/staff/addProgramReq/<name>/<code>/<num>',
+                   methods=['POST'])
+@login_required
+def addProgramRequirements(name, code, num):
+  create_programCourse(name, code, num)
+  return jsonify({'message': f"Program added"})
+
+
+@staff_views.route('/staff/addNextSemesterCourse/<courseCode>',
+                   methods=['POST'])
+@login_required
 def addCourse(courseCode):
-    token =gettoken
-    course = addSemesterCourses(courseCode)
-    return jsonify({'message': f"Course {course['courseName']} added"}) if course else 200
-
-
-
-    
-
+  course = addSemesterCourses(courseCode)
+  return jsonify({'message': f"Course {course['courseName']} added"}) if course else 200

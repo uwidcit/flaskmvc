@@ -6,7 +6,7 @@ import json
 def addSemesterCourses(courseCode):
     course = get_course_by_courseCode(courseCode)
     if course:
-        semCourses = OfferedCourses(courseCode)
+        semCourses = CoursesOfferedPerSem(courseCode)
         db.session.add(semCourses)
         db.session.commit()
         return course

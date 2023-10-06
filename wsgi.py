@@ -1,7 +1,6 @@
 import click, pytest, sys
 import csv
 from flask import Flask
-from App.controllers.admin import addStaff, createAdmin, removeAccount
 from App.controllers.student import create_student
 from flask.cli import with_appcontext, AppGroup
 
@@ -22,6 +21,7 @@ from App.controllers import (
     create_programCourse,
     addSemesterCourses,
     create_student,
+    create_staff,
     get_program_by_name,
     get_all_programCourses,
     addCoursetoHistory,
@@ -118,35 +118,41 @@ def completed(student_id):
 app.cli.add_command(student_cli)
 
 '''
-Admin Commands
+Staff Commands
 '''
+staff_cli = AppGroup('staff',help='testing staff commands')
+@staff_cli.command("create",help="create staff")
+@click.argument("id", type=str)
+@click.argument("password", type=str)
+@click.argument("name", type=str)
+def create_staff_command(id, password, name): 
+  newstaff=create_staff(password,id, name)
+  print(f'Staff {newstaff.name} created')
 
-admin_cli = AppGroup("admin", help="Admin object commands")
+@staff_cli.command("addprogram",help='testing add program feature')
+@click.argument("name", type=str)
+@click.argument("core", type=int)
+@click.argument("elective", type=int)
+@click.argument("foun", type=int)
+def create_program_command(name,core,elective,foun):
+  newprogram=create_program(name,core,elective,foun)
+  print(f'{newprogram.get_json()}')
 
-# Define the admin create command
-@admin_cli.command("create_admin", help="Creates an admin")
-@click.argument("id")
-@click.argument("username")
-@click.argument("password")
-@click.argument("name")
-def create_admin_command(id, username, password, name):
-  createAdmin(id, username, password, name)
+@staff_cli.command("addprogramcourse",help='testing add program feature')
+@click.argument("name", type=str)
+@click.argument("code", type=str)
+@click.argument("num", type=int)
+def add_program_requirements(name,code,num):
+  create_programCourse(name,code,num)
 
-@admin_cli.command("create_staff", help="Creates a staff member")
-@click.argument("id")
-@click.argument("username")
-@click.argument("password")
-@click.argument("name")
-def create_staff_command(id, username, password, name):
-  addStaff(id, username, password, name)
-  print(f"Staff member {username} created")
+@staff_cli.command("addofferedcourse",help='testing add courses offered feature')
+@click.argument("code", type=str)
+def add_offered_course(code):
+  course=addSemesterCourses(code)
+  print(f'Course details: {course}')
 
-@admin_cli.command("delete", help="Creates a staff member")
-@click.argument("id")
-def delete_user_command(id):
-  removeAccount(id)
 
-app.cli.add_command(admin_cli)
+app.cli.add_command(staff_cli)
 
 '''
 Test Commands
