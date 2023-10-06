@@ -7,7 +7,7 @@ class Student(User):
     name = db.Column(db.String(50))
     course_history = db.Column(db.String(500))
     nextSemCourses = db.Column(db.String(50))
-    program_id = db.Column(db.String(10), db.ForeignKey('program.id'))
+    program_id = db.Column(db.Integer, db.ForeignKey('program.id'))
     associated_program = db.relationship('Program', back_populates='students', overlaps="program")
 
     def __init__(self, username, password, name, course_history=None, next_sem_courses=None, program_id=None):
