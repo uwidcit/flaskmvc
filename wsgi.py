@@ -17,9 +17,14 @@ from App.controllers import (
     get_course_by_courseCode,
     get_prerequisites,
     get_all_courses,
-    getRemainingCourses,
+    create_programCourse,
     addSemesterCourses,
-    create_student
+    create_student,
+    get_program_by_name,
+    get_all_programCourses,
+    addCoursetoHistory,
+    getCompletedCourses,
+    get_allCore,
     )
 
 
@@ -36,6 +41,9 @@ def initialize():
     db.create_all()
     create_user('bob', 'bobpass')
     create_course('testData/courseData.csv')
+    create_program("Computer Science Major", 69, 15, 9)
+    create_student(816, "boo", "testing", "Computer Science Major")
+    
     print('database intialized')
 
     # with open('/Users/jerrellejohnson/Desktop/softEng2/flaskmvc/testData/courseData.csv', 'r') as csvfile:
@@ -84,12 +92,27 @@ student_cli = AppGroup("student", help="Student object commands")
 
 # Define the student create command
 @student_cli.command("create", help="Creates a student")
-@click.argument("password")
-@click.argument("student_id")
-@click.argument("name")
-def create_student_command(student_id, password, name):
-    student = create_student(student_id, password, name)
-    print(f"Student {student.id} created.")
+@click.argument("student_id", type=str)
+@click.argument("password", type=str)
+@click.argument("name", type=str)
+@click.argument("programName", type=str)
+def create_student_command(student_id, password, name, programname):
+    create_student(student_id, password, name, programname)
+
+@student_cli.command("addCourse", help="Student adds a completed course to their history")
+@click.argument("student_id", type=str)
+@click.argument("code", type=str)
+def addCourse(student_id, code):
+    addCoursetoHistory(student_id, code)
+
+@student_cli.command("getCompleted", help="Get all of a student completed courses")
+@click.argument("student_id", type=str)
+def completed(student_id):
+    comp = getCompletedCourses(student_id)
+    for c in comp:
+        print(f'{c.code}')
+
+
 
 app.cli.add_command(student_cli)
 
@@ -120,17 +143,23 @@ Program Commands
 program = AppGroup('program', help = 'Program object commands')
 
 @program.command('create', help='Create a new program')
-@click.argument('file_path')
-def create_program_command(file_path):  
-    with open(file_path, 'r') as file:
-        newprogram = create_program(file_path)
-        print(f'Program created with ID {newprogram.id} and name "{newprogram.name}"')
+@click.argument('name', type=str)
+@click.argument('core', type=int)
+@click.argument('elective', type=int)
+@click.argument('foun', type=int)
+def create_program_command(name, core, elective, foun):
+    program = create_program(name, core, elective, foun)
+    
 
 @program.command('core', help='Get program core courses')
-@click.argument('programname', type=str)
-def get_CoreCourses(programname):
-    courses = get_core_courses(programname)
-    print(f'{courses}') if courses else print(f'error')
+#@click.argument('programname', type=str)
+def get_CoreCourses():
+    create_programCourse("Computer Science Major", "COMP2611", 1)
+    create_programCourse("Computer Science Major", "COMP3605", 1)
+    create_programCourse("Computer Science Major", "COMP3610", 2)
+    core = get_allCore("Computer Science Major")
+    for c in core:
+        print({c.code})
 
 @program.command('corecredits', help='Get program core courses')
 @click.argument('programname', type=str)
@@ -144,6 +173,25 @@ def allCourses(programname):
     all = get_all_courses(programname)
     print(f'All courses are = {all}') if credits else print(f'error')
 
+@program.command('getprogram', help='Get a program by name')
+@click.argument('programname', type=str)
+def getProgram(programname):
+   program = get_program_by_name(programname)
+   print(f'{program.id}')
+
+@program.command('addCourse', help='Add a course to a program')
+@click.argument('programname', type=str)
+@click.argument('code', type=str)
+@click.argument('type', type=int)
+def addProgramCourse(programname, code, type):
+   create_programCourse(programname, code, type)
+
+@program.command('getprogramCourses', help='Get all courses of a program')
+@click.argument('programname', type=str)
+def addProgramCourse(programname):
+   courses = get_all_programCourses(programname)
+   for c in courses:
+       print(f'{c.code}')
 
 app.cli.add_command(program)
 #################################################################
@@ -176,8 +224,9 @@ def get_course(code):
 @course.command('getprereqs', help='Get all prerequistes for a course')
 @click.argument('code', type=str)
 def get_course(code):  
-    course = get_course_by_courseCode(code)
-    print(f'Course Prerequisites: {course.prerequisites}') if course else print(f'error')
+    prereqs = get_prerequisites(code)
+    for r in prereqs:
+        print(f'{r.prereq_courseCode}')
 
 @course.command('nextsem', help='Add a course to offered courses')
 @click.argument('code', type=str)
