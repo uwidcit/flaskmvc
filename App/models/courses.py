@@ -11,13 +11,12 @@ class Course(db.Model):
     students = db.relationship('StudentCourseHistory', backref='courses', lazy=True)
     programs = db.relationship('ProgramCourses', backref='courses', lazy=True)
     prerequisites = db.relationship('Prerequisites', backref='courses', lazy = True)
+
+    # planIds = db.relationship('CoursePlanCourses', backref='courses', lazy=True)
    
     
     def __init__(self):
         pass
-        
-    def get_prerequisites(self):
-        return json.loads(self.prerequisites) if self.prerequisites else []
     
     def get_json(self):
         return{
@@ -27,4 +26,3 @@ class Course(db.Model):
             'No. of Credits: ': self.credits,
             'Prerequistes: ': self.prerequisites
         }
-

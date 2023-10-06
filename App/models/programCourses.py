@@ -1,6 +1,4 @@
 from App.database import db
-import json
-
 class ProgramCourses(db.Model):
     __tablename__ ='program_courses'
     id = db.Column(db.Integer, primary_key=True)

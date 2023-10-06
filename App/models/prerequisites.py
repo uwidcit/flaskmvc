@@ -1,6 +1,4 @@
 from App.database import db
-
-
 class Prerequisites(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
@@ -16,8 +14,8 @@ class Prerequisites(db.Model):
         self.courseName = nameofCourse
 
     def get_json(self):
-            return{
-                'prereq_id': self.id,
-                'course_id': self.course_id,
-                'prerequisite_course': self.prereq_code,
-            } 
+        return{
+            'prereq_id': self.id,
+            'course_id': self.course_id,
+            'prerequisite_course': self.prereq_code,
+        } 

@@ -16,6 +16,5 @@ class StudentCourseHistory(db.Model):
     def get_json(self):
         return{
             'Program ID:': self.program_id,
-            'Course Code: ': self.code,
-            'Course Type: ': self.courseType
+            'Course Code: ': self.code
         }

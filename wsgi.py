@@ -2,7 +2,12 @@ import click, pytest, sys
 import csv
 from flask import Flask
 from flask.cli import with_appcontext, AppGroup
-
+""" 
+# add more courses, 
+# populate student course history 10courses 
+add courses to program
+offered courses
+"""
 
 from App.database import db, get_migrate
 from App.main import create_app

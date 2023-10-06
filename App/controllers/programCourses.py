@@ -44,3 +44,11 @@ def get_allFoun(programName):
     ).all()
     return core if core else []
 
+def convertToList(list):
+    codes = []
+
+    for a in list:
+        codes.append(a.code)
+    
+    return codes
+
