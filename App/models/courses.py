@@ -7,6 +7,7 @@ class Course(db.Model):
     credits = db.Column(db.Integer)
     rating = db.Column(db.Integer)
 
+    offered = db.relationship('CoursesOfferedPerSem', backref ='courses', lazy=True)
     students = db.relationship('StudentCourseHistory', backref='courses', lazy=True)
     programs = db.relationship('ProgramCourses', backref='courses', lazy=True)
     prerequisites = db.relationship('Prerequisites', backref='courses', lazy = True)

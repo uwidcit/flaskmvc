@@ -24,6 +24,7 @@ from App.controllers import (
     get_all_programCourses,
     addCoursetoHistory,
     getCompletedCourses,
+    get_allCore,
     )
 
 
@@ -42,6 +43,7 @@ def initialize():
     create_course('testData/courseData.csv')
     create_program("Computer Science Major", 69, 15, 9)
     create_student(816, "boo", "testing", "Computer Science Major")
+    
     print('database intialized')
 
     # with open('/Users/jerrellejohnson/Desktop/softEng2/flaskmvc/testData/courseData.csv', 'r') as csvfile:
@@ -150,10 +152,14 @@ def create_program_command(name, core, elective, foun):
     
 
 @program.command('core', help='Get program core courses')
-@click.argument('programname', type=str)
-def get_CoreCourses(programname):
-    courses = get_core_courses(programname)
-    print(f'{courses}') if courses else print(f'error')
+#@click.argument('programname', type=str)
+def get_CoreCourses():
+    create_programCourse("Computer Science Major", "COMP2611", 1)
+    create_programCourse("Computer Science Major", "COMP3605", 1)
+    create_programCourse("Computer Science Major", "COMP3610", 2)
+    core = get_allCore("Computer Science Major")
+    for c in core:
+        print({c.code})
 
 @program.command('corecredits', help='Get program core courses')
 @click.argument('programname', type=str)

@@ -5,7 +5,7 @@ import json
 class Student(User):
     id = db.Column(db.String(10), db.ForeignKey('user.id'), primary_key=True)
     name = db.Column(db.String(50))
-    program_id = db.Column(db.Integer, db.ForeignKey('program.id'))
+    program_id = db.Column(db.ForeignKey('program.id'))
     
     associated_program = db.relationship('Program', back_populates='students', overlaps="program")
     courses = db.relationship('StudentCourseHistory', backref='student', lazy=True)

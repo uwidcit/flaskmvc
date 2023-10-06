@@ -19,3 +19,28 @@ def create_programCourse(programName, code, num):
 def get_all_programCourses(programName):
     program = get_program_by_name(programName)
     return ProgramCourses.query.filter(ProgramCourses.program_id == program.id).all()
+
+def get_allCore(programName):
+    program = get_program_by_name(programName)
+    core = ProgramCourses.query.filter_by(
+    program_id=program.id,
+    courseType=1
+    ).all()
+    return core if core else []
+
+def get_allElectives(programName):
+    program = get_program_by_name(programName)
+    core = ProgramCourses.query.filter_by(
+    program_id=program.id,
+    courseType=2
+    ).all()
+    return core if core else []
+
+def get_allFoun(programName):
+    program = get_program_by_name(programName)
+    core = ProgramCourses.query.filter_by(
+    program_id=program.id,
+    courseType=3
+    ).all()
+    return core if core else []
+
