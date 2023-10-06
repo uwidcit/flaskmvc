@@ -1,15 +1,19 @@
 from App.models import Student, CoursePlan, Program
-from App.controllers.coursePlan import addCourse, getCoursePlan, removeCourse
+from App.controllers import (get_program_by_name)
 from App.database import db
 
-def create_student(student_id, password, name):
-    new_student = Student(username=student_id, password=password, name=name)
-    db.session.add(new_student)
-    db.session.commit()
-    return new_student
+def create_student(student_id, password, name, programname):
+    program = get_program_by_name(programname)
+    if program:
+        new_student = Student(student_id, password, name, program.id)
+        db.session.add(new_student)
+        db.session.commit()
+        print("Student successfully created")
+    else:
+        print("Program doesn't exist")
 
-def get_student_by_username(username):
-    return Student.query.filter_by(username=username).first()
+def get_student_by_id(ID):
+    return Student.query.filter_by(id=ID).first()
 
 def get_all_students():
     return Student.query.all()

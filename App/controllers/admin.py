@@ -46,3 +46,4 @@ def removeAccount(id):      #removes account by id
     db.session.delete(acc)
     db.session.commit()
     print(f'Account deleted.')
+

@@ -6,11 +6,15 @@ class Course(db.Model):
     courseName = db.Column(db.String(25))
     credits = db.Column(db.Integer)
     rating = db.Column(db.Integer)
-    prerequisites = db.Column(db.String(24))
 
+    offered = db.relationship('CoursesOfferedPerSem', backref ='courses', lazy=True)
+    students = db.relationship('StudentCourseHistory', backref='courses', lazy=True)
+    programs = db.relationship('ProgramCourses', backref='courses', lazy=True)
+    prerequisites = db.relationship('Prerequisites', backref='courses', lazy = True)
+   
+    
     def __init__(self):
         pass
-        
         
     def get_prerequisites(self):
         return json.loads(self.prerequisites) if self.prerequisites else []

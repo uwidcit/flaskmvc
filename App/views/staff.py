@@ -17,6 +17,7 @@ staff_views = Blueprint('staff_views', __name__, template_folder='../templates')
 
 @staff_views.route('/staff/addNextSemesterCourse/<courseCode>', methods=['POST'])
 def addCourse(courseCode):
+    token =gettoken
     course = addSemesterCourses(courseCode)
     return jsonify({'message': f"Course {course['courseName']} added"}) if course else 200
 

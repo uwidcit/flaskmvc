@@ -20,3 +20,4 @@ class Admin(User):
     def __repr__(self):
         return f'<Admin {self.id} - {self.name}>'
 
+

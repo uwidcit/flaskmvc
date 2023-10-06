@@ -4,7 +4,7 @@ from App.models import Staff
 from App.models import CoursePlan
 from App.models import Program
 from App.models import Course
-from App.models import OfferedCourses
+from App.models import CoursesOfferedPerSem
 
 
 def createCoursePlan(id):
