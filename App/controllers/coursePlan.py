@@ -14,7 +14,10 @@ from App.controllers import (
     getCompletedCourseCodes,
     convertToList,
     get_all_OfferedCodes,
-    isCourseOffered
+    isCourseOffered,
+    programCourses_SortedbyRating,
+    programCourses_SortedbyHighestCredits,
+    get_all_courses_by_planid
 )
 
 
@@ -74,14 +77,14 @@ def getRemainingCourses(completed, required):
     remainingCodes = []
     for r in required:
         remainingCodes.append(r.code)
+    
 
-    for a in remainingCodes:
-        # print(a)
-        if a in completedCodes:
-            # print(a)
-            remainingCodes.remove(a)
+    notCompleted = remainingCodes.copy()
+    for a in completedCodes:
+        if a in notCompleted:
+            notCompleted.remove(a)
 
-    return remainingCodes
+    return notCompleted
 
 
 def getRemainingCore(Student):
@@ -134,8 +137,7 @@ def remElecCredits(Student):
                 if code in completedcourses:
                     c = get_course_by_courseCode(code)  # Get course
                     if c:
-                        requiredCreds = requiredCreds - c.credits  # Subtract credits
-            
+                        requiredCreds = requiredCreds - c.credits  # Subtract credits       
     return requiredCreds
 
 
@@ -147,7 +149,7 @@ def findAvailable(courseList):
         if code in listing:
             available.append(code)
 
-    return available        #returns an array of course objects
+    return available        #returns an array of course codes
 
 
 def checkPrereq(Student, recommnded):
@@ -163,8 +165,6 @@ def checkPrereq(Student, recommnded):
 def getTopfive(list):
     return list[:5]
 
-
-
 def prioritizeElectives(Student):
     #get available electives
     electives=findAvailable(getRemainingElec(Student))      
@@ -179,61 +179,96 @@ def prioritizeElectives(Student):
     
     #merge available, required core and foundation courses
     courses = courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
-    courses = checkPrereq(Student,courses)
 
-    for c in courses:
-        print(c)
-    
+    courses = checkPrereq(Student,courses)
     return getTopfive(courses)
 
 
-def easyCourses(Student):
-    #get electives, order by difficulty
-    electives=findAvailable(getRemainingElec(Student))      
-    electives.sort(key=lambda x:getattr(x, "rating", 0)) 
-     
-    #select courses to satisfy the programme's credit requirement
-    credits=remElecCredits(Student)
-    courses=[]
-    for c in electives:    
-        if credits>0:
-            courses.append(c)
-            credits=credits-c.get_credits(c.courseCode)
+def removeCoursesFromList(list1,list2):
+    newlist = list2.copy()
+    for a in list1:
+        if a in newlist:
+            newlist.remove(a)
+    return newlist
+    
 
-    #merge available core and foundation courses and sort by difficulty
-    courses= courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
-    courses.sort(key=lambda x:getattr(x, "rating", 0)) 
-    courses=checkPrereq(Student,courses)
-    return courses
+def easyCourses(Student):
+    program = get_program_by_id(Student.program_id)
+    completed = getCompletedCourseCodes(Student.id)
+    codesSortedbyRating = programCourses_SortedbyRating(Student.program_id)
+
+    coursesToDo = removeCoursesFromList(completed, codesSortedbyRating)
+
+    elecCredits = remElecCredits(Student)
+    
+    if elecCredits == 0:
+        allElectives = convertToList(get_allElectives(program.name))
+        coursesToDo = removeCoursesFromList(allElectives, coursesToDo)
+    
+    coursesToDo = findAvailable(coursesToDo)
+
+    ableToDo = checkPrereq(Student, coursesToDo)
+    # for a in ableToDo:
+    #     print(a)
+    
+    return getTopfive(ableToDo)
 
 
 def fastestGraduation(Student):
-    #get electives, order by credits (descending order)
-    electives=findAvailable(getRemainingElec(Student))      
-    electives.sort(key=lambda x:getattr(x, "credits", 0), reverse=True)
+    program = get_program_by_id(Student.program_id)
+    sortedCourses = programCourses_SortedbyHighestCredits(Student.program_id)
+    completed = getCompletedCourseCodes(Student.id)
 
-    #select courses to satisfy the programme's credit requirement
-    credits=remElecCredits(Student)
-    courses=[]
-    for c in electives:    
-        if credits>0:
-            courses.append(c)
-            credits=credits-c.get_credits(c.courseCode)
+    coursesToDo = removeCoursesFromList(completed, sortedCourses)
 
-    #get available, required core and foundation courses
-    # courses= courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
-    courses=checkPrereq(Student,courses)
+    elecCredits = remElecCredits(Student)
+    
+    if elecCredits == 0:
+        allElectives = convertToList(get_allElectives(program.name))
+        coursesToDo = removeCoursesFromList(allElectives, coursesToDo)
+    
+    coursesToDo = findAvailable(coursesToDo)
+    ableToDo = checkPrereq(Student, coursesToDo)
+
+    return getTopfive(ableToDo)
+
+def commandCall(Student, command):
+    courses = []
+
+    if command == "electives":
+        courses = prioritizeElectives(Student)
+    
+    elif command == "easy":
+        courses = easyCourses(Student)
+    
+    elif command == "fastest":
+        courses = fastestGraduation(Student)
+    
+    else:
+        print("Invalid command")
+    
     return courses
+
 
 def generator(Student, command):
     courses = []
 
-    if command == "electives":
-        plan = create_CoursePlan(Student.id)
-        courses = prioritizeElectives(Student)
+    plan = getCoursePlan(Student.id)
 
-        for c in courses:
+    if plan is None:
+        plan = plan = create_CoursePlan(Student.id)
+
+    
+    courses = commandCall(Student, command)
+
+    existingPlanCourses = get_all_courses_by_planid(plan.planId)
+
+    planCourses = []
+    for q in existingPlanCourses:
+        planCourses.append(q.code)
+
+    for c in courses: 
+        if c not in planCourses:
             createPlanCourse(plan.planId, c)
-
 
     return courses
