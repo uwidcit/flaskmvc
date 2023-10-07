@@ -16,7 +16,7 @@ from App.controllers import (
     get_all_users_json, 
     get_all_users, 
     create_program,
-    get_core_courses,
+    get_all_OfferedCodes,
     get_core_credits,
     create_course,
     get_course_by_courseCode,
@@ -28,9 +28,16 @@ from App.controllers import (
     get_program_by_name,
     get_all_programCourses,
     addCoursetoHistory,
-    getCompletedCourses,
+    getCompletedCourseCodes,
     get_allCore,
+    addCourseToPlan,
+    get_student_by_id,
+    generator
     )
+
+test1 = ["COMP1600", "COMP1601", "COMP1602", "COMP1603", "COMP1604", "MATH1115", "INFO1600", "INFO1601"]
+
+file_path = "/Users/jerrellejohnson/Desktop/softEng2/flaskmvc/testData/test.txt"
 
 
 # This commands file allow you to create convenient CLI commands for testing controllers
@@ -48,14 +55,30 @@ def initialize():
     create_course('testData/courseData.csv')
     create_program("Computer Science Major", 69, 15, 9)
     create_student(816, "boo", "testing", "Computer Science Major")
+
+    for c in test1:
+        addCoursetoHistory(816, c)
+    print('Student course history updated')
+
+    with open(file_path, 'r') as file:
+        for i, line in enumerate(file):
+            line = line.strip()
+            if i ==0:
+                programName = line
+            else:
+                course = line.split(',')
+                create_programCourse(programName, course[0],int(course[1]))
+    
+    file_path1='/Users/jerrellejohnson/Desktop/softEng2/flaskmvc/testData/test2.txt'
+    with open(file_path1, 'r') as file:
+        for i, line in enumerate(file):
+            line = line.strip()
+            addSemesterCourses(line)
+
+
+
     
     print('database intialized')
-
-    # with open('/Users/jerrellejohnson/Desktop/softEng2/flaskmvc/testData/courseData.csv', 'r') as csvfile:
-    #     csv_reader = csv.reader(csvfile)
-        
-    #     for row in csv_reader:
-    #         print(row)  # Display the row
 
 '''
 User Commands
@@ -113,10 +136,21 @@ def addCourse(student_id, code):
 @student_cli.command("getCompleted", help="Get all of a student completed courses")
 @click.argument("student_id", type=str)
 def completed(student_id):
-    comp = getCompletedCourses(student_id)
+    comp = getCompletedCourseCodes(student_id)
     for c in comp:
-        print(f'{c.code}')
+        print(f'{c}')
 
+@student_cli.command("addCourseToPlan", help="Adds a course to a student's course plan")
+def courseToPlan():
+    student = get_student_by_id("816")
+    addCourseToPlan(student, "COMP2611")
+
+@student_cli.command("generate", help="Generates a course plan based on what they request")
+def generatePlan():
+    student = get_student_by_id("816")
+    courses = generator(student, "electives")
+    # for c in courses:
+    #     print(c)
 
 
 app.cli.add_command(student_cli)
@@ -238,6 +272,17 @@ def get_course(code):
 def add_course(code):
     course = addSemesterCourses(code)
     print(f'Course Name: {course.courseName}') if course else print(f'error')
+
+@course.command('getNextSemCourses', help='Get all the courses offered next semester')
+def allSemCourses():
+    courses = get_all_OfferedCodes()
+
+    if courses:
+        for c in courses:
+            print({c})
+    else:
+        print("empty")
+    
 
 app.cli.add_command(course)
 

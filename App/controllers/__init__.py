@@ -8,5 +8,5 @@ from .prerequistes import *
 from .programCourses import *
 from .studentCourseHistory import *
 from .coursePlanCourses import *
-from .offeredCourses import *
+from .coursesOfferedPerSem import *
 from .coursePlan import *

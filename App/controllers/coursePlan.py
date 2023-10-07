@@ -25,19 +25,18 @@ def create_CoursePlan(id):
     return plan
 
 def getCoursePlan(studentid):
-    return CoursePlan.query.filter_by(CoursePlan.studentId==studentid).first()
+    return CoursePlan.query.filter_by(studentId=studentid).first()
 
 def possessPrereqs(Student, course):
     preqs = getPrereqCodes(course.courseName)
     completed = getCompletedCourseCodes(Student.id)
-
     for course in preqs:
         if course not in completed:
             return False
     
     return True
 
-def addCourse(Student, courseCode):
+def addCourseToPlan(Student, courseCode):
     course = get_course_by_courseCode(courseCode)
     if course:
         offered = isCourseOffered(courseCode)
@@ -46,11 +45,11 @@ def addCourse(Student, courseCode):
             if haveAllpreqs:
                 plan = getCoursePlan(Student.id)
                 if plan:
-                    createPlanCourse(plan.planid, courseCode)
+                    createPlanCourse(plan.planId, courseCode)
                     print("Course successfully added to course plan")
                 else:
                     plan = create_CoursePlan(Student.id)
-                    createPlanCourse(plan.planid, courseCode)
+                    createPlanCourse(plan.planId, courseCode)
                     print("Plan successfully created and Course was successfully added to course plan")
         else:
             print("Course is not offered")
@@ -76,10 +75,11 @@ def getRemainingCourses(completed, required):
     for r in required:
         remainingCodes.append(r.code)
 
-    
-    for r in remainingCodes:
-        if r in completedCodes:
-            remainingCodes.remove(r)
+    for a in remainingCodes:
+        # print(a)
+        if a in completedCodes:
+            # print(a)
+            remainingCodes.remove(a)
 
     return remainingCodes
 
@@ -145,7 +145,7 @@ def findAvailable(courseList):
 
     for code in courseList:
         if code in listing:
-            available.append()
+            available.append(code)
 
     return available        #returns an array of course objects
 
@@ -180,6 +180,9 @@ def prioritizeElectives(Student):
     #merge available, required core and foundation courses
     courses = courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
     courses = checkPrereq(Student,courses)
+
+    for c in courses:
+        print(c)
     
     return getTopfive(courses)
 
@@ -218,7 +221,7 @@ def fastestGraduation(Student):
             credits=credits-c.get_credits(c.courseCode)
 
     #get available, required core and foundation courses
-    courses= courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
+    # courses= courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
     courses=checkPrereq(Student,courses)
     return courses
 
