@@ -1,8 +1,5 @@
 from App.models import User  
 from App.database import db
-import json
-from App.models.coursePlan import CoursePlan
-
 
 class Student(User):
     id = db.Column( db.ForeignKey('user.id'), primary_key=True)
@@ -19,9 +16,9 @@ class Student(User):
         self.program_id = program_id
 
     def get_json(self):
-            return{
-                'student_id': self.id,
-                'name': self.name,
-                'program' : self.program_id
-            }
+        return{
+            'student_id': self.id,
+            'name': self.name,
+            'program' : self.program_id
+        }
 

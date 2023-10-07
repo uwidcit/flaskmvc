@@ -19,5 +19,13 @@ def addCoursetoHistory(studentid, code):
         
 
 def getCompletedCourses(id):
-    student  = get_student_by_id(id)
     return StudentCourseHistory.query.filter(StudentCourseHistory.studentID == id).all()
+
+def getCompletedCourseCodes(id):
+    completed = getCompletedCourseCodes(id)
+    codes = []
+    
+    for c in completed:
+        codes.append(c.code)
+    
+    return codes

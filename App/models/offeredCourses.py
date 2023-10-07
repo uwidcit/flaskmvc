@@ -1,4 +1,3 @@
-import json
 from App.database import db 
 
 class CoursesOfferedPerSem(db.Model):

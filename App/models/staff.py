@@ -1,7 +1,9 @@
-from .user import User
+from .user import User 
 from App.database import db
 
 class Staff(User):
+
+    
     id = db.Column(db.String(10), db.ForeignKey('user.id'), primary_key=True)
     name = db.Column(db.String(50))
 
