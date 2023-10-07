@@ -8,6 +8,13 @@ def create_staff(password, staff_id, name):
     db.session.commit()
     return new_staff
 
+
+def verify_staff(username):
+    staff=Staff.query.filter_by(id=username).first()
+    if staff:
+        return True
+    return False
+
 # def add_program(self, program_name, description):
 #     try:
 #         new_program = Program(name=program_name, description=description)

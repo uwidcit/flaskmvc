@@ -39,7 +39,7 @@ from App.controllers import (
 
 test1 = ["COMP1600", "COMP1601", "COMP1602", "COMP1603", "COMP1604", "MATH1115", "INFO1600", "INFO1601"]
 
-file_path = "/Users/jerrellejohnson/Desktop/softEng2/flaskmvc/testData/test.txt"
+file_path = "testData/test.txt"
 
 
 # This commands file allow you to create convenient CLI commands for testing controllers
@@ -57,7 +57,8 @@ def initialize():
     create_course('testData/courseData.csv')
     create_program("Computer Science Major", 69, 15, 9)
     create_student(816, "boo", "testing", "Computer Science Major")
-
+    create_staff("adminpass","999", "admin")
+    
     for c in test1:
         addCoursetoHistory(816, c)
     print('Student course history updated')
@@ -71,7 +72,7 @@ def initialize():
                 course = line.split(',')
                 create_programCourse(programName, course[0],int(course[1]))
     
-    file_path1='/Users/jerrellejohnson/Desktop/softEng2/flaskmvc/testData/test2.txt'
+    file_path1='testData/test2.txt'
     with open(file_path1, 'r') as file:
         for i, line in enumerate(file):
             line = line.strip()
@@ -183,13 +184,15 @@ def create_program_command(name,core,elective,foun):
 @click.argument("code", type=str)
 @click.argument("num", type=int)
 def add_program_requirements(name,code,num):
-  create_programCourse(name,code,num)
+  response=create_programCourse(name, code, num)
+  print(response)
 
 @staff_cli.command("addofferedcourse",help='testing add courses offered feature')
 @click.argument("code", type=str)
 def add_offered_course(code):
   course=addSemesterCourses(code)
-  print(f'Course details: {course}')
+  if course:
+    print(f'Course details: {course}')
 
 
 app.cli.add_command(staff_cli)
