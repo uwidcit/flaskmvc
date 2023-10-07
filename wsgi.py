@@ -37,7 +37,7 @@ from App.controllers import (
     generator
     )
 
-test1 = ["COMP1600", "COMP1601", "COMP1602", "COMP1603", "COMP1604", "MATH1115", "INFO1600", "INFO1601"]
+test1 = ["COMP1600",  "COMP1601", "COMP1602", "COMP1603", "COMP1604", "MATH1115", "INFO1600", "INFO1601",  "FOUN1101", "FOUN1105", "FOUN1301", "COMP3605", "COMP3606", "COMP3607", "COMP3608",]
 
 file_path = "testData/test.txt"
 
@@ -149,11 +149,12 @@ def courseToPlan():
     addCourseToPlan(student, "COMP2611")
 
 @student_cli.command("generate", help="Generates a course plan based on what they request")
-def generatePlan():
+@click.argument("command", type=str)
+def generatePlan(command):
     student = get_student_by_id("816")
-    courses = generator(student, "electives")
-    # for c in courses:
-    #     print(c)
+    courses = generator(student, command)
+    for c in courses:
+        print(c)
 
 
 app.cli.add_command(student_cli)
