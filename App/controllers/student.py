@@ -25,12 +25,16 @@ def get_all_students_json():
     students_json = [student.get_json() for student in students]
     return students_json
 
-def get_course_history(username):
-    student = get_student_by_username(username)
-    return student.course_history if student else []
+def update_student(id, username):
+    student = get_student_by_id(id)
+    if student:
+        student.username = username
+        db.session.add(student)
+        db.session.commit()
+        return student
 
 def enroll_in_programme(student_id, programme_id):
-    student = get_student(student_id)
+    student = get_student_by_id(student_id)
     if student:
         programme = Program.query.get(programme_id)
         if programme:
