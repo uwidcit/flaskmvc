@@ -13,6 +13,9 @@ def create_program(name, core, elective, foun):
 def get_program_by_name(programName):
     return Program.query.filter_by(name=programName).first()
 
+def get_program_by_id(programId):
+    return Program.query.filter_by(id=programId).first()
+
 def get_level1_credits(programName):
     program = get_program_by_name(programName)
     return program.level1_credits if program else 0

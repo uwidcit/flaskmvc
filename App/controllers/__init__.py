@@ -4,9 +4,9 @@ from .courses import *
 from .program import *
 from .staff import *
 from .student import *
-from .courses import *
-from .coursePlan import *
-from .offeredCourses import *
 from .prerequistes import *
 from .programCourses import *
 from .studentCourseHistory import *
+from .coursePlanCourses import *
+from .coursesOfferedPerSem import *
+from .coursePlan import *

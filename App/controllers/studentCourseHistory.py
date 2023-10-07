@@ -10,7 +10,7 @@ def addCoursetoHistory(studentid, code):
             completed = StudentCourseHistory(studentid, code)
             db.session.add(completed)
             db.session.commit()
-            print("Course added successfully")
+            #print("Course added successfully")
         else:
             print("Course doesn't exist")
     else:
@@ -19,5 +19,13 @@ def addCoursetoHistory(studentid, code):
         
 
 def getCompletedCourses(id):
-    student  = get_student_by_id(id)
-    return StudentCourseHistory.query.filter(StudentCourseHistory.studentID == id).all()
+    return StudentCourseHistory.query.filter_by(studentID=id).all()
+
+def getCompletedCourseCodes(id):
+    completed = getCompletedCourses(id)
+    codes = []
+    
+    for c in completed:
+        codes.append(c.code)
+    
+    return codes

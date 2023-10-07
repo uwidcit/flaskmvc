@@ -1,5 +1,4 @@
 from App.database import db
-import json
 class Program(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
