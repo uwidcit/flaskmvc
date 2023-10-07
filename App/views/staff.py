@@ -31,9 +31,15 @@ def getOfferedCourses():
   listing=get_all_OfferedCodes()
   return jsonify(listing)
 
-@staff_views.route('/staff/addProgram/<name>/<int:core>/<int:elective>/<int:foun>', methods=['POST'])
+@staff_views.route('/staff/program', methods=['POST'])
 @login_required
-def addProgram(name, core, elective, foun):
+def addProgram():
+  data=request.json
+  name=data['name']
+  core=data['core']
+  elective=data['elective']
+  foun=data['foun']
+
   username=current_user.username
   if not verify_staff(username):    #verify that the user is staff
     return jsonify({'message': 'You are unauthorized to perform this action. Please login with Staff credentials.'})
@@ -45,14 +51,28 @@ def addProgram(name, core, elective, foun):
     programNames.append(p.name)
   if name in programNames:
     return jsonify({'message': 'Program already exists'})
+  
+  if not isinstance(core, int):
+            return jsonify({"error": "'core' must be an integer"}), 400
+  
+  if not isinstance(elective, int):
+            return jsonify({"error": "'elective' must be an integer"}), 400
+
+  if not isinstance(foun, int):
+            return jsonify({"error": "'foun' must be an integer"}), 400
 
   newprogram = create_program(name, core, elective, foun)
   return jsonify({'message': f"Program {newprogram.name} added"}) if newprogram else 200
 
 
-@staff_views.route('/staff/addProgramReq/<name>/<code>/<int:num>', methods=['POST'])
+@staff_views.route('/programRequirement', methods=['POST'])
 @login_required
-def addProgramRequirements(name, code, num):
+def addProgramRequirements():
+  data=request.json
+  name=data['name']
+  code=data['code']
+  num=data['type']
+
   username=current_user.username
   if not verify_staff(username):    #verify that the user is staff
     return jsonify({'message': 'You are unauthorized to perform this action. Please login with Staff credentials.'})
@@ -83,9 +103,12 @@ def addProgramRequirements(name, code, num):
   return jsonify({'message': response})
 
 
-@staff_views.route('/staff/addNextSemesterCourse/<courseCode>', methods=['POST'])
+@staff_views.route('/staff/addOfferedCourse', methods=['POST'])
 @login_required
-def addCourse(courseCode):
+def addCourse():
+  data=request.json
+  courseCode=data['code']
+
   username=current_user.username
   if not verify_staff(username):    #verify that the user is staff
     return jsonify({'message': 'You are unauthorized to perform this action. Please login with Staff credentials.'})
