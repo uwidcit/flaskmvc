@@ -38,7 +38,7 @@ from App.controllers import (
 test1 = ["COMP1600",  "COMP1601", "COMP1602", "COMP1603", "COMP1604", "MATH1115", "INFO1600", "INFO1601",  "FOUN1101", "FOUN1105", "FOUN1301", "COMP3605", "COMP3606", "COMP3607", "COMP3608",]
 
 ##Change the file path
-file_path = "/workspaces/flaskmvc/testData/test.txt"
+file_path = "testData/test.txt"
 
 
 # This commands file allow you to create convenient CLI commands for testing controllers
@@ -70,7 +70,7 @@ def initialize():
                 course = line.split(',')
                 create_programCourse(programName, course[0],int(course[1]))
     
-    file_path1='/workspaces/flaskmvc/testData/test2.txt'
+    file_path1='testData/test2.txt'
     with open(file_path1, 'r') as file:
         for i, line in enumerate(file):
             line = line.strip()
