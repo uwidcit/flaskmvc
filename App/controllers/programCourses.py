@@ -1,5 +1,5 @@
 from App.models import ProgramCourses, Program, Course
-from App.controllers import (get_program_by_name, get_course_by_courseCode)
+from App.controllers import (get_program_by_name, get_program_by_id, get_course_by_courseCode)
 from App.database import db
 
 def create_programCourse(programName, code, num):
@@ -10,7 +10,7 @@ def create_programCourse(programName, code, num):
             proCourse = ProgramCourses(program.id, code, num)
             db.session.add(proCourse)
             db.session.commit()
-            print("Course successfully added to program")
+            #print("Course successfully added to program")
         else:
             print("Invalid course code")
     else:
@@ -44,3 +44,39 @@ def get_allFoun(programName):
     ).all()
     return core if core else []
 
+def convertToList(list):
+    codes = []
+
+    for a in list:
+        codes.append(a.code)
+    
+    return codes
+
+def programCourses_SortedbyRating(programid):
+    program = get_program_by_id(programid)
+    programCourses = get_all_programCourses(program.name)
+
+    sorted_courses = {1: [], 2: [], 3: [], 4: [], 5: []}
+
+    for p in programCourses:
+        course = get_course_by_courseCode(p.code)
+        sorted_courses[course.rating].append(course.courseCode)
+    
+    sorted_courses_list = [course for rating_courses in sorted_courses.values() for course in rating_courses]
+
+    return sorted_courses_list
+
+def programCourses_SortedbyHighestCredits(programid):
+    program = get_program_by_id(programid)
+    programCourses = get_all_programCourses(program.name)
+
+    highTolow = []
+
+    for p in programCourses:
+        course = get_course_by_courseCode(p.code)
+        if course.credits > 3:
+            highTolow.insert(0,course.courseCode)
+        else:
+            highTolow.append(course.courseCode)
+
+    return highTolow

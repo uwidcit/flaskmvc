@@ -1,4 +1,3 @@
-import json
 from App.database import db 
 
 class CoursesOfferedPerSem(db.Model):
@@ -8,9 +7,9 @@ class CoursesOfferedPerSem(db.Model):
     associated_course = db.relationship('Course', back_populates='offered', overlaps="courses")
 
     def __init__(self, courseCode):
-        self.offered = courseCode
+        self.code = courseCode
        
     def get_json(self):
         return{
-            'Course Code:': self.offered
+            'Course Code:': self.code
         }

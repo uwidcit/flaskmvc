@@ -38,6 +38,15 @@ def create_course(file_path):
 def get_course_by_courseCode(code):
     return Course.query.filter_by(courseCode=code).first()
 
+def courses_Sorted_byRating():
+    courses =  Course.query.order_by(Course.rating.asc()).all()
+    codes = []
+
+    for c in courses:
+        codes.append(c.courseCode)
+    
+    return codes
+
 def get_prerequisites(code):
     course = get_course_by_courseCode(code)
     prereqs = get_all_prerequisites(course.courseName)
@@ -50,4 +59,6 @@ def get_credits(code):
 def get_ratings(code):
     course = get_course_by_courseCode(code)
     return course.rating if course else 0
+
+
 
