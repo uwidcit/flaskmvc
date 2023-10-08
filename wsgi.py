@@ -37,7 +37,8 @@ from App.controllers import (
 
 test1 = ["COMP1600",  "COMP1601", "COMP1602", "COMP1603", "COMP1604", "MATH1115", "INFO1600", "INFO1601",  "FOUN1101", "FOUN1105", "FOUN1301", "COMP3605", "COMP3606", "COMP3607", "COMP3608",]
 
-file_path = "/Users/jerrellejohnson/Desktop/softEng2/flaskmvc/testData/test.txt"
+##Change the file path
+file_path = "/workspaces/flaskmvc/testData/test.txt"
 
 
 # This commands file allow you to create convenient CLI commands for testing controllers
@@ -69,7 +70,7 @@ def initialize():
                 course = line.split(',')
                 create_programCourse(programName, course[0],int(course[1]))
     
-    file_path1='/Users/jerrellejohnson/Desktop/softEng2/flaskmvc/testData/test2.txt'
+    file_path1='/workspaces/flaskmvc/testData/test2.txt'
     with open(file_path1, 'r') as file:
         for i, line in enumerate(file):
             line = line.strip()
@@ -146,9 +147,10 @@ def courseToPlan():
     addCourseToPlan(student, "COMP2611")
 
 @student_cli.command("generate", help="Generates a course plan based on what they request")
+@click.argument("student_id", type=str)
 @click.argument("command", type=str)
-def generatePlan(command):
-    student = get_student_by_id("816")
+def generatePlan(student_id, command):
+    student = get_student_by_id(student_id)
     courses = generator(student, command)
     for c in courses:
         print(c)
@@ -303,6 +305,9 @@ coursePlan = AppGroup('plan', help = 'Course Plan object commands')
 #     # completed = ['COMP1600']
 #     # newRemaining = getRemainingCourses(completed, required)
 #     # print(f'Remaining courses are: {newRemaining}')
+
+
+# Define the course plan create command
 
 
 app.cli.add_command(coursePlan)
