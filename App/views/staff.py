@@ -26,10 +26,10 @@ staff_views = Blueprint('staff_views', __name__, template_folder='../templates')
 def getOfferedCourses():
   username=current_user.username
   if not verify_staff(username):    #verify that the user is staff
-    return jsonify({'message': 'You are unauthorized to perform this action. Please login with Staff credentials.'})
+    return jsonify({'message': 'You are unauthorized to perform this action. Please login with Staff credentials.'}), 401
 
   listing=get_all_OfferedCodes()
-  return jsonify(listing)
+  return jsonify(listing), 200
 
 @staff_views.route('/staff/program', methods=['POST'])
 @login_required
@@ -42,7 +42,7 @@ def addProgram():
 
   username=current_user.username
   if not verify_staff(username):    #verify that the user is staff
-    return jsonify({'message': 'You are unauthorized to perform this action. Please login with Staff credentials.'})
+    return jsonify({'message': 'You are unauthorized to perform this action. Please login with Staff credentials.'}), 401
 
   #get all programs and check to see if it already exists
   programs=Program.query.all()
@@ -50,7 +50,7 @@ def addProgram():
   for p in programs:
     programNames.append(p.name)
   if name in programNames:
-    return jsonify({'message': 'Program already exists'})
+    return jsonify({'message': 'Program already exists'}), 400
   
   if not isinstance(core, int):
             return jsonify({"error": "'core' must be an integer"}), 400
@@ -62,7 +62,10 @@ def addProgram():
             return jsonify({"error": "'foun' must be an integer"}), 400
 
   newprogram = create_program(name, core, elective, foun)
-  return jsonify({'message': f"Program {newprogram.name} added"}) if newprogram else 200
+  if newprogram:
+    return jsonify({'message': f"Program {newprogram.name} added"}), 200 
+  else:
+     return jsonify({'message': "Program creation unsucessful"}), 400
 
 
 @staff_views.route('/programRequirement', methods=['POST'])
@@ -75,7 +78,7 @@ def addProgramRequirements():
 
   username=current_user.username
   if not verify_staff(username):    #verify that the user is staff
-    return jsonify({'message': 'You are unauthorized to perform this action. Please login with Staff credentials.'})
+    return jsonify({'message': 'You are unauthorized to perform this action. Please login with Staff credentials.'}), 401
 
   #verify program existance 
   programs=Program.query.all()
@@ -83,7 +86,7 @@ def addProgramRequirements():
   for p in programs:
     programNames.append(p.name)
   if name not in programNames:
-    return jsonify({'message': 'Program does not exist'})
+    return jsonify({'message': 'Program does not exist'}), 400
   
   #verify that the course isn't already a requirement
   courseList=get_all_programCourses(name)
@@ -93,14 +96,14 @@ def addProgramRequirements():
   
   code=code.replace(" ","").upper()
   if code in courseCodeList:
-    return jsonify({'message': f'{code} is already a requirement for {name}'})
+    return jsonify({'message': f'{code} is already a requirement for {name}'}), 400
 
   #verify that the course type is valid; Core (1) Elective (2) Foundation (3)
   if num<1 or num>3:
-    return jsonify({'message': 'Invalid course type. Core (1) Elective (2) Foundation (3)'})
+    return jsonify({'message': 'Invalid course type. Core (1) Elective (2) Foundation (3)'}), 400
 
   response=create_programCourse(name, code, num)
-  return jsonify({'message': response})
+  return jsonify({'message': response}), 200
 
 
 @staff_views.route('/staff/addOfferedCourse', methods=['POST'])
@@ -111,14 +114,17 @@ def addCourse():
 
   username=current_user.username
   if not verify_staff(username):    #verify that the user is staff
-    return jsonify({'message': 'You are unauthorized to perform this action. Please login with Staff credentials.'})
+    return jsonify({'message': 'You are unauthorized to perform this action. Please login with Staff credentials.'}), 401
 
   offeredCourses=get_all_OfferedCodes()
   courseCode=courseCode.replace(" ","").upper()   #ensure consistent course code format
 
   #check if course code is already in the list of offered courses
   if courseCode in offeredCourses:
-    return jsonify({'message': f"{courseCode} already exists in the list of offered courses"})
+    return jsonify({'message': f"{courseCode} already exists in the list of offered courses"}), 400
 
   course = addSemesterCourses(courseCode)
-  return jsonify({'message': f"Course {course.courseCode} - {course.courseName} added"}) if course else 200
+  if course:
+     return jsonify({'message': f"Course {courseCode} added"}), 200
+  else:
+    return jsonify({'message': "Course addition unsucessful"}), 400
