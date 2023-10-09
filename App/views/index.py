@@ -13,7 +13,7 @@ def init():
     db.drop_all()
     db.create_all()
     create_staff("adminpass","999", "admin")
-    return jsonify(message='db initialized!')
+    return jsonify(message='staff created, db initialized!')
 
 @index_views.route('/health', methods=['GET'])
 def health_check():
