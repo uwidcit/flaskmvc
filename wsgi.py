@@ -149,9 +149,10 @@ def courseToPlan():
     addCourseToPlan(student, "COMP2611")
 
 @student_cli.command("generate", help="Generates a course plan based on what they request")
+@click.argument("student_id", type=str)
 @click.argument("command", type=str)
-def generatePlan(command):
-    student = get_student_by_id("816")
+def generatePlan(student_id, command):
+    student = get_student_by_id(student_id)
     courses = generator(student, command)
     for c in courses:
         print(c)
@@ -345,6 +346,9 @@ coursePlan = AppGroup('plan', help = 'Course Plan object commands')
 #     # completed = ['COMP1600']
 #     # newRemaining = getRemainingCourses(completed, required)
 #     # print(f'Remaining courses are: {newRemaining}')
+
+
+# Define the course plan create command
 
 
 app.cli.add_command(coursePlan)
