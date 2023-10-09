@@ -1,124 +1,169 @@
-from App.database import db 
-from App.models import Student
-from App.models import Staff
 from App.models import CoursePlan
-from App.models import Program
-from App.models import Course
-from App.models import OfferedCourses
+from App.database import db 
+from App.controllers import (
+    get_program_by_id, 
+    get_course_by_courseCode, 
+    get_credits, 
+    getPrereqCodes,
+    getCompletedCourses,
+    createPlanCourse,
+    deleteCourseFromCoursePlan,
+    get_allCore,
+    get_allFoun,
+    get_allElectives,
+    getCompletedCourseCodes,
+    convertToList,
+    get_all_OfferedCodes,
+    isCourseOffered,
+    programCourses_SortedbyRating,
+    programCourses_SortedbyHighestCredits,
+    get_all_courses_by_planid
+)
 
 
-def getProgramme(Student):
-    return Program.query.filter_by(id=Student.program_id).first()
+def create_CoursePlan(id):
+    plan = CoursePlan(id)
+    db.session.add(plan)
+    db.session.commit()
+    return plan
 
+def getCoursePlan(studentid):
+    return CoursePlan.query.filter_by(studentId=studentid).first()
 
-def getOfferedCourses():
-    staff=Staff.first()
-    return staff.get_all_courses()
-
-
-def addCourse(Student, courseCode):
-    plan=CoursePlan.query.filter_by(studentId=Student.id).first()
-    course=checkPrereq(Student,[{courseCode}])    #verify prereqs
-    if course:
-        validCourse=findAvailable(course)#check availability
-    else:
-        print(f'Pre-req unsatisfied')
+def possessPrereqs(Student, course):
+    preqs = getPrereqCodes(course.courseName)
+    completed = getCompletedCourseCodes(Student.id)
+    for course in preqs:
+        if course not in completed:
+            return False
     
-    if validCourse:
-        plan.courses.append(courseCode)
-        print(f'Course added')
+    return True
+
+def addCourseToPlan(Student, courseCode):
+    course = get_course_by_courseCode(courseCode)
+    if course:
+        offered = isCourseOffered(courseCode)
+        if offered:
+            haveAllpreqs = possessPrereqs(Student, course)
+            if haveAllpreqs:
+                plan = getCoursePlan(Student.id)
+                if plan:
+                    createPlanCourse(plan.planId, courseCode)
+                    print("Course successfully added to course plan")
+                else:
+                    plan = create_CoursePlan(Student.id)
+                    createPlanCourse(plan.planId, courseCode)
+                    print("Plan successfully created and Course was successfully added to course plan")
+        else:
+            print("Course is not offered")
     else:
-        print(f'Course not available')
+        print("Course does not exist")
 
 
 def removeCourse(Student, courseCode):
-    plan=CoursePlan.query.filter_by(studentId=Student.id).first()
-    if courseCode in plan.courses:
-        plan.courses.remove(courseCode)
-        print(f'Course removed')
-        return
-    print(f'Course not found')
-
+    plan=getCoursePlan(Student.id)
+    if plan:
+        deleteCourseFromCoursePlan(plan.planid, courseCode)
 
 def getRemainingCourses(completed, required):
-    remaining=required.copy()
-
     # Check if either 'completed' or 'required' is None
     if completed is None or required is None:
         return []  # Return an empty list or handle it in a way that makes sense for your application
     
-    for course in required:
-        if course in completed:
-            remaining.remove(course)
-    return remaining
+    completedCodes = []
+    for c in completed:
+        completedCodes.append(c.code)
+    
+    remainingCodes = []
+    for r in required:
+        remainingCodes.append(r.code)
+    
+
+    notCompleted = remainingCodes.copy()
+    for a in completedCodes:
+        if a in notCompleted:
+            notCompleted.remove(a)
+
+    return notCompleted
 
 
 def getRemainingCore(Student):
-    programme=getProgramme(Student)
-    reqCore=programme.get_core_courses(programme.name)
-    remaining=getRemainingCourses(Student.course_history,reqCore)
+    programme=get_program_by_id(Student.program_id)
+    remaining = []
+
+    if programme:
+        reqCore=get_allCore(programme.name)
+        completed = getCompletedCourses(Student.id)
+        remaining=getRemainingCourses(completed,reqCore)
+    
     return remaining
 
 
 def getRemainingFoun(Student):
-    programme=getProgramme(Student)
-    reqFoun=programme.get_foun_courses(programme.name)
-    remaining=getRemainingCourses(Student.course_history,reqFoun)
+    programme = get_program_by_id(Student.program_id)
+    remaining =[]
+
+    if programme:
+        reqFoun = get_allFoun(programme.name)
+        completed = getCompletedCourses(Student.id)
+        remaining=getRemainingCourses(completed,reqFoun)
+    
     return remaining
 
 
 def getRemainingElec(Student):
-    program = getProgramme(Student)  # Get the student's program
-    if program:
-        reqElec = program.str_elective_courses()  # Use the instance method to get elective courses
-        if reqElec:
-            remaining = getRemainingCourses(Student.course_history, reqElec)
-            return remaining
-    return []
+    programme = get_program_by_id(Student.program_id)  # Get the student's program
+    remaining = []
+
+    if programme:
+        reqElec = get_allElectives(programme.name)  # Use the instance method to get elective courses
+        completed = getCompletedCourses(Student.id)
+        remaining = getRemainingCourses(completed, reqElec)
+            
+    return remaining
 
 
 def remElecCredits(Student):
-    program = getProgramme(Student)  # Get the student's program
-    if program:
-        requiredCreds = program.elective_credits  # Access the elective_credits attribute
-        elective_courses = program.str_elective_courses()  # Use the instance method to get elective courses
-        if elective_courses:
-            for course in elective_courses:
-                if course in Student.course_history:
-                    c = Course.query.filter_by(courseCode=course).first()  # Get course
+    programme = get_program_by_id(Student.program_id)  # Get the student's program
+    completedcourses = getCompletedCourseCodes(Student.id)
+    requiredCreds = 0
+
+    if programme:
+        requiredCreds = programme.elective_credits  # Access the elective_credits attribute
+        elective_courses = get_allElectives(programme.name)  # Use the instance method to get elective courses
+        electCodes = convertToList(elective_courses)
+        if electCodes:
+            for code in electCodes:
+                if code in completedcourses:
+                    c = get_course_by_courseCode(code)  # Get course
                     if c:
-                        requiredCreds = requiredCreds - c.credits  # Subtract credits
-            return requiredCreds
-    return 0
+                        requiredCreds = requiredCreds - c.credits  # Subtract credits       
+    return requiredCreds
 
 
 def findAvailable(courseList):
-    listing=getOfferedCourses()
+    listing=get_all_OfferedCodes()
     available=[]
-    for course in courseList:
-        if course in listing:
-            c=Course.query.filter_by(courseCode=course).first()     #get course
-            if c:
-                available.append(c)
-    return available        #returns an array of course objects
+
+    for code in courseList:
+        if code in listing:
+            available.append(code)
+
+    return available        #returns an array of course codes
 
 
-def checkPrereq(Student, listing):
-    completed=Student.courseHistory
+def checkPrereq(Student, recommnded):
     validCourses=[]
-
-    for course in listing:
-        satisfied=True
-        prereq=course.get_prerequisites(course.courseCode)
-        #check if the student did all the prereq courses
-        for c in prereq:
-            if c not in completed:      #if at least one was not done, the student can't take the course
-                satisfied=False
+    for course in recommnded:
+        c = get_course_by_courseCode(course)
+        satisfied = possessPrereqs(Student, c)
         if satisfied:
-            validCourses.append(c)
+            validCourses.append(c.courseCode)
     
     return validCourses
 
+def getTopfive(list):
+    return list[:5]
 
 def prioritizeElectives(Student):
     #get available electives
@@ -130,63 +175,100 @@ def prioritizeElectives(Student):
     for c in electives:     
         if credits>0:
             courses.append(c)
-            credits=credits-c.get_credits(c.courseCode)
+            credits = credits - get_credits(c)
     
     #merge available, required core and foundation courses
-    courses=courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
-    courses=checkPrereq(Student,courses)
-    return courses
+    courses = courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
 
+    courses = checkPrereq(Student,courses)
+    return getTopfive(courses)
+
+
+def removeCoursesFromList(list1,list2):
+    newlist = list2.copy()
+    for a in list1:
+        if a in newlist:
+            newlist.remove(a)
+    return newlist
+    
 
 def easyCourses(Student):
-    #get electives, order by difficulty
-    electives=findAvailable(getRemainingElec(Student))      
-    electives.sort(key=lambda x:getattr(x, "rating", 0)) 
-     
-    #select courses to satisfy the programme's credit requirement
-    credits=remElecCredits(Student)
-    courses=[]
-    for c in electives:    
-        if credits>0:
-            courses.append(c)
-            credits=credits-c.get_credits(c.courseCode)
+    program = get_program_by_id(Student.program_id)
+    completed = getCompletedCourseCodes(Student.id)
+    codesSortedbyRating = programCourses_SortedbyRating(Student.program_id)
 
-    #merge available core and foundation courses and sort by difficulty
-    courses= courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
-    courses.sort(key=lambda x:getattr(x, "rating", 0)) 
-    courses=checkPrereq(Student,courses)
-    return courses
+    coursesToDo = removeCoursesFromList(completed, codesSortedbyRating)
+
+    elecCredits = remElecCredits(Student)
+    
+    if elecCredits == 0:
+        allElectives = convertToList(get_allElectives(program.name))
+        coursesToDo = removeCoursesFromList(allElectives, coursesToDo)
+    
+    coursesToDo = findAvailable(coursesToDo)
+
+    ableToDo = checkPrereq(Student, coursesToDo)
+    # for a in ableToDo:
+    #     print(a)
+    
+    return getTopfive(ableToDo)
 
 
 def fastestGraduation(Student):
-    #get electives, order by credits (descending order)
-    electives=findAvailable(getRemainingElec(Student))      
-    electives.sort(key=lambda x:getattr(x, "credits", 0), reverse=True)
+    program = get_program_by_id(Student.program_id)
+    sortedCourses = programCourses_SortedbyHighestCredits(Student.program_id)
+    completed = getCompletedCourseCodes(Student.id)
 
-    #select courses to satisfy the programme's credit requirement
-    credits=remElecCredits(Student)
-    courses=[]
-    for c in electives:    
-        if credits>0:
-            courses.append(c)
-            credits=credits-c.get_credits(c.courseCode)
+    coursesToDo = removeCoursesFromList(completed, sortedCourses)
 
-    #get available, required core and foundation courses
-    courses= courses + findAvailable(getRemainingCore(Student)) + findAvailable(getRemainingFoun(Student))
-    courses=checkPrereq(Student,courses)
+    elecCredits = remElecCredits(Student)
+    
+    if elecCredits == 0:
+        allElectives = convertToList(get_allElectives(program.name))
+        coursesToDo = removeCoursesFromList(allElectives, coursesToDo)
+    
+    coursesToDo = findAvailable(coursesToDo)
+    ableToDo = checkPrereq(Student, coursesToDo)
+
+    return getTopfive(ableToDo)
+
+def commandCall(Student, command):
+    courses = []
+
+    if command == "electives":
+        courses = prioritizeElectives(Student)
+    
+    elif command == "easy":
+        courses = easyCourses(Student)
+    
+    elif command == "fastest":
+        courses = fastestGraduation(Student)
+    
+    else:
+        print("Invalid command")
+    
     return courses
 
-def create_easy_plan(studentId):
-    # Get the student object based on studentId
-    student = Student.query.get(studentId)
-    # Generate a list of courses using the easyCourses function
-    courses = easyCourses(student)
 
-    # Create a new CoursePlan for the student with the generated courses
-    new_course_plan = CoursePlan(studentId=studentId, courses=courses)
+def generator(Student, command):
+    courses = []
 
-    # Add the new course plan to the database and commit the changes
-    db.session.add(new_course_plan)
-    db.session.commit()
+    plan = getCoursePlan(Student.id)
 
-    return new_course_plan
+    if plan is None:
+        plan = plan = create_CoursePlan(Student.id)
+
+    
+    courses = commandCall(Student, command)
+
+    existingPlanCourses = get_all_courses_by_planid(plan.planId)
+
+    planCourses = []
+    for q in existingPlanCourses:
+        planCourses.append(q.code)
+
+    for c in courses: 
+        if c not in planCourses:
+            createPlanCourse(plan.planId, c)
+
+    return courses

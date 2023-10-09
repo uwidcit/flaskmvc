@@ -1,6 +1,4 @@
 from App.database import db
-import json
-
 class ProgramCourses(db.Model):
     __tablename__ ='program_courses'
     id = db.Column(db.Integer, primary_key=True)
@@ -18,6 +16,7 @@ class ProgramCourses(db.Model):
     
     def get_json(self):
         return{
+            'Program Course ID:' : self.id,
             'Program ID:': self.program_id,
             'Course Code: ': self.code,
             'Course Type: ': self.courseType
