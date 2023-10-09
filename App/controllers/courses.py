@@ -26,7 +26,6 @@ def create_course(file_path):
                 
     except FileNotFoundError:
         print("File not found.")
-        return False
 
     except Exception as e:
         print(f"An error occurred: {e}")

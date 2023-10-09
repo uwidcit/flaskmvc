@@ -20,7 +20,6 @@ class Program(db.Model):
         return{
             'Program ID:': self.id,
             'Program Name: ': self.name,
-            'Level I Credits: ': self.level1_credits,
             'Core Credits: ': self.core_credits,
             'Elective Credits ': self.elective_credits,
             'Foundation Credits: ': self.foun_credits,

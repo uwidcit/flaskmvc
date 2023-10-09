@@ -1,6 +1,7 @@
 import click, pytest, sys
 import csv
 from flask import Flask
+from App.controllers.student import create_student
 from flask.cli import with_appcontext, AppGroup
 """ 
 # add more courses, 
@@ -25,6 +26,7 @@ from App.controllers import (
     create_programCourse,
     addSemesterCourses,
     create_student,
+    create_staff,
     get_program_by_name,
     get_all_programCourses,
     addCoursetoHistory,
@@ -37,7 +39,6 @@ from App.controllers import (
 
 test1 = ["COMP1600",  "COMP1601", "COMP1602", "COMP1603", "COMP1604", "MATH1115", "INFO1600", "INFO1601",  "FOUN1101", "FOUN1105", "FOUN1301", "COMP3605", "COMP3606", "COMP3607", "COMP3608",]
 
-##Change the file path
 file_path = "testData/test.txt"
 
 
@@ -56,7 +57,8 @@ def initialize():
     create_course('testData/courseData.csv')
     create_program("Computer Science Major", 69, 15, 9)
     create_student(816, "boo", "testing", "Computer Science Major")
-
+    create_staff("adminpass","999", "admin")
+    
     for c in test1:
         addCoursetoHistory(816, c)
     print('Student course history updated')
@@ -157,6 +159,45 @@ def generatePlan(student_id, command):
 
 
 app.cli.add_command(student_cli)
+
+'''
+Staff Commands
+'''
+staff_cli = AppGroup('staff',help='testing staff commands')
+@staff_cli.command("create",help="create staff")
+@click.argument("id", type=str)
+@click.argument("password", type=str)
+@click.argument("name", type=str)
+def create_staff_command(id, password, name): 
+  newstaff=create_staff(password,id, name)
+  print(f'Staff {newstaff.name} created')
+
+@staff_cli.command("addprogram",help='testing add program feature')
+@click.argument("name", type=str)
+@click.argument("core", type=int)
+@click.argument("elective", type=int)
+@click.argument("foun", type=int)
+def create_program_command(name,core,elective,foun):
+  newprogram=create_program(name,core,elective,foun)
+  print(f'{newprogram.get_json()}')
+
+@staff_cli.command("addprogramcourse",help='testing add program feature')
+@click.argument("name", type=str)
+@click.argument("code", type=str)
+@click.argument("num", type=int)
+def add_program_requirements(name,code,num):
+  response=create_programCourse(name, code, num)
+  print(response)
+
+@staff_cli.command("addofferedcourse",help='testing add courses offered feature')
+@click.argument("code", type=str)
+def add_offered_course(code):
+  course=addSemesterCourses(code)
+  if course:
+    print(f'Course details: {course}')
+
+
+app.cli.add_command(staff_cli)
 
 '''
 Test Commands

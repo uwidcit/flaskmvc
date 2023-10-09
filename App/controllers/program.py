@@ -53,12 +53,11 @@ def get_foun_courses(programName):
     return courses if program else []
 
 def get_all_courses(programName):
-    level1_courses = get_level1_courses(programName)
     core_courses = get_core_courses(programName)
     elective_courses = get_elective_courses(programName)
     foun_courses = get_foun_courses(programName)
 
-    all = level1_courses + core_courses + elective_courses + foun_courses
+    all = core_courses + elective_courses + foun_courses
     return all
 
 
