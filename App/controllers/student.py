@@ -54,6 +54,12 @@ def view_course_plan(student):
     plan=getCoursePlan(student.id)
     return plan
 
+def verify_student(username):
+    student=Student.query.filter_by(id=username).first()
+    if student:
+        return True
+    return False
+
 # def add_courses_from_file(student, file_path):
 #     try:
 #         with open(file_path, 'r') as file:
