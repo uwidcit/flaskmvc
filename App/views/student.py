@@ -17,25 +17,19 @@ from App.controllers import (
     getCompletedCourseCodes,
     generator,
     addCourseToPlan,
-    verify_student,
-    verify_staff
+    verify_student
 )
 
 student_views = Blueprint('student_views', __name__, template_folder='../templates')
 
 ##Create student
 @student_views.route('/student', methods=['POST'])
-@login_required
 def create_student_route():
     student_id = request.json['student_id']
     password = request.json['password']
     name = request.json['name']
     programname = request.json['programname']
 
-    username=current_user.username
-    if not verify_staff(username):    #verify that the user is a student
-        return jsonify({'message': 'You are unauthorized to perform this action. Please login with Staff credentials.'}), 401
-    
     if not all([student_id, password, name, programname]):
         return jsonify({'Error': 'Missing required fields. Please provide student id, password, name, and program name.'}), 400
 
@@ -60,7 +54,7 @@ def add_course_to_student_route():
 
     username=current_user.username
     if not verify_student(username):    #verify that the user is logged in
-        return jsonify({'message': 'You are unauthorized to perform this action. Please login.'}), 401
+        return jsonify({'message': 'You are unauthorized to perform this action. Please login with Student credentials.'}), 401
     
     if not student_id or not course_code:
         return jsonify({'Error': 'Missing required fields'}), 400
@@ -92,8 +86,8 @@ def create_student_plan_route():
     command = request.json['command']
 
     username=current_user.username
-    if not verify_student(username):    #verify that the user is logged in
-        return jsonify({'message': 'You are unauthorized to perform this action. Please login.'}), 401
+    if not verify_student(username):    #verify that the student is logged in
+        return jsonify({'message': 'You are unauthorized to perform this action. Please login with Student credentials.'}), 401
     
     student = get_student_by_id(student_id)
 
