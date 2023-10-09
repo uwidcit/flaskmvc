@@ -10,7 +10,7 @@ def create_programCourse(programName, code, num):
             proCourse = ProgramCourses(program.id, code, num)
             db.session.add(proCourse)
             db.session.commit()
-            return "Course successfully added to program"
+            return proCourse
         else:
             return "Invalid course code"
     else:
