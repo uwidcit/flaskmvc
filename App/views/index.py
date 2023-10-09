@@ -12,7 +12,6 @@ def index_page():
 def init():
     db.drop_all()
     db.create_all()
-    create_user('bob', 'bobpass')
     create_staff("adminpass","999", "admin")
     return jsonify(message='db initialized!')
 
