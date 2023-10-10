@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, send_from_directory, jsonify
 from App.models import db
-from App.controllers import (create_user, create_staff)
+from App.controllers import (create_course, create_staff)
 
 index_views = Blueprint('index_views', __name__, template_folder='../templates')
 
@@ -13,7 +13,8 @@ def init():
     db.drop_all()
     db.create_all()
     create_staff("adminpass","999", "admin")
-    return jsonify(message='staff created, db initialized!')
+    create_course('testData/courseData.csv')
+    return jsonify(message='staff created, courses created, db initialized!')
 
 @index_views.route('/health', methods=['GET'])
 def health_check():
