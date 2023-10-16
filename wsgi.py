@@ -3,12 +3,6 @@ import csv
 from flask import Flask
 from App.controllers.student import create_student
 from flask.cli import with_appcontext, AppGroup
-""" 
-# add more courses, 
-# populate student course history 10courses 
-add courses to program
-offered courses
-"""
 
 from App.database import db, get_migrate
 from App.main import create_app
@@ -329,26 +323,3 @@ def allSemCourses():
     
 
 app.cli.add_command(course)
-
-###########################################################
-
-'''
-Course Plan Commands
-'''
-
-coursePlan = AppGroup('plan', help = 'Course Plan object commands')
-
-# @coursePlan.command('remaining', help='Get remaining program courses')
-# @click.argument('programname', type=str)
-# def remaining(programname):  
-
-#     # required = get_all_courses(programname)
-#     # completed = ['COMP1600']
-#     # newRemaining = getRemainingCourses(completed, required)
-#     # print(f'Remaining courses are: {newRemaining}')
-
-
-# Define the course plan create command
-
-
-app.cli.add_command(coursePlan)

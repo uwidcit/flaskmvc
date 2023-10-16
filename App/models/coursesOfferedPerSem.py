@@ -11,5 +11,6 @@ class CoursesOfferedPerSem(db.Model):
        
     def get_json(self):
         return{
+            'ID:': self.id,
             'Course Code:': self.code
         }
