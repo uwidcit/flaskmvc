@@ -1,4 +1,4 @@
-from App.models import Program, Course
+from App.models import Program, Course, Staff
 from App.database import db
 
 
