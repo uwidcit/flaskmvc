@@ -16,6 +16,6 @@ class Prerequisites(db.Model):
     def get_json(self):
         return{
             'prereq_id': self.id,
-            'course_id': self.course_id,
-            'prerequisite_course': self.prereq_code,
+            'prerequisite_courseCode': self.prereq_courseCode,
+            'prerequisite_course':self.courseName
         } 

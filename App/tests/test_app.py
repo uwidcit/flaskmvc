@@ -4,6 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from App.main import create_app
 from App.database import db, create_db
 from App.models import User
+from App.models import Prerequisites, ProgramCourses, StudentCourseHistory
 from App.controllers import (
     create_user,
     get_all_users_json,
@@ -41,6 +42,24 @@ class UserUnitTests(unittest.TestCase):
         password = "mypass"
         user = User("bob", password)
         assert user.check_password(password)
+
+    def test_new_prerequisite(self):
+        prereq=Prerequisites("INFO2605","Introduction to Information Technology Concepts")
+        assert prereq.prereq_courseCode=="INFO2605"
+
+    def test_prerequisite_toJSON(self):
+        prereq=Prerequisites("INFO2605","Introduction to Information Technology Concepts")
+        prereq_json=prereq.get_json()
+        self.assertDictEqual(prereq_json,{'prereq_id': None, 'prerequisite_courseCode': 'INFO2605', 'prerequisite_course': 'Introduction to Information Technology Concepts'})
+
+    def test_new_program_course(self):
+        programcourse=ProgramCourses("1","INFO2605","2")
+        assert programcourse.code=="INFO2605"
+
+    def test_program_course_toJSON(self):
+        programcourse=ProgramCourses("1","INFO2605","2")
+        programcourse_json=programcourse.get_json()
+        self.assertDictEqual(programcourse_json,{'Program Course ID:':None, 'Program ID:':'1','Course Code: ':'INFO2605','Course Type: ':'2'})
 
 '''
     Integration Tests
