@@ -15,7 +15,13 @@ from App.controllers import (
     create_program,
     addCourseToPlan,
     create_course,
-    hasCourseInPlan,
+    addSemesterCourses,
+    getCourseFromCoursePlan,
+    removeCourse,
+    enroll_in_programme,
+    get_all_students_json,
+    update_student,
+    get_student_by_id
     )
 
 
@@ -81,6 +87,38 @@ class UsersIntegrationTests(unittest.TestCase):
         user = get_user(1)
         assert user.username == "ronnie"
 
+class StudentUnitTest(unittest.TestCase):
+    def setUp(self):
+        app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
+        self.app = app.test_client()
+
+        with app.app_context():
+            create_db()
+            db.create_all()
+
+    def tearDown(self):
+        with self.app:
+            db.session.remove()
+            db.drop_all()
+            db.engine.dispose()
+
+    def test_create_student(self):
+            program = create_program("Computer Science Major", 3,4,5)
+            student = create_student("816025522", "Password", "Jerval", program.name)
+            assert student.name == "Jerval"
+
+    def test_get_all_student_json(self):
+        users_json = get_all_students_json()
+        self.assertListEqual([{"id":"816025522", "name":"Jerval", "program_id":"" }], users_json)
+
+
+    def test_update_student(self):
+        program = create_program("Computer Science Major", 3,4,5)
+        create_student("816025522", "Password", "Jerval", program.name)
+        student = update_student("816025522", "Bill")
+        assert student.name == "Bill"
+
+
 class StudentIntegrationTests(unittest.TestCase):
 
     def setUp(self):
@@ -103,23 +141,25 @@ class StudentIntegrationTests(unittest.TestCase):
             assert student.name == "Jerval"
 
     def test_add_course_to_plan(self):
+            course_code = "MATH2250"
             create_course("/Users/jervalthomas/Desktop/Programming /Year 4 Sem 1/COMP 3613/flaskmvc/testData/courseData.csv")
+            addSemesterCourses(course_code)
             program = create_program("Computer Science Major", 3,4,5)
             student = create_student("816025522", "Password", "Jerval", program.name)
-            course_code = "MATH2250"
-            addCourseToPlan(student, course_code)
-            self.assertTrue(hasCourseInPlan(course_code))
+            self.assertTrue(addCourseToPlan(student, course_code))
 
     def test_remove_course_from_plan(self):
-            student = create_student("816025522", "Password", "Jerval", "Computer Science")
-            course_code = "COMP101"
-            addCourseToPlan(student, course_code)
-            self.assertTrue(hasCourseInPlan(course_code))
-            student.removeCourseFromPlan(course_code)
-            self.assertFalse(hasCourseInPlan(course_code))
+            course_code = "MATH2250"
+            create_course("/Users/jervalthomas/Desktop/Programming /Year 4 Sem 1/COMP 3613/flaskmvc/testData/courseData.csv")
+            addSemesterCourses(course_code)
+            program = create_program("Computer Science Major", 3,4,5)
+            student = create_student("816025522", "Password", "Jerval", program.name)
+            plan = addCourseToPlan(student, course_code)
+            removeCourse(student, course_code)
+            self.assertFalse(getCourseFromCoursePlan(plan, course_code) == "COMP101")
 
     def test_enroll_in_programme(self):
             student = create_student("816025522", "Password", "Jerval", "Computer Science")
-            program_name = "Computer Science Program"
-            student.enroll_in_programme(program_name)
-            self.assertEqual(student.program.name, program_name)
+            program_id = 24
+            enroll_in_programme(student, program_id)
+            self.assertEqual(enroll_in_programme(student, program_id), program_id)

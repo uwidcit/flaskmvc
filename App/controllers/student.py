@@ -1,5 +1,5 @@
 from App.models import Student, CoursePlan, Program
-from App.controllers import (get_program_by_name, addCourse, removeCourse, getCoursePlan)
+from App.controllers import (get_program_by_name)
 from App.database import db
 
 def create_student(student_id, password, name, programname):
@@ -32,7 +32,7 @@ def get_all_students_json():
 def update_student(id, username):
     student = get_student_by_id(id)
     if student:
-        student.username = username
+        student.name = username
         db.session.add(student)
         db.session.commit()
         return student
@@ -45,9 +45,7 @@ def enroll_in_programme(student_id, programme_id):
             student.program_id = programme_id
             db.session.add(student)
             db.session.commit()
-
-def hasCourseInPlan(student, course_code):
-        return any(course.course_code == course_code for course in getCoursePlan(student.id))
+    return student.program_id
 
 def add_course_to_plan(student, course_id):
     addCourse(student,course_id)

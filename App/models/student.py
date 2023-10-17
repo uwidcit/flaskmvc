@@ -16,9 +16,9 @@ class Student(User):
         self.program_id = program_id
 
     def get_json(self):
-        return{
-            'student_id': self.id,
+        return{'student_id': self.id,
             'name': self.name,
             'program' : self.program_id
+            
         }
 
