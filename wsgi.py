@@ -203,11 +203,23 @@ test = AppGroup('test', help='Testing commands')
 @click.argument("type", default="all")
 def user_tests_command(type):
     if type == "unit":
-        sys.exit(pytest.main(["-k", "UserUnitTests"]))
+        sys.exit(pytest.main(["-k", "UnitTests"]))
     elif type == "int":
         sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
     else:
         sys.exit(pytest.main(["-k", "App"]))
+
+@test.command("course", help="Run Course tests")
+def courses_tests_command():
+    sys.exit(pytest.main(["App/tests/courses.py::CourseUnitTests"]))
+
+
+@test.command("program", help="Run Program tests")
+def courses_tests_command():
+    sys.exit(pytest.main(["App/tests/program.py::ProgramUnitTests"]))
+
+    
+    
     
 
 app.cli.add_command(test)
