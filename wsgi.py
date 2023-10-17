@@ -218,6 +218,10 @@ def courses_tests_command():
 def courses_tests_command():
     sys.exit(pytest.main(["App/tests/program.py::ProgramUnitTests"]))
 
+@test.command("staff", help="Run Staff tests")
+def courses_tests_command():
+    sys.exit(pytest.main(["App/tests/staff.py::StaffUnitTests"]))
+
     
     
     
