@@ -4,14 +4,23 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from App.main import create_app
 from App.database import db, create_db
 from App.models import User
-from App.models import Prerequisites, ProgramCourses, StudentCourseHistory
+from App.models import Prerequisites, ProgramCourses, StudentCourseHistory, Course
 from App.controllers import (
     create_user,
     get_all_users_json,
     login,
     get_user,
     get_user_by_username,
-    update_user
+    update_user,
+    create_course,
+    create_prereq,
+    getPrereqCodes,
+    create_program,
+    create_programCourse,
+    get_all_programCourses,
+    get_program_by_name,
+    programCourses_SortedbyRating,
+    programCourses_SortedbyHighestCredits
 )
 
 
@@ -94,3 +103,29 @@ class UsersIntegrationTests(unittest.TestCase):
         update_user(1, "ronnie")
         user = get_user(1)
         assert user.username == "ronnie"
+
+    def test_create_prerequisite(self):
+        file_path="testData/courseData.csv"
+        create_course(file_path)
+
+        create_prereq("MATH1115","Industrial Statistics")
+        prereqs=getPrereqCodes("Industrial Statistics")
+        self.assertEqual(['MATH1115'],prereqs)
+
+    def test_create_program_requirement(self):
+        program=create_program("Computer Science and Statistics",51,30,9)
+        create_programCourse("Computer Science and Statistics","MATH1115",1)
+        program_courses=get_all_programCourses("Computer Science and Statistics")
+        assert any(course.code == "MATH1115" for course in program_courses)
+
+    def test_programCourses_sorted_by_credits(self):        
+        create_programCourse("Computer Science and Statistics","INFO2606",2)
+        program=get_program_by_name("Computer Science and Statistics")
+        credits_sorted=programCourses_SortedbyHighestCredits(program.id)
+        self.assertListEqual(credits_sorted,['INFO2606', 'MATH1115'])   
+
+    def test_programCourses_sorted_by_rating(self):
+        create_programCourse("Computer Science and Statistics","MATH2250",1)
+        program=get_program_by_name("Computer Science and Statistics")
+        rating_list=programCourses_SortedbyRating(program.id)
+        self.assertListEqual(rating_list,['MATH1115', 'INFO2606', 'MATH2250'])
