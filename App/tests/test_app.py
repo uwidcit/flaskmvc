@@ -107,11 +107,6 @@ class StudentUnitTest(unittest.TestCase):
             student = create_student("816025522", "Password", "Jerval", program.name)
             assert student.name == "Jerval"
 
-    def test_get_all_student_json(self):
-        users_json = get_all_students_json()
-        self.assertListEqual([{"id":"816025522", "name":"Jerval", "program_id":"" }], users_json)
-
-
     def test_update_student(self):
         program = create_program("Computer Science Major", 3,4,5)
         create_student("816025522", "Password", "Jerval", program.name)
@@ -140,6 +135,12 @@ class StudentIntegrationTests(unittest.TestCase):
             student = create_student("816025522", "Password", "Jerval", program.name)
             assert student.name == "Jerval"
 
+    def test_get_all_student_json(self):
+        program = create_program("Computer Science Major", 3,4,5)
+        create_student("816025522", "Password", "Jerval", program.name)
+        users_json = get_all_students_json()
+        self.assertListEqual([{"name":"Jerval", "student_id":"816025522", "program":1 }], users_json)
+
     def test_add_course_to_plan(self):
             course_code = "MATH2250"
             create_course("/Users/jervalthomas/Desktop/Programming /Year 4 Sem 1/COMP 3613/flaskmvc/testData/courseData.csv")
@@ -159,7 +160,7 @@ class StudentIntegrationTests(unittest.TestCase):
             self.assertFalse(getCourseFromCoursePlan(plan, course_code) == "COMP101")
 
     def test_enroll_in_programme(self):
-            student = create_student("816025522", "Password", "Jerval", "Computer Science")
-            program_id = 24
-            enroll_in_programme(student, program_id)
-            self.assertEqual(enroll_in_programme(student, program_id), program_id)
+            create_program("Computer Science Major", 3,4,5)
+            student = create_student("816025522", "Password", "Jerval", "Computer Science Major")
+            enroll_in_programme(student.id, 1)
+            assert enroll_in_programme(student.id, 1) == 1
