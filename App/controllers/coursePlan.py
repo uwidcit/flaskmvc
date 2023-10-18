@@ -67,7 +67,7 @@ def addCourseToPlan(Student, courseCode):
 def removeCourse(Student, courseCode):
     plan=getCoursePlan(Student.id)
     if plan:
-        deleteCourseFromCoursePlan(plan.planid, courseCode)
+        deleteCourseFromCoursePlan(plan.planId, courseCode)
 
 def getRemainingCourses(completed, required):
     # Check if either 'completed' or 'required' is None

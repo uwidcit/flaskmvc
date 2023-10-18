@@ -33,6 +33,7 @@ def create_course(file_path):
 
     db.session.commit()
     print("Courses added successfully.")
+    return course
     
 def get_course_by_courseCode(code):
     return Course.query.filter_by(courseCode=code).first()
