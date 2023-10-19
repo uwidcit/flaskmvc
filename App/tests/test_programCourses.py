@@ -12,7 +12,7 @@ from App.controllers import (
     get_all_programCourses,
     get_program_by_name,
     programCourses_SortedbyRating,
-    programCourses_SortedbyHighestCredits
+    programCourses_SortedbyHighestCredits,
 )
 
 
@@ -46,9 +46,10 @@ def empty_db():
 class ProgramCoursesIntegrationTests(unittest.TestCase):
 
     def test_create_prerequisite(self):
-        file_path="testData/courseData.csv"
-        create_course(file_path)
-
+        create_course("MATH1115", "Fundamental Mathematics for the General Sciences 1",1,6,[])
+        create_course("MATH2250", "Industrial Statistics",4,3,[])
+        create_course("INFO2606", "Internship",1,6,[])
+        
         create_prereq("MATH1115","Industrial Statistics")
         prereqs=getPrereqCodes("Industrial Statistics")
         self.assertEqual(['MATH1115'],prereqs)
