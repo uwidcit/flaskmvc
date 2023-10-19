@@ -17,8 +17,10 @@ from App.controllers import (
     isCourseOffered,
     programCourses_SortedbyRating,
     programCourses_SortedbyHighestCredits,
-    get_all_courses_by_planid
+    get_all_courses_by_planid,
+    
 )
+
 
 
 def create_CoursePlan(id):
@@ -50,10 +52,12 @@ def addCourseToPlan(Student, courseCode):
                 if plan:
                     createPlanCourse(plan.planId, courseCode)
                     print("Course successfully added to course plan")
+                    return plan
                 else:
                     plan = create_CoursePlan(Student.id)
                     createPlanCourse(plan.planId, courseCode)
                     print("Plan successfully created and Course was successfully added to course plan")
+                    return plan
         else:
             print("Course is not offered")
     else:
@@ -63,7 +67,7 @@ def addCourseToPlan(Student, courseCode):
 def removeCourse(Student, courseCode):
     plan=getCoursePlan(Student.id)
     if plan:
-        deleteCourseFromCoursePlan(plan.planid, courseCode)
+        deleteCourseFromCoursePlan(plan.planId, courseCode)
 
 def getRemainingCourses(completed, required):
     # Check if either 'completed' or 'required' is None
