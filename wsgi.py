@@ -244,6 +244,26 @@ def courses_tests_command(type):
     else:
         sys.exit(pytest.main(["App/tests/staff.py"]))
 
+@test.command("student", help="Run Program tests")
+@click.argument("type", default="all")
+def courses_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["App/tests/student.py::StudentUnitTest"]))
+    elif type == "int":
+        sys.exit(pytest.main(["App/tests/student.py::StudentIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["App/tests/student.py"]))
+
+@test.command("studentCH", help="Run Student Course History tests")
+@click.argument("type", default="all")
+def courses_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["App/tests/studentCourseHistory.py::CourseHistoryUnitTest"]))
+    elif type == "int":
+        sys.exit(pytest.main(["App/tests/studentCourseHistory.py::CourseHistoryIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["App/tests/studentCourseHistory.py"]))
+
 
 app.cli.add_command(test)
 #################################################################
