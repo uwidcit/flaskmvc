@@ -1,5 +1,8 @@
-import unittest
+import unittest, pytest
 from App.models import Program
+from App.main import create_app
+from App.database import db, create_db
+from App.controllers import create_program, get_program_by_name
 
 class ProgramUnitTests(unittest.TestCase):
 
@@ -30,3 +33,15 @@ class ProgramUnitTests(unittest.TestCase):
             'Elective Credits ': elective_credits,
             'Foundation Credits: ': foun_credits,
         })
+
+@pytest.fixture(autouse=True, scope="module")
+def empty_db():
+    app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
+    create_db()
+    yield app.test_client()
+    db.drop_all()
+
+class ProgramIntegrationTests(unittest.TestCase):
+    def test_create_program(self):
+        program = create_program("IT", 69, 15, 9)
+        assert get_program_by_name("IT") != None

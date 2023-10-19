@@ -3,26 +3,40 @@ from App.controllers.prerequistes import (create_prereq, get_all_prerequisites)
 from App.database import db
 import json, csv
 
-def create_course(file_path):
+def createPrerequistes(prereqs, courseName):
+    for prereq_code in prereqs:
+        prereq_course = Course.query.filter_by(courseCode=prereq_code).first()
+        
+        if prereq_course:
+            create_prereq(prereq_code,courseName) 
+
+def create_course(code, name, rating, credits, prereqs):
+    already = get_course_by_courseCode(code)
+    if already is None:
+        course = Course(code, name, rating, credits)
+
+        if prereqs:
+            createPrerequistes(prereqs, name)
+            
+        db.session.add(course)
+        db.session.commit()
+        return course
+    else:
+        return None
+
+
+def createCoursesfromFile(file_path):
     try:
         with open(file_path, 'r') as file:
             csv_reader = csv.DictReader(file)
             for row in csv_reader:
-                course = Course()
-                course.courseCode = row["courseCode"]
-                course.courseName = row["courseName"]
-                course.credits = int(row["numCredits"])
-                course.rating = int(row["rating"])
+                courseCode = row["courseCode"]
+                courseName = row["courseName"]
+                credits = int(row["numCredits"])
+                rating = int(row["rating"])
                 prerequisites_codes = row["preReqs"].split(',')
-                
-                if prerequisites_codes[0]:
-                    prerequisites = []
-                    for prereq_code in prerequisites_codes:
-                        prereq_course = Course.query.filter_by(courseCode=prereq_code).first()
-                        
-                        if prereq_course:
-                            create_prereq(prereq_code, course.courseName) 
-                db.session.add(course)
+
+                create_course(courseCode, courseName, rating, credits, prerequisites_codes)
                 
     except FileNotFoundError:
         print("File not found.")
@@ -30,8 +44,7 @@ def create_course(file_path):
     except Exception as e:
         print(f"An error occurred: {e}")
         return False
-
-    db.session.commit()
+    
     print("Courses added successfully.")
     
 def get_course_by_courseCode(code):
@@ -45,6 +58,10 @@ def courses_Sorted_byRating():
         codes.append(c.courseCode)
     
     return codes
+
+def courses_Sorted_byRating_Objects():
+    return Course.query.order_by(Course.rating.asc()).all()
+    
 
 def get_prerequisites(code):
     course = get_course_by_courseCode(code)
