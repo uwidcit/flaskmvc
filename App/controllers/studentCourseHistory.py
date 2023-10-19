@@ -14,8 +14,7 @@ def addCoursetoHistory(studentid, code):
             print("Course doesn't exist")
     else:
         print("Student doesn't exist")
-    
-        
+         
 
 def getCompletedCourses(id):
     return StudentCourseHistory.query.filter_by(studentID=id).all()
