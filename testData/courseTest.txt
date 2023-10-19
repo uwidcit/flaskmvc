@@ -1,0 +1,16 @@
+COMP3605
+Data Analytics
+3
+3
+COMP2611, MATH2250
+
+COMP3610
+Big Data Analytics
+3
+3
+COMP3605
+
+"COMP2611","Data Structures","3","5",""
+"MATH2250","Industrial Statistics","3","4",""
+"COMP3605","Data Analytics","3","3","COMP2611, MATH2250"
+"COMP3610","Big Data Analytics","3","5","COMP3605"
