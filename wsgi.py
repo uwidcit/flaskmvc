@@ -13,7 +13,7 @@ from App.controllers import (
     create_program,
     get_all_OfferedCodes,
     get_core_credits,
-    create_course,
+    createCoursesfromFile,
     get_course_by_courseCode,
     get_prerequisites,
     get_all_courses,
@@ -48,7 +48,7 @@ def initialize():
     db.drop_all()
     db.create_all()
     create_user('bob', 'bobpass')
-    create_course('testData/courseData.csv')
+    createCoursesfromFile('testData/courseData.csv')
     create_program("Computer Science Major", 69, 15, 9)
     create_student(816, "boo", "testing", "Computer Science Major")
     create_staff("adminpass","999", "admin")
@@ -203,12 +203,47 @@ test = AppGroup('test', help='Testing commands')
 @click.argument("type", default="all")
 def user_tests_command(type):
     if type == "unit":
-        sys.exit(pytest.main(["-k", "UserUnitTests"]))
+        sys.exit(pytest.main(["-k", "UnitTests"]))
     elif type == "int":
         sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
     else:
         sys.exit(pytest.main(["-k", "App"]))
+
+@test.command("course", help="Run Course tests")
+@click.argument("type", default="all")
+def courses_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["App/tests/courses.py::CourseUnitTests"]))
+
+    elif type == "int":
+        sys.exit(pytest.main(["App/tests/courses.py::CourseIntegrationTests"]))
+
+    else:
+        sys.exit(pytest.main(["App/tests/courses.py"]))
     
+
+
+@test.command("program", help="Run Program tests")
+@click.argument("type", default="all")
+def courses_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["App/tests/program.py::ProgramUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["App/tests/program.py::ProgramIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["App/tests/program.py"]))
+
+
+@test.command("staff", help="Run Staff tests")
+@click.argument("type", default="all")
+def courses_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["App/tests/staff.py::StaffUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["App/tests/staff.py::StaffIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["App/tests/staff.py"]))
+
 
 app.cli.add_command(test)
 #################################################################
@@ -279,11 +314,11 @@ Course Commands
 
 course = AppGroup('course', help = 'Program object commands')
 
-@course.command('create', help='Create a new course')
-@click.argument('file_path')
-def create_course_command(file_path):  
-    newcourse = create_course(file_path)
-    print(f'Course created with course code "{newcourse.courseCode}", name "{newcourse.courseName}", credits "{newcourse.credits}", ratings "{newcourse.rating}" and prerequites "{newcourse.prerequisites}"')
+# @course.command('create', help='Create a new course')
+# @click.argument('file_path')
+# def create_course_command(file_path):  
+#     newcourse = create_course(file_path)
+#     print(f'Course created with course code "{newcourse.courseCode}", name "{newcourse.courseName}", credits "{newcourse.credits}", ratings "{newcourse.rating}" and prerequites "{newcourse.prerequisites}"')
 
 
 @course.command('prereqs', help='Create a new course')
@@ -296,7 +331,8 @@ def create_course_command(code):
 @click.argument('code', type=str)
 def get_course(code):  
     course = get_course_by_courseCode(code)
-    print(f'Course Name: {course.courseName}') if course else print(f'error')
+    course_json = course.get_json()
+    print(f'{course_json}') if course else print(f'error')
 
 @course.command('getprereqs', help='Get all prerequistes for a course')
 @click.argument('code', type=str)

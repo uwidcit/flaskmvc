@@ -16,8 +16,11 @@ class Course(db.Model):
     # planIds = db.relationship('CoursePlanCourses', backref='courses', lazy=True)
    
     
-    def __init__(self):
-        pass
+    def __init__(self, code, name, rating, credits):
+        self.courseCode = code
+        self.courseName = name
+        self.rating = rating
+        self.credits = credits
     
     def get_json(self):
         return{
@@ -25,5 +28,4 @@ class Course(db.Model):
             'Course Name: ': self.courseName,
             'Course Rating: ': self.rating,
             'No. of Credits: ': self.credits,
-            'Prerequistes: ': self.prerequisites
         }
