@@ -46,7 +46,6 @@ def createCoursesfromFile(file_path):
         return False
     
     print("Courses added successfully.")
-    return course
     
 def get_course_by_courseCode(code):
     return Course.query.filter_by(courseCode=code).first()
