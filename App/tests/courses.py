@@ -1,6 +1,6 @@
 import pytest, unittest
-from App.models import Course
-from App.controllers import create_course, courses_Sorted_byRating_Objects, get_course_by_courseCode
+from App.models import Course, Prerequisites
+from App.controllers import create_course, courses_Sorted_byRating_Objects, get_course_by_courseCode, create_prereq, getPrereqCodes
 from App.main import create_app
 from App.database import db, create_db
 
@@ -34,7 +34,22 @@ class CourseUnitTests(unittest.TestCase):
             'Course Rating: ': rating,
             'No. of Credits: ': credits
             })
+
+
+    def test_new_prerequisite(self):
+        prereq=Prerequisites("INFO2605","Introduction to Information Technology Concepts")
+        assert prereq.prereq_courseCode=="INFO2605"
+
+    def test_prerequisite_toJSON(self):
+        prereq=Prerequisites("INFO2605","Introduction to Information Technology Concepts")
+        prereq_json=prereq.get_json()
+        self.assertDictEqual(prereq_json,{
+            'prereq_id': None, 
+            'prerequisite_courseCode': 'INFO2605', 
+            'prerequisite_course': 'Introduction to Information Technology Concepts'
+            })
     
+
 @pytest.fixture(autouse=True, scope="module")
 def empty_db():
     app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
@@ -66,3 +81,12 @@ class CourseIntegrationTests(unittest.TestCase):
 
         for i in range(len(sortedCourses) - 1):
             self.assertLessEqual(sortedCourses[i].rating, sortedCourses[i + 1].rating)
+
+
+    def test_create_prerequisite(self):
+        create_course("MATH1115", "Fundamental Mathematics for the General Sciences 1",1,6,[])
+        create_course("MATH2250", "Industrial Statistics",4,3,[])
+        
+        create_prereq("MATH1115","Industrial Statistics")
+        prereqs=getPrereqCodes("Industrial Statistics")
+        self.assertEqual(['MATH1115'],prereqs)

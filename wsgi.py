@@ -196,21 +196,18 @@ app.cli.add_command(staff_cli)
 '''
 Test Commands
 '''
-usercode=programCoursescode=0
+
 test = AppGroup('test', help='Testing commands') 
 
 @test.command("user", help="Run User tests")
 @click.argument("type", default="all")
 def user_tests_command(type):
     if type == "unit":
-        usercode=pytest.main(["-k", "UserUnitTests"])
-        programCoursescode=(pytest.main(["App/tests/test_programCourses.py::ProgramCoursesUnitTests"]))
+        sys.exit(pytest.main(["-k", "UserUnitTests"]))
     elif type == "int":
-        usercode=pytest.main(["-k", "UserIntegrationTests"])
-        programCoursescode=(pytest.main(["App/tests/test_programCourses.py::ProgramCoursesIntegrationTests"]))
+        sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
     else:
-        usercode=pytest.main(["-k", "App"])
-        programCoursescode=(pytest.main(["App/tests/test_programCourses.py"]))
+        sys.exit(pytest.main(["-k", "App"]))
 
 @test.command("course", help="Run Course tests")
 @click.argument("type", default="all")
@@ -268,9 +265,6 @@ def courses_tests_command(type):
         sys.exit(pytest.main(["App/tests/studentCourseHistory.py"]))
 
 
-status=usercode + programCoursescode
-if(status==1):
-    sys.exit(status)
 
 app.cli.add_command(test)
 #################################################################
