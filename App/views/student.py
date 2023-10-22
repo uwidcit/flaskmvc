@@ -35,7 +35,7 @@ def create_student_route():
 
     student = get_student_by_id(student_id)
     if student:
-        return jsonify({'Error': 'Student ID taken'}), 400
+        return jsonify({'Error': 'Student id found'}), 400
     
     program = get_program_by_name(programname)
     if not program:

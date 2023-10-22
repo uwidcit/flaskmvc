@@ -8,7 +8,7 @@ def addSemesterCourses(courseCode):
         semCourses = CoursesOfferedPerSem(courseCode)
         db.session.add(semCourses)
         db.session.commit()
-        return course
+        return semCourses
     else:
         print("Course not found")
 

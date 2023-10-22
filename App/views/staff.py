@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
 from flask_login import current_user, login_required
-from App.models import Program
+from App.models import Program, ProgramCourses
 
 from.index import index_views
 
@@ -29,7 +29,7 @@ def getOfferedCourses():
     return jsonify({'message': 'You are unauthorized to perform this action. Please login with Staff credentials.'}), 401
 
   listing=get_all_OfferedCodes()
-  return jsonify(listing), 200
+  return jsonify({'message':'Success', 'offered_courses':listing}), 200
 
 @staff_views.route('/staff/program', methods=['POST'])
 @login_required
@@ -103,7 +103,7 @@ def addProgramRequirements():
     return jsonify({'message': 'Invalid course type. Core (1) Elective (2) Foundation (3)'}), 400
 
   response=create_programCourse(name, code, num)
-  return jsonify({'message': response}), 200
+  return jsonify({'message': response.get_json()}), 200
 
 
 @staff_views.route('/staff/addOfferedCourse', methods=['POST'])
@@ -125,6 +125,6 @@ def addCourse():
 
   course = addSemesterCourses(courseCode)
   if course:
-     return jsonify({'message': f"Course {courseCode} added"}), 200
+     return jsonify(course.get_json()), 200
   else:
     return jsonify({'message': "Course addition unsucessful"}), 400
