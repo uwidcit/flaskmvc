@@ -220,8 +220,28 @@ def courses_tests_command(type):
 
     else:
         sys.exit(pytest.main(["App/tests/courses.py"]))
-    
 
+@test.command("coursePlan", help="Run Course Plan tests")
+@click.argument("type", default="all")
+def courses_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["App/tests/coursePlan.py::CoursePlanUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["App/tests/coursePlan.py::CoursePlanIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["App/tests/coursePlan.py"]))
+    
+#CoursesOfferedPerSemUnitTests
+@test.command("coursesOffered", help="Run Courses Offered Per Sem tests")
+@click.argument("type", default="all")
+def courses_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["App/tests/coursesOfferedPerSem.py::CoursesOfferedPerSemUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["App/tests/coursesOfferedPerSem.py::CoursesOfferedPerSemIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["App/tests/coursesOfferedPerSem.py"]))
+    
 
 @test.command("program", help="Run Program tests")
 @click.argument("type", default="all")
