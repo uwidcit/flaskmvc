@@ -10,10 +10,7 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"github.vscode-github-actions",
-				"GitHub.copilot",
-				"GitHub.copilot-chat",
-				"alexcvzz.vscode-sqlite"
+				"GitHub.copilot"
 			]
 		}
 	},
@@ -23,14 +20,14 @@
 			"label": "server",
 			"protocol": "http"
 		}
-	}
+	},
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "pip3 install --user -r requirements.txt",
+	"postCreateCommand": "pip install -r requirements.txt"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
