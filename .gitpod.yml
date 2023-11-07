@@ -1,5 +1,5 @@
 tasks:
-  - init: pyenv install -f & pip install -r requirements.txt
+  - init: pip install -r requirements.txt & pyenv install
     command: flask init & flask run
 
 ports:
@@ -9,10 +9,10 @@ ports:
 image:
   file: .gitpod.Dockerfile
 
-github:
-  prebuilds:
-    master: true
-    branches: false
-    pullRequests: true
-    addCheck: true
-    addComment: true
+# github:
+#   prebuilds:
+#     master: true
+#     branches: false
+#     pullRequests: true
+#     addCheck: true
+#     addComment: true
