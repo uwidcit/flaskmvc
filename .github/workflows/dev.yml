@@ -14,18 +14,13 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    # strategy:
-    #   matrix:
-    #     node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
     - uses: actions/checkout@v3
     
     - name: Setup Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9.10'
+        python-version: '3.9.18'
         cache: pip
     
     - name: Install dependencies
@@ -35,10 +30,3 @@ jobs:
 
     - name: Run Tests
       run: pytest
-    # - name: Use Node.js ${{ matrix.node-version }}
-    #   uses: actions/setup-node@v3
-    #   with:
-    #     node-version: ${{ matrix.node-version }}
-    #     cache: 'npm'
-    # - run: npm install
-    # - run: npm run api-test
