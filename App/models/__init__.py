@@ -3,3 +3,12 @@ from .staff import *
 from .student import *
 from .history import *
 from .historycourse import *
+from .course import *
+from .courseplan import *
+from .courseplancourse import *
+from .programme import *
+from .generator import *
+from .easygenerator import *
+from .fastgenerator import *
+from .manualgenerator import *
+from .maxelectivegenerator import *
