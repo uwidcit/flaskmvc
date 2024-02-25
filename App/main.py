@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, render_template
 from flask_uploads import DOCUMENTS, IMAGES, TEXT, UploadSet, configure_uploads
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
@@ -38,7 +38,6 @@ def create_app(config_overrides={}):
     app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token'
     app.config["JWT_TOKEN_LOCATION"] = ["cookies", "headers"]
     app.config["JWT_COOKIE_SECURE"] = True
-    app.config["JWT_SECRET_KEY"] = "super-secret"
     app.config["JWT_COOKIE_CSRF_PROTECT"] = False
     CORS(app)
     add_auth_context(app)
@@ -46,7 +45,13 @@ def create_app(config_overrides={}):
     configure_uploads(app, photos)
     add_views(app)
     init_db(app)
-    setup_jwt(app)
-
+    jwt = setup_jwt(app)
+    
+    @jwt.invalid_token_loader
+    @jwt.unauthorized_loader
+    def custom_unauthorized_response(error):
+        return render_template('401.html', error=error), 401
+    
     app.app_context().push()
     return app
+

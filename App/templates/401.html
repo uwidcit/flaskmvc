@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block title %}Not Authorized{% endblock %}
+{% block page %}Not Auhtorized{% endblock %}
+
+{{ super() }}
+
+{% block content %}
+<div class="container">
+    <div class="row" style="margin-top: 10%;">
+        <div class="col s12 m10 offset-m1">
+            <div class="card-content">
+                <h1>401 - Not Authorized</h1>
+                <p>You do not have permission to access this resource. Please check your credentials and try again.</p>
+                <p>{{error}}</p>
+            </div>
+            <div class="card-action">
+                <a href="/" class="waves-effect waves-light btn">Go Home</a>
+                <a href="javascript:history.back()" class="waves-effect waves-light btn">Go Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

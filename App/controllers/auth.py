@@ -24,7 +24,9 @@ def setup_jwt(app):
   def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
     return User.query.get(identity)
+
   return jwt
+
 
 # Context processor to make 'is_authenticated' available to all templates
 def add_auth_context(app):
