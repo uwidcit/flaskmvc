@@ -13,18 +13,42 @@
 
   </head>
   <body>
-    <nav class="purple">
-      <div class="nav-wrapper">
-        <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
-        <div class="nav-wrapper">
-            <ul id="nav-mobile" class="left">
-                <li><a href="/">Home</a></li>
-                <li><a href="/users">Users Jinja</a></li>
-                <li><a href="/static/users">Users JS</a></li>
-            </ul>
-        </div>
-      </div>
-    </nav>
+    
+      <nav class="purple">
+          <div class="nav-wrapper">
+              <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
+              <ul id="nav-mobile" class="left">
+                  <li><a href="/">Home</a></li>
+                  <li><a href="/users">Users Jinja</a></li>
+                  <li><a href="/identify">Identify</a></li>
+                  <li><a href="/static/users">Users JS</a></li>
+              </ul>
+              {% if is_authenticated %}
+              <ul id="nav-mobile" class="right">
+                <li><a href="/logout">Logout</a></li>
+              </ul>
+              {% else %}
+              <form class="right navbar-form" method="POST" action="/login" style="display: flex; flex-wrap: nowrap; align-items: center; margin-right: 10px;">
+                  <div class="input-field" style="margin-right: 10px;">
+                      <input placeholder="username" value="bob" name="username" type="text" class="validate" required>
+                      <label for="username">username</label>
+                  </div>
+                  <div class="input-field" style="margin-right: 10px;">
+                      <input placeholder="password"value="bobpass" name="password" type="password" class="validate" required>
+                      <label for="password">Password</label>
+                  </div>
+                  <button type="submit" class="btn waves-effect waves-light">Login</button>
+              </form>
+              {% endif %}
+              
+          </div>
+      </nav>
+      <style>
+          .navbar-form label {
+              color: white !important;
+          }
+      </style>
+
     
     {% with messages = get_flashed_messages() %}
       {% if messages %}

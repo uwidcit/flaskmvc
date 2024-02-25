@@ -12,7 +12,7 @@ from App.config import config
 
 from App.controllers import (
     setup_jwt,
-    setup_flask_login
+    add_auth_context
 )
 
 from App.views import views
@@ -36,12 +36,18 @@ def create_app(config_overrides={}):
     app.config['SEVER_NAME'] = '0.0.0.0'
     app.config['PREFERRED_URL_SCHEME'] = 'https'
     app.config['UPLOADED_PHOTOS_DEST'] = "App/uploads"
+    app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token'
+    app.config["JWT_TOKEN_LOCATION"] = ["cookies", "headers"]
+    app.config["JWT_COOKIE_SECURE"] = True
+    app.config["JWT_SECRET_KEY"] = "super-secret"
+    app.config["JWT_COOKIE_CSRF_PROTECT"] = False
     CORS(app)
+    add_auth_context(app)
     photos = UploadSet('photos', TEXT + DOCUMENTS + IMAGES)
     configure_uploads(app, photos)
     add_views(app)
     init_db(app)
     setup_jwt(app)
-    setup_flask_login(app)
+
     app.app_context().push()
     return app

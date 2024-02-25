@@ -6,5 +6,8 @@
 
 {% block content %}
     <h1>Flask MVC</h1>
+    {% if is_authenticated %}
+        <p> Welcome {{current_user.username}} </p>
+    {% endif %}
     <p>This is a boileplate flask application which follows the MVC pattern for structuring the project.</p>
 {% endblock %}
