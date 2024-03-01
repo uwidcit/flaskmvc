@@ -9,9 +9,11 @@ def load_config():
         from .default_config import  SQLALCHEMY_DATABASE_URI, SECRET_KEY, JWT_SECRET_KEY
         config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
         config['SECRET_KEY'] = SECRET_KEY
+        config['JWT_SECRET_KEY'] = JWT_SECRET_KEY
     else:
         config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
         config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+        config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
         config['DEBUG'] = config['ENV'].upper() != 'PRODUCTION'
 
     config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
