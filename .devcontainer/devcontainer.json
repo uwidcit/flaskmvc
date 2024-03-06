@@ -9,7 +9,7 @@
   // 👇 Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
   // 👇 Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "pip install -r requirements.txt",
+  "postCreateCommand": "pyenv install && pip install -r requirements.txt",
   // "postCreateCommand": "",
   // 👇 Configure tool-specific properties.
   "customizations": {
