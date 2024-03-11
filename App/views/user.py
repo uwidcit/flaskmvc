@@ -32,8 +32,8 @@ def get_users_action():
 @user_views.route('/api/users', methods=['POST'])
 def create_user_endpoint():
     data = request.json
-    create_user(data['username'], data['password'])
-    return jsonify({'message': f"user {data['username']} created"})
+    user = create_user(data['username'], data['password'])
+    return jsonify({'message': f"user {user.username} created with id {user.id}"})
 
 @user_views.route('/static/users', methods=['GET'])
 def static_user_page():

@@ -3,7 +3,7 @@ App/temp-database.db
 __pycache__/
 *.py[cod]
 *$py.class
-
+App/custom_config.py
 # C extensions
 *.so
 
