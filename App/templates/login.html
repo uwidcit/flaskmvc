@@ -1,41 +1,39 @@
 {% extends "layout.html" %}
-
 {% block title %}Welcome{% endblock %}
-
-{% block page %}Welcome{% endblock %}
-
+{% block page %}Bulls & Cows{% endblock %}
 
 {% block content %}
 <div class="content fill-space">
-  <img class="grow-2 page-img" src="/static/img/login_main.png">
-  <div class="subcontent center-vertical">
-    <h4 class="center">Login</h4>
-    <form id="loginForm" method="POST" action="/login" style="padding:1em">
-
-      <div class="row">
-        <div class="input-field col s12">
-          <input placeholder="Placeholder" id="username" name="username" type="text" class="validate">
-          <label for="username">Username</label>
+    <div class="row">
+        <div class="col s12 m6">
+            <img class="responsive-img" src="/static/img/login_main.png">
         </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input name="password" id="password" type="password" class="validate">
-          <label for="password">Password</label>
+        <div class="col s12 m6">
+            <div class="subcontent center-vertical">
+                <main class="container" style="margin-top:100px">
+                    <form class="card col s12" id="loginForm" method="POST" action="/login" style="padding:1em">
+                    <div class="row">
+                        <div class="input-field col s12">
+                        <input name="username" type="text" class="validate">
+                        <label for="first_name">Username</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                        <input name="password" type="password" class="validate">
+                        <label for="password">Password</label>
+                        </div>
+                    </div>
+                    <div class="card-action row">
+                        <input type="submit" class="blue text-white btn right">
+                    </div>
+                    <div class="col s8 card-action right-align">
+                        <a href="/signup">Don't Have An Account? Sign Up</a>
+                    </div>
+                    </form>
+                </main>
+            </div>
         </div>
-      </div>
-      <div class="row justify-content">
-        <div class="col s4 card-action">
-          <input type="submit" class="blue text-white btn" value="Login">
-        </div>
-
-        <div class="col s8 card-action right-align">
-          <a href="/signup">Don't have an account? Sign Up</a>
-        </div>
-      </div>
-
-    </form>
-  </div>
-
+    </div>
 </div>
 {% endblock %}
