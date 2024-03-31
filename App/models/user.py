@@ -39,7 +39,7 @@ class User(db.Model):
 
 class UserGuess(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user_id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     guess = db.Column(db.String(10), nullable=False)
 
     def get_json(self):
