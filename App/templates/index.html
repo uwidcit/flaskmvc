@@ -1,13 +1,18 @@
 {% extends "layout.html" %}
-{% block title %}Flask MVC App{% endblock %}
-{% block page %}Flask MVC App{% endblock %}
+{% block title %}Ninjago: Welcome{% endblock %}
+{% block page %}Ninjago: Bulls & Cows{% endblock %}
 
 {{ super() }}
 
 {% block content %}
-    <h1>Flask MVC</h1>
-    {% if is_authenticated %}
-        <p> Welcome {{current_user.username}} </p>
-    {% endif %}
-    <p>This is a boileplate flask application which follows the MVC pattern for structuring the project.</p>
+<body class="content fill-space" style="background-image: url('/static/img/login_main.png'); background-size: cover;">
+    <div class="container">
+        <h1>Welcome</h1>
+        <div class="card-action row">
+            <form action="/" style="padding:5em">
+                <a href="/login" class="blue text-white btn center">LogIn & Play</a>
+            </form>
+        </div>
+    </div>
+</body>
 {% endblock %}
