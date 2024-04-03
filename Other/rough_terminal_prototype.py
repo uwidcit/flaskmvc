@@ -6,15 +6,14 @@ NUM_GUESSES = 6
 
 class Guess:
     def __init__(self, guess, code):
-        self.__guess = guess
-        self.__code = code
+        self.__guess = None
+        self.__code = None
         self.__bulls = None
         self.__cows = None
         self.__milk = None
 
-        self.calc_bulls()
-        self.calc_cows()
-        self.calc_milk()
+        self.updateCode(code)
+        self.updateGuess(guess)
 
     
     # Returns true if the guess and code provided are not empty, not None,
@@ -37,8 +36,8 @@ class Guess:
         return (
             self.checkParams()
             and self.__bulls != -1 and self.__bulls is not None
-            and self.__cows != -1 or self.__cows is not None
-            and self.__milk != -1 or self.__milk is not None
+            and self.__cows != -1 and self.__cows is not None
+            and self.__milk != -1 and self.__milk is not None
             )
     
     # Calculates the bulls (number of correct characters in the correct position for the given code)
@@ -101,13 +100,13 @@ class Guess:
         return self.__milk
     
     def updateGuess(self, newGuess):
-        self.__guess = newGuess
+        self.__guess = str(newGuess)
         self.calc_bulls()
         self.calc_cows()
         self.calc_milk()
 
     def updateCode(self, newCode):
-        self.__code = newCode
+        self.__code = str(newCode)
         self.calc_bulls()
         self.calc_cows()
         self.calc_milk()
@@ -116,16 +115,16 @@ class Guess:
     # Returns True if the above is not met and the guess is the same length as the code
     def evaluateGuess(self):
         if not self.isValid():
-            return False
+            print("[ERROR: Guess invalid.]\n")
+            return -1
         
         used_digits = []
         for c in self.__guess:
             if c in used_digits:
-                print("[ERROR: Guess invalid; all digits must be unique.]\n")
+                print(f"Found repeat digit - {c}")
                 return False
             used_digits.append(c)
-
-        return self.__bulls == len(self.__code)
+        return 0 if self.__bulls == len(self.__code) and self.__bulls != 0 else 1
 
 
 # Global code generator function; each character is unique
@@ -137,7 +136,7 @@ def generate_code(code_length):
         return None
     
     # There are only 10 Arabic numerals, i.e., 0-9
-    if code_length > 10:
+    if code_length < MIN_CODE_LENGTH or code_length > MAX_CODE_LENGTH:
         return None
     
     used_digits = []
@@ -171,15 +170,26 @@ if __name__ == "__main__":
     userGuess = Guess(None, code)
     for currGuess in range(NUM_GUESSES):
         print(f"Attempt {currGuess + 1}/{NUM_GUESSES}:")
-        userGuess.updateGuess(input(f"Guess the generated code ({code_length} unique digits): "))
-    
-        if not userGuess.evaluateGuess():
-            print("[ERROR: Guess invalid.]\n")
-            continue
+        userGuess.updateGuess(input(f"Guess the generated code (expecting {code_length} unique digits): "))
+        guessEvaluation = userGuess.evaluateGuess()
+        
+        match(guessEvaluation):
+            case -1:
+                continue
+
+            case 1:
+                print("Incorrect\n")
+                
+            case 0:
+                print("Correct")
+                break
+                
+            case _:
+                print("[ERROR: An unexpected error has occurred. Terminating program...]")
+                exit(1)
 
         print(f"Bulls: {userGuess.getBulls()}")
         print(f"Cows: {userGuess.getCows()}")
-        print(f"Milk: {userGuess.getMilk()}")
-        print("\n\n\n")
+        print(f"Milk: {userGuess.getMilk()}\n")
 
     print(f"\n\nAnswer: {code}")
