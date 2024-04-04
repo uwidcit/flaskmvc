@@ -4,5 +4,5 @@ from flask_jwt_extended import jwt_required, current_user as jwt_current_user
 game_views = Blueprint('game_views', __name__, template_folder='../templates')
 
 @game_views.route('/game', methods=['GET'])
-def game_page():
+def game():
     return render_template('game.html')

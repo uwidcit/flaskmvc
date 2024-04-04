@@ -2,7 +2,7 @@ from App.database import db
 
 class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    puzzle_id = db.Column(db.Integer, db.ForeignKey('puzzle_id'), nullable=False)
+    puzzle_id = db.Column(db.Integer, db.ForeignKey('puzzle.id'), nullable=False)
     user_attempts = db.Column(db.Integer, nullable=False)
     gameNumber = db.Column(db.Integer, nullable=False, unique=True)
     puzzle = db.relationship('Puzzle', backref='Game', lazy=True)
@@ -34,9 +34,6 @@ class Puzzle(db.Model):
 
     def __init__(self, puzzle_code):
         self.puzzle_code = puzzle_code
-
-    def __repr__(self):
-        return f'Puzzle {self.id} : {self.puzzle_code}
     
     def generate_puzzle():
         pass
@@ -46,6 +43,6 @@ class Puzzle(db.Model):
     
     def get_json(self):
         return {
-            'id': self.id
+            'id': self.id,
             'puzzle_code': self.puzzle_code
         }
