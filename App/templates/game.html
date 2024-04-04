@@ -1,11 +1,19 @@
 {% extends "layout.html" %}
-{% block title %}Welcome{% endblock %}
+{% block title %}ShadowCipher{% endblock %}
 {% block page %}Bulls & Cows{% endblock %}
 
 {% block content %}
-<body class="content fill-space">
-    <div class="row">
-        <h1>Today's Game</h1>
+<body class="content fill-space" style="background-color: #2c2c2c; margin-top: 50px;">
+    <div class="row" style="display: flex; justify-content: center; align-items: flex-start; height: 100vh;">
+        <form>
+            <div style="display: flex;">
+                <input type="number" style="flex: 1; border: 1px solid #aaa; border-radius: 5px; padding: 12px; color: white; font-size: 30px; text-align: center;" min="0" max="9">
+                <input type="number" style="flex: 1; border: 1px solid #aaa; border-radius: 5px; padding: 12px; color: white; font-size: 30px; text-align: center;" min="0" max="9">
+                <input type="number" style="flex: 1; border: 1px solid #aaa; border-radius: 5px; padding: 12px; color: white; font-size: 30px; text-align: center;" min="0" max="9">
+                <input type="number" style="flex: 1; border: 1px solid #aaa; border-radius: 5px; padding: 12px; color: white; font-size: 30px; text-align: center;" min="0" max="9">
+                <input type="number" style="flex: 1; border: 1px solid #aaa; border-radius: 5px; padding: 12px; color: white; font-size: 30px; text-align: center;" min="0" max="9">
+            </div>
+        </form>
     </div>
 </body>
 {% endblock %}
