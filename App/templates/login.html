@@ -3,34 +3,39 @@
 {% block page %}Bulls & Cows{% endblock %}
 
 {% block content %}
-<body class="content fill-space">
+<body class="content fill-space" style="background-image: url('/static/img/login_page_background2.png'); background-size: 100% 100%;">
     <div class="row">
         <!-- <div class="col s12 m6" style="padding: 0%;">
-            <img class="responsive-img" src="/static/img/login_main.png" style="width: 100%; height: 100%; object-fit: full">
+            <img class="responsive-img" src="/static/img/Login_Page_Background.png" style="width: 100%; height: 100%; object-fit: full">
         </div> -->
-        <!-- <div class="col s12 m6"> -->
-            <div class="center">
+        <div class="col s12 m6 offset-m6">
+            <div class="subcontent center-vertical">
                 <main class="container" style="margin-top:50px">
-                    <form class="card col s12" id="loginForm" method="POST" action="/login" style="padding:5em">
+                    <h3 style="color: #ABA297;">Login</h3>
+                    <form class="col s12" id="loginForm" method="POST" action="/login">
                         <div class="row">
-                            <div class="input-field col s12">
+                            <label for="username">Username</label><br>
+                            <div class="input-field col s8" style="background-color: #ABA297; border-radius: 100px;">
                             <input name="username" type="text" class="validate">
-                            <label for="first_name">Username</label>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="input-field col s12">
+                            <label for="password">Password</label><br>
+                            <div class="input-field col s8" style="background-color: #ABA297; border-radius: 100px;">
                             <input name="password" type="password" class="validate">
-                            <label for="password">Password</label>
                             </div>
                         </div>
-                        <div class="card-action row">
-                            <button class="blue text-white btn right" type="submit">Login</button>
-                        </div>
+                        <div class="card-action row" style="padding-right: 6em;">
+                            <button class="orange black-text btn right" type="submit" style="border-radius: 20px; font-size: 1.2em;">Play</button>
+                        </div>                        
                     </form>
+                    <div class="col s12 m6 offset-m8 center-align" style="color: #ABA297;">
+                        <p>Don't have an account?</p>
+                        <a href="#" style="color: inherit; text-decoration: none;">Sign Up Here</a>
+                    </div>                    
                 </main>
             </div>
-        <!-- </div> -->
+        </div>
     </div>
 </body>
 {% endblock %}
