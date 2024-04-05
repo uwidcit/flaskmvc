@@ -16,7 +16,7 @@ class User(db.Model):
         pass
 
     # The User Finalizes A Guess By Pressing Enter Or The "Check" Button 
-    def guess_puzzple(guess):
+    def guess_puzzle(guess):
         pass
 
     # The User Forfeits
@@ -48,3 +48,4 @@ class UserGuess(db.Model):
             'user_id': self.user_id,
             'guess': self.guess
         }
+    

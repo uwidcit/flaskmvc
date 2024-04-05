@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
-{% block title %}App Users{% endblock %}
-{% block page %}App Users{% endblock %}
+{% block title %}User: {{ current_user.username }} - ShadowCipher{% endblock %}
+{% block page %}User: {{ current_user.username }} - ShadowCipher{% endblock %}
 
 {{ super() }}
 
