@@ -74,10 +74,9 @@ Game Info:
     def get_json(self):
         return {
             'id' : self.id,
-            'puzzle_id': self.puzzle_id,
-            'user_attempts': self.user_attempts,
-            'gameNumber': self.gameNumber,
-            'puzzle': self.puzzle.puzzle_code
+            'max_attempts': self.max_attempts,
+            'answer': self.answer,
+            'answer_length': self.answer_length
         }
     
     """
