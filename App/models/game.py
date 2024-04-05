@@ -9,8 +9,8 @@ class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     max_attempts = db.Column(db.Integer, nullable=False)
     answer = db.Column(db.Integer, db.CheckConstraint("code_length >= 0123 AND code_length <= 9876543210"), nullable=False)
-    answer_length = db.Column(db.Integer, db.CheckConstraint(
-        f"code_length >= {MIN_ANSWER_LENGTH} AND code_length <= {MAX_ANSWER_LENGTH}"), nullable=False)
+    answer_length = db.Column(db.Integer, db.CheckConstraint(f"answer_length >= {MIN_ANSWER_LENGTH} AND answer_length <= {MAX_ANSWER_LENGTH}"), nullable=False)
+    guess = db.relationship('UserGuess', back_populates='game_relation', cascade="all, delete-orphan")
 
     def __init__(self, max_attempts, answer=None, answer_length=None):
         self.max_attempts = max_attempts
@@ -27,10 +27,35 @@ class Game(db.Model):
         else:
             if answer_length is None:
                 raise ValueError("MUST provide an answer length for random generation if not providing a specific answer")
-            
-            temp = self.generateAnswer(answer_length)
-            self.answer = temp
-        
+            self.answer = self.generateAnswer(answer_length)
+
+    def __repr__(self):
+        return f'Game({self.max_attempts} : {self.answer})'
+    
+    def __str__(self):
+        return f"""
+Game Info:
+    |- ID: {self.id}
+    |- Max Attempts: {self.max_attempts}
+    |- Answer: {self.answer}
+    |- Answer length: {self.answer_length}
+"""
+    
+    def get_json(self):
+        return {
+            'id' : self.id,
+            'max_attempts': self.max_attempts,
+            'answer': self.answer,
+            'answer_length': self.answer_length
+        }
+    
+    # Validation function source: https://stackoverflow.com/questions/73663939/is-there-a-way-to-specify-min-and-max-values-for-integer-column-in-slqalchemy
+    # Related official documentation: https://docs.sqlalchemy.org/en/14/orm/mapped_attributes.html#simple-validators
+    @validates("answer")
+    def validate_answer(self, key, value):
+        if not 123 <= value <= 9_876_543_210:    # valid codes range from 0123 (4 digits) to 9_876_543_210 (10 digits); all digits unique
+            raise ValueError(f"answer <{value}> is invalid")
+        return value
     
     def generate_answer(self, answer_length):
         try:
@@ -49,35 +74,7 @@ class Game(db.Model):
             if temp not in used_digits:
                 used_digits.append(temp)
                 result = (result * 10) + temp
-        return result
-
-    def __repr__(self):
-        return f'Game({self.max_attempts} : {self.answer})'
-    
-    def __str__(self):
-        return f"""
-Game Info:
-    |- ID: {self.id}
-    |- Max Attempts: {self.max_attempts}
-    |- Answer: {self.answer}
-    |- Answer length: {self.answer_length}
-"""
-    
-    # Validation function source: https://stackoverflow.com/questions/73663939/is-there-a-way-to-specify-min-and-max-values-for-integer-column-in-slqalchemy
-    # Related official documentation: https://docs.sqlalchemy.org/en/14/orm/mapped_attributes.html#simple-validators
-    @validates("answer")
-    def validate_answer(self, key, value):
-        if not 123 <= value <= 9_876_543_210:    # valid codes range from 0123 (4 digits) to 9_876_543_210 (10 digits); all digits unique
-            raise ValueError(f"answer <{value}> is invalid")
-        return value
-
-    def get_json(self):
-        return {
-            'id' : self.id,
-            'max_attempts': self.max_attempts,
-            'answer': self.answer,
-            'answer_length': self.answer_length
-        }
+        return result        
     
     """
     def start_timer():

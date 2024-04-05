@@ -5,7 +5,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username =  db.Column(db.String(50), nullable=False, unique=True)
     password = db.Column(db.String(120), nullable=False)
-    guess = db.relationship('UserGuess', backref='User', lazy=True)
+    guess = db.relationship('UserGuess', back_populates='user_relation', cascade="all, delete-orphan")
 
     def __init__(self, username, password):
         self.username = username
@@ -35,17 +35,5 @@ class User(db.Model):
         return{
             'id': self.id,
             'username': self.username
-        }
-
-class UserGuess(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    guess = db.Column(db.String(10), nullable=False)
-
-    def get_json(self):
-        return {
-            'id': self.id,
-            'user_id': self.user_id,
-            'guess': self.guess
         }
     
