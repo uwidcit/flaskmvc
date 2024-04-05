@@ -5,8 +5,8 @@ class UserGuess(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
     game_id = db.Column(db.Integer, db.ForeignKey('game.id'), primary_key=True)
     guess = db.Column(db.Integer, db.CheckConstraint("guess >= 0123 AND guess <= 9876543210"), nullable=False)
-    user_relation = db.relationship("User", back_populates="guess")
-    game_relation = db.relationship("Game", back_populates="guess")
+    user_relation = db.relationship("User", back_populates="guesses")
+    game_relation = db.relationship("Game", back_populates="guesses")
 
     def __init__(self, user_id, game_id, guess):
         self.user_id = user_id
