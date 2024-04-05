@@ -8,7 +8,7 @@ class Game(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     max_attempts = db.Column(db.Integer, nullable=False)
-    answer = db.Column(db.Integer, db.CheckConstraint("code_length >= 0123 AND code_length <= 9876543210"), nullable=False)
+    answer = db.Column(db.Integer, db.CheckConstraint("answer >= 0123 AND answer <= 9876543210"), nullable=False)
     answer_length = db.Column(db.Integer, db.CheckConstraint(f"answer_length >= {MIN_ANSWER_LENGTH} AND answer_length <= {MAX_ANSWER_LENGTH}"), nullable=False)
     guess = db.relationship('UserGuess', back_populates='game_relation', cascade="all, delete-orphan")
 
