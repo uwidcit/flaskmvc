@@ -1,48 +1,42 @@
 from App.database import db
+from App.constants import MIN_CODE_VALUE, MAX_CODE_VALUE, MIN_CODE_LENGTH, MAX_CODE_LENGTH
 from sqlalchemy.orm import validates
 from random import randint
-from datetime import datetime, date
+from datetime import date
 
 class Game(db.Model):
-    # valid answers/guesses range from 0123 (4 digits, maintain the leading zero) to 9_876_543_210 (10 digits); all digits unique
     __MIN_ATTEMPTS = 5
-    __MIN_CODE_LENGTH = 4
-    __MAX_CODE_LENGTH = 10
-    __MIN_CODE_VALUE = 123
-    __MAX_CODE_VALUE = 9_876_543_210
 
+    @property
+    def answer_length(self):
+        return len(self.answer)
 
     id = db.Column(db.Integer, primary_key=True)
     creation_date = db.Column(db.Date, nullable=False, unique=True, default=date.today)
     max_attempts = db.Column(db.Integer, db.CheckConstraint(f"max_attempts >= {__MIN_ATTEMPTS}"), nullable=False)
 
     # NOTE: Answer must be stored as a string instead of an int to preserve any leading zeroes
-    answer = db.Column(db.String(__MAX_CODE_LENGTH), db.CheckConstraint(
-        f"LENGTH(answer) >= {__MIN_CODE_LENGTH} AND LENGTH(answer) <= {__MAX_CODE_LENGTH}"),
+    answer = db.Column(db.String(MAX_CODE_LENGTH), db.CheckConstraint(
+        f"answer >= {MIN_CODE_VALUE} AND answer <= {MAX_CODE_VALUE} AND LENGTH(answer) >= {MIN_CODE_LENGTH} AND LENGTH(answer) <= {MAX_CODE_LENGTH}"),
         nullable=False)
-    
-    answer_length = db.Column(db.Integer, db.CheckConstraint(
-        f"answer_length >= {__MIN_CODE_LENGTH} AND answer_length <= {__MAX_CODE_LENGTH}"),
-        nullable=False)
+
     guesses = db.relationship('UserGuess', back_populates='game_relation', cascade="all, delete-orphan")
 
     def __init__(self, max_attempts, preset_answer=None, answer_length=None):
         self.max_attempts = max_attempts
 
         # To preset an answer instead of randomly generating one, provide a value to the answer field.
-        # Note that if an answer is preset, the answer length field will be discarded will discard the parameter
-        #   value in favour of calculating it from the preset answer.
+        # Note that if an answer is preset, the value of the answer length parameter is discarded/ignored.
         if preset_answer is not None:
             self.answer = preset_answer
         
-        # If a specific answer is not provided, the answer is randomly generated
-        #   using the provided answer length which MUST be provided.
+        # If a specific answer is not provided, the answer is randomly generated using the provided answer
+        #     length which MUST be provided (see generate_answer() method for error handling).
         else:
-            if answer_length is None:
-                raise ValueError("MUST provide an answer length for random generation if not providing a specific answer")
-            self.answer = self.generateAnswer(answer_length)
-
-        self.answer_length = len(self.answer)
+            try:
+                self.answer = self.generateAnswer(answer_length)
+            except ValueError as e:
+                raise ValueError(e)    # Error handling done by the object instatiator
 
     def __repr__(self):
         return f'Game({self.max_attempts} : {self.answer})'
@@ -54,7 +48,6 @@ Game Info:
     |- Creation Date: {self.creation_date}
     |- Max Attempts: {self.max_attempts}
     |- Answer: {self.answer}
-    |- Answer length: {self.answer_length}
 """
     
     def get_json(self):
@@ -63,63 +56,112 @@ Game Info:
             'creation_date': {self.creation_date},
             'max_attempts': self.max_attempts,
             'answer': self.answer,
-            'answer_length': self.answer_length
         }
     
-    # Validation function source: https://stackoverflow.com/questions/73663939/is-there-a-way-to-specify-min-and-max-values-for-integer-column-in-slqalchemy
+    # Validation decorator function guide: https://stackoverflow.com/questions/73663939/is-there-a-way-to-specify-min-and-max-values-for-integer-column-in-slqalchemy
     # Related official documentation: https://docs.sqlalchemy.org/en/14/orm/mapped_attributes.html#simple-validators
+
+    # Note these functions are NOT called directly, but are instead invoked automatically by SQLAlchemy when assigning the respective attribute
 
     @validates("max_attempts")
     def validate_max_attempts(self, key, value):
         if value < self.__MIN_ATTEMPTS:
-            raise ValueError(f"expected max_attempts to have a minimum value of {self.__MIN_ATTEMPTS}; recieved {value}")
+            raise ValueError(f"expected max_attempts to have a minimum value of <{self.__MIN_ATTEMPTS}>; recieved <{value}>")
         return value
-
+    
     @validates("answer")
     def validate_answer(self, key, value):
+        """
+        Validate a preset answer to ensure adherance to game constraints.
+
+        Args:
+            key (str or int): The user's guess, which should be convertible to an integer in the valid range
+            value (str or int): The user's guess, which should be convertible to an integer in the valid range
+
+        Returns:
+            bool: True if the guess passes all validation checks.
+
+        Raises:
+            ValueError: If the guess fails any of the validation constraints.
+        """
         try:
-            value = int(value)    # Attempt to cast to int to ensure no non-numerical characters
+            # Attempt to convert the answer string to an integer to check range validity
+            value_int = int(value)
         except ValueError:
+            # Answer contained invalid characters or was the wrong type
             raise ValueError(f"could not cast answer of type <{value.__class__.__name__}> to type int")
         
-        if not self.__MIN_CODE_VALUE <= value <= self.__MAX_CODE_VALUE:
-            raise ValueError(f"expected answer to be within the range {self.__MIN_CODE_VALUE:0{self.__MIN_CODE_LENGTH}d} to {self.__MAX_CODE_VALUE}, inclusive; recieved <{value}>")
+        if not MIN_CODE_VALUE <= value_int <= MAX_CODE_VALUE:
+            raise ValueError(f"expected answer to be within the range <{MIN_CODE_VALUE:0{MIN_CODE_LENGTH}d}> to <{MAX_CODE_VALUE}>, inclusive; recieved <{value}>")
+        
+        if not MIN_CODE_LENGTH <= value_int <= MAX_CODE_LENGTH:
+            raise ValueError(f"expected answer length to be within <{MIN_CODE_LENGTH}> to <{MAX_CODE_LENGTH}> digits, inclusive; recieved <{value}>")
+        
+        # Return the original string if all validation checks succeeded
         return value
     
     @validates("answer_length")
     def validate_answer_length(self, key, value):
-        if not self.__MIN_CODE_VALUE <= value <= self.__MAX_CODE_VALUE:
-            raise ValueError(f"expected answer length to be within the range {self.__MIN_CODE_VALUE:0{self.__MIN_CODE_LENGTH}d} to {self.__MAX_CODE_VALUE} digits, inclusive; recieved <{value}> digits")
+        if not MIN_CODE_LENGTH <= value <= MAX_CODE_LENGTH:
+            raise ValueError(f"expected answer length to be within the range <{MIN_CODE_LENGTH}> to <{MAX_CODE_LENGTH}> digits, inclusive; recieved <{value}> digits")
         return value
     
     def generate_answer(self, answer_length):
+        """
+        Generate a random answer with the specified number of digits that adheres to the game's constraints.
+
+        Args:
+            answer_length (str or int): The number of digits which should be convertible to a positive integer.
+
+        Returns:
+            bool: True if the guess passes all validation checks.
+
+        Raises:
+            ValueError: If the guess fails any of the validation constraints.
+        """
+        if answer_length is None:
+            raise ValueError("MUST provide an answer length for random generation if not providing a specific answer")
+
         try:
-            answer_length = int(answer_length)    # Attempt to cast to int to ensure no non-numerical characters
+            answer_length = int(answer_length)
         except ValueError:
+            # answer_length contained invalid characters or was the wrong type
             raise ValueError(f"could not cast answer length of type <{answer_length.__class__.__name__}> to type int")
         
-        if not (self.__MIN_CODE_LENGTH <= answer_length <= self.__MAX_CODE_LENGTH):
-            raise ValueError(f"expected answer length to be within {self.__MIN_CODE_LENGTH} and {self.__MAX_CODE_LENGTH} digits, inclusive; recieved <{answer_length}> digits")
+        if not (MIN_CODE_LENGTH <= answer_length <= MAX_CODE_LENGTH):
+            raise ValueError(f"expected answer length to be within <{MIN_CODE_LENGTH}> and <{MAX_CODE_LENGTH}> digits, inclusive; recieved <{answer_length}> digits")
         
-        used_digits = []
+        used_digits = set()
         result = 0
         
+        # Each position should have a unique digit
         while len(result) < answer_length:
             temp = randint(0, 9)
             if temp not in used_digits:
-                used_digits.append(temp)
+                used_digits.add(temp)
                 result = (result * 10) + temp
+
         return result        
     
-    # Raises a ValueError if the guess fails any of the constraints, otherwise returns True
     def __validateGuess(self, guess):
+        """
+        Validate a user guess to ensure adherance to game constraints.
+
+        Args:
+            guess (str or int): The user's guess, which should be convertible to an integer in the valid range
+
+        Returns:
+            bool: True if the guess passes all validation checks.
+
+        Raises:
+            ValueError: If the guess fails any of the validation constraints.
+        """
         try:
-            # Attempt to cast the guess to an integer to ensure it's a valid numbedr
             guess = int(guess)
 
         except ValueError:
-            # Raise an error if the guess cannot be converted to an integer
-            raise ValueError(f"guess of type {guess.__class__.__name__} could not be cast to type int")
+            # guess contained invalid characters or was the wrong type
+            raise ValueError(f"guess of type <{guess.__class__.__name__}> could not be cast to type int")
         
         # Convert guess to a string to count its digits
         guess_str = str(guess)
@@ -127,11 +169,11 @@ Game Info:
 
         # Check if the guess length is the same as the answer length
         if guess_length != self.answer_length:
-            raise ValueError(f"expected length of guess to be equal {self.answer_length} digits; recieved {guess_length} digits; )")
+            raise ValueError(f"expected guess to have <{self.answer_length}> digits; recieved <{guess_length}> digits; )")
         
         # Check if the guess value is within the valid range
-        if not (self.__MIN_CODE_VALUE <= guess <= self.__MAX_CODE_VALUE):
-            raise ValueError(f"expected guess to be within {self.__MIN_CODE_VALUE:0{self.__MIN_CODE_LENGTH}d} and {self.__MAX_CODE_VALUE}, inclusive; recieved <{guess}>)")
+        if not (MIN_CODE_LENGTH <= guess <= MAX_CODE_LENGTH):
+            raise ValueError(f"expected guess to be within <{MIN_CODE_LENGTH:0{MIN_CODE_LENGTH}d}> and <{MAX_CODE_LENGTH}>, inclusive; recieved <{guess}>)")
         
         # Check if all digits in the guess are unique
         used_digits = set()
@@ -139,19 +181,28 @@ Game Info:
             if digit in used_digits:
                 raise ValueError(f"expected each digit of the guess <{guess}> to be unique")
             used_digits.add(digit)
-    
-        # Returns True if all the validation checks pass
+
         return True       
         
     # Evaluates the bull, cow, and milk values for the given guess, assuming __validateGuess() returns True,
-    #   returning their values in a tuple
-    # If __validateGuess() raises a ValueError, the error is passed up to the calling function for handling
+    # If the guess is valid, the above values are returned using a dictionary
     def evaluateGuess(self, guess):
-        results = {
-            "bulls" : 0,    # number of correct characters in the correct position
-            "cows" : 0,     # number of correct characters in the wrong position
-            "milk" : 0,     # number of incorrect characters
-        }
+        """
+        Evaluates the accuracy of a user's guess compared to the correct answer
+
+        Args:
+            guess (str or int): The user's guess, which should be convertible to an integer in the valid range
+
+        Returns:
+            dict: A dictionary containing the evaluation results with the following keys:
+                - "bulls": Number of correct characters in the correct position.
+                - "cows": Number of correct characters in the wrong position.
+                - "milk": Number of incorrect characters.
+
+        Raises:
+            ValueError: If the guess fails any of the validation constraints.
+        """
+        results = {"bulls" : 0, "cows" : 0, "milk" : 0,}
 
         try:
             if (self.__validateGuess(guess)):
@@ -167,6 +218,7 @@ Game Info:
                         else:
                             results["milk"] += 1
 
-                return results            
+                return results          
         except ValueError as e:
+            # Error handling done by the caller function (i.e., the route)
             raise e

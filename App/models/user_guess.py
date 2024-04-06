@@ -1,10 +1,22 @@
 from App.database import db
+from App.constants import MIN_CODE_LENGTH, MAX_CODE_LENGTH, MIN_CODE_VALUE, MAX_CODE_VALUE
 from sqlalchemy.orm import validates
 
+# Should ONLY be instantiated if the guess has passed the Game model's validation, meaning it doesn't break any
+#     of the constraints given for a valid code, nor those for a valid guess given the selected game's answer.
 class UserGuess(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
     game_id = db.Column(db.Integer, db.ForeignKey('game.id'), primary_key=True)
-    guess = db.Column(db.Integer, db.CheckConstraint("guess >= 0123 AND guess <= 9876543210"), nullable=False)
+
+    # NOTE: Guess must be stored as a string instead of an int to preserve any leading zeroes
+    guess = db.Column(db.String(MAX_CODE_LENGTH), db.CheckConstraint(
+        f"guess >= {MIN_CODE_VALUE} AND guess <= {MAX_CODE_VALUE} AND LENGTH(guess) >= {MIN_CODE_LENGTH} AND LENGTH(guess) <= {MAX_CODE_LENGTH}"),
+        nullable=False)
+    
+    @property
+    def guess_length(self):
+        return len(self.guess)
+    
     user_relation = db.relationship("User", back_populates="guesses")
     game_relation = db.relationship("Game", back_populates="guesses")
 
@@ -35,9 +47,15 @@ User Guess Info:
     # Related official documentation: https://docs.sqlalchemy.org/en/14/orm/mapped_attributes.html#simple-validators
     @validates("guess")
     def validate_guess(self, key, value):
-        # Only checks to see if the guess matches the same general constraints applied to the answer
-        # DOES NOT evaluate to check if the guess is right or wrong regarding the game
-
-        if not 123 <= value <= 9_876_543_210:    # valid codes range from 0123 (4 digits) to 9_876_543_210 (10 digits); all digits unique
-            raise ValueError(f"answer <{value}> is invalid")
+        try:
+            # Attempt to convert the guess string to an integer to check range validity
+            value_int = int(value)
+        except ValueError:
+            # guess contained invalid characters or was the wrong type
+            raise ValueError(f"could not cast guess of type <{value.__class__.__name__}> to type int")
+        
+        if not self.MIN_CODE_VALUE <= value_int <= self.MAX_CODE_VALUE:
+            raise ValueError(f"expected guess to be within the range <{self.MIN_CODE_VALUE:0{self.MIN_CODE_LENGTH}d}> to <{self.MAX_CODE_VALUE}>, inclusive; recieved <{value}>")
+        
+        # Return the original string if all validation checks succeeded
         return value
