@@ -14,11 +14,11 @@ class Game(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     creation_date = db.Column(db.Date, nullable=False, unique=True, default=date.today)
-    max_attempts = db.Column(db.Integer, db.Constraint(f"max_attempts >= {__MIN_ATTEMPTS}"), nullable=False)
+    max_attempts = db.Column(db.Integer, db.CheckConstraint(f"max_attempts >= {__MIN_ATTEMPTS}"), nullable=False)
 
     # NOTE: Answer must be stored as a string instead of an int to preserve any leading zeroes
     answer = db.Column(db.String(__MAX_CODE_LENGTH), db.CheckConstraint(
-        "LENGTH(answer) >= {__MIN_CODE_LENGTH} AND LENGTH(answer) <= {__MAX_CODE_LENGTH}"),
+        f"LENGTH(answer) >= {__MIN_CODE_LENGTH} AND LENGTH(answer) <= {__MAX_CODE_LENGTH}"),
         nullable=False)
     
     answer_length = db.Column(db.Integer, db.CheckConstraint(
@@ -148,9 +148,9 @@ Game Info:
     # If __validateGuess() raises a ValueError, the error is passed up to the calling function for handling
     def evaluateGuess(self, guess):
         results = {
-            "bulls" : 0,
-            "cows" : 0,
-            "milk" : 0,
+            "bulls" : 0,    # number of correct characters in the correct position
+            "cows" : 0,     # number of correct characters in the wrong position
+            "milk" : 0,     # number of incorrect characters
         }
 
         try:
@@ -161,11 +161,12 @@ Game Info:
                 for g, a in zip(guess, ans_str):
                     if g == a:
                         results["bulls"] += 1
-                    elif g in ans_str:
-                        results["cows"] += 1
+                    else:
+                        if g in ans_str:
+                            results["cows"] += 1
+                        else:
+                            results["milk"] += 1
 
-                results["milk"] = len(ans_str) - results["bulls"] - results["cows"]
-                return results
-            
+                return results            
         except ValueError as e:
             raise e
