@@ -5,4 +5,9 @@ game_views = Blueprint('game_views', __name__, template_folder='../templates')
 
 @game_views.route('/game', methods=['GET'])
 def game():
-    return render_template('game.html')
+    answer_length = 5
+    length = range(answer_length)
+    return render_template('game.html', length=length)
+
+def evaluateGuess():
+    pass
