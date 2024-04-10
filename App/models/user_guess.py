@@ -15,7 +15,7 @@ class UserGuess(db.Model):
     
     @property
     def guess_length(self):
-        return len(self.guess)
+        return len(str(self.guess))
     
     user_relation = db.relationship("User", back_populates="guesses")
     game_relation = db.relationship("Game", back_populates="guesses")

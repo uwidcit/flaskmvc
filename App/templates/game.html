@@ -7,7 +7,7 @@
     <div class="row" style="display: flex; justify-content: center; align-items: flex-start; height: 100vh;">
         <form>
             <div style="display: flex;">
-                {% for i in length %}
+                {% for i in curr_game["answer_length"] %}
                 <input type="number" id="guess-digit-{{ i }}" name="guess-digit-{{ i }}" style="flex: 1; border: 1px solid #aaa; border-radius: 5px; padding: 12px; color: white; font-size: 30px; text-align: center;" min="0" max="9">
                 {% endfor %}
             </div>
