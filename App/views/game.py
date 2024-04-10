@@ -13,10 +13,10 @@ def game():
 
     if not curr_game:
         return jsonify({"error" : "An error has occured whilst accessing today's game"}), 500
+    
+    curr_game_json = curr_game.get_json()
 
-    return render_template('game.html',
-                           answer_length=range(curr_game.answer_length),
-                           curr_game=curr_game)
+    return render_template('game.html', curr_game=curr_game_json)
 
 def evaluateGuess():
     pass

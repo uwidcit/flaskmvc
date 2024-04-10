@@ -34,7 +34,7 @@ class Game(db.Model):
         #     length which MUST be provided (see generate_answer() method for error handling).
         else:
             try:
-                self.answer = self.generate_answer(answer_length)
+                self.answer = self.__generate_answer(answer_length)
             except ValueError as e:
                 raise ValueError(e)    # Error handling done by the object instatiator
 
@@ -48,14 +48,16 @@ Game Info:
     |- Creation Date: {self.creation_date}
     |- Max Attempts: {self.max_attempts}
     |- Answer: {self.answer}
+    |- Answer Length: {self.answer_length}
 """
     
     def get_json(self):
         return {
             'id' : self.id,
-            'creation_date': {self.creation_date},
-            'max_attempts': self.max_attempts,
-            'answer': self.answer,
+            'creation_date' : {self.creation_date},
+            'max_attempts' : self.max_attempts,
+            'answer' : self.answer,
+            'answer_length' : range(self.answer_length)
         }
     
     # Validation decorator function guide: https://stackoverflow.com/questions/73663939/is-there-a-way-to-specify-min-and-max-values-for-integer-column-in-slqalchemy
@@ -101,7 +103,7 @@ Game Info:
         # Return the original string if all validation checks succeeded
         return value
     
-    def generate_answer(self, answer_length):
+    def __generate_answer(self, answer_length):
         """
         Generate a random answer with the specified number of digits that adheres to the game's constraints.
 
