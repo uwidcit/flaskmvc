@@ -9,7 +9,7 @@ class Game(db.Model):
 
     @property
     def answer_length(self):
-        return len(self.answer)
+        return len(str(self.answer))
 
     id = db.Column(db.Integer, primary_key=True)
     creation_date = db.Column(db.Date, nullable=False, unique=True, default=date.today)
@@ -34,7 +34,7 @@ class Game(db.Model):
         #     length which MUST be provided (see generate_answer() method for error handling).
         else:
             try:
-                self.answer = self.generateAnswer(answer_length)
+                self.answer = self.generate_answer(answer_length)
             except ValueError as e:
                 raise ValueError(e)    # Error handling done by the object instatiator
 
@@ -94,16 +94,11 @@ Game Info:
         if not MIN_CODE_VALUE <= value_int <= MAX_CODE_VALUE:
             raise ValueError(f"expected answer to be within the range <{MIN_CODE_VALUE:0{MIN_CODE_LENGTH}d}> to <{MAX_CODE_VALUE}>, inclusive; recieved <{value}>")
         
-        if not MIN_CODE_LENGTH <= value_int <= MAX_CODE_LENGTH:
-            raise ValueError(f"expected answer length to be within <{MIN_CODE_LENGTH}> to <{MAX_CODE_LENGTH}> digits, inclusive; recieved <{value}>")
+        value_str = str(value)
+        if not MIN_CODE_LENGTH <= len(value_str) <= MAX_CODE_LENGTH:
+            raise ValueError(f"expected answer length to be within <{MIN_CODE_LENGTH}> to <{MAX_CODE_LENGTH}> digits, inclusive; recieved <{value_str}> digits")
         
         # Return the original string if all validation checks succeeded
-        return value
-    
-    @validates("answer_length")
-    def validate_answer_length(self, key, value):
-        if not MIN_CODE_LENGTH <= value <= MAX_CODE_LENGTH:
-            raise ValueError(f"expected answer length to be within the range <{MIN_CODE_LENGTH}> to <{MAX_CODE_LENGTH}> digits, inclusive; recieved <{value}> digits")
         return value
     
     def generate_answer(self, answer_length):
@@ -132,16 +127,16 @@ Game Info:
             raise ValueError(f"expected answer length to be within <{MIN_CODE_LENGTH}> and <{MAX_CODE_LENGTH}> digits, inclusive; recieved <{answer_length}> digits")
         
         used_digits = set()
-        result = 0
+        result = ""
         
         # Each position should have a unique digit
         while len(result) < answer_length:
             temp = randint(0, 9)
             if temp not in used_digits:
                 used_digits.add(temp)
-                result = (result * 10) + temp
+                result += str(temp)
 
-        return result        
+        return int(result)
     
     def __validateGuess(self, guess):
         """
