@@ -5,7 +5,8 @@ from.index import index_views
 from .game import game_views
 
 from App.controllers import (
-    login
+    login,
+    create_user
 )
 
 auth_views = Blueprint('auth_views', __name__, template_folder='../templates')
@@ -42,6 +43,17 @@ def logout_action():
     response = redirect(request.referrer) 
     flash("Logged Out!")
     unset_jwt_cookies(response)
+    return response
+
+@auth_views.route('/signup', methods=['POST'])
+def signup_action():
+    data = request.form
+    user = create_user(data['username'], data['password'])
+    response = redirect(url_for('login_views.login_page'))
+    if not user:
+        flash('Problem Creating New Account'), 401
+    else:
+        flash('Sign Up Successful')
     return response
 
 '''
