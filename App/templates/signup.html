@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block title %}SignUp - ShadowCipher{% endblock %}
+{% block page %}SignUp - ShadowCipher{% endblock %}
+
+{% block content %}
+<body class="content fill-space" style="background-image: url('/static/img/sign-up_page_bg.png'); background-size: 100% 100%; background-repeat: no-repeat;">
+    <div class="row">
+        <div class="col s12 m6 offset-m6">
+            <div class="subcontent center-vertical">
+                <main class="container" style="margin-top:50px">
+                    <h3 style="color: #ABA297;">Sign Up</h3>
+                    <form class="col s12" id="loginForm" method="POST" action="/login">
+                        <div class="row">
+                            <label for="username">Username</label><br>
+                            <div class="input-field col s8" style="background-color: #ABA297; border-radius: 100px;">
+                            <input name="username" type="text">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="password">Email</label><br>
+                            <div class="input-field col s8" style="background-color: #ABA297; border-radius: 100px;">
+                            <input name="email" type="email">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="password">Password</label><br>
+                            <div class="input-field col s8" style="background-color: #ABA297; border-radius: 100px;">
+                            <input name="password" type="password">
+                            </div>
+                        </div>
+                        <div style="color: #ABA297;">
+                            <button class="orange black-text btn right" type="submit" style="border-radius: 20px; font-size: 1.2em;">Play</button>
+                            <label for="login_option">Already have an account?</label>
+                            <a name="login_option" href="/login" style="color: inherit; text-decoration: underline;">Log-In!</a>   
+                        </div>                     
+                    </form>                   
+                </main>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

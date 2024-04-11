@@ -3,7 +3,7 @@
 {% block page %}Login - ShadowCipher{% endblock %}
 
 {% block content %}
-<body class="content fill-space" style="background-image: url('/static/img/login_page_background2.png'); background-size: 100% 100%;">
+<body class="content fill-space" style="background-image: url('/static/img/login_page_bg.png'); background-size: 100% 100%; background-repeat: no-repeat;">
     <div class="row">
         <!-- <div class="col s12 m6" style="padding: 0%;">
             <img class="responsive-img" src="/static/img/Login_Page_Background.png" style="width: 100%; height: 100%; object-fit: full">
@@ -30,8 +30,8 @@
                         </div>                        
                     </form>
                     <div class="col s12 m6 offset-m8 center-align" style="color: #ABA297;">
-                        <p>Don't have an account?</p>
-                        <a href="#" style="color: inherit; text-decoration: none;">Sign Up Here</a>
+                        <label for="signup_option">Don't have an account?</label><br>
+                        <a name="signup_option" href="/signup" style="color: inherit; text-decoration: underline;">Sign-Up!</a>
                     </div>                    
                 </main>
             </div>
