@@ -2,13 +2,14 @@ from flask import Blueprint, render_template, jsonify, request, send_from_direct
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
 
 from App.controllers import get_curr_game
-from datetime import date
+from datetime import datetime
 
 
 game_views = Blueprint('game_views', __name__, template_folder='../templates')
 
 @game_views.route('/game', methods=['GET'])
 def game():
+    today = datetime.utcnow().date()
     curr_game = get_curr_game()
 
     if not curr_game:
@@ -16,7 +17,7 @@ def game():
     
     curr_game_json = curr_game.get_json()
 
-    return render_template('game.html', curr_game=curr_game_json)
+    return render_template('game.html', curr_game=curr_game_json, today=today)
 
 def evaluateGuess():
     pass
