@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/viewstyles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='viewstyles.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <title>Document</title>
+</head>
+
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <ul class="right-side">
+                <img src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/fitness-logo-design%2Cgym-logo%2Chealth-logo-template-9667c79790d895428b781ef856f03523_screen.jpg?ts=1667269400"
+                    alt="">
+            </ul>
+            <ul class="left-side">
+                <li><a href="" class="active">Home</a></li>
+                <li><a href="">Routines</a></li>
+                <li><a href="">Workouts</a></li>
+                <li><a href="">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div>
+        <div class="text-container">
+            <h1>Routines</h1>
+        </div>
+        <div class="split">
+            <div class="workout-container">
+                {% for workout in workouts %}
+                <a href="" class="card-workouts">
+                    <div class="card-text">
+                        <h3>{{workout.workout.name}}</h3>
+                        <p>3 Workouts day</p>
+                    </div>
+                    <div class="edit-button">
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div> 
+        <div class="button-container">
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+        </div>
+    </div>
+
+</body>
+
+</html>
