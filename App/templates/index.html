@@ -1,33 +1,32 @@
 {% extends "layout.html" %}
-{% block title %}Welcome - ShadowCipher{% endblock %}
-{% block page %}Welcome - ShadowCipher{% endblock %}
+{% block title %}ShadowCipher{% endblock %}
+{% block page %}ShadowCipher{% endblock %}
 
 {{ super() }}
 
 {% block content %}
-<body class="content fill-space" style="background-image: url('/static/img/login_main.png'); background-size: cover;">
-    <div class="container">
-        <div class="card col s12" style="margin-top: 50px;">
-            <div class="card-action row">
-                <p>
-                    Discover the hidden code!<br><br>
-                    Click, or use arrow keys, to change your guess in each box.<br>
-                    After each guess, hints about the accuracy of your guess will be given in the form of 'bulls', 'cows', and 'milk'.<br>
+<body style="background-image: url('/static/img/main.png'); background-size: cover; background-repeat: no-repeat;">
+    <div class="card" style="border: 10px double #67D0E0; backdrop-filter: blur(20px); border-radius: 20px; background: transparent; width: 67%; margin: 0 auto;">
+        <div class="card-image" style="width: 25%; margin: 0 auto;">
+            <img src="/static/img/logo.png">
+        </div>                        
+        <div class="card-content" style="color: white;">
+            <p>
+                Discover the hidden code!<br><br>
+                Click, or use arrow keys, to change your guess in each box.<br>
+                After each guess, hints about the accuracy of your guess will be given in the form of 'bulls', 'cows', and 'milk'.<br>
 
-                    <li>Bulls = correct character, correct position</li>
-                    <li>Cows = correct character, <em>wrong</em> position
-                    <li>Milk = incorrect character</li><br>
+                <li>Bulls = correct character, correct position</li>
+                <li>Cows = correct character, <em>wrong</em> position
+                <li>Milk = incorrect character</li><br>
 
-                    Can you guess correctly?<br><br><br>
-
-                    <sub>(Project Jinjago's <strong>ShadowCipher</strong> is based of the game "Bulls and Cows" which itself is similar to (but came before) the board game Mastermind<sup>TM</sup>)</sub>
-                </p>
-                <form action="/" style="padding:5em">
-                    <div class="card-action row">
-                        <a href="/login" class="blue text-white btn right">Sign up or login to play</a>
-                    </div>
-                </form>
-            </div>
+                Can you guess correctly?<br><br>
+                <sub>(Project Jinjago's <strong>ShadowCipher</strong> is based of the game "Bulls and Cows" which itself is similar to (but came before) the board game Mastermind<sup>TM</sup>)</sub>
+            </p>
+            <div class="card-action" style="display: flex;">
+                <a href="/login" class="blue-text text-white btn" style="background-color: white; flex-grow: 1; margin-right: 10px;"><strong>Proceed</strong></a>
+                <a href="#" class="blue-text text-white btn" style="background-color: white; flex-grow: 1;"><strong>How To Play</strong></a>
+            </div>            
         </div>
     </div>
 </body>
