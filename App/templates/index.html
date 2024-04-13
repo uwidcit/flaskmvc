@@ -5,22 +5,23 @@
 {{ super() }}
 
 {% block content %}
-<body style="background-image: url('/static/img/main.png'); background-size: cover; background-repeat: no-repeat;">
-    <div class="card" style="border: 10px double #67D0E0; backdrop-filter: blur(20px); border-radius: 20px; background: transparent; width: 67%; margin: 0 auto;">
+<body style="background-image: url('/static/img/main.png'); background-size: cover; background-repeat: no-repeat; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
+    <div class="card" style="border: 10px double #ABA297; backdrop-filter: blur(10px); border-radius: 20px; background: transparent; width: 100%;">
         <div class="card-image" style="width: 25%; margin: 0 auto;">
             <img src="/static/img/logo.png">
         </div>                        
         <div class="card-content" style="color: white;">
             <p>
                 Discover the hidden code!<br><br>
-                Click, or use arrow keys, to change your guess in each box.<br>
+                <!-- To be added to 'How To Play' -->
+                <!-- Click, or use arrow keys, to change your guess in each box.<br>
                 After each guess, hints about the accuracy of your guess will be given in the form of 'bulls', 'cows', and 'milk'.<br>
 
                 <li>Bulls = correct character, correct position</li>
                 <li>Cows = correct character, <em>wrong</em> position
                 <li>Milk = incorrect character</li><br>
 
-                Can you guess correctly?<br><br>
+                Can you guess correctly?<br><br> -->
                 <sub>(Project Jinjago's <strong>ShadowCipher</strong> is based of the game "Bulls and Cows" which itself is similar to (but came before) the board game Mastermind<sup>TM</sup>)</sub>
             </p>
             <div class="card-action" style="display: flex;">
