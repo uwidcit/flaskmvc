@@ -11,6 +11,7 @@ from datetime import datetime
 game_views = Blueprint('game_views', __name__, template_folder='../templates')
 
 @game_views.route('/game', methods=['GET'])
+@jwt_required()
 def game():
     today = datetime.utcnow().date()
     curr_game = get_curr_game()
@@ -18,7 +19,7 @@ def game():
     if not curr_game:
         return jsonify({"error" : "An error has occured whilst accessing today's game"}), 500
 
-    guesses = UserGuess.get_guesses(curr_game.id)
+    guesses = UserGuess.get_guesses(curr_game.id, jwt_current_user.id)
     curr_game_json = curr_game.get_json()
 
     return render_template('game.html', curr_game=curr_game_json, today=today, guesses=guesses)

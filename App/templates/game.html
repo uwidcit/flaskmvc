@@ -3,22 +3,22 @@
 {% block page %}Play - ShadowCipher{% endblock %}
 
 {% block content %}
-<body class="content fill-space" style="background-color: #262627; margin-top: 50px;">
+<body class="content fill-space" style="background-color: #262627;">
     <div class="row">
-        <section class="col s12 m5" style="margin-top: 5px; height: 86vh">
+        <section class="col s12 m5" style="height: 86vh">
             <div class="card-title" style="color: white;">
-                <h1>{{ today.strftime('%B %d, %Y') }}</h1>
+                <h4>{{ today.strftime('%B %d, %Y') }}</h4>
             </div>
             <div class="card" style="background-color: #262627; color: white; border-top: solid 5px white; border-bottom: solid 5px white;">
                 <div class="card-content">
                     <div style="text-align: center;">
-                        <p>Attempts Left: 0</p>
+                        <p>Attempts Left: 0</p><br>
                     </div>
                     <div>
                         {% for guess in guesses %}
-                            <div style="display: flex; justify-content: center;">
+                            <div style="display: flex; justify-content: center; margin-bottom: 10px;">
                                 {% for digit in guess.guess %}
-                                <input type="text" value="{{ digit }}" style="flex: 1; border: 1px solid #aaa; border-radius: 5px; padding: 12px; color: white; font-size: 30px; text-align: center;" readonly>
+                                <input type="text" value="{{ digit }}" style="margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 20px; text-align: center; background-color: #AF9E89;" readonly>
                                 {% endfor %}
                             </div>
                         {% endfor %}
@@ -26,10 +26,12 @@
                     <form action="/evaluate_guess" method="POST">
                         <div style="display: flex;">
                             {% for i in curr_game["answer_length"] %}
-                            <input type="number" id="guess-digit-{{ i }}" name="guess-digit-{{ i }}" style="flex: 1; border: 1px solid #aaa; border-radius: 5px; padding: 12px; color: white; font-size: 30px; text-align: center;" min="0" max="9">
+                            <input type="number" id="guess-digit-{{ i }}" name="guess-digit-{{ i }}" style=" margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 20px; text-align: center; background-color: #AF9E89;" min="0" max="9">
                             {% endfor %}
                         </div>
-                        <button type="submit">Submit</button>
+                        <div class="card-action">
+                            <button type="submit">Submit</button>
+                        </div>
                     </form>
                 </div>
             </div>

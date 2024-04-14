@@ -66,7 +66,7 @@ User Guess Info:
         return value
 
     @classmethod
-    def get_guesses(cls, game_id):
+    def get_guesses(cls, game_id, user_id):
         # May want to store overall guess across multiple games
         # cls means Class| https://builtin.com/software-engineering-perspectives/python-cls
-        return cls.query.filter_by(game_id=game_id).all()
+        return cls.query.filter_by(game_id=game_id, user_id=user_id).all()
