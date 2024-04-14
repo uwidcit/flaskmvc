@@ -41,7 +41,7 @@ def evaluateGuess():
         db.session.commit()
     except IntegrityError as e:
         db.session.rollback()
-        return jsonify({"error": "Failed to submit guess. User already submitted a guess for this game."}), 400
+        return jsonify({"error": "Failed to submit guess."}), 400
 
     # Testing Output
     # print("User ID:", user_id)
