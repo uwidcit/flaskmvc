@@ -4,9 +4,13 @@ from sqlalchemy.orm import validates
 
 # Should ONLY be instantiated if the guess has passed the Game model's validation, meaning it doesn't break any
 #     of the constraints given for a valid code, nor those for a valid guess given the selected game's answer.
+
 class UserGuess(db.Model):
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), primary_key=True)
-    game_id = db.Column(db.Integer, db.ForeignKey('game.id'), primary_key=True)
+    # Removed the primary key contraints from user_id & game_id 
+    # As it was preventing the player from making multiple guesses - Jay ~
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    game_id = db.Column(db.Integer, db.ForeignKey('game.id'))
 
     # NOTE: Guess must be stored as a string instead of an int to preserve any leading zeroes
     guess = db.Column(db.String(MAX_CODE_LENGTH), db.CheckConstraint(
@@ -22,7 +26,7 @@ class UserGuess(db.Model):
 
     def __init__(self, user_id, game_id, guess):
         self.user_id = user_id
-        self.user_attempts = game_id
+        self.game_id = game_id
         self.guess = guess
     
     def __repr__(self):
@@ -54,8 +58,15 @@ User Guess Info:
             # guess contained invalid characters or was the wrong type
             raise ValueError(f"could not cast guess of type <{value.__class__.__name__}> to type int")
         
-        if not self.MIN_CODE_VALUE <= value_int <= self.MAX_CODE_VALUE:
-            raise ValueError(f"expected guess to be within the range <{self.MIN_CODE_VALUE:0{self.MIN_CODE_LENGTH}d}> to <{self.MAX_CODE_VALUE}>, inclusive; recieved <{value}>")
+        if not MIN_CODE_VALUE <= value_int <= MAX_CODE_VALUE:
+            # Removed the self. temporarily as it was raising errors stating UserGuess has no attribute ''
+            raise ValueError(f"expected guess to be within the range <{MIN_CODE_VALUE:0{MIN_CODE_LENGTH}d}> to <{MAX_CODE_VALUE}>, inclusive; recieved <{value}>")
         
         # Return the original string if all validation checks succeeded
         return value
+
+    @classmethod
+    def get_guesses(cls, game_id):
+        # May want to store overall guess across multiple games
+        # cls means Class| https://builtin.com/software-engineering-perspectives/python-cls
+        return cls.query.filter_by(game_id=game_id).all()

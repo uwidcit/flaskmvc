@@ -14,12 +14,22 @@
                     <div style="text-align: center;">
                         <p>Attempts Left: 0</p>
                     </div>
-                    <form>
+                    <div>
+                        {% for guess in guesses %}
+                            <div style="display: flex; justify-content: center;">
+                                {% for digit in guess.guess %}
+                                <input type="text" value="{{ digit }}" style="flex: 1; border: 1px solid #aaa; border-radius: 5px; padding: 12px; color: white; font-size: 30px; text-align: center;" readonly>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <form action="/evaluate_guess" method="POST">
                         <div style="display: flex;">
                             {% for i in curr_game["answer_length"] %}
                             <input type="number" id="guess-digit-{{ i }}" name="guess-digit-{{ i }}" style="flex: 1; border: 1px solid #aaa; border-radius: 5px; padding: 12px; color: white; font-size: 30px; text-align: center;" min="0" max="9">
                             {% endfor %}
                         </div>
+                        <button type="submit">Submit</button>
                     </form>
                 </div>
             </div>
