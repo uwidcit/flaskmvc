@@ -29,7 +29,6 @@ class Routine(db.Model):
             db.session.commit()
             return True
         return None
-
     
     def get_json(self):
         return {
