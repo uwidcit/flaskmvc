@@ -52,9 +52,4 @@ def evaluateGuess():
         db.session.rollback()
         return jsonify({"error": "Failed To Submit Guess."}), 400
 
-    # Testing Output
-    # print("User ID:", user_id)
-    # print("Game ID:", game_id)
-    # print("Guesses:", guess)
-
     return redirect(request.referrer)

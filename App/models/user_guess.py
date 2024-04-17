@@ -14,7 +14,7 @@ class UserGuess(db.Model):
 
     # NOTE: Guess must be stored as a string instead of an int to preserve any leading zeroes
     guess = db.Column(db.String(MAX_CODE_LENGTH), db.CheckConstraint(
-        f"guess >= {MIN_CODE_VALUE} AND guess <= {MAX_CODE_VALUE} AND LENGTH(guess) >= {MIN_CODE_LENGTH} AND LENGTH(guess) <= {MAX_CODE_LENGTH}"),
+        f"CAST(guess AS INTEGER) >= {int(MIN_CODE_VALUE)} AND CAST(guess AS INTEGER) <= {int(MAX_CODE_VALUE)} AND LENGTH(guess) >= {MIN_CODE_LENGTH} AND LENGTH(guess) <= {MAX_CODE_LENGTH}"),
         nullable=False)
     
     @property
@@ -35,6 +35,7 @@ class UserGuess(db.Model):
     def __str__(self):
         return f"""
 User Guess Info:
+    |- ID: {self.id}
     |- User ID: {self.user_id}
     |- Game ID: {self.game_id}
     |- Guess: {self.guess}
@@ -42,6 +43,7 @@ User Guess Info:
     
     def get_json(self):
         return {
+            'id' : self.id,
             'user_id' : self.user_id,
             'game_id': self.game_id,
             'guess': self.guess
