@@ -43,13 +43,13 @@ class Game(db.Model):
     
     def __str__(self):
         return f"""
-Game Info:
-    |- ID: {self.id}
-    |- Creation Date: {self.creation_date}
-    |- Max Attempts: {self.max_attempts}
-    |- Answer: {self.answer}
-    |- Answer Length: {self.answer_length}
-"""
+    Game Info:
+        |- ID: {self.id}
+        |- Creation Date: {self.creation_date}
+        |- Max Attempts: {self.max_attempts}
+        |- Answer: {self.answer}
+        |- Answer Length: {self.answer_length}
+    """
     
     def get_json(self):
         return {
@@ -169,8 +169,8 @@ Game Info:
             raise ValueError(f"expected guess to have <{self.answer_length}> digits; recieved <{guess_length}> digits; )")
         
         # Check if the guess value is within the valid range
-        if not (MIN_CODE_LENGTH <= guess <= MAX_CODE_LENGTH):
-            raise ValueError(f"expected guess to be within <{MIN_CODE_LENGTH:0{MIN_CODE_LENGTH}d}> and <{MAX_CODE_LENGTH}>, inclusive; recieved <{guess}>)")
+        # if not (MIN_CODE_LENGTH <= guess <= MAX_CODE_LENGTH):
+        #     raise ValueError(f"expected guess to be within <{MIN_CODE_LENGTH:0{MIN_CODE_LENGTH}d}> and <{MAX_CODE_LENGTH}>, inclusive; recieved <{guess}>)")
         
         # Check if all digits in the guess are unique
         used_digits = set()

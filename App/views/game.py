@@ -22,7 +22,15 @@ def game():
     guesses = UserGuess.get_guesses(curr_game.id, jwt_current_user.id)
     curr_game_json = curr_game.get_json()
 
-    return render_template('game.html', curr_game=curr_game_json, today=today, guesses=guesses)
+    # Evaluate the last guess to get the guess results
+    prev_guess = guesses[-1].guess if guesses else None
+    verdict = curr_game.evaluateGuess(prev_guess) if prev_guess else None
+
+    return render_template('game.html', 
+                            curr_game=curr_game_json, 
+                            today=today, 
+                            guesses=guesses, 
+                            verdict=verdict)
 
 @game_views.route('/evaluate_guess', methods=['POST'])
 @jwt_required()
@@ -39,13 +47,14 @@ def evaluateGuess():
         user_guess = UserGuess(user_id=user_id, game_id=game_id, guess=guess)
         db.session.add(user_guess)
         db.session.commit()
+
     except IntegrityError as e:
         db.session.rollback()
-        return jsonify({"error": "Failed to submit guess."}), 400
+        return jsonify({"error": "Failed To Submit Guess."}), 400
 
     # Testing Output
     # print("User ID:", user_id)
     # print("Game ID:", game_id)
     # print("Guesses:", guess)
 
-    return redirect(url_for('game_views.game'))
+    return redirect(request.referrer)
