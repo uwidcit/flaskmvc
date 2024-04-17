@@ -26,11 +26,19 @@ def game():
     prev_guess = guesses[-1].guess if guesses else None
     verdict = curr_game.evaluateGuess(prev_guess) if prev_guess else None
 
+    # Check if the player has achieved victory
+    victory = None
+    if verdict and verdict['bulls'] == 4:
+        # Set victory message to be displayed in the modal
+        victory = "Congratulations! You have successfully solved the puzzle."
+
+
     return render_template('game.html', 
                             curr_game=curr_game_json, 
                             today=today, 
                             guesses=guesses, 
-                            verdict=verdict)
+                            verdict=verdict,
+                            victory=victory)
 
 @game_views.route('/evaluate_guess', methods=['POST'])
 @jwt_required()
