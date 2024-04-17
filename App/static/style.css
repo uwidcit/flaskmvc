@@ -1,0 +1,49 @@
+.search-bar {
+    margin-bottom: 10px;
+    overflow: hidden; 
+}
+
+.search-bar input[type="text"] {
+    
+    float: left;
+}
+
+.search-bar button {
+    float: right;
+}
+
+/* Side menu (index.html) */
+.vertical-menu {
+    /* Your side menu styling */
+    width: 200px;
+    float: left;
+    background-color: #f8f9fa;
+    border-right: 1px solid #ccc;
+}
+
+.vertical-menu a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+}
+
+/* active link (index.html) */
+.vertical-menu a.active {
+    background-color: #ccc;
+}
+
+/* Grid menu contents (index.html) */
+.grid-container {
+    overflow: hidden; 
+}
+
+.grid-item {
+    
+    background-color: #f0f0f0;
+    padding: 20px;
+    text-align: center;
+    float: left;
+    width: calc(33.33% - 20px);
+    margin: 10px;
+    box-sizing: border-box;
+}

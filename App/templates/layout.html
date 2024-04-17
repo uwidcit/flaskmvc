@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-  <head>
+  <head> 
   
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
      <!--Import Google Icon Font-->
@@ -21,13 +21,14 @@
                   <li><a href="/">Home</a></li>
                   <li><a href="/users">Users Jinja</a></li>
                   {% if is_authenticated %}
-                    <li><a href="/identify">Identify</a></li>
+                    <li><a href="/identify">Profile</a></li>
                   {% endif %}
                   <li><a href="/static/users">Users JS</a></li>
               </ul>
               {% if is_authenticated %}
               <ul id="nav-mobile" class="right">
                 <li><a href="/logout">Logout</a></li>
+                <li><a href="/playlist">User Playlist</a></li>
               </ul>
               {% else %}
               <form class="right navbar-form" method="POST" action="/login" style="display: flex; flex-wrap: nowrap; align-items: center; margin-right: 10px;">
@@ -57,13 +58,7 @@
     <script>
        M.AutoInit();
 
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-              {% for message in messages %}
-              M.toast({html: '{{message}}'})
-              {% endfor %}
-          {% endif %}
-        {% endwith %}
+
        
     </script>
   </body>

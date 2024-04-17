@@ -2,12 +2,50 @@
 {% block title %}Flask MVC App{% endblock %}
 {% block page %}Flask MVC App{% endblock %}
 
-{{ super() }}
-
 {% block content %}
-    <h1>Flask MVC</h1>
+    <h1>TBD Workout Planner</h1>
     {% if is_authenticated %}
-        <p> Welcome {{current_user.username}} </p>
+        <p>Welcome {{ current_user.username }}</p>
     {% endif %}
-    <p>This is a boileplate flask application which follows the MVC pattern for structuring the project.</p>
+    <p>This is a boilerplate Flask application which follows the MVC pattern for structuring the project.</p>
+
+    <div class="search-bar">
+        <!-- search bar -->
+        <form action="/search" method="GET">
+            <input type="text" name="keyword" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="main-container">
+        
+
+        <div class="grid-container">
+            <!-- YouTube videos go here -->
+            {% for video in videos %}
+            <div class="grid-item">
+                <div class="card">
+                    <div>
+                        <img src="{{video.image_url}}">
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-title">{{ video.title }}</h6>
+                        <p class="card-text">{{ video.description }}</p>
+                        <a href="{{ video.video_url }}" class="btn btn-primary">Watch Video</a>
+                        {% if is_authenticated %}
+                        <form action="/add" method="POST">
+                            <input type="hidden" name="title" value="{{ video.title }}">
+                            <input type="hidden" name="image" value="{{ video.image_url }}">
+                            <input type="hidden" name="description" value="{{ video.description }}">
+                            <input type="hidden" name="url" value="{{ video.video_url }}">
+                            <button type="submit" class="btn btn-primary">Add to Playlist</button>
+                        </form>
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
