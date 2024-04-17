@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block title %}Flask MVC App{% endblock %}
+{% block page %}Flask MVC App{% endblock %}
+
+{% block content %}
+    <h1>TBD Workout Planner</h1>
+    {% if is_authenticated %}
+        <p>Welcome {{ current_user.username }}</p>
+    {% endif %}
+    <p>This is a boilerplate Flask application which follows the MVC pattern for structuring the project.</p>
+
+    <div class="main-container">
+        
+
+        <div class="grid-container">
+            <!-- YouTube videos go here -->
+            {% for video in videos %}
+            <div class="grid-item">
+                <div class="card">
+                    <div>
+                        <img src="{{video.image}}">
+                    </div>
+                     
+                    <div class="card-body">
+                        <h5 class="card-title">{{ video.title }}</h5>
+                        <p class="card-text">{{ video.description }}</p>
+                        <a href="{{ video.url }}" class="btn btn-primary">Watch Video</a>
+                        <form action="/delete" method="POST">
+                            <input type="hidden" name="id" value="{{ video.id }}">
+                            <button type="submit" class="btn btn-primary">Remove</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

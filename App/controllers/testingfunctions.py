@@ -1,21 +1,8 @@
-import os
-from flask import Flask, render_template
-from flask_uploads import DOCUMENTS, IMAGES, TEXT, UploadSet, configure_uploads
-from flask_cors import CORS
-from werkzeug.utils import secure_filename
-from werkzeug.datastructures import  FileStorage
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-from App.database import init_db
-from App.config import load_config
-
-from App.controllers import (
-    setup_jwt,
-    add_auth_context
-)
-
-from App.views import views
+apiKey = 'AIzaSyAa3sah23VK9X4r0hxsC4xHvWTUeLurpv8'
+youtube = build('youtube', 'v3', developerKey=apiKey)
 
 class Video:
     def __init__(self, title, image_url, video_url, description, video_id):
@@ -25,28 +12,6 @@ class Video:
         self.description = description
         self.video_id = video_id
 
-def add_views(app):
-    for view in views:
-        app.register_blueprint(view)
-
-def create_app(overrides={}):
-    app = Flask(__name__, static_url_path='/static')
-    load_config(app, overrides)
-    CORS(app)
-    add_auth_context(app)
-    photos = UploadSet('photos', TEXT + DOCUMENTS + IMAGES)
-    configure_uploads(app, photos)
-    add_views(app)
-    init_db(app)
-    jwt = setup_jwt(app)
-    
-    @jwt.invalid_token_loader
-    @jwt.unauthorized_loader
-    def custom_unauthorized_response(error):
-        return render_template('401.html', error=error), 401
-    
-    app.app_context().push()
-    return app
 
 def get_video_url(video_id):
     return f"https://www.youtube.com/watch?v={video_id}"
@@ -83,10 +48,11 @@ def search_by_keyword(api_key, keyword, max_results):
 
     return videos
 
-app = create_app()  # Create the app object
-
-@app.route('/home')
 def home():
     videos = search_by_keyword("AIzaSyAa3sah23VK9X4r0hxsC4xHvWTUeLurpv8", "fitness", 30)
-    return render_template('index.html', videos=videos)
+    print(videos)
+
+home()
+
+
 
