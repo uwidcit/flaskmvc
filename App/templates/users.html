@@ -12,28 +12,76 @@
     </div>
 
     <div class="row">
-      <form class="col s12" method="POST" action="/users">
-        
-        <div class="row">
-          <div class="input-field col s6">
-            <input placeholder="Username" name="username" type="text" class="validate">
-            <label for="username">Username</label>
-          </div>
-          <div class="input-field col s6">
-            <input placeholder="password" name="password" type="password" class="validate">
-            <label for="password">Password</label>
-          </div>
+
+      <div class="col s12 m6 offset-m3">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">Create Account</span>
+                <form method="POST" action="/signup">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="first_name" type="text" class="validate" name="first_name">
+                            <label for="first_name">First Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="last_name" type="text" class="validate" name="last_name">
+                            <label for="last_name">Last Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="email" type="email" class="validate" name="email">
+                            <label for="email">Email</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="username" type="text" class="validate" name="username">
+                            <label for="username">Username</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="password" type="password" class="validate" name="password">
+                            <label for="password">Password</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="confirm_password" type="password" class="validate" name="confirm_password">
+                            <label for="confirm_password">Confirm Password</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="input-field col s12">
+                          <select id="experience" name="experience">
+                              <option value="" disabled selected>Choose your experience</option>
+                              <option value="newbie">Newbie</option>
+                              <option value="seasoned">Seasoned</option>
+                              <option value="trainer">Trainer</option>
+                          </select>
+                          <label for="experience">Experience</label>
+                      </div>
+                      
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button class="btn waves-effect waves-light right" type="submit">Create Account</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
+    </div>
+
       
-        <div class="row">
-          <div class="input-field col s12">
-            <button class="btn waves-effect waves-light right purple" type="submit" name="action">Submit</button>
-          </div>
-        </div> 
 
       </form>
     </div>
 
+    <!-- ENSURE USER IS ADDED -->
     <div class="row">
       <table>
         <thead>
