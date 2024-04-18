@@ -1,26 +1,33 @@
 {% extends "layout.html" %}
-{% block title %}Ninjago: Welcome{% endblock %}
-{% block page %}Ninjago: Bulls & Cows{% endblock %}
+{% block title %}ShadowCipher{% endblock %}
+{% block page %}ShadowCipher{% endblock %}
 
 {{ super() }}
 
 {% block content %}
-<body class="content fill-space" style="background-image: url('/static/img/login_main.png'); background-size: cover;">
-    <div class="container">
-        <div class="card col s12" style="margin-top: 50px;">
-            <div class="card-action row">
-                <p>
-                    "Discover the hidden code! Click, or use arrow keys, to change your guess in each box.
-                    (Bulls and Cows is similar to, but came before, the board game MastermindTM*)
-                    Bulls = correct code, correct position.
-                    Cows = correct code, wrong position."
-                </p>
-                <form action="/" style="padding:5em">
-                    <div class="card-action row">
-                        <a href="/login" class="blue text-white btn right">LogIn & Play</a>
-                    </div>
-                </form>
-            </div>
+<body style="background-image: url('/static/img/main.png'); background-size: cover; background-repeat: no-repeat; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
+    <div class="card" style="border: 10px double #ABA297; backdrop-filter: blur(10px); border-radius: 20px; background: transparent; width: 100%;">
+        <div class="card-image" style="width: 25%; margin: 0 auto;">
+            <img src="/static/img/logo.png">
+        </div>                        
+        <div class="card-content" style="color: white;">
+            <p>
+                Discover the hidden code!<br><br>
+                <!-- To be added to 'How To Play' -->
+                <!-- Click, or use arrow keys, to change your guess in each box.<br>
+                After each guess, hints about the accuracy of your guess will be given in the form of 'bulls', 'cows', and 'milk'.<br>
+
+                <li>Bulls = correct character, correct position</li>
+                <li>Cows = correct character, <em>wrong</em> position
+                <li>Milk = incorrect character</li><br>
+
+                Can you guess correctly?<br><br> -->
+                <sub>(Project Jinjago's <strong>ShadowCipher</strong> is based of the game "Bulls and Cows" which itself is similar to (but came before) the board game Mastermind<sup>TM</sup>)</sub>
+            </p>
+            <div class="card-action" style="display: flex;">
+                <a href="/login" class="blue-text text-white btn" style="background-color: white; flex-grow: 1; margin-right: 10px;"><strong>Proceed</strong></a>
+                <a href="#" class="blue-text text-white btn" style="background-color: white; flex-grow: 1;"><strong>How To Play</strong></a>
+            </div>            
         </div>
     </div>
 </body>

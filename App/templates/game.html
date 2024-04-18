@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% block title %}Play - ShadowCipher{% endblock %}
+{% block page %}Play - ShadowCipher{% endblock %}
+
+{% block content %}
+<body class="content fill-space" style="background-color: #292F33;">
+    <!-- <nav class="nav" style="margin-bottom:10px">
+        <div class="nav-wrapper" style="background-color: #292F33; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center;">
+                <span style="font-size: 1.5em; text-align: center; width: 100%;">ShadowCipher</span>
+            </div>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/logout">How To Play</a></li>
+            </ul>
+        </div>
+    </nav> -->
+    
+    <div class="row" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <section style="width: 70%; max-width: 500px; height: 86vh;">
+            <div class="card-title" style="color: white;">
+                <h4>{{ today.strftime('%B %d, %Y') }}</h4>
+            </div>
+            <div class="card" style="background-color: #262627; color: white; border-top: solid 5px white; border-bottom: solid 5px white;">
+                <div class="card-content">
+                    <div style="text-align: center;">
+                        {% if victory %}
+                            <p>{{ victory }}</p><br>
+                        {% else %}
+                            <p>Attempts Left: {{ attempts_left }}</p><br>
+                        {% endif %}
+                    </div>
+                    <div>
+                        {% for labeled_guess in labeled_guesses %}
+                            <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+                                {% for digit, label in labeled_guess %}
+                                    {% if label == 'bull' %}
+                                        <input type="text" value="{{ digit }}" style="margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 25px; text-align: center; background-color: #89AF9E;" readonly>
+                                    {% elif label == 'cow' %}
+                                        <input type="text" value="{{ digit }}" style="margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 25px; text-align: center; background-color: #E8C980;" readonly>
+                                    {% else %}
+                                        <input type="text" value="{{ digit }}" style="margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 25px; text-align: center; background-color: #AF9E89;" readonly>
+                                    {% endif %}    
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <form action="/evaluate_guess" method="POST">
+                        <div style="display: flex;">
+                            {% for i in curr_game["answer_length"] %}
+                                {% if victory %}
+                                    <!-- Player Can No Longer Guess Answers -->
+                                {% else %}
+                                <input type="text" id="guess-digit-{{ i }}" name="guess-digit-{{ i }}" maxlength="1" oninput="this.value=this.value.replace(/[^0-9]/g,'');" style="margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 25px; text-align: center; background-color: #AF9E89;">
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% if victory %}
+
+                        {% else %}
+                        <div class="card-action" style="display: flex; justify-content: center;">
+                            <button class="orange white-text btn" type="submit" style="border-radius: 20px; font-size: 1.2em;">Submit</button>
+                        </div>                        
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+            <div class="card" style="background-color: #262627; color: white;">
+                <div class="card-title">
+                    Just For Testing
+                </div>
+                <div class="card-content">
+                    <h5>Bulls: {{ verdict.bulls }}</h5>
+                    <h5>Cows: {{ verdict.cows }}</h5>
+                    <h5>Milk: {{ verdict.milk }}</h5>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+{% endblock %}

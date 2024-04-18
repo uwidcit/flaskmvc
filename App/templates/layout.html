@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="stylesheet" href="../static/style.css">
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}{% endblock %}</title>
@@ -49,34 +49,43 @@
     .input-field .prefix.active {
       color: #000;
     }
+
+    /* Chrome, Safari, Edge, Opera */
+    /* https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
   </style>
 
 </head>
 
 <body>
-  <nav class="blue">
+  <!-- <nav class="blue">
     <div class="nav-wrapper">
       <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
       {% block link %}{% endblock %}
     </div>
-  </nav>
+  </nav> -->
   <div>
-    <div class="messages">
+    <!-- <div class="messages">
       {% with messages = get_flashed_messages() %}
       {% if messages %}
-      <div id="alert" class="col s10 offset-s1 red darken-1">
+      <div id="alert" class="col s10 offset-s1">
         <a href="" id="close">&times;</a>
         {% for message in messages %}
-        <div style="font-weight: bold;text-align: center;font-size: 1.2em;margin-top: -5px;">{{ message }}</div>
+          <div style="font-weight: bold;text-align: center;font-size: 1.2em;">{{ message }}</div>
         {% endfor %}
       </div>
 
       {% endif %}
       {% endwith %}
-    </div>
+    </div> -->
     {% block content %}{% endblock %}
   </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
 </body>
 
 </html>
