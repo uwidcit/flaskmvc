@@ -3,7 +3,7 @@ services:
 - type: web
   name: flask-postgres-api
   env: python
-  repo: https://github.com/uwidcit/flaskmvc.git
+  repo: https://github.com/JaleneA/Project-Jinjago.git
   plan: free
   branch: main
   healthCheckPath: /healthcheck
