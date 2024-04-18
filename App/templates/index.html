@@ -9,29 +9,13 @@
     {% if is_authenticated %}
         <p> Welcome {{current_user.username}} </p>
     {% endif %}
-    <div class="row">
-        {%for workout in workouts%}
-        <div class="col s12 m3">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{{workout.exercise_image1}}" >
-                    <img src="{{workout.exercise_image2}}" >
-                </div>
-                <div class="card-content">
-                    <span class ="card-title">{{workout.exercise_name}}</span>
-                    <p>Muscle Group: {{workout.muscle_group}} </p>
-                    <p>Equipment:{{workout.equipment}} </p>
-                    <p>Rating: {{workout.rating}} </p>
-                    {%for i in range(workout.rating)%}
-                    <i class="material-icons">star</i>
-                    {%endfor%}
-                    {%for i in range(5-workout.rating)%}
-                    <i class="material-icons">star_border</i>
-                    {%endfor%}
-                    <p>Description: {{workout.description}}</p>
-                </div>
-            </div>
-        </div>
-        {%endfor%}
-    </div>
+    <p>This is a boilerplate flask application which follows the MVC pattern for structuring the project.</p>
+
+    <h2>Workouts</h2>
+    {% for workout in workouts %}
+        <li>{{ workout.exercise_name }} - {{ workout.description }}</li>
+    {% else %}
+        <li>No workouts found.</li>
+    {% endfor %}
+
 {% endblock %}
