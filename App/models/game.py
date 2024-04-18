@@ -221,7 +221,8 @@ class Game(db.Model):
             raise e
 
     # For the ease of having the previous guess boxes respond in terms of changing colour based on its state
-    # Of being a Bull, Cow, or Milk. this method does just that! Inspired by Skylar's evaluateGuess() method above
+    # Of being a Bull, Cow, or Milk. this method does just that!
+    # Inspired by Skylar's evaluateGuess() method above
     def attachLabels(self, guess, answer):
         """
         Attaches labels ('bull', 'cow', or 'milk') to each digit in the guess based on the correct answer.

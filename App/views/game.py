@@ -26,19 +26,17 @@ def game():
     prev_guess = guesses[-1].guess if guesses else None
     verdict = curr_game.evaluateGuess(prev_guess) if prev_guess else None
 
-    # Checking if the player has achieved victory
+    # Checking if the player has achieved victory!
     victory = None
     if verdict and verdict['bulls'] == 4:
         victory = "Congratulations! You Have Cracked The Code, Way To Go!"
 
-    # Attach labels to each digit in the guesses
+    # Attaching labels to each digit in the guesses
+    # Probably whomp logic but I tried :~)
     labeled_guesses = []
     if guesses and verdict:
         for guess in guesses:
             labeled_guess = curr_game.attachLabels(guess.guess, curr_game.answer)
-
-            print(labeled_guess)
-
             labeled_guesses.append(labeled_guess)
     
     return render_template('game.html', 

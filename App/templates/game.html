@@ -18,25 +18,21 @@
                             <p>Attempts Left: 0</p><br>
                         {% endif %}
                     </div>
-
                     <div>
-                        <div>
-                            {% for labeled_guess in labeled_guesses %}
-                                <div style="display: flex; justify-content: center; margin-bottom: 10px;">
-                                    {% for digit, label in labeled_guess %}
-                                        {% if label == 'bull' %}
-                                            <input type="text" value="{{ digit }}" style="margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 20px; text-align: center; background-color: #6ca965;" readonly>
-                                        {% elif label == 'cow' %}
-                                            <input type="text" value="{{ digit }}" style="margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 20px; text-align: center; background-color: #c8b653;" readonly>
-                                        {% else %}
-                                            <input type="text" value="{{ digit }}" style="margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 20px; text-align: center; background-color: #787c7f;" readonly>
-                                        {% endif %}    
-                                    {% endfor %}
-                                </div>
-                            {% endfor %}
-                        </div>
+                        {% for labeled_guess in labeled_guesses %}
+                            <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+                                {% for digit, label in labeled_guess %}
+                                    {% if label == 'bull' %}
+                                        <input type="text" value="{{ digit }}" style="margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 20px; text-align: center; background-color: #6ca965;" readonly>
+                                    {% elif label == 'cow' %}
+                                        <input type="text" value="{{ digit }}" style="margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 20px; text-align: center; background-color: #c8b653;" readonly>
+                                    {% else %}
+                                        <input type="text" value="{{ digit }}" style="margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 20px; text-align: center; background-color: #787c7f;" readonly>
+                                    {% endif %}    
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
                     </div>
-
                     <form action="/evaluate_guess" method="POST">
                         <div style="display: flex;">
                             {% for i in curr_game["answer_length"] %}
@@ -57,14 +53,16 @@
                     </form>
                 </div>
             </div>
-                <div class="card" style="background-color: #262627; color: white;">
-                    <div class="card-title">Just For Testing</div>
-                        <div class="card-content">
-                            <h5>Bulls: {{ verdict.bulls }}</h5>
-                            <h5>Cows: {{ verdict.cows }}</h5>
-                            <h5>Milk: {{ verdict.milk }}</h5>
-                        </div>
+            <div class="card" style="background-color: #262627; color: white;">
+                <div class="card-title">
+                    Just For Testing
                 </div>
+                <div class="card-content">
+                    <h5>Bulls: {{ verdict.bulls }}</h5>
+                    <h5>Cows: {{ verdict.cows }}</h5>
+                    <h5>Milk: {{ verdict.milk }}</h5>
+                </div>
+            </div>
         </section>
     </div>
 </body>
