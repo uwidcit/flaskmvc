@@ -17,7 +17,7 @@ services:
       property: host
   - key: POSTGRES_USER
     fromDatabase:
-      name: flask-postgres-api-db
+      name: shadow-cipher-db
       property: user
   - key: POSTGRES_PASSWORD
     fromDatabase:
@@ -38,6 +38,6 @@ envVarGroups:
     
 
 databases:
-- name: flask-postgres-api-db
+- name: shadow-cipher-db
   plan: free
   databaseName: mydb
