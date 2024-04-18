@@ -1,7 +1,7 @@
 
 services:
 - type: web
-  name: Shadow-Cipher
+  name: flask-postgres-api
   env: python
   repo: https://github.com/JaleneA/Project-Jinjago.git
   plan: free
@@ -35,7 +35,6 @@ envVarGroups:
     value: production
   - key: FLASK_APP
     value: wsgi.py
-    
 
 databases:
 - name: flask-postgres-api-db
