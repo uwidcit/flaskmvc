@@ -10,26 +10,26 @@ services:
   buildCommand: "pip install -r requirements.txt"
   startCommand: "gunicorn wsgi:app"
   envVars:
-  - fromGroup: shadow-cipher-settings
+  - fromGroup: flask-postgres-api-settings
   - key: POSTGRES_URL
     fromDatabase:
-      name: shadow-cipher-db
+      name: flask-postgres-api-db
       property: host
   - key: POSTGRES_USER
     fromDatabase:
-      name: shadow-cipher-db
+      name: flask-postgres-api-db
       property: user
   - key: POSTGRES_PASSWORD
     fromDatabase:
-      name: shadow-cipher-db
+      name: flask-postgres-api-db
       property: password
   - key: POSTGRES_DB
     fromDatabase:
-      name: shadow-cipher-db
+      name: flask-postgres-api-db
       property: database 
 
 envVarGroups:
-- name: shadow-cipher-settings
+- name: flask-postgres-api-settings
   envVars:
   - key: ENV
     value: production
@@ -38,6 +38,6 @@ envVarGroups:
     
 
 databases:
-- name: shadow-cipher-db
+- name: flask-postgres-api-db
   plan: free
   databaseName: mydb
