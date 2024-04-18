@@ -20,6 +20,6 @@ def get_curr_game():
 
     if not curr_game:
         # Temporary parameters for development purposes
-        curr_game = create_game(30, answer_length=4)
+        curr_game = create_game(5, answer_length=4)
     print(f"\nAnswer = {curr_game.answer}\n")
     return curr_game

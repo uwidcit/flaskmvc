@@ -25,10 +25,8 @@ def game():
     # Please don't mind my whompy logic, I aint smart okii
     if guesses:
         attempts_left = curr_game.max_attempts - len(guesses)
-        attempts = attempts + 1
     else:
         attempts_left = curr_game.max_attempts
-        attempts=0
 
     # Evaluate the last guess to get the guess results
     prev_guess = guesses[-1].guess if guesses else None
@@ -38,8 +36,8 @@ def game():
     victory = None
     if verdict and verdict['bulls'] == 4:
         victory = "Congratulations! You Have Cracked The Code, Way To Go!"
-    elif (attempts == curr_game.max_attempts):
-        victory = "Whomp"
+    elif (attempts_left == 0):
+        victory = "Whomp Whomp, Try Again Next Time You Whompyyyy Whomp"
 
     # Attaching labels to each digit in the guesses
     # Probably whomp logic but I tried :~)
