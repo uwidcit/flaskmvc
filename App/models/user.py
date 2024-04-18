@@ -55,20 +55,47 @@ class Workout(db.Model):
             'description': self.description
         }
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+exercise_routine = db.Table('exercise_routine',
+    db.Column('routine_id', db.Integer, db.ForeignKey('routine.id'), primary_key=True),
+    db.Column('exercise_id', db.Integer, db.ForeignKey('exercise.id'), primary_key=True)
+)
+
 class Routine(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    description = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    workout_id = db.Column(db.Integer, db.ForeignKey('workout.id'), nullable=False)
-    workout = db.relationship('Workout')
+    user = db.relationship('User', backref=db.backref('routines', lazy=True))
+    exercises = db.relationship('Exercise', secondary=exercise_routine, backref=db.backref('routines', lazy=True))
 
-    def __init__(self, user_id, workout_id):
+    def __init__(self, name, description, user_id):
+        self.name = name
+        self.description = description
         self.user_id = user_id
-        self.workout_id = workout_id
 
     def get_json(self):
         return {
             'id': self.id,
+            'name': self.name,
+            'description': self.description,
             'user_id': self.user_id,
-            'workout': self.workout.get_json()
+            'exercises': [exercise.to_dict() for exercise in self.exercises]
         }
 
+    def add_exercise(self, exercise):
+        if exercise not in self.exercises:
+            self.exercises.append(exercise)
+            db.session.commit()
+
+    def remove_exercise(self, exercise):
+        if exercise in self.exercises:
+            self.exercises.remove(exercise)
+            db.session.commit()
