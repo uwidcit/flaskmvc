@@ -12,10 +12,24 @@
     <p>This is a boilerplate flask application which follows the MVC pattern for structuring the project.</p>
 
     <h2>Workouts</h2>
-    {% for workout in workouts %}
-        <li>{{ workout.exercise_name }} - {{ workout.description }}</li>
-    {% else %}
-        <li>No workouts found.</li>
-    {% endfor %}
+{% if workouts %}
+    <div class="row">
+        {% for workout in workouts %}
+            <div class="col s12 m3">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{{workout.exercise_image1}}" alt="Exercise Image 1">
+                        <img src="{{workout.exercise_image2}}" alt="Exercise Image 2">
+                    </div>
+                    <div class="card-content">
+                        <p>{{ workout.exercise_name }} - {{ workout.description }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No workouts found.</p>
+{% endif %}
 
 {% endblock %}

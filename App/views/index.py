@@ -8,8 +8,9 @@ index_views = Blueprint('index_views', __name__, template_folder='../templates')
 @index_views.route('/', methods=['GET'])
 def index_page():
     workouts = Workout.query.all()
-    workout = Workout.query.get(id)
-    return render_template('index.html', workouts=workouts)
+    workout_id = 1  # replace with a valid workout ID
+    workout = Workout.query.get(workout_id)
+    return render_template('index.html', workouts=workouts, workout=workout)
 
 
 @index_views.route('/init', methods=['GET'])
