@@ -27,7 +27,7 @@ class Workout(db.Model):
         self.video=video
 
         
-    def get_json(self,level):
+    def get_json(self,level=None):
         sets=None
         if level == 1:
             sets=f'Beginner:{self.beginner_sets}'
