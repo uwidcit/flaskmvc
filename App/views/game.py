@@ -22,6 +22,14 @@ def game():
     guesses = UserGuess.get_guesses(curr_game.id, jwt_current_user.id)
     curr_game_json = curr_game.get_json()
 
+    # Please don't mind my whompy logic, I aint smart okii
+    if guesses:
+        attempts_left = curr_game.max_attempts - len(guesses)
+        attempts = attempts + 1
+    else:
+        attempts_left = curr_game.max_attempts
+        attempts=0
+
     # Evaluate the last guess to get the guess results
     prev_guess = guesses[-1].guess if guesses else None
     verdict = curr_game.evaluateGuess(prev_guess) if prev_guess else None
@@ -30,6 +38,8 @@ def game():
     victory = None
     if verdict and verdict['bulls'] == 4:
         victory = "Congratulations! You Have Cracked The Code, Way To Go!"
+    elif (attempts == curr_game.max_attempts):
+        victory = "Whomp"
 
     # Attaching labels to each digit in the guesses
     # Probably whomp logic but I tried :~)
@@ -45,6 +55,7 @@ def game():
                             guesses=guesses, 
                             verdict=verdict,
                             victory=victory,
+                            attempts_left=attempts_left,
                             labeled_guesses=labeled_guesses)
 
 @game_views.route('/evaluate_guess', methods=['POST'])

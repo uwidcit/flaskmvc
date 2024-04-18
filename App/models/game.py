@@ -15,7 +15,7 @@ class Game(db.Model):
     creation_date = db.Column(db.Date, nullable=False, unique=True, default=date.today)
     max_attempts = db.Column(db.Integer, db.CheckConstraint(f"max_attempts >= {__MIN_ATTEMPTS}"), nullable=False)
 
-    # NOTE: Answer must be stored as a string instead of an int to preserve any leading zeroes
+    # Note: Answer must be stored as a string instead of an int to preserve any leading zeroes
     answer = db.Column(db.String(MAX_CODE_LENGTH), db.CheckConstraint(
         f"answer >= {MIN_CODE_VALUE} AND answer <= {MAX_CODE_VALUE} AND LENGTH(answer) >= {MIN_CODE_LENGTH} AND LENGTH(answer) <= {MAX_CODE_LENGTH}"),
         nullable=False)
@@ -43,13 +43,13 @@ class Game(db.Model):
     
     def __str__(self):
         return f"""
-    Game Info:
-        |- ID: {self.id}
-        |- Creation Date: {self.creation_date}
-        |- Max Attempts: {self.max_attempts}
-        |- Answer: {self.answer}
-        |- Answer Length: {self.answer_length}
-    """
+        Game Info:
+            |- ID: {self.id}
+            |- Creation Date: {self.creation_date}
+            |- Max Attempts: {self.max_attempts}
+            |- Answer: {self.answer}
+            |- Answer Length: {self.answer_length}
+        """
     
     def get_json(self):
         return {
