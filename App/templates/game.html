@@ -4,69 +4,67 @@
 
 {% block content %}
 <body class="content fill-space" style="background-color: #262627;">
-    
-   <!-- Victory Pop-Up For Sky -->
-    {% if victory %}
-        <div id="victory-popup" class="victory-popup" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999;">
-            <div class="card victory-card" style="background-color: #262627; color: white; width: 50%; text-align: center; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">
-                <div id="alert" class="card-content">
-                    <button type="button" id="close" onclick="hideVictoryPopup()" style="border: none; background: none; cursor: pointer; font-size: 30px;">&times;</button>
-                    <p>{{ victory }}</p>
-                </div>
-            </div>
-        </div>
-
-    <!-- Automatically remove the victory pop-up after 5 seconds -->
-    <style>
-        .victory-popup {
-            animation: fadeOut 3s forwards;
-        }
-
-        @keyframes fadeOut {
-            0% { opacity: 1; }
-            100% { opacity: 0; visibility: hidden; }
-        }
-    </style>
-    {% endif %}
-
-    <div class="row">
-        <section class="col s12 m5" style="height: 86vh">
+    <div class="row" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <section style="width: 70%; max-width: 500px; height: 86vh;">
             <div class="card-title" style="color: white;">
                 <h4>{{ today.strftime('%B %d, %Y') }}</h4>
             </div>
             <div class="card" style="background-color: #262627; color: white; border-top: solid 5px white; border-bottom: solid 5px white;">
                 <div class="card-content">
                     <div style="text-align: center;">
-                        <p>Attempts Left: 0</p><br>
+                        {% if victory %}
+                            <p>{{ victory }}</p><br>
+                        {% else %}
+                            <p>Attempts Left: 0</p><br>
+                        {% endif %}
                     </div>
+
                     <div>
-                        {% for guess in guesses %}
-                            <div style="display: flex; justify-content: center; margin-bottom: 10px;">
-                                {% for digit in guess.guess %}
-                                <input type="text" value="{{ digit }}" style="margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 20px; text-align: center; background-color: #AF9E89;" readonly>
-                                {% endfor %}
-                            </div>
-                        {% endfor %}
+                        <div>
+                            {% for labeled_guess in labeled_guesses %}
+                                <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+                                    {% for digit, label in labeled_guess %}
+                                        {% if label == 'bull' %}
+                                            <input type="text" value="{{ digit }}" style="margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 20px; text-align: center; background-color: #6ca965;" readonly>
+                                        {% elif label == 'cow' %}
+                                            <input type="text" value="{{ digit }}" style="margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 20px; text-align: center; background-color: #c8b653;" readonly>
+                                        {% else %}
+                                            <input type="text" value="{{ digit }}" style="margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 20px; text-align: center; background-color: #787c7f;" readonly>
+                                        {% endif %}    
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
+
                     <form action="/evaluate_guess" method="POST">
                         <div style="display: flex;">
                             {% for i in curr_game["answer_length"] %}
-                            <input type="number" id="guess-digit-{{ i }}" name="guess-digit-{{ i }}" style=" margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 20px; text-align: center; background-color: #AF9E89;" min="0" max="9">
+                                {% if victory %}
+                                    <!-- Player Can No Longer Guess Answers -->
+                                {% else %}
+                                    <input type="number" id="guess-digit-{{ i }}" name="guess-digit-{{ i }}" style=" margin: 0 5px; flex: 1; border-radius: 5px; padding: 6px; color: white; font-size: 20px; text-align: center; background-color: #AF9E89;" min="0" max="9">
+                                {% endif %}
                             {% endfor %}
                         </div>
-                        <div class="card-action">
-                            <button type="submit">Submit</button>
-                        </div>
+                        {% if victory %}
+
+                        {% else %}
+                            <div class="card-action">
+                                <button type="submit">Submit</button>
+                            </div>
+                        {% endif %}
                     </form>
                 </div>
             </div>
-        </section>
-        <section class="col s12 m5" style="height: 86vh">
-            <div class="card" style="background-color: #AF2D37;">
-                <h3>Bulls: {{ verdict.bulls }}</h3>
-                <h3>Cows: {{ verdict.cows }}</h3>
-                <h3>Milk: {{ verdict.milk }}</h3>
-            </div>
+                <div class="card" style="background-color: #262627; color: white;">
+                    <div class="card-title">Just For Testing</div>
+                        <div class="card-content">
+                            <h5>Bulls: {{ verdict.bulls }}</h5>
+                            <h5>Cows: {{ verdict.cows }}</h5>
+                            <h5>Milk: {{ verdict.milk }}</h5>
+                        </div>
+                </div>
         </section>
     </div>
 </body>

@@ -219,3 +219,37 @@ class Game(db.Model):
         except ValueError as e:
             # Error handling done by the caller function (i.e., the route)
             raise e
+
+    # For the ease of having the previous guess boxes respond in terms of changing colour based on its state
+    # Of being a Bull, Cow, or Milk. this method does just that! Inspired by Skylar's evaluateGuess() method above
+    def attachLabels(self, guess, answer):
+        """
+        Attaches labels ('bull', 'cow', or 'milk') to each digit in the guess based on the correct answer.
+
+        Args:
+            guess (str): The user's guess as a string.
+            answer (str): The correct answer as a string.
+
+        Returns:
+            list of str: A list where each element is the digit with its corresponding label.
+        """
+        results = []
+
+        try:
+            if (self.__validateGuess(guess)):
+                guess = str(guess)
+                ans_str = str(self.answer)
+
+                for g, a in zip(guess, ans_str):
+                    if g == a:
+                        results.append((g, 'bull'))
+                    else:
+                        if g in ans_str:
+                            results.append((g, 'cow'))
+                        else:
+                            results.append((g, 'milk'))
+
+                return results          
+        except ValueError as e:
+            # Error handling done by the caller function (i.e., the route)
+            raise e

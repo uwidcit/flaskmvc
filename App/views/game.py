@@ -26,19 +26,28 @@ def game():
     prev_guess = guesses[-1].guess if guesses else None
     verdict = curr_game.evaluateGuess(prev_guess) if prev_guess else None
 
-    # Check if the player has achieved victory
+    # Checking if the player has achieved victory
     victory = None
     if verdict and verdict['bulls'] == 4:
-        # Set victory message to be displayed in the modal
-        victory = "Congratulations! You have successfully solved the puzzle."
+        victory = "Congratulations! You Have Cracked The Code, Way To Go!"
 
+    # Attach labels to each digit in the guesses
+    labeled_guesses = []
+    if guesses and verdict:
+        for guess in guesses:
+            labeled_guess = curr_game.attachLabels(guess.guess, curr_game.answer)
 
+            print(labeled_guess)
+
+            labeled_guesses.append(labeled_guess)
+    
     return render_template('game.html', 
                             curr_game=curr_game_json, 
                             today=today, 
                             guesses=guesses, 
                             verdict=verdict,
-                            victory=victory)
+                            victory=victory,
+                            labeled_guesses=labeled_guesses)
 
 @game_views.route('/evaluate_guess', methods=['POST'])
 @jwt_required()
