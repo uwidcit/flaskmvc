@@ -1,7 +1,7 @@
 
 services:
 - type: web
-  name: flask-postgres-api
+  name: Shadow-Cipher
   env: python
   repo: https://github.com/JaleneA/Project-Jinjago.git
   plan: free
@@ -10,26 +10,26 @@ services:
   buildCommand: "pip install -r requirements.txt"
   startCommand: "gunicorn wsgi:app"
   envVars:
-  - fromGroup: flask-postgres-api-settings
+  - fromGroup: shadow-cipher-settings
   - key: POSTGRES_URL
     fromDatabase:
-      name: flask-postgres-api-db
+      name: shadow-cipher-db
       property: host
   - key: POSTGRES_USER
     fromDatabase:
-      name: flask-postgres-api-db
+      name: shadow-cipher-db
       property: user
   - key: POSTGRES_PASSWORD
     fromDatabase:
-      name: flask-postgres-api-db
+      name: shadow-cipher-db
       property: password
   - key: POSTGRES_DB
     fromDatabase:
-      name: flask-postgres-api-db
+      name: shadow-cipher-db
       property: database 
 
 envVarGroups:
-- name: flask-postgres-api-settings
+- name: shadow-cipher-settings
   envVars:
   - key: ENV
     value: production
@@ -37,6 +37,6 @@ envVarGroups:
     value: wsgi.py
 
 databases:
-- name: flask-postgres-api-db
+- name: shadow-cipher-db
   plan: free
   databaseName: mydb
