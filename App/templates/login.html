@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+     <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Login</title>
+
+    <style>
+      *{
+        box-sizing: border-box;  
+      }
+
+      html{
+        height: 100vh;
+        width: 100vw;
+        margin:0;
+        padding:0;
+      }
+
+      body{
+        margin:0;
+        padding:0;
+        height: 100%;
+        width: 100%;
+      }
+
+    </style>
+
+  </head>
+  <body>
+    <nav class="purple">
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo">Login</a>
+      </div>
+    </nav>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <nav class="white black-text" style="padding: 10px">
+      <div class="nav-wrapper">
+          <ul class="flashes">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+          </ul>
+      </div>
+    </nav>
+    {% endif %}
+    {% endwith %}
+
+    <div class="row">
+
+      <section class="col s12" style="margin-top: 5px; overflow-y:scroll; height: 90vh">
+        <div class="row">
+          <!-- login form -->
+          <div class="col s12 m6 l4 offset-m3 offset-l4">
+            <div class="card">
+              <div class="card-content">
+                <span class="card-title">Login</span>
+
+                <form action="/login" method="POST">
+                  <div class="input-field">
+                    <input name="username" type="text" class="validate">
+                    <label for="username">Username</label>
+                  </div>
+
+                  <div class="input-field">
+                    <input id="password" name="password" type="password" class="validate">
+                    <label for="password">Password</label>
+                  </div>
+
+                  <div class="row">
+                    <div class="input-field col s4 right">
+                      <button class="btn waves-effect waves-light" type="submit">
+                         Login
+                      </button>
+                    </div>  
+                  </div>
+                </form>
+                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </section>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script> M.AutoInit(); </script>
+  </body>
+</html>

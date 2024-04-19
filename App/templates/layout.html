@@ -1,70 +1,79 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-  
+<head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-     <!--Import Google Icon Font-->
+    <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
 
-  </head>
-  <body>
-    
-      <nav class="purple">
-          <div class="nav-wrapper">
-              <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
-              <ul id="nav-mobile" class="left">
-                  <li><a href="/">Home</a></li>
-                  <li><a href="/users">Users Jinja</a></li>
-                  {% if is_authenticated %}
-                    <li><a href="/identify">Identify</a></li>
-                  {% endif %}
-                  <li><a href="/static/users">Users JS</a></li>
-              </ul>
-              {% if is_authenticated %}
-              <ul id="nav-mobile" class="right">
-                <li><a href="/logout">Logout</a></li>
-              </ul>
-              {% else %}
-              <form class="right navbar-form" method="POST" action="/login" style="display: flex; flex-wrap: nowrap; align-items: center; margin-right: 10px;">
-                  <div class="input-field" style="margin-right: 10px;">
-                      <input placeholder="username" value="bob" name="username" type="text" class="validate" required>
-                      <label for="username">username</label>
-                  </div>
-                  <div class="input-field" style="margin-right: 10px;">
-                      <input placeholder="password"value="bobpass" name="password" type="password" class="validate" required>
-                      <label for="password">Password</label>
-                  </div>
-                  <button type="submit" class="btn waves-effect waves-light">Login</button>
-              </form>
-              {% endif %}
-              
-          </div>
-      </nav>
-      <style>
-          .navbar-form label {
-              color: white !important;
-          }
-      </style>
+<nav class="purple">
+    <div class="nav-wrapper">
+        <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
+        <ul id="nav-mobile" class="left">
+            <li><a href="/">Home</a></li>
+            <li><a href="/users">Users Jinja</a></li>
+            {% if is_authenticated %}
+            <li><a href="/identify">Identify</a></li>
+            {% endif %}
+            <li><a href="/static/users">Users JS</a></li>
+        </ul>
+        {% if is_authenticated %}
+        <!-- User Profile Dropdown -->
+        <ul id="nav-mobile" class="right">
+            <li><a class="dropdown-trigger" href="#" data-target="dropdownUser"><i class="material-icons left">account_circle</i>{{current_user.username}}<i class="material-icons right">arrow_drop_down</i></a></li>
+        </ul>
+        <!-- Dropdown Structure for User Profile -->
+        <ul id="dropdownUser" class="dropdown-content">
+            <li class="divider"></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+        {% else %}
+        <!-- Login Form -->
+        <form class="right navbar-form" method="POST" action="/login" style="display: flex; flex-wrap: nowrap; align-items: center; margin-right: 10px;">
+            <div class="input-field" style="margin-right: 10px;">
+                <input placeholder="username" value="bob" name="username" type="text" class="validate" required>
+                <label for="username">username</label>
+            </div>
+            <div class="input-field" style="margin-right: 10px;">
+                <input placeholder="password"value="bobpass" name="password" type="password" class="validate" required>
+                <label for="password">Password</label>
+            </div>
+            <button type="submit" class="btn waves-effect waves-light">Login</button>
+        </form>
+        {% endif %}
+    </div>
+</nav>
+<style>
+    .navbar-form label {
+        color: white !important;
+    }
+</style>
 
-    <div class="container" id="content">{% block content %}{% endblock %}</div>
+<div class="container" id="content">{% block content %}{% endblock %}</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script>
-       M.AutoInit();
-
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-              {% for message in messages %}
-              M.toast({html: '{{message}}'})
-              {% endfor %}
-          {% endif %}
-        {% endwith %}
-       
-    </script>
-  </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+    // Initialize dropdowns
+    document.addEventListener('DOMContentLoaded', function() {
+        var dropdowns = document.querySelectorAll('.dropdown-trigger');
+        var instances = M.Dropdown.init(dropdowns, {hover: true});
+    });
+    // Initialize Materialize components
+    M.AutoInit();
+    // Display flashed messages as toasts
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    M.toast({html: '{{message}}'})
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</script>
+</body>
 </html>

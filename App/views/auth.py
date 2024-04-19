@@ -41,7 +41,7 @@ def logout_action():
     response = redirect(request.referrer) 
     flash("Logged Out!")
     unset_jwt_cookies(response)
-    return response
+    return render_template('login.html')
 
 '''
 API Routes
