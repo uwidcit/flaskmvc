@@ -1,13 +1,44 @@
 {% extends "layout.html" %}
-{% block title %}Flask MVC App{% endblock %}
-{% block page %}Flask MVC App{% endblock %}
+{% block title %}Workout Remixer App{% endblock %}
+{% block page %}Workout Remixer App{% endblock %}
 
 {{ super() }}
 
 {% block content %}
-    <h1>Flask MVC</h1>
+
+<div class="center-align">
+    <button class="waves-effect waves-light btn" onclick="viewRoutines()">View Routines</button>
+</div>
+
     {% if is_authenticated %}
         <p> Welcome {{current_user.username}} </p>
     {% endif %}
-    <p>This is a boileplate flask application which follows the MVC pattern for structuring the project.</p>
+
+    
+
+    <section class="col s12 m9" style="margin-top: 5px; overflow-y: scroll; height: 86vh">
+        <div class="row">
+            <div class="col s12 m4">
+                <div class="card">
+                    <div class="card-image waves-effect waves-block waves-light">
+                      <img class="activator" src="https://media.self.com/photos/61bcd0e05aed92fc4251b026/4:3/w_2560%2Cc_limit/GettyImages-1213234926.jpeg">
+                    </div>
+                    <div class="card-content">
+                      <span class="card-title activator grey-text text-darken-4">Workout Name<i class="material-icons right">more_vert</i></span>
+                      <a class="dropdown-trigger waves-effect waves-light btn" href="#" data-target="dropdown1"><i class="material-icons right">arrow_drop_down</i>ADD</a>
+                      <!-- Dropdown Structure -->
+                      <ul id="dropdown1" class="dropdown-content" style="width: 200px;">
+                        <li><a href="#">Create new routine<i class="material-icons right">control_point</i></a></li>
+                      </ul>
+                    </div>
+                    <div class="card-reveal">
+                      <span class="card-title grey-text text-darken-4">Workout Name<i class="material-icons right">close</i></span>
+                      <p>Workout Description.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
 {% endblock %}
