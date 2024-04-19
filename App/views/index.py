@@ -4,7 +4,7 @@ from App.controllers import create_user
 
 index_views = Blueprint('index_views', __name__, template_folder='../templates')
 
-@index_views.route('/', methods=['GET'])
+@index_views.route('/app', methods=['GET'])
 def index_page():
     return render_template('index.html')
 

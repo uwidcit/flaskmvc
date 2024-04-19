@@ -6,9 +6,10 @@ from .auth import auth_views
 #from .testing import testing_views
 from .workouts import workout_views
 #from .routine import routine_views
+from .login import login_views
 
 
 
 
-views = [user_views, index_views, auth_views, workout_views] 
+views = [user_views, index_views, auth_views, workout_views,login_views] 
 # blueprints must be added to this list
