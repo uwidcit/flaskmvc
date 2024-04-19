@@ -2,7 +2,9 @@ from flask import Blueprint, render_template, jsonify, request, send_from_direct
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
 from functools import wraps
 from.index import index_views
-from App.controllers import Routine, User
+# from App.controllers import Routine, User
+from App.controllers.routine import *
+from App.controllers.user import * # * <- can be replaced with function u need
 from App.models import Routine, User
 
 routine_views = Blueprint('routine_views', __name__, template_folder='../templates')
@@ -12,9 +14,10 @@ routine_views = Blueprint('routine_views', __name__, template_folder='../templat
 def routine_page(routineID=1):
     routines = get_all_routines() #routines = Routine.query.all()
     selected_routine = Routine.query.filter_by(id=routineID).first()
-    return render_template('routines.html', routines=routines, selected_routine)
+    # return render_template('routines.html', routines=routines, selected_routine)
+    return render_template('routines.html') #just testing
 
-@routine_views.route('edit-name/<int:routineID>', methods=['POST'])
+@routine_views.route('/edit-name/<int:routineID>', methods=['POST'])
 @jwt_required()
 def editName_action(routineID):
     #rename routine name, show a message and reload
@@ -44,6 +47,7 @@ def delete_routine(routineID):
     return jsonify(message=f'{routine.name} was deleted.'), 200
 
 
-if __name__ == "__main__":
-  app.run(host='0.0.0.0', port=8080)
+# if __name__ == "__main__": 
+#   app.run(host='0.0.0.0', port=8080)
+
     
