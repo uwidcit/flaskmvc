@@ -8,6 +8,16 @@ index_views = Blueprint('index_views', __name__, template_folder='../templates')
 def index_page():
     return render_template('index.html')
 
+# Moved From login.py view
+@index_views.route('/login_page', methods=['GET'])
+def login_page():
+    return render_template('login.html')
+
+# Moved From signup.py view
+@index_views.route('/signup_page', methods=['GET'])
+def signup_page():
+    return render_template('signup.html')
+
 @index_views.route('/init', methods=['GET'])
 def init():
     db.drop_all()
