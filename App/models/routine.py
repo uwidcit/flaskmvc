@@ -8,27 +8,27 @@ class Routine(db.Model):
 
     
     
-    def addWorkout(self,exercise,name,difficulty,bSets,iSets,eSets,equipment,video,muscle,des):
-        routine=Workout.query.filterby(exercise=exercise,id=self.id).first() #check if user has this exercise added 
-        if not routine:
-            routine=Workout(muscle=muscle,exercise=exercise,difficulty=difficulty,beginner_sets=bSets,intermediate_sets=iSets,expert_sets=eSets,equipment=equipment,description=des,video=video)
-            db.session.add(routine)
-            db.session.commit()
-            return routine
-        else:
-            return None
+    # def addWorkout(self,exercise,name,difficulty,bSets,iSets,eSets,equipment,video,muscle,des):
+    #     routine=Workout.query.filterby(exercise=exercise,id=self.id).first() #check if user has this exercise added 
+    #     if not routine:
+    #         routine=Workout(muscle=muscle,exercise=exercise,difficulty=difficulty,beginner_sets=bSets,intermediate_sets=iSets,expert_sets=eSets,equipment=equipment,description=des,video=video)
+    #         db.session.add(routine)
+    #         db.session.commit()
+    #         return routine
+    #     else:
+    #         return None
     
     # def viewWorkout(self,exercise):
         
     #     return None
 
-    def removeWorkout(self,exercise):
-        workout_name=Workout.query.filterby(exercise=exercise,id=self.id)
-        if workout_name:
-            db.session.delete(workout_name)
-            db.session.commit()
-            return True
-        return None
+    # def removeWorkout(self,exercise):
+    #     workout_name=Workout.query.filterby(exercise=exercise,id=self.id)
+    #     if workout_name:
+    #         db.session.delete(workout_name)
+    #         db.session.commit()
+    #         return True
+    #     return None
     
     def get_json(self):
         return {
