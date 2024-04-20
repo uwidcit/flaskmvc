@@ -2,7 +2,13 @@
 {% block title %}Api Test{% endblock %}
 {% block page %}App Testing{% endblock %}
 
-{% block content %}
+<!-- {% block content %}
 <a href="/testing"></a>
 <p>{{api_data}}</p>
-{% endblock %}
+{% endblock %} -->
+
+<ul>
+{% for workout in api_data %}
+    <li>{{ workout }}</li>
+{% endfor %}
+</ul>
