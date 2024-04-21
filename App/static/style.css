@@ -8,8 +8,14 @@
     margin-bottom: 20px; 
     text-align: center;
     transition: transform 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5%;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 32px rgba(0, 0, 0, 0.1); /* Updated shadow */;
 }
+
+.cyan.darken-4{
+    background-color: #014144;
+}
+
 .muscle-item:hover {
     transform: scale(1.05); 
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
