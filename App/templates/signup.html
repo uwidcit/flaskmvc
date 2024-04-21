@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block page %}Sign Up{% endblock %}
+
+
+{% block content %}
+
+<div class="content fill-space" style="display: flex; justify-content: center; align-items: center;">
+  <img class="grow-2 page-img" src="/static/img/signup.jpg" width="600" height="400">
+  <div class="subcontent center-vertical">
+    <h4 class="center">Sign Up</h4>
+
+    <form id="signupForm" method="POST" action="/signup" style="padding:1em">
+      <div class="row">
+        <div class="input-field col s12">
+          <input placeholder="user" name="username" type="text" class="validate">
+          <label for="username">Username</label>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="input-field col s12">
+          <input placeholder="Some secure password here" name="password" type="password" class="validate">
+          <label for="password">Password</label>
+        </div>
+      </div>
+      <div class="row justify-content">
+        <div class="col s8 card-action left-align" style="margin-left:0;">
+          <a href="/">&larr; Back to Login</a>
+        </div>
+        <div class="col s3 card-action right-align">
+          <input type="submit" class="blue text-white btn" value="Sign up">
+        </div>
+      </div>
+  
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<nav class="purple">
+<nav style="background-color: #014144;">
     <div class="nav-wrapper">
         <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
         <ul id="nav-mobile" class="left">
@@ -34,7 +34,7 @@
             <li><a href="/logout">Logout</a></li>
         </ul>
         {% else %}
-        <!-- Login Form -->
+        <!-- Login Form 
         <form class="right navbar-form" method="POST" action="/login" style="display: flex; flex-wrap: nowrap; align-items: center; margin-right: 10px;">
             <div class="input-field" style="margin-right: 10px;">
                 <input placeholder="username" value="bob" name="username" type="text" class="validate" required>
@@ -45,7 +45,7 @@
                 <label for="password">Password</label>
             </div>
             <button type="submit" class="btn waves-effect waves-light">Login</button>
-        </form>
+        </form> -->
         {% endif %}
     </div>
 </nav>
@@ -77,3 +77,4 @@
 </script>
 </body>
 </html>
+
