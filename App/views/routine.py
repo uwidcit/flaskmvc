@@ -4,6 +4,7 @@ from App.controllers.auth import jwt_required
 from App.controllers.routine import *
 from App.controllers.user import * # * <- can be replaced with function u need
 from App.controllers.workout import *
+from App.controllers.userWorkouts import *
 from App.models import Routine, User, Workout, db
 
 routine_views = Blueprint('routine_views', __name__, template_folder='../templates')
@@ -23,55 +24,35 @@ def make_routine():
     routine=create_routine(1,name)
     flash(f'Routine created: {data["name"]}')
     return redirect(request.referrer)
-# @routine_views.route('/routines', methods=['GET'])
-# @routine_views.route('/routines/<int:routineID>', methods=['GET'])
-# def routine_page(routineID=1):
-#     routines = get_all_routines() #routines = Routine.query.all()
-#     selected_routine = Routine.query.filter_by(id=routineID).first()
-#     return render_template('routines.html', routines=routines)
-# #     #return render_template('routines.html') #just testing
 
-# @routine_views.route('/routines', methods=['GET'])
-# @routine_views.route('/routines/<int:routineID>', methods=['GET'])
-# # @jwt_required()  # Ensure the user is authenticated
-# def routine_page(routineID=1):
-#     # Query the current user
-#    # current_user = User.query.filter_by(username=get_jwt_identity()).first()
-#     if not current_user:
-#         return jsonify(error='User not found'), 404
 
-    routines = current_user.routines
-    selected_routine = Routine.query.filter_by(id=routineID).first()
-    return render_template('routines.html', routines=routines, selected_routine=selected_routine)
+@routine_views.route('/edit-name', methods=['POST'])
+def editName():
+    data=request.form
+    oldname=data['oldname']
+    newname=data['newname']
+    routine=renameRoutine(oldname,newname)
+    return redirect(request.referrer)
 
-@routine_views.route('/edit-name/<int:routineID>', methods=['POST'])
-@jwt_required()
-def editName_action(routineID):
-    #rename routine name, show a message and reload
-    new_name = request.form.get('new_name') #Get new name from the form
-    if not new_name:
-        flash('Invalid new name.')
-        return redirect(url_for('routine_page'))
+
+
+@routine_views.route('/delete-routine/', methods=['DELETE'])
+def delete_from_routine():
+    data=request.form
+    id=data['id']
+    routine=delete_routine(id)
+    flash('Routine deleted')
+    return redirect(request.referrer)
     
-    if current_user.editRoutine(routineID, new_name):
-        flash('Routine renamed successfully.')
-    else:
-        flash('Failed to rename Routine.')
-    return redirect(request.referrer) #redirects to the page the user was on before making the request
-    #return redirect(url_for('routine_page'))
 
-@routine_views.route('/delete-routine/<int:routineID>', methods=['DELETE'])
-@jwt_required()
-def delete_routine(routineID):
-    user = User.query.filter_by(username=get_jwt_identity()).first()
-    routine = Routine.query.get(routineID)
-
-    #not too sure about this part
-    if not routine or routine.user.username != get_jwt_identity():
-        return jsonify(error=f'routine {routineID} invalid or does not belong to {get_jwt_identity()}'), 401
-
-    user.removeRoutine(routineID)
-    return jsonify(message=f'{routine.name} was deleted.'), 200
+@routine_views.route('/view-workouts/<id>',methods=['GET'])
+def view_Workouts(id):
+    data=request.form
+    id=data['workout_id']
+    workouts=viewWorkouts(id)
+    routine=get_routine_by_id(id)
+    return render_template('userWorkouts',workouts=workouts,routine=routine)
+    
 
 
 # if __name__ == "__main__": 

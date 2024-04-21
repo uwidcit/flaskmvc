@@ -1,4 +1,4 @@
-from App.models import Routine,UserWorkouts
+from App.models import Routine,UserWorkouts,Workout
 from App.database import db
 
 
@@ -23,3 +23,11 @@ def removeWorkout(routine_id,workout_id):
         return True
     else:
         return False
+
+def viewWorkouts(routine_id):
+    user_workout=UserWorkouts.query.filter_by(routine_id=routine_id).all()
+    
+    workout_ids = [user_workout.workout_id for user_workout in user_workouts] 
+    workouts = Workout.query.filter(Workout.id.in_(workout_ids)).all()
+    return workouts
+

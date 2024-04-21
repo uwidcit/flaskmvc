@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %}User Workouts{% endblock %}
+{% block page %}{{routines.routineName}}{% endblock %}
+
+
+{% block content %}
+<ul>
+    {% for work in workouts %}
+    <li value="{{workd.id}}"><p>Muscle:{{work.muscle}}</p>
+        <p>Workout:{{work.exercise}}</p>
+        <p>Equipment:{{work.equipment}}</p>
+        <p>Difficulty: {{work.difficulty}}</p>
+        <p>Beginner: {{work.beginner_sets}}</p>
+        <p>Intermediate: {{work.intermediate_sets}}</p>
+        <p>Expert: {{work.expert_sets}}</p>
+        <p>Instructions: {{work.description}}</p>
+        <p>Youtube: <a href="{{work.video}}" target="_blank"></a></p>
+    </li>
+</ul>
+
+
+{% endblock %}

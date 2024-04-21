@@ -13,17 +13,14 @@
      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
  <body>
+    <p></p>
    <div class="muscle-container">
     {% for muscle, image_url in all_workouts["Muscles"].items() %}
     <div class="muscle-item">
       <img class="muscle-image"src="{{ image_url }}" alt="{{ muscle }}" >
         <p class="muscle-text">{{ muscle }}</p>
-      <a href="{{ url_for('workout_views.work_page', data=muscle)}}"><button class="view-btn" value="{{ muscle }}">View Workouts</button></a>
-        <select class="workout-dropdown" style="display: none;">
-            {% for workout in workouts %}
-            <option>{{ workout.exercise }}</option>
-            {% endfor %}
-        </select>
+        <a href="{{ url_for('workout_views.work_page', data=muscle)}}"><button class="waves-effect waves-light btn-small cyan darken-4" value="{{ muscle }}">View Workouts</button></a>
+        <p></p>
     </div> 
     {% endfor %}
    </div>  

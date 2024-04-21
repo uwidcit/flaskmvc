@@ -31,13 +31,12 @@ def save_workout():
 
 
 @workout_views.route('/remove_workout', methods=['DELETE'])
-@jwt_required()
 def delete_workout():
     data=request.form
-    current_user.delete_workout(data['WorkOut'])
+    workout=delete_workout(data['WorkOut'])
 
     flash(f'{data["WorkOut"]} deleted')
-    return render_template(request.referrer)
+    return redirect(request.referrer)
 
 
     

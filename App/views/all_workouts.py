@@ -14,9 +14,6 @@ all_workouts_views= Blueprint('all_workouts_views', __name__, template_folder='.
 
 @all_workouts_views.route('/all_workouts', methods=['GET'])
 def workout_page():
-    
-    load_db()
-        
         
     all_workouts={
         "Muscles":{

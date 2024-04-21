@@ -4,6 +4,7 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import db, get_migrate
 from App.main import create_app
+# from App.controllers.workout import load_db -<remove when launching site
 # from App.controllers import ( create_user, get_all_users_json, get_all_users )
 from App.controllers import *
 # This commands file allow you to create convenient CLI commands for testing controllers
@@ -16,12 +17,13 @@ migrate = get_migrate(app)
 def initialize():
     db.drop_all()
     db.create_all()
+    # load_db() 
     #create_user('bob', 'bobpass')
     bob = User(username='bob', password="bobpass")
     db.session.add(bob)
     db.session.commit()
-    bob.addWorkout("Barbell Curl", "Bicep Workout", "Beginner", "1", "3", "2", "Barbell", "https://www.youtube.com/results?search_query=Barbell+Curl", "Biceps", "A biceps workout involves exercises like curls, targeting the muscles on the front of the upper arms to build strength and size.")
-    bob.addWorkout("Squat", "Leg Workout", "Intermediate", "1", "3", "2", "Barbell", "https://www.youtube.com/results?search_query=Squat", "Legs", "A biceps workout involves exercises like curls, targeting the muscles on the front of the upper arms to build strength and size.")
+    #bob.addWorkout("Barbell Curl", "Bicep Workout", "Beginner", "1", "3", "2", "Barbell", "https://www.youtube.com/results?search_query=Barbell+Curl", "Biceps", "A biceps workout involves exercises like curls, targeting the muscles on the front of the upper arms to build strength and size.")
+    #bob.addWorkout("Squat", "Leg Workout", "Intermediate", "1", "3", "2", "Barbell", "https://www.youtube.com/results?search_query=Squat", "Legs", "A biceps workout involves exercises like curls, targeting the muscles on the front of the upper arms to build strength and size.")
     print('database intialized')
 
 '''
