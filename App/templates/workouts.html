@@ -6,22 +6,25 @@
 {% block content %}
 <ul>
 {% for w in workouts %}
-    <li><p>Workout: {{w.exercise}}</p>
-        <p>Difficulty: {{w.difficulty}}</p>
-        <p>Equipment: {{w.equipment}}</p>
-        <p>Instructions: {{w.description}}</p>
-        <p>Youtube Link:<a href="{{w.video}}" target="_blank">{{w.video}}</a></p>
+    <li>
+        <div class ="card-panel teal lighten-4" >
+        <p><b>Workout: </b> {{w.exercise}}</p>
+        <p><b>Difficulty: </b> {{w.difficulty}}</p>
+        <p><b>Equipment: </b> {{w.equipment}}</p>
+        <p><b>Instructions: </b> {{w.description}}</p>
+        <p><b>Youtube Link: </b> <a href="{{w.video}}" target="_blank">{{w.video}}</a></p>
     <form action="/save_workout" method="post">
         <input type="hidden" name="workout_id" value="{{w.id}}">
         <input type="hidden" name="muscle_type" value="{{w.muscle}}">
         <input type="hidden" name="workout" value="{{w.exercise}}">
-        <button type="submit">Add Workout</button> 
+        <button type="submit" class="waves-effect waves-light btn-small cyan darken-4">Add Workout</button> 
         <select name="routine_id">
             {% for r in routines %}
             <option value="{{r.id}}">{{r.routineName}}</option>
             {% endfor %}
     </select>
     </form> 
+    </div>
     </li>
     {% endfor %}
 </ul>

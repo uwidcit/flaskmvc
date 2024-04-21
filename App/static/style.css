@@ -16,6 +16,10 @@
     background-color: #014144;
 }
 
+.card-panel.teal.lighten-4{
+    background-color: #26a69a;
+}
+
 .muscle-item:hover {
     transform: scale(1.05); 
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
