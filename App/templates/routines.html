@@ -3,16 +3,18 @@
 {% block page %}Routines{% endblock %}
 
 {% block content %}
-<ul>
-    {% for r in routines %}
-        <li>{{ r.routineName }}</li>
-    {% endfor %}
-    </ul>
+<div class ="card-panel teal lighten-4" >
+    <ul>
+        {% for r in routines %}
+            <li>{{ r.routineName }}</li>
+        {% endfor %}
+        </ul>
 
-<form action="/create_routine" method="post">
-<input type="text" name="name" placeholder="create">
-<button type="submit">Create</button>
-</form>
+    <form action="/create_routine" method="post">
+    <input type="text" name="name" placeholder="create">
+    <button type="submit" class="waves-effect waves-light btn-small cyan darken-4">Create</button>
+    </form>
+</div>
 {% endblock %}
 
 
