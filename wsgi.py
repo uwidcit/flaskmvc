@@ -16,7 +16,12 @@ migrate = get_migrate(app)
 def initialize():
     db.drop_all()
     db.create_all()
-    create_user('bob', 'bobpass')
+    #create_user('bob', 'bobpass')
+    bob = User(username='bob', password="bobpass")
+    db.session.add(bob)
+    db.session.commit()
+    bob.addWorkout("Barbell Curl", "Bicep Workout", "Beginner", "1", "3", "2", "Barbell", "https://www.youtube.com/results?search_query=Barbell+Curl", "Biceps", "A biceps workout involves exercises like curls, targeting the muscles on the front of the upper arms to build strength and size.")
+    bob.addWorkout("Squat", "Leg Workout", "Intermediate", "1", "3", "2", "Barbell", "https://www.youtube.com/results?search_query=Squat", "Legs", "A biceps workout involves exercises like curls, targeting the muscles on the front of the upper arms to build strength and size.")
     print('database intialized')
 
 '''

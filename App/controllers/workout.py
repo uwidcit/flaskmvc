@@ -113,7 +113,7 @@ def addWorkout(exercise,difficulty,bSets,iSets,eSets,equipment,video,muscle,des)
 def load_db():
     muscle_types=['Biceps','Chest','Glutes','Abs','Lats','Back',
     'Legs','Stretching','Warm_Up','Hamstring','Calves','Quadriceps',
-    'Trapezius','Shoulders']
+    'Trapezius','Shoulders','Triceps']
 
     #  workouts= set() # <-prevent duplicates
 
