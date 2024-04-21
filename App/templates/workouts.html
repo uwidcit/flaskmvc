@@ -10,8 +10,18 @@
         <p>Difficulty: {{w.difficulty}}</p>
         <p>Equipment: {{w.equipment}}</p>
         <p>Instructions: {{w.description}}</p>
-        <p>Youtube Link:<a href="{{w.video}}">{{w.video}}</a></p>
-        <button action="" type="submit">Add Workout</button>  
+        <p>Youtube Link:<a href="{{w.video}}" target="_blank">{{w.video}}</a></p>
+    <form action="/save_workout" method="post">
+        <input type="hidden" name="workout_id" value="{{w.id}}">
+        <input type="hidden" name="muscle_type" value="{{w.muscle}}">
+        <input type="hidden" name="workout" value="{{w.exercise}}">
+        <button type="submit">Add Workout</button> 
+        <select name="routine_id">
+            {% for r in routines %}
+            <option value="{{r.id}}">{{r.routineName}}</option>
+            {% endfor %}
+    </select>
+    </form> 
     </li>
     {% endfor %}
 </ul>

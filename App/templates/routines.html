@@ -1,46 +1,18 @@
 {% extends "layout.html" %}
-
-{% block title %}Routines{% endblock %}
-
+{% block title %}Routine{% endblock %}
 {% block page %}Routines{% endblock %}
 
-{% block link%}
-<ul id="nav-mobile" class="right">
-    <li><a href="/logout">Logout</a></li>
-</ul>
-{% endblock %}
-
-{% block styles%}
-
-    td{
-        padding: 2px;
-    }
-
-    .collection .collection-item.active{
-        background-color: #71A6D2;
-    }
-{% endblock %}
-
 {% block content %}
-<div class="row">
-    <div class="col m3 list-container collection" style="max-height: 88vh;">
-        <ul class="collection-item black-text"> 
-            {% for routine in routines %}
-                <li class="collection-item" id="routine-{{ routine.id }}">
-                    <div class="row">
-                        <a href="/app/{{ routine.id }}" class="collection-item white-text {% if routine.id==selected_routine.id %} active {% endif %}" >{{ routine.routineName }}</a>
-                    </div>
-                </li>         
-            {% endfor %}
-        </ul>
-    </div>
+<ul>
+    {% for r in routines %}
+        <li>{{ r.routineName }}</li>
+    {% endfor %}
+    </ul>
 
-
-</div>
-
-
-
-
-
-
+<form action="/create_routine" method="post">
+<input type="text" name="name" placeholder="create">
+<button type="submit">Create</button>
+</form>
 {% endblock %}
+
+
