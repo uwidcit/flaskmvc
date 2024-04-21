@@ -4,8 +4,13 @@ class Routine(db.Model):
     id=db.Column(db.Integer, primary_key=True)
     userID=db.Column(db.Integer,db.ForeignKey('user.id'),nullable=False)
     routineName=db.Column(db.String(120),nullable=False)
-    work=db.Relationship('Workout', backref='rout')
+    workoutID=db.Column(db.Integer,db.ForeignKey('workout.id'))
 
+    
+    def __init__(self,userID,routineName):
+        self.userID=userID
+        self.routineName=routineName
+    
     
     
     

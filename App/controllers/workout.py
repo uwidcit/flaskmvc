@@ -56,43 +56,6 @@ def fetch_muscle(param):
 
     return data.decode('utf-8')
 
-#return a type of exercise
-# def fetch_workout(param):
-#     load_dotenv()
-#     api_key=os.getenv("API_KEY")
-
-#     conn = http.client.HTTPSConnection("work-out-api1.p.rapidapi.com")
-
-#     headers = {
-#     'X-RapidAPI-Key': api_key,
-#     'X-RapidAPI-Host': "work-out-api1.p.rapidapi.com"
-# }
-#     conn.request("GET", f"/search?WorkOut={param}", headers=headers)
-
-#     res = conn.getresponse()
-#     data = res.read()
-
-#     return data.decode('utf-8')
-
-
-#Choose type of data and category
-#types in workout model under api tags
-# def fetch_data(type,param):
-#     load_dotenv()
-#     api_key=os.getenv("API_KEY")
-
-#     conn = http.client.HTTPSConnection("work-out-api1.p.rapidapi.com")
-
-#     headers = {
-#     'X-RapidAPI-Key': api_key,
-#     'X-RapidAPI-Host': "work-out-api1.p.rapidapi.com"
-# }
-#     conn.request("GET", f"/search?{type}={param}", headers=headers)
-
-#     res = conn.getresponse()
-#     data = res.read()
-
-#     return data.decode('utf-8')
 
 
 

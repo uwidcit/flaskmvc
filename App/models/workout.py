@@ -12,10 +12,10 @@ class Workout(db.Model):
     description=db.Column(db.String(1000),nullable=False)
     video=db.Column(db.String(120),nullable=False)
     # duration=db.Column(db.Integer,nullable=True,default=0)
-    routine_id=db.Column(db.Integer, db.ForeignKey('routine.id'))
+    # routine_id=db.Column(db.Integer, db.ForeignKey('routine.id'))
   
 
-    def __init__(self,muscle,exercise,difficulty,beginner_sets,intermediate_sets,expert_sets,equipment,description,video, routine_id):
+    def __init__(self,muscle,exercise,difficulty,beginner_sets,intermediate_sets,expert_sets,equipment,description,video):
         self.muscle=muscle
         self.exercise=exercise
         self.difficulty=difficulty
@@ -25,7 +25,7 @@ class Workout(db.Model):
         self.equipment=equipment
         self.description=description
         self.video=video
-        self.routine_id = routine_id
+        # self.routine_id = routine_id
 
         
     def get_json(self,level=None):
