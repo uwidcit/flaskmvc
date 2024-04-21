@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block title %}Workouts{% endblock %}
+{% block page %}{{workouts.muscle}}{% endblock %}
+
+
+{% block content %}
+<ul>
+{% for w in workouts %}
+    <li><p>Workout: {{w.exercise}}</p>
+        <p>Difficulty: {{w.difficulty}}</p>
+        <p>Equipment: {{w.equipment}}</p>
+        <p>Instructions: {{w.description}}</p>
+        <p>Youtube Link:<a href="{{w.video}}">{{w.video}}</a></p>
+        <button action="" type="submit">Add Workout</button>  
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

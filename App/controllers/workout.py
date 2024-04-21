@@ -3,7 +3,7 @@ from App.database import db
 # import os,json,jsonify
 from dotenv import load_dotenv
 import http.client
-
+import os, json
 
 def get_workout(workoutID):
     return Workout.query.get(workoutID)
@@ -26,19 +26,12 @@ def get_all_workouts_json():
     workouts = [workout.get_json() for workout in workouts]
     return workouts
 
-
-def addWorkout(self,exercise,name,difficulty,bSets,iSets,eSets,equipment,video,muscle,des):
-        routine=Workout.query.filterby(exercise=exercise,id=self.id).first() #check if user has this exercise added 
-        if not routine:
-            routine=Workout(muscle=muscle,exercise=exercise,difficulty=difficulty,beginner_sets=bSets,intermediate_sets=iSets,expert_sets=eSets,equipment=equipment,description=des,video=video)
-            db.session.add(routine)
-            db.session.commit()
-            return routine
-        else:
-            return None
+def get_workout_by_type(muscle_type):
+    workouts=Workout.query.filter_by(muscle=muscle_type).all()
+    return workouts
 
 def removeWorkout(self,exercise):
-        workout_name=Workout.query.filterby(exercise=exercise,id=self.id)
+        workout_name=Workout.query.filter_by(exercise=exercise,id=self.id)
         if workout_name:
             db.session.delete(workout_name)
             db.session.commit()
@@ -64,39 +57,72 @@ def fetch_muscle(param):
     return data.decode('utf-8')
 
 #return a type of exercise
-def fetch_workout(param):
-    load_dotenv()
-    api_key=os.getenv("API_KEY")
+# def fetch_workout(param):
+#     load_dotenv()
+#     api_key=os.getenv("API_KEY")
 
-    conn = http.client.HTTPSConnection("work-out-api1.p.rapidapi.com")
+#     conn = http.client.HTTPSConnection("work-out-api1.p.rapidapi.com")
 
-    headers = {
-    'X-RapidAPI-Key': api_key,
-    'X-RapidAPI-Host': "work-out-api1.p.rapidapi.com"
-}
-    conn.request("GET", f"/search?WorkOut={param}", headers=headers)
+#     headers = {
+#     'X-RapidAPI-Key': api_key,
+#     'X-RapidAPI-Host': "work-out-api1.p.rapidapi.com"
+# }
+#     conn.request("GET", f"/search?WorkOut={param}", headers=headers)
 
-    res = conn.getresponse()
-    data = res.read()
+#     res = conn.getresponse()
+#     data = res.read()
 
-    return data.decode('utf-8')
+#     return data.decode('utf-8')
 
 
 #Choose type of data and category
 #types in workout model under api tags
-def fetch_data(type,param):
-    load_dotenv()
-    api_key=os.getenv("API_KEY")
+# def fetch_data(type,param):
+#     load_dotenv()
+#     api_key=os.getenv("API_KEY")
 
-    conn = http.client.HTTPSConnection("work-out-api1.p.rapidapi.com")
+#     conn = http.client.HTTPSConnection("work-out-api1.p.rapidapi.com")
 
-    headers = {
-    'X-RapidAPI-Key': api_key,
-    'X-RapidAPI-Host': "work-out-api1.p.rapidapi.com"
-}
-    conn.request("GET", f"/search?{type}={param}", headers=headers)
+#     headers = {
+#     'X-RapidAPI-Key': api_key,
+#     'X-RapidAPI-Host': "work-out-api1.p.rapidapi.com"
+# }
+#     conn.request("GET", f"/search?{type}={param}", headers=headers)
 
-    res = conn.getresponse()
-    data = res.read()
+#     res = conn.getresponse()
+#     data = res.read()
 
-    return data.decode('utf-8')
+#     return data.decode('utf-8')
+
+
+
+
+##POPULATE DATABASE ####
+def addWorkout(exercise,difficulty,bSets,iSets,eSets,equipment,video,muscle,des):
+        routine=Workout.query.filter_by(exercise=exercise).first()#check if this exercise exist 
+        if not routine:
+            routine=Workout(muscle=muscle,exercise=exercise,difficulty=difficulty,beginner_sets=bSets,intermediate_sets=iSets,expert_sets=eSets,equipment=equipment,description=des,video=video)
+            db.session.add(routine)
+            db.session.commit()
+            return routine
+        else:
+            return None
+
+
+
+def load_db():
+    muscle_types=['Biceps','Chest','Glutes','Abs','Lats','Back',
+    'Legs','Stretching','Warm_Up','Hamstring','Calves','Quadriceps',
+    'Trapezius','Shoulders']
+
+    #  workouts= set() # <-prevent duplicates
+
+    for muscle in muscle_types:
+        mus=fetch_muscle(muscle)
+        mus=json.loads(mus)
+        for data in mus:
+            # exercise=data['WorkOut']
+            new_workout=addWorkout(data['WorkOut'],data['Intensity_Level'],data['Beginner Sets'],data['Intermediate Sets'],data['Expert Sets'],data['Equipment'],data['Video'],data['Muscles'],data['Explaination'])
+
+    print('Database populated')
+    return None    
