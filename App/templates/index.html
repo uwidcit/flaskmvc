@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
-{% block title %}Workout Remixer App{% endblock %}
-{% block page %}Workout Remixer App{% endblock %}
+{% block title %}MCKS Fitness App{% endblock %}
+{% block page %}MCKS Fitness App{% endblock %}
 
 {{ super() }}
 
 {% block content %}
 
 <div class="center-align">
-    <button class="waves-effect waves-light btn" onclick="viewRoutines()">View Routines</button>
+    <button class="waves-effect waves-light btn" onclick="viewRoutines()" style="background-color: #336669">View Routines</button>
 </div>
 
     {% if is_authenticated %}
@@ -25,7 +25,7 @@
                     </div>
                     <div class="card-content">
                       <span class="card-title activator grey-text text-darken-4">Workout Name<i class="material-icons right">more_vert</i></span>
-                      <a class="dropdown-trigger waves-effect waves-light btn" href="#" data-target="dropdown1"><i class="material-icons right">arrow_drop_down</i>ADD</a>
+                      <a class="dropdown-trigger waves-effect waves-light btn" href="#" data-target="dropdown1"style="background-color: #336669"><i class="material-icons right">arrow_drop_down</i>ADD</a>
                       <!-- Dropdown Structure -->
                       <ul id="dropdown1" class="dropdown-content" style="width: 200px;">
                         <li><a href="#">Create new routine<i class="material-icons right">control_point</i></a></li>
