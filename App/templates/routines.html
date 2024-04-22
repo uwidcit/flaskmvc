@@ -2,7 +2,12 @@
 {% block title %}Routine{% endblock %}
 {% block page %}Routines{% endblock %}
 
+{% block body_attributes %}
+style="background-image: url('https://as2.ftcdn.net/v2/jpg/03/50/00/79/1000_F_350007935_2kvg6F1aZIbllABM5MgXj8wtCRStfeFY.jpg');  background-position: center;"
+{% endblock %}
+
 {% block content %}
+<div class ="card-panel teal lighten-4" >
 <ul>
     {% for r in routines %}
         <li>{{ r.routineName }}</li>
@@ -10,9 +15,10 @@
     </ul>
 
 <form action="/create_routine" method="post">
-<input type="text" name="name" placeholder="create">
-<button type="submit">Create</button>
+    <input type="text" name="name" placeholder="create">
+    <button type="submit" class="waves-effect waves-light btn-small cyan darken-4">Create</button>
 </form>
+</div>
 {% endblock %}
 
 

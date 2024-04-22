@@ -10,13 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>{% block title %}{% endblock %}</title>
 </head>
-<body style="background-image: url('https://as2.ftcdn.net/v2/jpg/03/50/00/79/1000_F_350007935_2kvg6F1aZIbllABM5MgXj8wtCRStfeFY.jpg');  background-position: center; " >
+<body {% block body_attributes %}{% endblock %}> <!-- style="background-image: url('https://as2.ftcdn.net/v2/jpg/03/50/00/79/1000_F_350007935_2kvg6F1aZIbllABM5MgXj8wtCRStfeFY.jpg');  background-position: center; " >-->
 
-<<<<<<< HEAD
-<nav style="background-color: #014144;">
-=======
 <nav class="cyan darken-4">
->>>>>>> 89af8b368ae3548dc45b95453b68b79d3f85b1a6
     <div class="nav-wrapper">
         <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
         <ul id="nav-mobile" class="left">
