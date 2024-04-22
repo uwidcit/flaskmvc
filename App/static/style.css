@@ -40,39 +40,5 @@
     transition: transform 0.3s ease;
     transform: scale(1.05); 
 }
-/* .dropdown {
-    display: none; 
-    margin-top: 10px; 
-}
 
-.show {
-    display: block; 
-}
-
-/* Custom dropdown styles 
-.dropdown-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.dropdown-list li {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-}
-
-.dropdown-list li:last-child {
-    border-bottom: none;
-}
-
-.info {
-    display: none;
-} */
 

@@ -8,10 +8,6 @@ from .routine import routine_views
 from .all_workouts import all_workouts_views
 from .login import login_views
 
-
-
-
-
 views = [user_views,
     index_views, 
     auth_views,

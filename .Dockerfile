@@ -18,4 +18,4 @@ EXPOSE 8085
 
 
 # Run gunicorn when the container launches
-CMD ["gunicorn", "-b", "0.0.0.0:8085", "wsgi:app"]
+CMD ["gunicorn", "-c", "gunicorn_config.py", "wsgi:app"]

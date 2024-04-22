@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, jsonify, request, flash, send_from
 from flask_jwt_extended import jwt_required, current_user, unset_jwt_cookies, set_access_cookies, create_access_token
 from sqlalchemy.exc import IntegrityError
 
+
 from.index import index_views
 from .login import login_page, login_views
 from .all_workouts import workout_page, all_workouts_views
@@ -20,6 +21,8 @@ def login_user(username, password):
     token = create_access_token(identity=user)
     return token
   return None
+
+
 
 '''
 Page/Action Routes
