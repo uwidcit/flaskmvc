@@ -12,8 +12,9 @@ routine_views = Blueprint('routine_views', __name__, template_folder='../templat
 
 @routine_views.route('/routines',methods=['GET'])
 def routine_page():
+    
     routines=get_all_routines()
-
+    
     return render_template('routines.html',routines=routines)
 
 
@@ -45,17 +46,9 @@ def delete_from_routine():
     return redirect(request.referrer)
     
 
-@routine_views.route('/view-workouts/<id>',methods=['GET'])
-def view_Workouts(id):
-    data=request.form
-    id=data['workout_id']
-    workouts=viewWorkouts(id)
-    routine=get_routine_by_id(id)
-    return render_template('userWorkouts',workouts=workouts,routine=routine)
+
     
 
 
-# if __name__ == "__main__": 
-#   app.run(host='0.0.0.0', port=8080)
 
     
