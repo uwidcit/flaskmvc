@@ -94,13 +94,13 @@ _For development run the serve command (what you execute):_
 $ flask run
 ```
 
-_For production using gunicorn (what heroku executes):_
+_For production using gunicorn (what the production server executes):_
 ```bash
 $ gunicorn wsgi:app
 ```
 
 # Deploying
-You can deploy your version of this app to heroku by clicking on the "Deploy to heroku" link above.
+You can deploy your version of this app to render by clicking on the "Deploy to Render" link above.
 
 # Initializing the Database
 When connecting the project to a fresh empty database ensure the appropriate configuration is set then file then run the following command. This must also be executed once when running the app on heroku by opening the heroku console, executing bash and running the command in the dyno.
