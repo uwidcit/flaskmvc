@@ -39,6 +39,10 @@ def login_action():
         set_access_cookies(response, token) 
     return response
 
+@auth_views.route('/login', methods=['GET'])
+def login_page():
+    return render_template('login.html')
+
 @auth_views.route('/logout', methods=['GET'])
 def logout_action():
     response = redirect(request.referrer) 
