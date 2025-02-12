@@ -23,7 +23,7 @@ class UserUnitTests(unittest.TestCase):
 
     def test_new_user(self):
         user = User("bob", "bobpass")
-        assert user.username == "bob"
+        assert user.email == "bob"
 
     # pure function no side effects or integrations called
     def test_get_json(self):
@@ -64,7 +64,7 @@ class UsersIntegrationTests(unittest.TestCase):
 
     def test_create_user(self):
         user = create_user("rick", "bobpass")
-        assert user.username == "rick"
+        assert user.email == "rick"
 
     def test_get_all_users_json(self):
         users_json = get_all_users_json()
