@@ -31,13 +31,15 @@ def identify_page():
 def login_action():
     data = request.form
     token = login(data['email'], data['password'])
-    response = redirect(request.referrer)
+    
     if not token:
-        flash('Bad username or password given'), 401
-    else:
-        flash('Login Successful')
-        set_access_cookies(response, token) 
-    return jsonify({"success": True, "redirect": url_for("auth_views.get_user_page")}), 200
+            flash('Invalid email or password')
+            return redirect(url_for('auth_views.login_page'))
+        
+    response = redirect(url_for('auth_views.get_user_page'))
+    set_access_cookies(response, token)
+    flash('Login Successful')
+    return response
 
 @auth_views.route('/login', methods=['GET'])
 def login_page():
