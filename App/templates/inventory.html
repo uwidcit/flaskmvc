@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iGOVTT - Asset Inventory</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+    
+</head>
+<body>
+    <div class="sidebar">
+        <div class="profile-section">
+            <img src="{{ url_for('static', filename='images/profile_icon.png') }}" alt="Profile" class="profile-image">
+            <h5 class="mb-1">John Doe</h5>
+            <small class="text-muted">816033593</small>
+        </div>
+
+        <nav>
+            <a href="#" class="nav-item active">Inventory</a>
+            <a href="#" class="nav-item">Area Audit</a>
+            <a href="#" class="nav-item">Discrepency Report</a>
+        </nav>
+        
+        <div class="sidebar-bottom">
+            <a href="#" class="nav-item">Settings</a>
+            <a href="#" class="nav-item text-danger">Log Out</a>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <h2 class="mb-4">Asset Inventory</h2>
+        
+        <div class="search-container">
+            <div class="search-bar">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search">
+            </div>
+            <a href="#" class="add-asset-btn">Add Asset</a>
+        </div>
+
+        <div class="inventory-table">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">Item ▼</th>
+                        <th onclick="sortTable(1)">Asset Tag ▼</th>
+                        <th onclick="sortTable(2)">Class ▼</th>
+                        <th onclick="sortTable(3)">Location ▼</th>
+                        <th onclick="sortTable(4)">Condition ▼</th>
+                        <th onclick="sortTable(5)">Assignee ▼</th>
+                        <th onclick="sortTable(6)">Last Updated ▼</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for asset in assets %}
+                    <tr>
+                        <td>{{ asset.item }}</td>
+                        <td>{{ asset.asset_tag }}</td>
+                        <td>{{ asset.class_type }}</td>
+                        <td>{{ asset.location }}</td>
+                        <td>
+                            <span class="status-dot status-{{ asset.condition.lower() }}"></span>
+                            {{ asset.condition }}
+                        </td>
+                        <td>{{ asset.assignee }}</td>
+                        <td>{{ asset.last_updated.strftime('%d/%m/%Y') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if show_pagination %}
+        <div class="d-flex justify-content-center mt-4">
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
+                        <a class="page-link" href="?page={{ current_page - 1 }}">←</a>
+                    </li>
+                    
+                    {% for page in range(1, total_pages + 1) %}
+                    <li class="page-item {% if page == current_page %}active{% endif %}">
+                        <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                    </li>
+                    {% endfor %}
+                    
+                    <li class="page-item {% if current_page == total_pages %}disabled{% endif %}">
+                        <a class="page-link" href="?page={{ current_page + 1 }}">→</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.querySelector('.inventory-table table');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const th = table.querySelectorAll('th')[columnIndex];
+            const isAscending = th.classList.contains('asc');
+            
+            table.querySelectorAll('th').forEach(header => {
+                header.textContent = header.textContent.replace(' ▼', '').replace(' ▲', '') + ' ▼';
+            });
+            
+            th.textContent = th.textContent.replace(' ▼', '') + (isAscending ? ' ▼' : ' ▲');
+            th.classList.toggle('asc');
+            
+
+            rows.sort((a, b) => {
+                const aValue = a.cells[columnIndex].textContent;
+                const bValue = b.cells[columnIndex].textContent;
+                return isAscending ? 
+                    bValue.localeCompare(aValue) : 
+                    aValue.localeCompare(bValue);
+            });
+            
+            tbody.innerHTML = '';
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        document.getElementById('searchInput').addEventListener('input', debounce(function(e) {
+            const searchValue = e.target.value;
+            window.location.href = `?search=${encodeURIComponent(searchValue)}`;
+        }, 500));
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+    </script>
+</body>
+</html>
