@@ -36,7 +36,7 @@ def login_action():
             flash('Invalid email or password')
             return redirect(url_for('auth_views.login_page'))
         
-    response = redirect(url_for('auth_views.get_user_page'))
+    response = redirect(url_for('inventory_views.inventory_page'))
     set_access_cookies(response, token)
     flash('Login Successful')
     return response
