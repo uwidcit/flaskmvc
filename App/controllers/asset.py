@@ -1,9 +1,16 @@
 from App.models import Asset 
+from App.models import Assignee
+from App.controllers import Location
 from App.database import db 
 
 
-def add_asset(id, name, item_class, last_update, serial_number, change_log):
-    newAsset = Asset(id, name, item_class, last_update, serial_number, change_log)
+def add_asset(id, name, item_class,location_id, fname, lname, location_id, last_update, serial_number, change_log):
+    assignee = get_assignee(fname, lname)
+    
+    
+    newAsset = Asset(id, name, item_class, assignee.id, location_id, last_update, serial_number, change_log)
+    
+    
     try:
         db.session.add(newAsset)
         db.session.commit()
@@ -30,5 +37,12 @@ def update_condition(id, condition):
     asset.condition = condition
     
     return asset
+
+def get_assignee(fname, lname):
+    assignee = Assignee.query.filter_by(fname = fname, lname = lname).first()
+    return assignee
+
+
+    
     
     
