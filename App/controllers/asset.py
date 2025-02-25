@@ -1,6 +1,6 @@
 from App.models import Asset 
-from App.controllers import Assignee
-from App.controllers import Location
+from App.controllers.assignee import *
+from App.controllers.location import *
 from App.database import db 
 
 
@@ -38,11 +38,8 @@ def update_condition(id, condition):
     
     return asset
 
-def get_assignee(fname, lname):
-    return get_assignee_by_firstname_last_name(fname,lname)
-
 def add_asset(id, name, item_class,location_id, fname, lname, last_update, serial_number, change_log, email):
-    assignee = get_assignee(fname, lname)
+    assignee = get_assignee_by_fname_lname(fname, lname)
     if assignee is None:
         assignee = create_assignee(fname, lname, email)
     
