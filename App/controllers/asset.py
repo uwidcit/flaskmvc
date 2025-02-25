@@ -1,5 +1,5 @@
 from App.models import Asset 
-from App.models import Assignee
+from App.controllers import Assignee
 from App.controllers import Location
 from App.database import db 
 
@@ -39,8 +39,25 @@ def update_condition(id, condition):
     return asset
 
 def get_assignee(fname, lname):
-    assignee = Assignee.query.filter_by(fname = fname, lname = lname).first()
-    return assignee
+    return get_assignee_by_firstname_last_name(fname,lname)
+
+def add_asset(id, name, item_class,location_id, fname, lname, last_update, serial_number, change_log, email):
+    assignee = get_assignee(fname, lname)
+    if assignee is None:
+        assignee = create_assignee(fname, lname, email)
+    
+    
+    newAsset = Asset(id, name, item_class, assignee.id, location_id, last_update, serial_number, change_log)
+    
+    
+    try:
+        db.session.add(newAsset)
+        db.session.commit()
+        return newAsset
+    except:
+        db.session.rollback()
+        return None
+    
 
 
     
