@@ -4,7 +4,7 @@ from App.controllers import Location
 from App.database import db 
 
 
-def add_asset(id, name, item_class,location_id, fname, lname, location_id, last_update, serial_number, change_log):
+def add_asset(id, name, item_class,location_id, fname, lname, last_update, serial_number, change_log):
     assignee = get_assignee(fname, lname)
     
     
