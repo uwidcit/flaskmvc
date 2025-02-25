@@ -38,3 +38,7 @@ def update_assignee(id, fname, lname, email):
         db.session.commit()
         return assignee
     return None
+
+def get_assignee_by_fname_lname(fname, lname):
+    assignee = Assignee.query.filter_by(fname = fname, lname = lname).first()
+    return assignee
