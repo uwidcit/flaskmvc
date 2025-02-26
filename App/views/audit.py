@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, jsonify, request
 from App.controllers.building import get_all_building_json
 from App.controllers.floor import get_floors_by_building
 from App.controllers.room import get_rooms_by_floor
-from App.controllers.asset import get_all_assets_json
+from App.controllers.asset import get_all_assets_json, get_all_assets_by_room_id,get_all_assets, get_all_assets_by_room_json
 
 audit_views = Blueprint('audit_views', __name__, template_folder='../templates')
 
@@ -26,6 +26,16 @@ def get_rooms(floor_id):
 
 @audit_views.route('/api/assets/<room_id>')
 def get_room_assets(room_id):
-    all_assets = get_all_assets_json()
-    room_assets = [asset for asset in all_assets if asset['room_id'] == int(room_id)]
+    print(get_all_assets())
+    try:
+        room_id_int = int(room_id)  # Convert to integer
+    except ValueError:
+        return jsonify({"error": "Invalid room ID"}), 400
+
+    print(f"Fetching assets for room ID: {room_id_int}")
+    room_assets = get_all_assets_by_room_json(room_id_int)
+    
+    print(f"Found {len(room_assets)} assets for room {room_id_int}")
+    print(f"Sample of returned data: {room_assets[:1]}")
+    
     return jsonify(room_assets)

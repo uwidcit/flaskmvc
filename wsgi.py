@@ -29,8 +29,8 @@ def init():
     initialize()
     print('database intialized')
 
-    # Sample data for assets
-    add_asset(1, "Laptop", "ThinkPad X1", "Lenovo", "SN12345", 1, 1, datetime.now(), "Good condition", "Active")
+    #Sample data for assets
+    add_asset( 1, "Laptop", "ThinkPad X1", "Lenovo", "SN12345", 1, 1, datetime.now(), "Good condition", "Active")
     add_asset(2, "Projector", "Epson X300", "Epson", "SN67890", 2, 2, datetime.now(), "Mounted on ceiling", "Active")
     print("Assets created.")
 
@@ -53,6 +53,7 @@ def init():
     create_floor(1, 1, "1st Floor")
     create_floor(2, 2, "2nd Floor")
     print("Floors created.")
+    
 
     # Sample data for history
     get_all_history_by_asset(1)
@@ -69,10 +70,10 @@ def init():
     create_room(2, 2, "Asset Room: 201")
     print("Rooms created.")
 
-    # Sample data for scan events
-    add_scan_event(1, 1, datetime.now(), "Checked In", "Routine check")
-    add_scan_event(2, 2, datetime.now(), "Checked Out", "For external use")
-    print("Scan events created.")
+    #Sample data for scan events
+    # add_scan_event(1, 1, datetime.now(), "Checked In", "Routine check")
+    # add_scan_event(2, 2, datetime.now(), "Checked Out", "For external use")
+    # print("Scan events created.")
 
     print("Sample data succesful.")
 

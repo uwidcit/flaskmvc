@@ -12,23 +12,23 @@ class ScanEvent(db.Model):
     status = db.Column(db.String, nullable = False)
     notes = db.Column(db.String(120), nullable = True)
     
-def __init__(self, scan_id, asset_id, user_id, room_id, scan_time, status, notes):
-    self.scan_id = scan_id
-    self.asset_id = asset_id
-    self.user_id = user_id
-    self.room_id = room_id
-    self.scan_time = scan_time
-    self.status = status
-    self.notes = notes
+    def __init__(self, scan_id, asset_id, user_id, room_id, scan_time, status, notes):
+        self.scan_id = scan_id
+        self.asset_id = asset_id
+        self.user_id = user_id
+        self.room_id = room_id
+        self.scan_time = scan_time
+        self.status = status
+        self.notes = notes
 
 
-def get_json(self):
-    return{
-        'scan_id: ': self.scan_id,
-        'asset_id: ': self.asset_id,
-        'user_id: ': self.user_id,
-        'room_id: ': self.room_id,
-        'scan_time: ': self.scan_time,
-        'status: ': self.status,
-        'notes: ': self.notes
-    }
+    def get_json(self):
+        return{
+            'scan_id: ': self.scan_id,
+            'asset_id: ': self.asset_id,
+            'user_id: ': self.user_id,
+            'room_id: ': self.room_id,
+            'scan_time: ': self.scan_time,
+            'status: ': self.status,
+            'notes: ': self.notes
+        }
