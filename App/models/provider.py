@@ -1,6 +1,6 @@
 from App.database import db
 
-class Provider(db.model):
+class Provider(db.Model):
     provider_id = db.Column(db.String(30), primary_key=True)
     provider_name = db.Column(db.String(30), nullable=False)
     contact_info = db.Column(db.String(30), nullable=False)

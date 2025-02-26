@@ -1,6 +1,5 @@
 from App.database import db
 from sqlalchemy import *
-from App.models import Location
 from App.models import Assignee
 from App.models import Asset
 
@@ -10,8 +9,8 @@ class ScanEvent(db.Model):
     user_id = db.Column(db.String, db.ForeignKey('user.id'), nullable = False)
     room_id = db.Column(db.String, db.ForeignKey('location.id'), nullable = False)
     scan_time = db.Column(db.DateTime, default=db.func.current_timestamp())
-    status = db.Column(db.String, Nullable = False)
-    notes = db.Column(db.String(120), Nullable = True)
+    status = db.Column(db.String, nullable = False)
+    notes = db.Column(db.String(120), nullable = True)
     
 def __init__(self, scan_id, asset_id, user_id, room_id, scan_time, status, notes):
     self.scan_id = scan_id

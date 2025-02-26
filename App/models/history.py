@@ -1,18 +1,18 @@
+from datetime import datetime
 from App.database import db
 from App.models import asset 
-from App.models import location
 from App.models import assignee
 from sqlalchemy import *
 
 
 
 class History(db.Model):
-    id = db.Column(db.Integer, primary_key = True, Nullable = False, unique = True)
+    id = db.Column(db.Integer, primary_key = True, nullable = False, unique = True)
     
     asset_id = db.Column(db.Integer,db.ForeignKey('asset.id'), nullable=False)
     asset = db.relationship('Asset', back_populates='history', overlaps="asset")
     
-    last_update = db.Column(db.DateTime, default=asset.last_update)
+    last_update = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
    
     changeLog = db.Column(db.String(200), nullable = True)
     

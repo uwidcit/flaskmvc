@@ -1,6 +1,5 @@
 from App.models import Asset 
 from App.controllers.assignee import *
-from App.controllers.location import *
 from App.database import db 
 
 
