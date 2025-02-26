@@ -23,8 +23,20 @@ def get_asset(id):
 def get_all_assets():
     return Asset.query.all()
 
+def get_all_assets_by_room_id(room_id):
+    assets = Asset.query.filter_by(room_id=room_id).all()
+    return assets
+
 def get_all_assets_json():
     assets = get_all_assets()
+    if not assets:
+        return[]
+    assets = [asset.get_json() for asset in assets]
+    return assets
+
+
+def get_all_assets_by_room_json():
+    assets = get_all_assets_by_room_id()
     if not assets:
         return[]
     assets = [asset.get_json() for asset in assets]
