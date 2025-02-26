@@ -12,19 +12,19 @@
     <div class="sidebar">
         <div class="profile-section">
             <img src="{{ url_for('static', filename='images/profile_icon.png') }}" alt="Profile" class="profile-image">
-            <h5 class="mb-1">John Doe</h5>
-            <small class="text-muted">816033593</small>
+            <h5 class="mb-1">{{current_user.username}}</h5>
+            <small class="text-muted">{{current_user.email}}</small>
         </div>
 
         <nav>
             <a href="#" class="nav-item active">Inventory</a>
-            <a href="#" class="nav-item">Area Audit</a>
+            <a href="/audit" class="nav-item">Area Audit</a>
             <a href="#" class="nav-item">Discrepency Report</a>
         </nav>
         
         <div class="sidebar-bottom">
             <a href="#" class="nav-item">Settings</a>
-            <a href="#" class="nav-item text-danger">Log Out</a>
+            <a href="/login" class="nav-item text-danger">Log Out</a>
         </div>
     </div>
 
