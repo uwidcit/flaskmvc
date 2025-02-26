@@ -1,7 +1,7 @@
 from App.database import db
 from datetime import datetime
 
-class AsserAssignment(db.Model):
+class AssetAssignment(db.Model):
     assignment_id = db.Column(db.String(50), primary_key=True)
     asset_id = db.Column(db.String(50), db.ForeignKey('asset.id'), nullable=False)
     assigned_to_assignee_id = db.Column(db.String(50), db.ForeignKey('assignee.id'), nullable=False)
