@@ -10,15 +10,14 @@ class Asset(db.Model):
     brand = db.Column(db.String(120), Nullable = True)
     serial_number = db.Column(db.String(20), Nullable = True)
     
-    # name = db.Column(db.String(120), Nullable = False, unique=False)
-    # item_class = db.Column(db.String(120), Nullable = False)
     
-    room_id = db.Column(db.String, db.ForeignKey('room.id'), nullable = False)
+    
+    room_id = db.Column(db.String, db.ForeignKey('room.room_id'), nullable = False)
     assignee_id = db.Column(db.Integer, db.ForeignKey('assignee.id'), nullable = False)
     last_update = db.Column(db.DateTime, default=db.func.current_timestamp())
     
     
-   # change_log = db.Column(db.String(300), Nullable = True)
+   
     notes = db.Column(db.String(300), Nullable = True)
     status = db.Column(db.String(120), Nullable = False)
     
