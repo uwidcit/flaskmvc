@@ -5,11 +5,7 @@ from App.database import db
 
 
 def add_asset(description, model, brand, serial_number, room_id, assignee_id,last_update, notes, status):
-   
-
-   
-    
-    
+     
     newAsset = Asset(description, model, brand, serial_number, room_id, assignee_id, last_update, notes, status)
     
     
@@ -35,8 +31,8 @@ def get_all_assets_json():
     return assets
 
 
-
 def add_asset(id, description, model, brand, serial_number, room_id, assignee_id, last_update, notes, status):
+
 
     
     newAsset = Asset(id, description, model, brand, serial_number, room_id, assignee_id, last_update, notes, status)
