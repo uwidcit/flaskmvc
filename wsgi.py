@@ -58,6 +58,39 @@ def list_user_command(format):
 
 app.cli.add_command(user_cli) # add the group to the cli
 
+asset_cli = AppGroup('asset', help="Asset object commands")
+
+@asset_cli.command("create", help="creates an asset")
+@click.argument("description", dfault="")
+@click.argument("model", default="")
+@click.argument("brand", default="")
+@click.argument("serial_number", default="00000000")
+@click.argument("room_id", default ="01")
+@click.argument("assignee_id", default="01")
+@click.argument("last_update", default="02/02/2002")
+@click.argument("notes", default="")
+@click.argument("status", default="Good Condition")
+
+def add_asset_command(description, model, brand, serial_number, room_id, assignee_id,last_update, notes, status):
+    asset = add_asset(description, model, brand, serial_number, room_id, assignee_id,last_update, notes, status)
+    if asset is None:
+        print('Error creating asset')
+    else:
+        print(f'{asset} created!')
+        
+        
+@asset_cli.command("list_id", help="Lists assets with a ceratain id")
+@click.argument("room_id", default="string")
+def list_user_command(format):
+    if format == 'string':
+        print(get_all_assets_by_room_id())
+    else:
+        print(get_all_assets_by_room_json())
+
+
+
+app.cli.add_command(asset_cli) # add the group to the cli
+
 '''
 Test Commands
 '''
