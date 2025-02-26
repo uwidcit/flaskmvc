@@ -5,7 +5,7 @@ from App.database import db
 
 
 def add_asset(id, name, item_class,location_id, fname, lname, last_update, serial_number, change_log):
-    assignee = get_assignee(fname, lname)
+    assignee = get_assignee_by_fname_lname(fname, lname)
     
     
     newAsset = Asset(id, name, item_class, assignee.id, location_id, last_update, serial_number, change_log)
