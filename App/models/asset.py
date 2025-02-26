@@ -9,20 +9,17 @@ class Asset(db.Model):
     brand = db.Column(db.String(120), nullable = True)
     serial_number = db.Column(db.String(20), nullable = True)
     
-    # name = db.Column(db.String(120), Nullable = False, unique=False)
-    # item_class = db.Column(db.String(120), Nullable = False)
     
+    
+    room_id = db.Column(db.String, db.ForeignKey('room.room_id'), nullable = False)
     room_id = db.Column(db.String, db.ForeignKey('room.room_id'), nullable = False)
     assignee_id = db.Column(db.Integer, db.ForeignKey('assignee.id'), nullable = False)
     last_update = db.Column(db.DateTime, default=db.func.current_timestamp())
     
     
    # change_log = db.Column(db.String(300), Nullable = True)
-    notes = db.Column(db.String(300), nullable = True)
-    status = db.Column(db.String(120), nullable = False)
-    
-    history = db.relationship('History', back_populates='asset')
-    
+    notes = db.Column(db.String(300), Nullable = True)
+    status = db.Column(db.String(120), Nullable = False)
     
 def __init__(self,description, model, brand, serial_number, room_id, assignee_id, last_update, notes, status):
     self.description = description
