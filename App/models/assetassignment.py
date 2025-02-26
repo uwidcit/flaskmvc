@@ -3,8 +3,8 @@ from datetime import datetime
 
 class AsserAssignment(db.Model):
     assignment_id = db.Column(db.String(50), primary_key=True)
-    asset_id = db.Column(db.String(50), db.ForeignKey('asset.asset_id'), nullable=False)
-    assigned_to_assignee_id = db.Column(db.String(50), db.ForeignKey('assignee.assignee.id'), nullable=False)
+    asset_id = db.Column(db.String(50), db.ForeignKey('asset.id'), nullable=False)
+    assigned_to_assignee_id = db.Column(db.String(50), db.ForeignKey('assignee.id'), nullable=False)
     floor_id = db.Column(db.String(50), db.ForeignKey('floor.floor_id'), nullable=False)
     assignment_date = db.Column(
         db.String(50), nullable=False, default=lambda: datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')

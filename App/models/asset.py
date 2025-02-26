@@ -12,7 +12,7 @@ class Asset(db.Model):
     # name = db.Column(db.String(120), Nullable = False, unique=False)
     # item_class = db.Column(db.String(120), Nullable = False)
     
-    room_id = db.Column(db.String, db.ForeignKey('room.id'), nullable = False)
+    room_id = db.Column(db.String, db.ForeignKey('room.room_id'), nullable = False)
     assignee_id = db.Column(db.Integer, db.ForeignKey('assignee.id'), nullable = False)
     last_update = db.Column(db.DateTime, default=db.func.current_timestamp())
     
@@ -20,6 +20,9 @@ class Asset(db.Model):
    # change_log = db.Column(db.String(300), Nullable = True)
     notes = db.Column(db.String(300), nullable = True)
     status = db.Column(db.String(120), nullable = False)
+    
+    history = db.relationship('History', back_populates='asset')
+    
     
 def __init__(self,description, model, brand, serial_number, room_id, assignee_id, last_update, notes, status):
     self.description = description
