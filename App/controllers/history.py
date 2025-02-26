@@ -3,16 +3,14 @@ from App.database import db
 from App.models import Asset 
 from App.controllers import Asset
 
-#def get_missing():
 
-def get_all_assets_by_condition(condition):
-    return Asset.query.filter_by(condition = condition).all()
 
-def get_all_assets_by_assignee(id):
-    return Asset.query.filter_by(id = id).all()
+def get_all_history_by_condition(condition):
+    return History.query.filter_by(condition = condition).all()
 
-def get_all_assets_by_location(id):
-    return Asset.query.filter_by(id = id).all()
+def get_all_history_by_date(last_update):
+    return History.query.filter_by(last_update = last_update).all()
 
-def get_all_assets_by_date(date_updated):
-    return Asset.query.filter_by(date_updated = date_updated).all()
+def get_all_history_by_asset(asset_id):
+    return History.query.filter_by(asset_id = asset_id).all()
+
