@@ -27,3 +27,4 @@ def update_floor(floor_id, building_id, floor_name):
     if not floor: return None
     floor.building_id = building_id
     floor.floor_name = floor_name
+    return db.session.commit()

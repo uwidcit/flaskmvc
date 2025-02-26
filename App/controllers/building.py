@@ -26,3 +26,9 @@ def get_all_building_json():
     buildings = [building.get_json() for building in buildings]
     return buildings
 
+def update_building(building_id, building_name):
+    building = get_building(building_id)
+    if not building: return None
+    building.building_name = building_id
+    return db.session.commit()
+
