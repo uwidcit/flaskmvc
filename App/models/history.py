@@ -4,7 +4,7 @@ from App.models import location
 from App.models import assignee
 from sqlalchemy import *
 
-conditions = ['Good', 'Missing', 'Misplaced']
+
 
 class History(db.Model):
     id = db.Column(db.Integer, primary_key = True, Nullable = False, unique = True)
@@ -12,40 +12,25 @@ class History(db.Model):
     asset_id = db.Column(db.Integer,db.ForeignKey('asset.id'), nullable=False)
     asset = db.relationship('Asset', back_populates='history', overlaps="asset")
     
-    date_updated = db.Column(db.DateTime, default=asset.date_updated)
-    location_name = db.Column(db.String(), db.ForeignKey('location.id'), nullable = False)
-    location = db.relationship('Location', back_populates='history', overlaps="location")
+    last_update = db.Column(db.DateTime, default=asset.last_update)
    
-    assignee_name = db.Column(db.String(), db.ForeignKey('assignee.id'), nullable = False)
-    assignee = db.relationship('Assignee', back_populates='history', overlaps="assignee")
-    
-    condition = db.Column(db.String(120))
     changeLog = db.Column(db.String(200), nullable = True)
     
     
-    def __init__(self, asset_id, date_updated, location, assignee, condition, changeLog):
+    def __init__(self, asset_id, last_update,  status, changeLog):
         self.asset_id = asset_id
-        self.dateUpdated = date_updated
-        self.location = location
-        self.assignee = assignee
-        if condition is None:
-            self.condition = 'Good'
-        else:
-            self.validate_and_set_condition(condition)
+        self.last_update = last_update
+        self.status = status
         self.changeLog = changeLog
 
 
-    def validate_and_set_condition(self, a_condition):
-        valid_condition = [condition for condition in a_condition if condition in conditions] 
-        self.condition ='|'.join(valid_condition)
+
     
     def get_json(self):
         return{
             'id: ':self.id,
             'asset_id: ':self.asset_id,
-            'date updated: ':self.dateUpdated,
-            'location: ':self.location,
-            'assignee: ':self.assignee,
-            'condition: ':self.condition,
+            'last_update: ':self.last_update,
+            'status: ':self.status,
             'change log: ':self.changeLog
         }
