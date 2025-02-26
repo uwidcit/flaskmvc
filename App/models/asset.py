@@ -18,8 +18,11 @@ class Asset(db.Model):
     
     
    # change_log = db.Column(db.String(300), Nullable = True)
-    notes = db.Column(db.String(300), Nullable = True)
-    status = db.Column(db.String(120), Nullable = False)
+    notes = db.Column(db.String(300), nullable = True)
+    status = db.Column(db.String(120), nullable = False)
+    
+    history = db.relationship('History', back_populates='asset')
+    
     
 def __init__(self,description, model, brand, serial_number, room_id, assignee_id, last_update, notes, status):
     self.description = description
