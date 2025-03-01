@@ -180,6 +180,44 @@ object-fit: cover;
     margin-right: 5px;
 }
 
+.audit-method-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start; /* Keep buttons left-aligned */
+}
+
+.audit-method-btn {
+    width: 120px !important; /* Fixed width */
+    height: 60px !important; /* Fixed height */
+    padding: 8px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    border: 2px solid transparent !important;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.audit-method-btn.btn-primary {
+    background-color: var(--primary-blue) !important; 
+    border-color: var(--primary-blue) !important;
+}
+
+.audit-method-btn:hover {
+    background-color: #e9ecef !important;
+}
+
+.audit-method-btn:active {
+    transform: scale(0.98) !important;
+}
+
+.audit-method-btn:focus {
+    box-shadow: none !important;
+}
+
 .status-good { background: #2ecc71; }
 .status-missing { background: #e74c3c; }
 .status-misplaced { background: #f1c40f; }

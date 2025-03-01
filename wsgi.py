@@ -29,8 +29,8 @@ def init():
     initialize()
     print('database intialized')
 
-    # Sample data for assets
-    add_asset(1, "Laptop", "ThinkPad X1", "Lenovo", "SN12345", 1, 1, datetime.now(), "Good condition", "Active")
+    #Sample data for assets
+    add_asset( 1, "Laptop", "ThinkPad X1", "Lenovo", "SN12345", 1, 1, datetime.now(), "Good condition", "Active")
     add_asset(2, "Projector", "Epson X300", "Epson", "SN67890", 2, 2, datetime.now(), "Mounted on ceiling", "Active")
     print("Assets created.")
 
@@ -53,6 +53,7 @@ def init():
     create_floor(1, 1, "1st Floor")
     create_floor(2, 2, "2nd Floor")
     print("Floors created.")
+    
 
     # Sample data for history
     get_all_history_by_asset(1)
@@ -69,10 +70,10 @@ def init():
     create_room(2, 2, "Asset Room: 201")
     print("Rooms created.")
 
-    # Sample data for scan events
-    add_scan_event(1, 1, datetime.now(), "Checked In", "Routine check")
-    add_scan_event(2, 2, datetime.now(), "Checked Out", "For external use")
-    print("Scan events created.")
+    #Sample data for scan events
+    # add_scan_event(1, 1, datetime.now(), "Checked In", "Routine check")
+    # add_scan_event(2, 2, datetime.now(), "Checked Out", "For external use")
+    # print("Scan events created.")
 
     print("Sample data succesful.")
 
@@ -110,7 +111,7 @@ app.cli.add_command(user_cli) # add the group to the cli
 asset_cli = AppGroup('asset', help="Asset object commands")
 
 @asset_cli.command("create", help="creates an asset")
-@click.argument("description", dfault="")
+@click.argument("description", default="")
 @click.argument("model", default="")
 @click.argument("brand", default="")
 @click.argument("serial_number", default="00000000")
@@ -120,8 +121,8 @@ asset_cli = AppGroup('asset', help="Asset object commands")
 @click.argument("notes", default="")
 @click.argument("status", default="Good Condition")
 
-def add_asset_command(description, model, brand, serial_number, room_id, assignee_id,last_update, notes, status):
-    asset = add_asset(description, model, brand, serial_number, room_id, assignee_id,last_update, notes, status)
+def add_asset_command(id, description, model, brand, serial_number, room_id, assignee_id,last_update, notes, status):
+    asset = add_asset(id, description, model, brand, serial_number, room_id, assignee_id,last_update, notes, status)
     if asset is None:
         print('Error creating asset')
     else:

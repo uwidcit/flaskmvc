@@ -1,7 +1,7 @@
 from App.models import History
 from App.database import db
 from App.models import Asset 
-from App.controllers import Asset
+from App.controllers.asset import *
 
 
 

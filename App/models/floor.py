@@ -1,9 +1,9 @@
 from App.database import db
 
-class Floor(db.model):
-    floor_id = db.column(db.string(30), primary_key=True)
+class Floor(db.Model):
+    floor_id = db.Column(db.String(30), primary_key=True)
     building_id = db.Column(db.String(30), db.ForeignKey('building.building_id'), nullable=False)
-    floor_name = db.column(db.string(30), nullable=False)
+    floor_name = db.Column(db.String(30), nullable=False)
     
     building = db.relationship('Building', backref=db.backref('floors', lazy=True))
     
