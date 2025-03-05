@@ -1,3 +1,5 @@
+// Maintain existing code at the top of the file
+
 let currentAuditMethod = 'manual';
 let currentBuilding = null;
 let currentFloor = null;
@@ -5,6 +7,16 @@ let currentRoom = null;
 let expectedAssets = [];
 let scannedAssets = [];
 let isRoomAuditActive = false;
+
+// Global variables for scanner functionality
+let isScanning = false;
+let scanBuffer = '';
+let scanTimeout = null;
+const SCAN_TIMEOUT_MS = 20; // Timeout between scanner inputs
+
+// Add these new variables for RFID and QR scanning
+let isRFIDScanning = false;
+let isQRScanning = false;
 
 function loadFloors() {
     const buildingSelect = document.getElementById('buildingSelect');
@@ -194,9 +206,17 @@ function displayExpectedAssets() {
 }
 
 function setAuditMethod(method) {
-    // If switching away from barcode, stop scanning
-    if (isScanning && currentAuditMethod === 'barcode' && method !== 'barcode') {
+    // Stop any active scanning methods
+    if (isScanning && currentAuditMethod === 'barcode') {
         stopBarcodeScan();
+    }
+    
+    if (isRFIDScanning && currentAuditMethod === 'rfid') {
+        stopRFIDScan();
+    }
+    
+    if (isQRScanning && currentAuditMethod === 'qrcode') {
+        stopQRScan();
     }
     
     // Update current method
@@ -215,9 +235,15 @@ function setAuditMethod(method) {
     // Update interface based on selected method
     updateScanningInterface();
     
-    // If switching to barcode and room audit is active, start barcode scanning
-    if (method === 'barcode' && isRoomAuditActive) {
-        startBarcodeScan();
+    // If room audit is active, start the appropriate scanning method
+    if (isRoomAuditActive) {
+        if (method === 'barcode') {
+            startBarcodeScan();
+        } else if (method === 'rfid') {
+            startRFIDScan();
+        } else if (method === 'qrcode') {
+            startQRScan();
+        }
     }
 }
 
@@ -226,7 +252,14 @@ function updateScanningInterface() {
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('manualSearchButton');
     const scanIndicator = document.getElementById('scanIndicator');
+    const rfidIndicator = document.getElementById('rfidIndicator');
+    const qrIndicator = document.getElementById('qrIndicator');
     const manualSearchGroup = document.getElementById('manualSearchGroup');
+    
+    // Hide all indicators first
+    if (scanIndicator) scanIndicator.style.display = 'none';
+    if (rfidIndicator) rfidIndicator.style.display = 'none';
+    if (qrIndicator) qrIndicator.style.display = 'none';
     
     // Handle manual search interface
     if (currentAuditMethod === 'manual') {
@@ -236,12 +269,14 @@ function updateScanningInterface() {
         manualSearchGroup.style.display = 'none';
     }
     
-    // Handle scan indicator based on method and active state
-    if (scanIndicator) {
-        if (isRoomAuditActive && currentAuditMethod === 'barcode') {
+    // Show the appropriate scanning indicator if active
+    if (isRoomAuditActive) {
+        if (currentAuditMethod === 'barcode' && scanIndicator) {
             scanIndicator.style.display = 'block';
-        } else {
-            scanIndicator.style.display = 'none';
+        } else if (currentAuditMethod === 'rfid' && rfidIndicator) {
+            rfidIndicator.style.display = 'block';
+        } else if (currentAuditMethod === 'qrcode' && qrIndicator) {
+            qrIndicator.style.display = 'block';
         }
     }
 }
@@ -269,6 +304,10 @@ function startRoomAudit() {
     // Start the appropriate scanning method
     if (currentAuditMethod === 'barcode') {
         startBarcodeScan();
+    } else if (currentAuditMethod === 'rfid') {
+        startRFIDScan();
+    } else if (currentAuditMethod === 'qrcode') {
+        startQRScan();
     }
     
     // Show the scan counter
@@ -283,6 +322,14 @@ function stopRoomAudit() {
         stopBarcodeScan();
     }
     
+    if (isRFIDScanning) {
+        stopRFIDScan();
+    }
+    
+    if (isQRScanning) {
+        stopQRScan();
+    }
+    
     // Update the main button
     const toggleButton = document.getElementById('toggleRoomAudit');
     toggleButton.textContent = 'Start Room Audit';
@@ -293,28 +340,141 @@ function stopRoomAudit() {
     updateScanningInterface();
 }
 
-function showScanIndicator() {
-    const scanIndicator = document.getElementById('scanIndicator');
+// RFID Scanning Functions
+function startRFIDScan() {
+    if (!isRoomAuditActive || currentAuditMethod !== 'rfid') return;
     
-    if (scanIndicator) {
-        scanIndicator.style.display = 'block';
+    isRFIDScanning = true;
+    
+    // Create RFID scanning indicator if it doesn't exist
+    ensureRFIDIndicatorExists();
+    
+    // Show RFID scanning indicator
+    const rfidIndicator = document.getElementById('rfidIndicator');
+    if (rfidIndicator) {
+        rfidIndicator.style.display = 'block';
+    }
+    
+    // In a real implementation, you would initialize RFID scanner here
+    console.log('RFID scanning started');
+    
+    // Simulate RFID scanning for demo purposes
+    // In a real implementation, you would connect to the RFID reader API
+    simulateRFIDScan();
+}
+
+function stopRFIDScan() {
+    if (!isRFIDScanning) return;
+    
+    isRFIDScanning = false;
+    
+    // Hide RFID scanning indicator
+    const rfidIndicator = document.getElementById('rfidIndicator');
+    if (rfidIndicator) {
+        rfidIndicator.style.display = 'none';
+    }
+    
+    // In a real implementation, you would stop the RFID scanner here
+    console.log('RFID scanning stopped');
+    
+    // Clear any simulated scanning timeouts
+    if (window.rfidSimulationInterval) {
+        clearInterval(window.rfidSimulationInterval);
+        window.rfidSimulationInterval = null;
     }
 }
 
-// Global variables for scanner functionality
-let isScanning = false;
-let scanBuffer = '';
-let scanTimeout = null;
-const SCAN_TIMEOUT_MS = 20; // Timeout between scanner inputs
+function ensureRFIDIndicatorExists() {
+    // Check if the indicator already exists
+    if (!document.getElementById('rfidIndicator')) {
+        // Create the RFID scanning indicator
+        const rfidIndicator = document.createElement('div');
+        rfidIndicator.id = 'rfidIndicator';
+        rfidIndicator.className = 'alert alert-info mb-3';
+        rfidIndicator.innerHTML = '<strong>RFID scanning active</strong><br>Please place RFID reader near assets to scan';
+        
+        // Add it to the search container before the toggle button
+        const searchContainer = document.getElementById('searchContainer');
+        const toggleButton = document.getElementById('toggleRoomAudit');
+        searchContainer.insertBefore(rfidIndicator, toggleButton);
+    }
+}
 
+// QR Code Scanning Functions
+function startQRScan() {
+    if (!isRoomAuditActive || currentAuditMethod !== 'qrcode') return;
+    
+    isQRScanning = true;
+    
+    // Create QR scanning indicator if it doesn't exist
+    ensureQRIndicatorExists();
+    
+    // Show QR scanning indicator
+    const qrIndicator = document.getElementById('qrIndicator');
+    if (qrIndicator) {
+        qrIndicator.style.display = 'block';
+    }
+    
+    // In a real implementation, you would initialize QR scanner here
+    console.log('QR Code scanning started');
+    
+    // Simulate QR scanning for demo purposes
+    // In a real implementation, you would connect to the camera API
+    simulateQRScan();
+}
+
+function stopQRScan() {
+    if (!isQRScanning) return;
+    
+    isQRScanning = false;
+    
+    // Hide QR scanning indicator
+    const qrIndicator = document.getElementById('qrIndicator');
+    if (qrIndicator) {
+        qrIndicator.style.display = 'none';
+    }
+    
+    // In a real implementation, you would stop the QR scanner here
+    console.log('QR Code scanning stopped');
+    
+    // Clear any simulated scanning timeouts
+    if (window.qrSimulationInterval) {
+        clearInterval(window.qrSimulationInterval);
+        window.qrSimulationInterval = null;
+    }
+}
+
+function ensureQRIndicatorExists() {
+    // Check if the indicator already exists
+    if (!document.getElementById('qrIndicator')) {
+        // Create the QR scanning indicator
+        const qrIndicator = document.createElement('div');
+        qrIndicator.id = 'qrIndicator';
+        qrIndicator.className = 'alert alert-info mb-3';
+        qrIndicator.innerHTML = '<strong>QR Code scanning active</strong><br>Point the camera at QR codes to scan';
+        
+        // Add it to the search container before the toggle button
+        const searchContainer = document.getElementById('searchContainer');
+        const toggleButton = document.getElementById('toggleRoomAudit');
+        searchContainer.insertBefore(qrIndicator, toggleButton);
+    }
+}
+
+// Barcode Scanning Functions 
 function startBarcodeScan() {
     if (!isRoomAuditActive || currentAuditMethod !== 'barcode') return;
     
     isScanning = true;
     scanBuffer = '';
     
-    // Show a scanning indicator
-    showScanIndicator();
+    // Create barcode scanning indicator if it doesn't exist
+    ensureBarcodeIndicatorExists();
+    
+    // Show barcode scanning indicator
+    const scanIndicator = document.getElementById('scanIndicator');
+    if (scanIndicator) {
+        scanIndicator.style.display = 'block';
+    }
     
     // Add event listener for barcode scanner input
     document.addEventListener('keypress', handleScannerInput);
@@ -327,6 +487,28 @@ function stopBarcodeScan() {
     
     // Remove event listener
     document.removeEventListener('keypress', handleScannerInput);
+    
+    // Hide barcode scanning indicator
+    const scanIndicator = document.getElementById('scanIndicator');
+    if (scanIndicator) {
+        scanIndicator.style.display = 'none';
+    }
+}
+
+function ensureBarcodeIndicatorExists() {
+    // Check if the indicator already exists
+    if (!document.getElementById('scanIndicator')) {
+        // Create the barcode scanning indicator
+        const scanIndicator = document.createElement('div');
+        scanIndicator.id = 'scanIndicator';
+        scanIndicator.className = 'alert alert-info mb-3';
+        scanIndicator.innerHTML = '<strong>Barcode scanning active</strong><br>Scan assets or select a different scanning method';
+        
+        // Add it to the search container before the toggle button
+        const searchContainer = document.getElementById('searchContainer');
+        const toggleButton = document.getElementById('toggleRoomAudit');
+        searchContainer.insertBefore(scanIndicator, toggleButton);
+    }
 }
 
 function handleScannerInput(e) {
@@ -387,6 +569,49 @@ function processScanBuffer() {
     
     // Clear the buffer
     scanBuffer = '';
+}
+
+// Simulation functions for demo purposes
+function simulateRFIDScan() {
+    // This is just a simulation - in a real app, you would connect to an RFID reader
+    window.rfidSimulationInterval = setInterval(() => {
+        if (!isRFIDScanning) {
+            clearInterval(window.rfidSimulationInterval);
+            return;
+        }
+        
+        // Randomly simulate finding an asset
+        if (Math.random() < 0.3 && expectedAssets.length > 0) {
+            const randomIndex = Math.floor(Math.random() * expectedAssets.length);
+            const asset = expectedAssets[randomIndex];
+            
+            if (!asset.found) {
+                markAssetAsFound(asset);
+                showScanMessage(`RFID detected: ${asset.description} (${asset.id})`, 'success');
+            }
+        }
+    }, 5000); // Simulate an RFID scan every 5 seconds
+}
+
+function simulateQRScan() {
+    // This is just a simulation - in a real app, you would connect to a camera
+    window.qrSimulationInterval = setInterval(() => {
+        if (!isQRScanning) {
+            clearInterval(window.qrSimulationInterval);
+            return;
+        }
+        
+        // Randomly simulate finding an asset
+        if (Math.random() < 0.3 && expectedAssets.length > 0) {
+            const randomIndex = Math.floor(Math.random() * expectedAssets.length);
+            const asset = expectedAssets[randomIndex];
+            
+            if (!asset.found) {
+                markAssetAsFound(asset);
+                showScanMessage(`QR Code detected: ${asset.description} (${asset.id})`, 'success');
+            }
+        }
+    }, 6000); // Simulate a QR scan every 6 seconds
 }
 
 function markAssetAsFound(asset) {

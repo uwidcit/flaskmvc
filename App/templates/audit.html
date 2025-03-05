@@ -49,6 +49,11 @@
         .audit-method-btn img {
             margin-bottom: 5px;
         }
+        
+        /* Styling for scan indicators */
+        #scanIndicator, #rfidIndicator, #qrIndicator {
+            display: none; /* Hidden by default */
+        }
     </style>
 </head>
 <body>
@@ -67,7 +72,7 @@
         
         <div class="sidebar-bottom">
             <a href="/settings" class="nav-item">Settings</a>
-            <a href="/login" class="nav-item text-danger">Log Out</a>
+            <a href="/login" class="nav-item">Log Out</a>
         </div>
     </div>
 
@@ -120,10 +125,20 @@
         </div>
         
         <div class="search-container mb-4" id="searchContainer" style="display: none;">
-            <!-- Barcode scanning indicator (will be shown above the button when active) -->
+            <!-- Scanning indicator containers (initially hidden) -->
             <div id="scanIndicator" class="alert alert-info mb-3" style="display: none;">
                 <strong>Barcode scanning active</strong><br>
                 Scan assets or select a different scanning method
+            </div>
+            
+            <div id="rfidIndicator" class="alert alert-info mb-3" style="display: none;">
+                <strong>RFID scanning active</strong><br>
+                Please place RFID reader near assets to scan
+            </div>
+            
+            <div id="qrIndicator" class="alert alert-info mb-3" style="display: none;">
+                <strong>QR Code scanning active</strong><br>
+                Point the camera at QR codes to scan
             </div>
             
             <!-- Manual search input with button -->
