@@ -14,9 +14,25 @@
             gap: 10px; /* Add spacing between search input and button */
         }
         
+        .manual-search-group {
+            display: flex;
+            flex-wrap: nowrap;
+        }
+        
+        .manual-search-group input {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        
+        .manual-search-group button {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        
         /* Style for the fixed scan button */
-        #startScanning {
+        #toggleRoomAudit {
             border-radius: 0.375rem; /* Match Bootstrap's default border-radius */
+            margin-top: 10px;
         }
         
         /* Style for found status */
@@ -28,6 +44,10 @@
         .found-no {
             color: #dc3545;
             font-weight: bold;
+        }
+        
+        .audit-method-btn img {
+            margin-bottom: 5px;
         }
     </style>
 </head>
@@ -89,6 +109,10 @@
                 <img src="{{ url_for('static', filename='images/barcode_icon.svg') }}" alt="Barcode" height="20">
                 <span class="btn-text">Barcode</span>
             </button>
+            <button class="btn btn-light me-2 audit-method-btn" onclick="setAuditMethod('qrcode')">
+                <img src="{{ url_for('static', filename='images/qrcode_icon.svg') }}" alt="QR Code" height="20">
+                <span class="btn-text">QR Code</span>
+            </button>
             <button class="btn btn-primary audit-method-btn" onclick="setAuditMethod('manual')">
                 <img src="{{ url_for('static', filename='images/manual_icon.svg') }}" alt="Manual" height="20">
                 <span class="btn-text">Manual</span>
@@ -96,8 +120,22 @@
         </div>
         
         <div class="search-container mb-4" id="searchContainer" style="display: none;">
-            <input type="text" class="form-control" id="searchInput" placeholder="Search assets">
-            <button class="btn btn-primary w-100" id="startScanning">Start Scanning</button>
+            <!-- Barcode scanning indicator (will be shown above the button when active) -->
+            <div id="scanIndicator" class="alert alert-info mb-3" style="display: none;">
+                <strong>Barcode scanning active</strong><br>
+                Scan assets or select a different scanning method
+            </div>
+            
+            <!-- Manual search input with button -->
+            <div class="manual-search-group" id="manualSearchGroup">
+                <input type="text" class="form-control" id="searchInput" placeholder="Enter asset ID or serial number...">
+                <button class="btn btn-outline-secondary" id="manualSearchButton" type="button">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+            
+            <!-- Main Room Audit Toggle Button -->
+            <button class="btn btn-success w-100" id="toggleRoomAudit">Start Room Audit</button>
         </div>
         
         <div id="assetList" style="display: none;">
@@ -144,6 +182,11 @@
             </div>
         </div>
     </div>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <!-- Scripts -->
     <script src="{{ url_for('static', filename='js/audit.js') }}"></script>
 </body>
 </html>
