@@ -350,51 +350,47 @@ function handleScannerInput(e) {
 function processScanBuffer() {
     if (scanBuffer.length === 0) return;
     
-    const asset = expectedAssets.find(a => 
+    // First check if the asset is in the expected assets list for this room
+    const assetInRoom = expectedAssets.find(a => 
         a.id === scanBuffer || 
         (a.barcode && a.barcode === scanBuffer)
     );
     
-    if (asset) {
-        markAssetAsFound(asset);
-        showScanMessage(`Asset found: ${asset.description} (${asset.id})`, 'success');
+    if (assetInRoom) {
+        markAssetAsFound(assetInRoom);
+        showScanMessage(`Asset found: ${assetInRoom.description} (${assetInRoom.id})`, 'success');
     } else {
-        showScanMessage(`Unknown asset: ${scanBuffer}`, 'warning');
-        addUnexpectedAsset(scanBuffer);
+        // If not in expected list, check the database to see if it exists at all
+        checkAssetInDatabase(scanBuffer);
     }
     
     scanBuffer = '';
 }
 
-function startSimulatedScan(method) {
-    if (!isRoomAuditActive || currentAuditMethod !== method) return;
-    
-    const indicator = document.getElementById(`${method}Indicator`) || createScanningIndicator(method);
-    if (indicator) indicator.style.display = 'block';
-    
-    const intervalName = `${method}SimulationInterval`;
-    
-    if (window[intervalName]) {
-        clearInterval(window[intervalName]);
-    }
-    
-    window[intervalName] = setInterval(() => {
-        if (!isRoomAuditActive || currentAuditMethod !== method) {
-            clearInterval(window[intervalName]);
-            return;
-        }
+async function checkAssetInDatabase(assetId) {
+    try {
+        const response = await fetch(`/api/asset/${assetId}`);
         
-        if (Math.random() < 0.3 && expectedAssets.length > 0) {
-            const randomIndex = Math.floor(Math.random() * expectedAssets.length);
-            const asset = expectedAssets[randomIndex];
+        if (response.ok) {
+            // Asset exists in database but not in this room
+            const asset = await response.json();
             
-            if (!asset.found) {
-                markAssetAsFound(asset);
-                const methodName = method.toUpperCase();
-                showScanMessage(`${methodName} detected: ${asset.description} (${asset.id})`, 'success');
-            }
+            // Add the asset to scanned assets with misplaced status
+            addMisplacedAsset(asset);
+            
+            showScanMessage(
+                `Asset found: ${asset.description || 'Unknown'} (${assetId}) - Not assigned to this room!`, 
+                'warning'
+            );
+        } else {
+            // Asset not found in database
+            showScanMessage(`Unknown asset: ${assetId}`, 'warning');
+            addUnexpectedAsset(assetId);
         }
-    }, method === 'rfid' ? 5000 : 6000);
+    } catch (error) {
+        console.error('Error checking asset in database:', error);
+        showScanMessage(`Error checking asset: ${assetId}`, 'danger');
+    }
 }
 
 function markAssetAsFound(asset) {
@@ -494,8 +490,11 @@ function updateScannedAssetsTable() {
     scannedTableBody.innerHTML = '';
     
     const sortedAssets = [...scannedAssets].sort((a, b) => {
+        // Sort by status first (unexpected and misplaced at the top)
         if (a.status === 'unexpected' && b.status !== 'unexpected') return -1;
         if (a.status !== 'unexpected' && b.status === 'unexpected') return 1;
+        if (a.status === 'misplaced' && b.status !== 'misplaced') return -1;
+        if (a.status !== 'misplaced' && b.status === 'misplaced') return 1;
         
         return new Date(b.last_update) - new Date(a.last_update);
     });
@@ -503,15 +502,18 @@ function updateScannedAssetsTable() {
     sortedAssets.forEach(asset => {
         const row = document.createElement('tr');
         
+        // Apply classes based on asset status
         if (asset.status === 'unexpected') {
             row.className = 'table-warning';
+        } else if (asset.status === 'misplaced') {
+            row.className = 'table-warning'; // Use same warning style for misplaced assets
         }
         
         appendCell(row, asset.description);
         
         const idCell = document.createElement('td');
         const assetId = asset.id || asset.asset_id || asset.assetId || 
-                        (asset['id: '] ? asset['id: '] : null) || '1';
+                        (asset['id:'] ? asset['id:'] : null) || '1';
         idCell.textContent = assetId;
         row.appendChild(idCell);
         
@@ -519,10 +521,16 @@ function updateScannedAssetsTable() {
         
         const locationCell = document.createElement('td');
         const roomSelect = document.getElementById('roomSelect');
-        const roomName = roomSelect ? 
+        const currentRoomName = roomSelect ? 
             roomSelect.options[roomSelect.selectedIndex].textContent : 
-            `Room ${asset.room_id}`;
-        locationCell.textContent = roomName;
+            `Room ${currentRoom}`;
+            
+        if (asset.status === 'misplaced') {
+            locationCell.innerHTML = `<span class="text-warning">Current: ${currentRoomName}</span><br>
+                                     <small>Assigned: Room ${asset.room_id}</small>`;
+        } else {
+            locationCell.textContent = currentRoomName;
+        }
         row.appendChild(locationCell);
         
         const statusCell = document.createElement('td');
@@ -532,6 +540,10 @@ function updateScannedAssetsTable() {
             statusIndicator.className = 'status-dot status-warning';
             statusCell.appendChild(statusIndicator);
             statusCell.appendChild(document.createTextNode(' Unexpected'));
+        } else if (asset.status === 'misplaced') {
+            statusIndicator.className = 'status-dot status-warning';
+            statusCell.appendChild(statusIndicator);
+            statusCell.appendChild(document.createTextNode(' Misplaced'));
         } else if (asset.status === 'present' || asset.status === 'Active') {
             statusIndicator.className = 'status-dot status-good';
             statusCell.appendChild(statusIndicator);
@@ -572,28 +584,65 @@ async function manualSearchAsset() {
         return;
     }
 
+    // First check if the asset is in the expected assets list for this room
+    const assetInRoom = expectedAssets.find(a => {
+        const aId = a.id || a.asset_id || a.assetId || (a['id:'] ? a['id:'] : null);
+        return aId === assetId;
+    });
+    
+    if (assetInRoom) {
+        markAssetAsFound(assetInRoom);
+        showScanMessage(`Asset found: ${assetInRoom.description} (${assetInRoom.id})`, 'success');
+        searchInput.value = '';
+        return;
+    }
+
     try {
         const response = await fetch(`/api/asset/${assetId}`);
         
-        if (!response.ok) {
-            showScanMessage(`Asset not found: ${assetId}`, 'warning');
+        if (response.ok) {
+            // Asset exists in database but not in this room
+            const asset = await response.json();
             
+            // Add the asset to scanned assets with misplaced status
+            addMisplacedAsset(asset);
+            
+            showScanMessage(
+                `Asset found: ${asset.description || 'Unknown'} (${assetId}) - Not assigned to this room!`, 
+                'warning'
+            );
+        } else {
             if (confirm(`Asset "${assetId}" not found in system. Add as unexpected?`)) {
                 addUnexpectedAsset(assetId);
             }
-            return;
         }
-
-        const asset = await response.json();
-        markAssetAsFound(asset);
-        showScanMessage(`Asset found: ${asset.description} (${asset.id})`, 'success');
         
         searchInput.value = '';
 
     } catch (error) {
         console.error('Error searching for asset:', error);
-        showScanMessage('An error occurred while searching for the asset', 'error');
+        showScanMessage('An error occurred while searching for the asset', 'danger');
     }
+}
+
+function addMisplacedAsset(asset) {
+    // Format the asset data to match our expected structure
+    const assetId = asset.id || asset['id:'] || asset.asset_id || '';
+    const formattedAsset = {
+        id: assetId,
+        description: asset.description || 'Unknown Asset',
+        brand: asset.brand || 'Unknown',
+        model: asset.model || 'Unknown',
+        status: 'misplaced',
+        room_id: asset.room_id || 'Unknown',
+        assignee_id: asset.assignee_id || 'Unassigned',
+        last_update: asset.last_update || new Date().toISOString(),
+        found: true,
+        actualRoom: currentRoom
+    };
+    
+    scannedAssets.push(formattedAsset);
+    updateScannedAssetsTable();
 }
 
 function hideElements(elementIds) {
