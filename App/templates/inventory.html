@@ -5,8 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iGOVTT - Asset Inventory</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
-    
+    <style>
+        /* Fix for the content area to ensure proper alignment */
+        .content-area {
+            padding: 2rem;
+            width: calc(100% - 250px);
+            box-sizing: border-box;
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        
+        .search-bar {
+            display: flex;
+            width: 500px;
+            margin-right: auto; /* Force to left */
+        }
+        
+        .action-container {
+            margin-left: auto; /* Force to right */
+        }
+        
+        .search-bar input {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        
+        .search-button {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        
+        .add-asset-btn {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .add-asset-btn:hover {
+            background-color: #218838;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <div class="sidebar">
@@ -19,11 +71,11 @@
         <nav>
             <a href="#" class="nav-item active">Inventory</a>
             <a href="/audit" class="nav-item">Area Audit</a>
-            <a href="#" class="nav-item">Discrepency Report</a>
+            <a href="/discrepency-report" class="nav-item">Discrepency Report</a>
         </nav>
         
         <div class="sidebar-bottom">
-            <a href="#" class="nav-item">Settings</a>
+            <a href="/settings" class="nav-item">Settings</a>
             <a href="/login" class="nav-item text-danger">Log Out</a>
         </div>
     </div>
@@ -33,110 +85,43 @@
         
         <div class="search-container">
             <div class="search-bar">
-                <input type="text" class="form-control" id="searchInput" placeholder="Search">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search assets...">
+                <button class="btn btn-primary search-button" type="button">
+                    <i class="bi bi-search"></i>
+                </button>
             </div>
-            <a href="#" class="add-asset-btn">Add Asset</a>
+            <div class="action-container">
+                <a href="/add-asset" class="add-asset-btn">
+                    <i class="bi bi-plus-lg"></i> Add Asset
+                </a>
+            </div>
         </div>
 
         <div class="inventory-table">
             <table class="table table-hover mb-0">
                 <thead>
                     <tr>
-                        <th onclick="sortTable(0)">Item ▼</th>
-                        <th onclick="sortTable(1)">Asset Tag ▼</th>
-                        <th onclick="sortTable(2)">Class ▼</th>
-                        <th onclick="sortTable(3)">Location ▼</th>
-                        <th onclick="sortTable(4)">Condition ▼</th>
-                        <th onclick="sortTable(5)">Assignee ▼</th>
-                        <th onclick="sortTable(6)">Last Updated ▼</th>
+                        <th onclick="sortTable(0)">Item <i class="bi bi-sort-down"></i></th>
+                        <th onclick="sortTable(1)">Asset Tag <i class="bi bi-sort-down"></i></th>
+                        <th onclick="sortTable(2)">Class <i class="bi bi-sort-down"></i></th>
+                        <th onclick="sortTable(3)">Location <i class="bi bi-sort-down"></i></th>
+                        <th onclick="sortTable(4)">Condition <i class="bi bi-sort-down"></i></th>
+                        <th onclick="sortTable(5)">Assignee <i class="bi bi-sort-down"></i></th>
+                        <th onclick="sortTable(6)">Last Updated <i class="bi bi-sort-down"></i></th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {% for asset in assets %}
-                    <tr>
-                        <td>{{ asset.item }}</td>
-                        <td>{{ asset.asset_tag }}</td>
-                        <td>{{ asset.class_type }}</td>
-                        <td>{{ asset.location }}</td>
-                        <td>
-                            <span class="status-dot status-{{ asset.condition.lower() }}"></span>
-                            {{ asset.condition }}
-                        </td>
-                        <td>{{ asset.assignee }}</td>
-                        <td>{{ asset.last_updated.strftime('%d/%m/%Y') }}</td>
-                    </tr>
-                    {% endfor %}
+                <tbody id="assetTableBody">
+                    <!-- Asset data will be populated here -->
                 </tbody>
             </table>
         </div>
 
-        {% if show_pagination %}
-        <div class="d-flex justify-content-center mt-4">
-            <nav>
-                <ul class="pagination">
-                    <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
-                        <a class="page-link" href="?page={{ current_page - 1 }}">←</a>
-                    </li>
-                    
-                    {% for page in range(1, total_pages + 1) %}
-                    <li class="page-item {% if page == current_page %}active{% endif %}">
-                        <a class="page-link" href="?page={{ page }}">{{ page }}</a>
-                    </li>
-                    {% endfor %}
-                    
-                    <li class="page-item {% if current_page == total_pages %}disabled{% endif %}">
-                        <a class="page-link" href="?page={{ current_page + 1 }}">→</a>
-                    </li>
-                </ul>
-            </nav>
+        <div class="d-flex justify-content-center mt-4" id="paginationContainer">
+            <!-- Pagination will be added here if needed -->
         </div>
-        {% endif %}
     </div>
 
-    <script>
-        function sortTable(columnIndex) {
-            const table = document.querySelector('.inventory-table table');
-            const tbody = table.querySelector('tbody');
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-            const th = table.querySelectorAll('th')[columnIndex];
-            const isAscending = th.classList.contains('asc');
-            
-            table.querySelectorAll('th').forEach(header => {
-                header.textContent = header.textContent.replace(' ▼', '').replace(' ▲', '') + ' ▼';
-            });
-            
-            th.textContent = th.textContent.replace(' ▼', '') + (isAscending ? ' ▼' : ' ▲');
-            th.classList.toggle('asc');
-            
-
-            rows.sort((a, b) => {
-                const aValue = a.cells[columnIndex].textContent;
-                const bValue = b.cells[columnIndex].textContent;
-                return isAscending ? 
-                    bValue.localeCompare(aValue) : 
-                    aValue.localeCompare(bValue);
-            });
-            
-            tbody.innerHTML = '';
-            rows.forEach(row => tbody.appendChild(row));
-        }
-
-        document.getElementById('searchInput').addEventListener('input', debounce(function(e) {
-            const searchValue = e.target.value;
-            window.location.href = `?search=${encodeURIComponent(searchValue)}`;
-        }, 500));
-
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-    </script>
+    <script src="{{ url_for('static', filename='js/inventory.js') }}"></script>
 </body>
 </html>

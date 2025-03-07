@@ -8,6 +8,62 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
     
+    <style>
+        .header-bar {
+            background: var(--primary-blue);
+            color: white;
+            padding: 1rem 2rem;
+        }
+        
+        .login-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .main-card {
+            background: white;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .form-control {
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #e1e1e1;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+        }
+        
+        .btn-primary {
+            background: var(--secondary-blue);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            width: 100%;
+        }
+        
+        .illustration-side {
+        background-color: #f8f9fa;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+        }
+        
+        .illustration-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        }
+    </style>
+    
 </head>
 <body>
     

@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, jsonify, request
 from App.controllers.building import get_all_building_json
 from App.controllers.floor import get_floors_by_building
 from App.controllers.room import get_rooms_by_floor
-from App.controllers.asset import get_all_assets_json, get_all_assets_by_room_id,get_all_assets, get_all_assets_by_room_json
+from App.controllers.asset import get_all_assets, get_all_assets_by_room_json, get_asset
 
 audit_views = Blueprint('audit_views', __name__, template_folder='../templates')
 
@@ -39,3 +39,13 @@ def get_room_assets(room_id):
     print(f"Sample of returned data: {room_assets[:1]}")
     
     return jsonify(room_assets)
+
+@audit_views.route('/api/asset/<asset_id>', methods=['GET'])
+def get_asset_by_id(asset_id):
+    asset = get_asset(asset_id)
+    print(asset)
+    
+    if not asset:
+        return jsonify({'message': 'Asset not found'}), 404
+    
+    return jsonify(asset.get_json())

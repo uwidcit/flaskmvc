@@ -1,27 +1,19 @@
-
 :root {
     --primary-blue: #007AFF;
     --secondary-blue: #3498db;
+    --bg-light: #f8f9fa;
+    --border-light: #e1e1e1;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #f1c40f;
 }
 
+/* Base Styles */
 body {
-    background: #f8f9fa;
+    background: var(--bg-light);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-}
-
-.header-bar {
-    background: var(--primary-blue);
-    color: white;
-    padding: 1rem 2rem;
-}
-
-.login-container {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    padding: 2rem;
 }
 
 .main-card {
@@ -32,10 +24,11 @@ body {
     overflow: hidden;
 }
 
+/* Form Controls */
 .form-control {
     border-radius: 8px;
     padding: 12px;
-    border: 1px solid #e1e1e1;
+    border: 1px solid var(--border-light);
 }
 
 .form-control:focus {
@@ -48,23 +41,9 @@ body {
     border: none;
     padding: 12px 24px;
     border-radius: 8px;
-    width: 100%;
 }
 
-.illustration-side {
-background-color: #f8f9fa;
-padding: 0;
-display: flex;
-justify-content: center;
-align-items: stretch;
-}
-
-.illustration-image {
-width: 100%;
-height: 100%;
-object-fit: cover;
-}
-
+/* Sidebar and Layout */
 .sidebar {
     background: #f0f7ff;
     width: 250px;
@@ -95,6 +74,7 @@ object-fit: cover;
     margin-bottom: 1rem;
 }
 
+/* Navigation */
 .nav-item {
     padding: 0.5rem 0;
     color: #666;
@@ -114,43 +94,27 @@ object-fit: cover;
     margin-top: auto;
 }
 
+/* Search and Asset Management */
 .search-container {
     display: flex;
-    align-items: center;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 10px;
     margin-bottom: 1.5rem;
 }
 
-.search-bar {
-    position: relative;
-    width: 50%;
-    margin-bottom: 0;
+.manual-search-group {
+    display: flex;
+    flex-wrap: nowrap;
 }
 
-.search-bar input {
-    padding-right: 40px;
-    border-radius: 8px;
-    padding: 12px;
-    border: 1px solid #e1e1e1;
+.manual-search-group input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
-.search-bar input:focus {
-    border-color: var(--secondary-blue);
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
-}
-
-.add-asset-btn {
-    background: var(--primary-blue);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    text-decoration: none;
-}
-
-.add-asset-btn:hover {
-    background: var(--secondary-blue);
-    color: white;
-    text-decoration: none;
+.manual-search-group button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .inventory-table {
@@ -161,7 +125,7 @@ object-fit: cover;
 }
 
 .inventory-table th {
-    background: #f8f9fa;
+    background: var(--bg-light);
     padding: 1rem;
     font-weight: 500;
     cursor: pointer;
@@ -172,6 +136,7 @@ object-fit: cover;
     background: #edf2f7;
 }
 
+/* Status Indicators */
 .status-dot {
     width: 8px;
     height: 8px;
@@ -180,15 +145,20 @@ object-fit: cover;
     margin-right: 5px;
 }
 
+.status-good { background: var(--success-color); }
+.status-poor, .status-missing { background: var(--danger-color); }
+.status-warning, .status-misplaced { background: var(--warning-color); }
+
+/* Audit Method Buttons */
 .audit-method-buttons {
     display: flex;
     gap: 1rem;
-    justify-content: flex-start; /* Keep buttons left-aligned */
+    justify-content: flex-start;
 }
 
 .audit-method-btn {
-    width: 120px !important; /* Fixed width */
-    height: 60px !important; /* Fixed height */
+    width: 120px;
+    height: 60px;
     padding: 8px;
     display: inline-flex;
     flex-direction: column;
@@ -196,10 +166,7 @@ object-fit: cover;
     justify-content: center;
     transition: all 0.2s ease;
     border: 2px solid transparent !important;
-    position: relative;
-    overflow: hidden;
 }
-
 
 .audit-method-btn.btn-primary {
     background-color: var(--primary-blue) !important; 
@@ -210,27 +177,88 @@ object-fit: cover;
     background-color: #e9ecef !important;
 }
 
-.audit-method-btn:active {
-    transform: scale(0.98) !important;
+.audit-method-btn img {
+    margin-bottom: 5px;
 }
 
-.audit-method-btn:focus {
-    box-shadow: none !important;
+/* Found Status Indicators */
+.found-yes {
+    color: var(--success-color);
+    font-weight: bold;
 }
 
-.status-good { background: #2ecc71; }
-.status-missing { background: #e74c3c; }
-.status-misplaced { background: #f1c40f; }
+.found-no {
+    color: var(--danger-color);
+    font-weight: bold;
+}
 
+/* Scanning Indicators */
+#scanIndicator, #rfidIndicator, #qrIndicator {
+    display: none; /* Hidden by default */
+}
+
+/* Toggles and Buttons */
+#toggleRoomAudit {
+    border-radius: 0.375rem;
+    margin-top: 10px;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
     .sidebar {
         width: 200px;
     }
+    
     .content-area {
         margin-left: 200px;
         width: calc(100% - 200px);
     }
+    
     .search-bar {
         width: 100%;
+    }
+    
+    .audit-method-btn {
+        width: 100px;
+        height: 50px;
+    }
+
+    .status-misplaced { 
+        background: var(--warning-color); 
+    }
+    
+    /* Table row styling */
+    .table-warning {
+        background-color: rgba(241, 196, 15, 0.15) !important;
+    }
+    
+    /* Make warning text stand out more */
+    .text-warning {
+        color: #e67e22 !important;
+        font-weight: 500;
+    }
+    
+    /* Styling for asset alert messages */
+    #scanMessage {
+        transition: all 0.3s ease;
+    }
+    
+    /* Alert styling */
+    .alert-warning {
+        background-color: #fff3cd;
+        border-color: #ffeeba;
+        color: #856404;
+    }
+    
+    /* Notification for misplaced assets */
+    .misplaced-notification {
+        display: inline-block;
+        margin-left: 5px;
+        padding: 2px 6px;
+        background-color: #fff3cd;
+        color: #856404;
+        border-radius: 4px;
+        font-size: 0.8em;
+        font-weight: bold;
     }
 }

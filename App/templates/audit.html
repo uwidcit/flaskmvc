@@ -14,9 +14,25 @@
             gap: 10px; /* Add spacing between search input and button */
         }
         
+        .manual-search-group {
+            display: flex;
+            flex-wrap: nowrap;
+        }
+        
+        .manual-search-group input {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        
+        .manual-search-group button {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        
         /* Style for the fixed scan button */
-        #startScanning {
+        #toggleRoomAudit {
             border-radius: 0.375rem; /* Match Bootstrap's default border-radius */
+            margin-top: 10px;
         }
         
         /* Style for found status */
@@ -28,6 +44,15 @@
         .found-no {
             color: #dc3545;
             font-weight: bold;
+        }
+        
+        .audit-method-btn img {
+            margin-bottom: 5px;
+        }
+        
+        /* Styling for scan indicators */
+        #scanIndicator, #rfidIndicator, #qrIndicator {
+            display: none; /* Hidden by default */
         }
     </style>
 </head>
@@ -47,7 +72,7 @@
         
         <div class="sidebar-bottom">
             <a href="/settings" class="nav-item">Settings</a>
-            <a href="/login" class="nav-item text-danger">Log Out</a>
+            <a href="/login" class="nav-item">Log Out</a>
         </div>
     </div>
 
@@ -89,6 +114,10 @@
                 <img src="{{ url_for('static', filename='images/barcode_icon.svg') }}" alt="Barcode" height="20">
                 <span class="btn-text">Barcode</span>
             </button>
+            <button class="btn btn-light me-2 audit-method-btn" onclick="setAuditMethod('qrcode')">
+                <img src="{{ url_for('static', filename='images/qrcode_icon.svg') }}" alt="QR Code" height="20">
+                <span class="btn-text">QR Code</span>
+            </button>
             <button class="btn btn-primary audit-method-btn" onclick="setAuditMethod('manual')">
                 <img src="{{ url_for('static', filename='images/manual_icon.svg') }}" alt="Manual" height="20">
                 <span class="btn-text">Manual</span>
@@ -96,8 +125,32 @@
         </div>
         
         <div class="search-container mb-4" id="searchContainer" style="display: none;">
-            <input type="text" class="form-control" id="searchInput" placeholder="Search assets">
-            <button class="btn btn-primary w-100" id="startScanning">Start Scanning</button>
+            <!-- Scanning indicator containers (initially hidden) -->
+            <div id="scanIndicator" class="alert alert-info mb-3" style="display: none;">
+                <strong>Barcode scanning active</strong><br>
+                Scan assets or select a different scanning method
+            </div>
+            
+            <div id="rfidIndicator" class="alert alert-info mb-3" style="display: none;">
+                <strong>RFID scanning active</strong><br>
+                Please place RFID reader near assets to scan
+            </div>
+            
+            <div id="qrIndicator" class="alert alert-info mb-3" style="display: none;">
+                <strong>QR Code scanning active</strong><br>
+                Point the camera at QR codes to scan
+            </div>
+            
+            <!-- Manual search input with button -->
+            <div class="manual-search-group" id="manualSearchGroup">
+                <input type="text" class="form-control" id="searchInput" placeholder="Enter asset ID or serial number...">
+                <button class="btn btn-outline-secondary" id="manualSearchButton" type="button">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+            
+            <!-- Main Room Audit Toggle Button -->
+            <button class="btn btn-success w-100" id="toggleRoomAudit">Start Room Audit</button>
         </div>
         
         <div id="assetList" style="display: none;">
@@ -144,335 +197,11 @@
             </div>
         </div>
     </div>
-
-    <script>
-        let currentAuditMethod = 'manual';
-        let currentBuilding = null;
-        let currentFloor = null;
-        let currentRoom = null;
-        let expectedAssets = [];
-        let scannedAssets = [];
-        
-        function loadFloors() {
-            const buildingSelect = document.getElementById('buildingSelect');
-            currentBuilding = buildingSelect.value;
-            
-            // Reset floor and room selections
-            currentFloor = null;
-            currentRoom = null;
-            
-            if (currentBuilding && currentBuilding !== 'Select Building') {
-                // Show floor select and populate options
-                document.getElementById('floorSelectContainer').style.display = 'block';
-                const floorSelect = document.getElementById('floorSelect');
-                
-                // Clear existing options
-                floorSelect.innerHTML = '<option selected>Select Floor</option>';
-                
-                // Fetch floors from API
-                fetch(`/api/floors/${currentBuilding}`)
-                    .then(response => response.json())
-                    .then(floors => {
-                        floors.forEach(floor => {
-                            const option = document.createElement('option');
-                            option.value = floor.floor_id;
-                            option.textContent = floor.floor_name;
-                            floorSelect.appendChild(option);
-                        });
-                    })
-                    .catch(error => console.error('Error fetching floors:', error));
-                
-                // Hide room select and subsequent elements
-                document.getElementById('roomSelectContainer').style.display = 'none';
-                document.getElementById('auditMethodButtons').style.display = 'none';
-                document.getElementById('searchContainer').style.display = 'none';
-                document.getElementById('assetList').style.display = 'none';
-                document.getElementById('scannedAssetsList').style.display = 'none';
-            } else {
-                // Hide all dependent elements
-                document.getElementById('floorSelectContainer').style.display = 'none';
-                document.getElementById('roomSelectContainer').style.display = 'none';
-                document.getElementById('auditMethodButtons').style.display = 'none';
-                document.getElementById('searchContainer').style.display = 'none';
-                document.getElementById('assetList').style.display = 'none';
-                document.getElementById('scannedAssetsList').style.display = 'none';
-            }
-        }
-        
-        function loadRooms() {
-            const floorSelect = document.getElementById('floorSelect');
-            currentFloor = floorSelect.value;
-            
-            // Reset room selection
-            currentRoom = null;
-            
-            if (currentFloor && currentFloor !== 'Select Floor') {
-                // Show room select and populate options
-                document.getElementById('roomSelectContainer').style.display = 'block';
-                const roomSelect = document.getElementById('roomSelect');
-                
-                // Clear existing options
-                roomSelect.innerHTML = '<option selected>Select Room</option>';
-                
-                // Fetch rooms from API
-                fetch(`/api/rooms/${currentFloor}`)
-                    .then(response => response.json())
-                    .then(rooms => {
-                        rooms.forEach(room => {
-                            const option = document.createElement('option');
-                            option.value = room.room_id;
-                            option.textContent = room.room_name;
-                            roomSelect.appendChild(option);
-                        });
-                    })
-                    .catch(error => console.error('Error fetching rooms:', error));
-                
-                // Hide subsequent elements
-                document.getElementById('auditMethodButtons').style.display = 'none';
-                document.getElementById('searchContainer').style.display = 'none';
-                document.getElementById('assetList').style.display = 'none';
-                document.getElementById('scannedAssetsList').style.display = 'none';
-            } else {
-                // Hide dependent elements
-                document.getElementById('roomSelectContainer').style.display = 'none';
-                document.getElementById('auditMethodButtons').style.display = 'none';
-                document.getElementById('searchContainer').style.display = 'none';
-                document.getElementById('assetList').style.display = 'none';
-                document.getElementById('scannedAssetsList').style.display = 'none';
-            }
-        }
-        
-        function loadRoomAssets() {
-            const roomSelect = document.getElementById('roomSelect');
-            currentRoom = roomSelect.value;
-            
-            if (currentRoom && currentRoom != 'Select Room') {
-                // Show audit method buttons
-                document.getElementById('auditMethodButtons').style.display = 'flex';
-                document.getElementById('searchContainer').style.display = 'flex';
-                
-                // Fetch assets for this room
-                fetch(`/api/assets/${currentRoom}`)
-                    .then(response => response.json())
-                    .then(assets => {
-                        expectedAssets = assets;
-                        
-                        // Reset the found status for all assets
-                        expectedAssets.forEach(asset => {
-                            asset.found = false;
-                        });
-                        
-                        // Display assets
-                        displayExpectedAssets();
-                        
-                        // Show asset lists
-                        document.getElementById('assetList').style.display = 'block';
-                        document.getElementById('scannedAssetsList').style.display = 'block';
-                    })
-                    .catch(error => console.error('Error fetching assets:', error));
-            } else {
-                document.getElementById('auditMethodButtons').style.display = 'none';
-                document.getElementById('searchContainer').style.display = 'none';
-                document.getElementById('assetList').style.display = 'none';
-                document.getElementById('scannedAssetsList').style.display = 'none';
-            }
-        }
-        
-        function displayExpectedAssets() {
-            const tableBody = document.getElementById('expectedAssetsTableBody');
-            tableBody.innerHTML = '';
-            
-            expectedAssets.forEach(asset => {
-                const row = document.createElement('tr');
-                
-                // Description
-                const descCell = document.createElement('td');
-                descCell.textContent = asset.description;
-                row.appendChild(descCell);
-                
-                // Asset ID
-                const idCell = document.createElement('td');
-                idCell.textContent = asset.id;
-                row.appendChild(idCell);
-                
-                // Brand/Model
-                const brandModelCell = document.createElement('td');
-                brandModelCell.textContent = `${asset.brand} ${asset.model}`;
-                row.appendChild(brandModelCell);
-                
-                // Assignee - would need to fetch assignee details separately
-                const assigneeCell = document.createElement('td');
-                assigneeCell.textContent = asset.assignee_id; // Need to display assignee name instead of ID
-                row.appendChild(assigneeCell);
-                
-                // Status
-                const statusCell = document.createElement('td');
-                const statusIndicator = document.createElement('span');
-                
-                if (asset.status === 'present') {
-                    statusIndicator.className = 'status-dot status-good';
-                    statusCell.appendChild(statusIndicator);
-                    statusCell.appendChild(document.createTextNode(' Present'));
-                } else {
-                    statusIndicator.className = 'status-dot status-poor';
-                    statusCell.appendChild(statusIndicator);
-                    statusCell.appendChild(document.createTextNode(' ' + asset.status));
-                }
-                row.appendChild(statusCell);
-                
-                // Last Updated
-                const lastUpdatedCell = document.createElement('td');
-                const date = new Date(asset.last_update);
-                lastUpdatedCell.textContent = date.toLocaleDateString();
-                row.appendChild(lastUpdatedCell);
-                
-                // Found Status
-                const foundCell = document.createElement('td');
-                foundCell.id = `found-status-${asset.id}`;
-                foundCell.className = asset.found ? 'found-yes' : 'found-no';
-                foundCell.textContent = asset.found ? 'YES' : 'NO';
-                row.appendChild(foundCell);
-                
-                tableBody.appendChild(row);
-            });
-            
-            // Clear the scanned assets table
-            document.getElementById('scannedAssetsTableBody').innerHTML = '';
-        }
-        
-        function setAuditMethod(method) {
-            currentAuditMethod = method;
-            
-            document.querySelectorAll('.audit-method-btn').forEach(btn => {
-                btn.classList.remove('btn-primary');
-                btn.classList.add('btn-light');
-            });
-
-            const activeBtn = document.querySelector(`.audit-method-btn[onclick="setAuditMethod('${method}')"]`);
-            activeBtn.classList.remove('btn-light');
-            activeBtn.classList.add('btn-primary');
-
-            // Show search bar only for manual mode
-            const searchInput = document.getElementById('searchInput');
-            if (method === 'manual') {
-                searchInput.style.display = 'block';
-                searchInput.placeholder = "Search assets manually...";
-            } else {
-                searchInput.style.display = 'none';
-            }
-
-            // Update button text
-            const buttonTexts = {
-                manual: 'Start Manual Audit',
-                rfid: 'Start RFID Scanning',
-                barcode: 'Start Barcode Scanning'
-            };
-            document.getElementById('startScanning').textContent = buttonTexts[method];
-        }
-        
-        // Function to simulate scanning an asset
-        function simulateScanAsset(assetId) {
-            // Find the asset in the expected assets list
-            const asset = expectedAssets.find(a => a.id === assetId);
-            
-            if (asset) {
-                // Mark the asset as found
-                asset.found = true;
-                
-                // Update the found status in the table
-                const foundCell = document.getElementById(`found-status-${asset.id}`);
-                if (foundCell) {
-                    foundCell.className = 'found-yes';
-                    foundCell.textContent = 'YES';
-                }
-                
-                // Add to scanned assets
-                if (!scannedAssets.find(a => a.id === asset.id)) {
-                    scannedAssets.push(asset);
-                    updateScannedAssetsTable();
-                }
-            }
-        }
-        
-        function updateScannedAssetsTable() {
-            const scannedTableBody = document.getElementById('scannedAssetsTableBody');
-            scannedTableBody.innerHTML = '';
-            
-            scannedAssets.forEach(asset => {
-                const row = document.createElement('tr');
-                
-                // Description
-                const descCell = document.createElement('td');
-                descCell.textContent = asset.description;
-                row.appendChild(descCell);
-                
-                // Asset ID
-                const idCell = document.createElement('td');
-                idCell.textContent = asset.id;
-                row.appendChild(idCell);
-                
-                // Brand/Model
-                const brandModelCell = document.createElement('td');
-                brandModelCell.textContent = `${asset.brand} ${asset.model}`;
-                row.appendChild(brandModelCell);
-                
-                // Location
-                const locationCell = document.createElement('td');
-                locationCell.textContent = asset.room_id; // Would need room name instead of ID
-                row.appendChild(locationCell);
-                
-                // Status
-                const statusCell = document.createElement('td');
-                const statusIndicator = document.createElement('span');
-                statusIndicator.className = `status-dot status-${asset.status === 'present' ? 'good' : 'poor'}`;
-                statusCell.appendChild(statusIndicator);
-                statusCell.appendChild(document.createTextNode(' ' + asset.status));
-                row.appendChild(statusCell);
-                
-                // Assignee
-                const assigneeCell = document.createElement('td');
-                assigneeCell.textContent = asset.assignee_id; // Need to display assignee name
-                row.appendChild(assigneeCell);
-                
-                // Last Updated
-                const lastUpdatedCell = document.createElement('td');
-                const date = new Date(asset.last_update);
-                lastUpdatedCell.textContent = date.toLocaleDateString();
-                row.appendChild(lastUpdatedCell);
-                
-                scannedTableBody.appendChild(row);
-            });
-        }
-        
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set up event listener for start scanning button
-            document.getElementById('startScanning').addEventListener('click', function() {
-                const buildingName = document.querySelector(`#buildingSelect option[value="${currentBuilding}"]`).textContent;
-                const floorName = document.querySelector(`#floorSelect option[value="${currentFloor}"]`).textContent;
-                const roomName = document.querySelector(`#roomSelect option[value="${currentRoom}"]`).textContent;
-                
-                alert(`Started ${currentAuditMethod} audit for ${buildingName}, ${floorName}, ${roomName}`);
-                
-                // Simulate scanning some assets after a short delay
-                if (expectedAssets.length > 0) {
-                    setTimeout(() => {
-                        simulateScanAsset(expectedAssets[0].id);
-                    }, 2000);
-                }
-            });
-            
-            // Set up event listener for search input to simulate scanning when user presses Enter
-            document.getElementById('searchInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    const assetId = this.value.trim();
-                    if (assetId) {
-                        simulateScanAsset(assetId);
-                        this.value = ''; // Clear the input
-                    }
-                }
-            });
-        });
-    </script>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/audit.js') }}"></script>
 </body>
 </html>
