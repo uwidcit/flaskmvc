@@ -12,8 +12,7 @@ class ScanEvent(db.Model):
     scan_time = db.Column(db.DateTime, default=db.func.current_timestamp())
     status = db.Column(db.String, nullable = False)
     notes = db.Column(db.String(120), nullable = True)
-    id = db.Column(db.Integer, primary_key = True, nullable = False, unique = True)
-    asset = db.relationship('Asset', back_populates='history', overlaps="asset")
+    asset = db.relationship('Asset', back_populates='scanevent', overlaps="asset")
     last_update = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     changeLog = db.Column(db.String(200), nullable = True)
     
