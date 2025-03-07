@@ -5,6 +5,5 @@ from .room import *
 from .assetassignment import *
 from .assignee import *
 from .floor import *
-from .history import *
 from .provider import *
 from .scanevent import *

@@ -10,7 +10,6 @@ from App.controllers.assetassignment import *
 from App.controllers.assignee import *
 from App.controllers.building import *
 from App.controllers.floor import *
-from App.controllers.history import *
 from App.controllers.provider import *
 from App.controllers.room import *
 from App.controllers.scanevent import *
