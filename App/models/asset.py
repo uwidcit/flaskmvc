@@ -20,7 +20,7 @@ class Asset(db.Model):
     notes = db.Column(db.String(300), nullable = True)
     status = db.Column(db.String(120), nullable = False)
     
-    history = db.relationship('History', back_populates='asset')
+    scanevent = db.relationship('ScanEvent', back_populates='asset')
     
     
     def __init__(self, id, description, model, brand, serial_number, room_id, assignee_id, last_update, notes, status):
