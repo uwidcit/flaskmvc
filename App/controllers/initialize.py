@@ -4,7 +4,6 @@ from App.controllers.assetassignment import *
 from App.controllers.assignee import *
 from App.controllers.building import *
 from App.controllers.floor import *
-from App.controllers.history import *
 from App.controllers.provider import *
 from App.controllers.room import *
 from App.controllers.scanevent import *
@@ -42,11 +41,6 @@ def initialize():
     create_floor(2, 2, "2nd Floor")
     print("Floors created.")
     
-
-    # Sample data for history
-    get_all_history_by_asset(1)
-    get_all_history_by_asset(2)
-    print("History records created.")
 
     # Sample data for providers
     create_provider(1, "Tech Supplies Ltd", "jerrysmith@techsupplies.com")
