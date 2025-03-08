@@ -1,6 +1,7 @@
 import os, tempfile, pytest, logging, unittest
 from werkzeug.security import check_password_hash, generate_password_hash
-
+from datetime import datetime
+from App.models import Building, Floor, Room
 from App.main import create_app
 from App.database import db, create_db
 from App.models import User
@@ -12,7 +13,6 @@ from App.controllers import (
     get_user_by_username,
     update_user
 )
-
 
 LOGGER = logging.getLogger(__name__)
 
@@ -41,6 +41,33 @@ class UserUnitTests(unittest.TestCase):
         password = "mypass"
         user = User("bob", password)
         assert user.check_password(password)
+
+class BuildingUnitTests(unittest.TestCase):
+
+    def test_get_json(self):
+        b = Building("B001", "Main Building")
+        json_data = b.get_json()
+        self.assertEqual(json_data['building_id'], "B001")
+        self.assertEqual(json_data['building_name'], "Main Building")
+
+class FloorUnitTests(unittest.TestCase):
+
+    def test_get_json(self):
+        f = Floor("F001", "B001", "First Floor")
+        json_data = f.get_json()
+        self.assertEqual(json_data['floor_id'], "F001")
+        self.assertEqual(json_data['building_id'], "B001")
+        self.assertEqual(json_data['floor_name'], "First Floor")
+
+class RoomUnitTests(unittest.TestCase):
+    
+    def test_get_json(self):
+        r = Room("R001", "F001", "Room 1")
+        json_data = r.get_json()
+        self.assertEqual(json_data['room_id'], "R001")
+        self.assertEqual(json_data['floor_id'], "F001")
+        self.assertEqual(json_data['room_name'], "Room 1")
+
 
 '''
     Integration Tests
