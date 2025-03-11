@@ -13,7 +13,11 @@ from App.controllers import (
     get_user_by_username,
     update_user
 )
-
+from App.controllers.assignee import create_assignee, get_assignee_by_id, update_assignee
+from App.controllers.assetassignment import (
+    create_asset_assignment, get_asset_assignment_by_id,
+    update_asset_assignment, delete_asset_assignment
+)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -123,5 +127,37 @@ class UsersIntegrationTests(unittest.TestCase):
         update_user(1, "ronnie")
         user = get_user(1)
         assert user.username == "ronnie"
-        
+
+class AssigneeIntegrationTests(unittest.TestCase):
+    def test_create_assignee(self):
+        assignee = create_assignee("Alice", "Smith", "alice@example.com", "R1")
+        self.assertEqual(assignee.email, "alice@example.com")
+
+    def test_update_assignee(self):
+        assignee = create_assignee("Bob", "Jones", "bob@example.com", "R2")
+        updated = update_assignee(assignee.id, "Robert", "Jones", "bob@example.com", "R3")
+        self.assertEqual(updated.fname, "Robert")
+        self.assertEqual(updated.room_id, "R3")
+
+class AssetAssignmentIntegrationTests(unittest.TestCase):
+    def test_create_asset_assignment(self):
+        aa = create_asset_assignment("AA1", "asset1", "assignee1", "F1")
+        self.assertEqual(aa.assignment_id, "AA1")
+        self.assertIsNotNone(aa.assignment_date)  
+
+    def test_update_asset_assignment(self):
+        create_asset_assignment(
+            "AA2", "asset2", "assignee2", "F1",
+            assignment_date="2025-03-07 12:00:00", return_date="2025-03-08 12:00:00"
+        )
+        updated = update_asset_assignment("AA2", asset_id="asset3", return_date="2025-03-09 12:00:00")
+        self.assertEqual(updated.asset_id, "asset3")
+        self.assertEqual(updated.return_date, "2025-03-09 12:00:00")
+
+    def test_delete_asset_assignment(self):
+        create_asset_assignment("AA3", "asset3", "assignee3", "F1")
+        result = delete_asset_assignment("AA3")
+        self.assertTrue(result)
+        aa = get_asset_assignment_by_id("AA3")
+        self.assertIsNone(aa)    
 
