@@ -1,6 +1,7 @@
 import os, tempfile, pytest, logging, unittest
 from werkzeug.security import check_password_hash, generate_password_hash
-
+from datetime import datetime
+from App.models import Assignee, AssetAssignment
 from App.main import create_app
 from App.database import db, create_db
 from App.models import User
@@ -41,6 +42,53 @@ class UserUnitTests(unittest.TestCase):
         password = "mypass"
         user = User("bob", password)
         assert user.check_password(password)
+
+class AssigneeUnitTests(unittest.TestCase):
+    def test_new_assignee(self):
+        a = Assignee("Alice", "Smith", "alice@example.com", room_id="R1")
+        self.assertEqual(a.fname, "Alice")
+        self.assertEqual(a.lname, "Smith")
+        self.assertEqual(a.email, "alice@example.com")
+        self.assertEqual(a.room_id, "R1")
+
+    def test_get_json(self):
+        a = Assignee("Alice", "Smith", "alice@example.com", room_id="R1")
+        expected = {
+            'id': None,
+            'fname': "Alice",
+            'lname': "Smith",
+            'email': "alice@example.com",
+            'room_id': "R1"
+        }
+        self.assertEqual(a.get_json(), expected)
+
+class AssetAssignmentUnitTests(unittest.TestCase):
+    def test_new_asset_assignment(self):
+        aa = AssetAssignment(
+            "AA1", "asset123", "assignee123", "F1",
+            assignment_date="2025-03-07 12:00:00", return_date="2025-03-08 12:00:00"
+        )
+        self.assertEqual(aa.assignment_id, "AA1")
+        self.assertEqual(aa.asset_id, "asset123")
+        self.assertEqual(aa.assigned_to_assignee_id, "assignee123")
+        self.assertEqual(aa.floor_id, "F1")
+        self.assertEqual(aa.assignment_date, "2025-03-07 12:00:00")
+        self.assertEqual(aa.return_date, "2025-03-08 12:00:00")
+
+    def test_get_json(self):
+        aa = AssetAssignment(
+            "AA1", "asset123", "assignee123", "F1",
+            assignment_date="2025-03-07 12:00:00", return_date="2025-03-08 12:00:00"
+        )
+        expected = {
+            'assignment_id': "AA1",
+            'asset_id': "asset123",
+            'assigned_to_assignee_id': "assignee123",
+            'floor_id': "F1",
+            'assignment_date': "2025-03-07 12:00:00",
+            'return_date': "2025-03-08 12:00:00"
+        }
+        self.assertEqual(aa.get_json(), expected)
 
 '''
     Integration Tests
