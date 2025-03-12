@@ -12,6 +12,7 @@ class Asset(db.Model):
     
     
     room_id = db.Column(db.String, db.ForeignKey('room.room_id'), nullable = False)
+    last_located = db.Column(db.String, db.ForeignKey('room.room_id'), default = room_id)
     assignee_id = db.Column(db.Integer, db.ForeignKey('assignee.id'), nullable = False)
     last_update = db.Column(db.DateTime, default=db.func.current_timestamp())
     
@@ -23,13 +24,14 @@ class Asset(db.Model):
     scanevent = db.relationship('ScanEvent', back_populates='asset')
     
     
-    def __init__(self, id, description, model, brand, serial_number, room_id, assignee_id, last_update, notes, status):
+    def __init__(self, id, description, model, brand, serial_number, room_id, last_located, assignee_id, last_update, notes, status):
         self.id = id
         self.description = description
         self.model = model
         self.brand  = brand
         self.serial_number = serial_number
         self.room_id = room_id
+        self.last_located = last_located
         self.assignee_id = assignee_id
         self.last_update = last_update
         self.notes = notes
@@ -43,6 +45,7 @@ class Asset(db.Model):
             'brand': self.brand,
             'serial_number': self.serial_number,
             'room_id': self.room_id,
+            'last_located': self.last_located,
             'assignee_id':self.assignee_id,
             'last_update': self.last_update,
             'notes': self.notes,
