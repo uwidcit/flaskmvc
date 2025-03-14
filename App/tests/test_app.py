@@ -27,24 +27,29 @@ LOGGER = logging.getLogger(__name__)
 class UserUnitTests(unittest.TestCase):
 
     def test_new_user(self):
-        user = User("bob", "bobpass")
-        assert user.email == "bob"
+        user = User( "bob@gmail.com", "bob", "bobpass")
+        self.assertEqual(user.id, None)
+        self.assertEqual(user.username, "bob")
+        #assert user.email == "bob@gmail.com"
+        self.assertEqual(user.email, "bob@gmail.com")
+       # self.assertEqual(user.password, "bobpass")
+        
 
     # pure function no side effects or integrations called
     def test_get_json(self):
-        user = User("bob", "bobpass")
+        user = User( "bob@gmail.com", "bob", "bobpass")
         user_json = user.get_json()
-        self.assertDictEqual(user_json, {"id":None, "username":"bob"})
+        self.assertDictEqual(user_json, {"id":None, "email":"bob@gmail.com", "username":"bob" })
     
     def test_hashed_password(self):
         password = "mypass"
         hashed = generate_password_hash(password, method='sha256')
-        user = User("bob", password)
+        user = User("bob@gmail.com", "bob", password)
         assert user.password != password
 
     def test_check_password(self):
         password = "mypass"
-        user = User("bob", password)
+        user = User("bob@gmail.com", "bob", password)
         assert user.check_password(password)
 
 class BuildingUnitTests(unittest.TestCase):
@@ -112,22 +117,22 @@ def empty_db():
 
 
 def test_authenticate():
-    user = create_user("bob", "bobpass")
-    assert login("bob", "bobpass") != None
+    user = create_user("bob@gmail.com", "bob", "bobpass")
+    assert login("bob@gmail.com", "bobpass") != None
 
 class UsersIntegrationTests(unittest.TestCase):
 
     def test_create_user(self):
-        user = create_user("rick", "bobpass")
-        assert user.email == "rick"
+        user = create_user("rick@gmail.com", "rick", "bobpass")
+        assert user.email == "rick@gmail.com"
 
     def test_get_all_users_json(self):
         users_json = get_all_users_json()
-        self.assertListEqual([{"id":1, "username":"bob"}, {"id":2, "username":"rick"}], users_json)
+        self.assertListEqual([{"id":1, "email":"bob@gmail.com", "username":"bob"}, {"id":2, "email":"rick@gmail.com", "username":"rick"}], users_json)
 
     # Tests data changes in the database
     def test_update_user(self):
-        update_user(1, "ronnie")
+        update_user(1, "ronnie@gmail.com", "ronnie")
         user = get_user(1)
         assert user.username == "ronnie"
         
