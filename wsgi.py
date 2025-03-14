@@ -69,13 +69,14 @@ asset_cli = AppGroup('asset', help="Asset object commands")
 @click.argument("brand", default="")
 @click.argument("serial_number", default="00000000")
 @click.argument("room_id", default ="01")
+@click.argument("last_located", default ="01")
 @click.argument("assignee_id", default="01")
 @click.argument("last_update", default="02/02/2002")
 @click.argument("notes", default="")
 @click.argument("status", default="Good Condition")
 
-def add_asset_command(id, description, model, brand, serial_number, room_id, assignee_id,last_update, notes, status):
-    asset = add_asset(id, description, model, brand, serial_number, room_id, assignee_id,last_update, notes, status)
+def add_asset_command(id, description, model, brand, serial_number, room_id, last_located, assignee_id,last_update, notes, status):
+    asset = add_asset(id, description, model, brand, serial_number, room_id, last_located, assignee_id,last_update, notes, status)
     if asset is None:
         print('Error creating asset')
     else:

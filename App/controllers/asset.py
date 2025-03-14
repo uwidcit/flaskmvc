@@ -4,20 +4,6 @@ from App.controllers.assignee import *
 from App.database import db 
 
 
-# def add_asset(description, model, brand, serial_number, room_id, assignee_id, last_update, notes, status):
-
-
-    
-#     newAsset = Asset (description, model, brand, serial_number, room_id, assignee_id, last_update, notes, status)
-    
-    
-#     try:
-#         db.session.add(newAsset)
-#         db.session.commit()
-#         return newAsset
-#     except:
-#         db.session.rollback()
-#         return None
     
 
 
