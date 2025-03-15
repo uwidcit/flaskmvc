@@ -1,22 +1,9 @@
 from App.models import Asset 
+from App.models.asset import *
 from App.controllers.assignee import *
 from App.database import db 
 
 
-# def add_asset(description, model, brand, serial_number, room_id, assignee_id, last_update, notes, status):
-
-
-    
-#     newAsset = Asset (description, model, brand, serial_number, room_id, assignee_id, last_update, notes, status)
-    
-    
-#     try:
-#         db.session.add(newAsset)
-#         db.session.commit()
-#         return newAsset
-#     except:
-#         db.session.rollback()
-#         return None
     
 
 
@@ -46,11 +33,11 @@ def get_all_assets_by_room_json(room_id):
     return assets
 
 
-def add_asset(id, description, model, brand, serial_number, room_id, assignee_id, last_update, notes, status):
+def add_asset(id, description, model, brand, serial_number, room_id, last_located, assignee_id, last_update, notes, status):
 
 
     
-    newAsset = Asset(id, description, model, brand, serial_number, room_id, assignee_id, last_update, notes, status)
+    newAsset = Asset(id, description, model, brand, serial_number, room_id, last_located, assignee_id, last_update, notes, status)
     
     
     try:
@@ -61,7 +48,19 @@ def add_asset(id, description, model, brand, serial_number, room_id, assignee_id
         db.session.rollback()
         return None
     
-
+def set_last_located(id,last_located):
+    new_asset = get_asset(id)
+    new_asset.last_located = last_located
+    
+def set_status(id):
+    new_asset= Asset.query.filter_by(id = id).first()
+    if new_asset.room_id == new_asset.last_located :
+        new_asset.status = "Found"
+    else:
+        new_asset.status = "Misplaced"
+        
+    return new_asset
+    
 
     
     
