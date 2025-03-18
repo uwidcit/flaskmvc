@@ -1,7 +1,7 @@
 import os, tempfile, pytest, logging, unittest
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
-from App.models import Building, Floor, Room
+from App.models import Assignee, AssetAssignment, Building, Floor, Room
 from App.controllers import (
     create_building, get_building, 
     create_floor, get_floor,
@@ -17,6 +17,11 @@ from App.controllers import (
     get_user,
     get_user_by_username,
     update_user
+)
+from App.controllers.assignee import create_assignee, get_assignee_by_id, update_assignee
+from App.controllers.assetassignment import (
+    create_asset_assignment, get_asset_assignment_by_id,
+    update_asset_assignment, delete_asset_assignment
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -101,6 +106,27 @@ class RoomUnitTests(unittest.TestCase):
             'room_name': "Asset Room: 102"
         }
         self.assertDictEqual(room.get_json(), expected_json)
+
+class AssigneeUnitTests(unittest.TestCase):
+
+    def test_new_assignee(self):
+        a = Assignee("Alice", "Smith", "alice@example.com", room_id="R1")
+        self.assertEqual(a.fname, "Alice")
+        self.assertEqual(a.lname, "Smith")
+        self.assertEqual(a.email, "alice@example.com")
+        self.assertEqual(a.room_id, "R1")
+
+    def test_get_json(self):
+        a = Assignee("Alice", "Smith", "alice@example.com", room_id="R1")
+        expected = {
+            'id': None,
+            'fname': "Alice",
+            'lname': "Smith",
+            'email': "alice@example.com",
+            'room_id': "R1"
+        }
+        self.assertEqual(a.get_json(), expected)
+
 
 '''
     Integration Tests
