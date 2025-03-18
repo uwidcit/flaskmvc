@@ -61,10 +61,10 @@ class BuildingUnitTests(unittest.TestCase):
 
 
     def test_building_get_json(self):
-        building = Building("B2", "Science Block")
+        building = Building("B2", "Main Building")
         expected_json = {
             'building_id': "B2",
-            'building_name': "Science Block"
+            'building_name': "Main Building"
         }
         self.assertDictEqual(building.get_json(), expected_json)
 
@@ -88,17 +88,17 @@ class FloorUnitTests(unittest.TestCase):
 class RoomUnitTests(unittest.TestCase):
 
     def test_new_room(self):
-        room = Room("R1", "F1", "Conference Room")
+        room = Room("R1", "F1", "Asset Room: 101")
         self.assertEqual(room.room_id, "R1")
         self.assertEqual(room.floor_id, "F1")
-        self.assertEqual(room.room_name, "Conference Room")
+        self.assertEqual(room.room_name, "Asset Room: 101")
 
     def test_room_get_json(self):
-        room = Room("R2", "F1", "Meeting Room")
+        room = Room("R2", "F1", "Asset Room: 102")
         expected_json = {
             'room_id': "R2",
             'floor_id': "F1",
-            'room_name': "Meeting Room"
+            'room_name': "Asset Room: 102"
         }
         self.assertDictEqual(room.get_json(), expected_json)
 
@@ -148,9 +148,6 @@ class BuildingIntegrationTests (unittest.TestCase):
         self.assertIsNotNone(building)
         self.assertEqual(building.building_name, "Main Building")
 
-
-    
-
 class FloorIntegrationTests(unittest.TestCase):
 
     def test_create_floor(self):
@@ -166,11 +163,11 @@ class FloorIntegrationTests(unittest.TestCase):
 class RoomIntegrationTests(unittest.TestCase):
 
     def test_create_room(self):
-        room = create_room("R3", "F3", "Room 3")
-        self.assertEqual(room.room_name, "Room 3")
+        room = create_room("R3", "F3", "Asset Room: 103")
+        self.assertEqual(room.room_name, "Asset Room: 103")
 
     def test_get_room(self):
-        create_room("R4", "F3", "Room 4")
+        create_room("R4", "F3", "Asset Room: 104")
         room = get_room("R4")
         self.assertIsNotNone(room)
-        self.assertEqual(room.room_name, "Room 4")
+        self.assertEqual(room.room_name, "Asset Room: 104")
