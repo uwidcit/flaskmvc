@@ -143,13 +143,13 @@ class AssetAssignmentUnitTests(unittest.TestCase):
 
     def test_get_json(self):
         aa = AssetAssignment(
-            "AA1", "asset1", "assignee1", "1st Floor",
+            "AA1", "asset1", "assigned1", "1st Floor",
             assignment_date="2025-03-07 12:00:00", return_date="2025-03-08 12:00:00"
         )
         expected = {
             'assignment_id': "AA1",
             'asset_id': "asset1",
-            'assigned_to_assignee_id': "assignee1",
+            'assigned_to_assignee_id': "assigned1",
             'floor_id': "1st Floor",
             'assignment_date': "2025-03-07 12:00:00",
             'return_date': "2025-03-08 12:00:00"
@@ -225,3 +225,14 @@ class RoomIntegrationTests(unittest.TestCase):
         room = get_room("R4")
         self.assertIsNotNone(room)
         self.assertEqual(room.room_name, "Asset Room: 104")
+
+class AssigneeIntegrationTests(unittest.TestCase):
+    def test_create_assignee(self):
+        assignee = create_assignee("Alice", "Smith", "alice@example.com", "R1")
+        self.assertEqual(assignee.email, "alice@example.com")
+
+    def test_update_assignee(self):
+        assignee = create_assignee("Bob", "Jones", "bob@example.com", "R2")
+        updated = update_assignee(assignee.id, "Robert", "Jones", "bob@example.com", "R3")
+        self.assertEqual(updated.fname, "Robert")
+        self.assertEqual(updated.room_id, "R3")
