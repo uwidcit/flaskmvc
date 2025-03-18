@@ -30,6 +30,21 @@ def init():
 
     #Sample data for assets
     
+    def upload_csv(self):
+        with open('CSVsample.csv') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+
+                new_asset = Asset(row['item'],
+                            row['Asset Tag'],
+                            row['Class'],
+                            row['Location'],
+                            row['Condition'],
+                            row['Assignee'],
+                            )
+                db.session.add(new_asset)
+            db.session.commit()
+        
 
 '''
 User Commands
