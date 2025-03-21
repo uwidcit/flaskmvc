@@ -5,7 +5,7 @@ from sqlalchemy import *
 class Asset(db.Model):
     id = db.Column(db.String, primary_key = True, nullable = False, unique = True)
     description = db.Column(db.String(200), nullable = True, unique=False)
-    model = db.Column(db.String(120), nullable = True, unique = False)
+    model = db.Column(db.String(120), nullable = True)#, unique = False)
     brand = db.Column(db.String(120), nullable = True)
     serial_number = db.Column(db.String(20), nullable = True)
     
@@ -39,7 +39,7 @@ class Asset(db.Model):
         
     def get_json(self):
         return{
-            'id:': self.id,
+            'id': self.id,
             'description': self.description,
             'model': self.model,
             'brand': self.brand,
