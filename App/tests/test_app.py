@@ -1,7 +1,7 @@
 import os, tempfile, pytest, logging, unittest
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
-from App.models import Assignee, AssetAssignment, Building, Floor, Room, Asset
+from App.models import Assignee, AssetAssignment, Building, Floor, Room, Asset, ScanEvent
 from App.controllers import (
     create_building, get_building, 
     create_floor, get_floor,
@@ -11,6 +11,11 @@ from App.controllers.asset import(
     get_asset, get_all_assets,
     get_all_assets_json, get_all_assets_by_room_id,
     add_asset, set_last_located,set_status
+)
+from App.controllers.scanevent import(
+    add_scan_event, get_all_scans,
+    get_scan_event, get_scans_by_status,
+    get_scans_by_last_update, get_scans_by_changelog
 )
 from App.main import create_app
 from App.database import db, create_db
@@ -193,7 +198,34 @@ class AssetUnitTests(unittest.TestCase):
         }
         self.assertDictEqual(asset.get_json(), expected_json)
         
-
+class ScanEventUnitTest(unittest.TestCase):
+    def test_new_scanevent(self):
+        scanevent = ScanEvent("01", "01", "01", "01", "30-12-2024", "Good", "scanned successfully", "15-09-2024", "Original owner")
+        self.assertEqual(scanevent.asset_id, "01")
+        self.assertEqual(scanevent.user_id, "01")
+        self.assertEqual(scanevent.room_id, "01")
+        self.assertEqual(scanevent.scan_time, "30-12-2024")
+        self.assertEqual(scanevent.status, "Good")
+        self.assertEqual(scanevent.notes, "scanned successfully")
+        self.assertEqual(scanevent.last_update, "15-09-2024")
+        self.assertEqual(scanevent.changeLog, "Original owner")
+        
+    def test_get_json(self):
+        scanevent = ScanEvent("01", "02", "03", "04", "30-12-2024", "Good", "scanned successfully", "15-09-2024", "Original owner")
+        expected_json = {
+            'scan_id: ': "01",
+            'asset_id: ': "02",
+            'user_id: ': "03",
+            'room_id: ': "04",
+            'scan_time: ': "30-12-2024",
+            'status: ': "Good",
+            'notes: ': "scanned successfully",
+            'last_update: ': "15-09-2024",
+            'change log: ': "Original owner"
+        }
+        self.assertDictEqual(scanevent.get_json(), expected_json)
+        
+        
 '''
     Integration Tests
 '''
