@@ -244,3 +244,12 @@ class RoomIntegrationTests(unittest.TestCase):
         room = get_room("R4")
         self.assertIsNotNone(room)
         self.assertEqual(room.room_name, "Room 4")
+        
+# class AssetIntegrationTests(unittest.TestCase):
+    
+#     def test_add_asset(self):
+#         added_asset = add_asset("02", "Desk", "Secretlab", "MAGNUS Pro", "8000100", "04", "04", "06", "13-10-2025", "Recently bought", "Good")
+#         self.assertEqual(added_asset.description, "Desk")
+        
+#     # def test_get_asset(self):
+        
