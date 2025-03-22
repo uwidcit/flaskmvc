@@ -39,7 +39,7 @@ class Asset(db.Model):
         
     def get_json(self):
         return{
-            'id:': self.id,
+            'id': self.id,
             'description': self.description,
             'model': self.model,
             'brand': self.brand,
