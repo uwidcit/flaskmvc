@@ -226,6 +226,7 @@ class ScanEventUnitTest(unittest.TestCase):
         self.assertDictEqual(scanevent.get_json(), expected_json)
         
         
+        
 '''
     Integration Tests
 '''

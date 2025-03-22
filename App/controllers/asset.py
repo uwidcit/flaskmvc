@@ -1,4 +1,5 @@
 from App.models import Asset 
+import os, csv
 from App.models.asset import *
 from App.controllers.assignee import *
 from App.database import db 
@@ -61,6 +62,30 @@ def set_status(id):
         
     return new_asset
     
+    
+def upload_csv(self):
+    with open('CSVsample.csv') as file:
+     reader = csv.DictReader(file)
+     for row in reader:
+         
+
+      new_asset = Asset(description=row['item'],
+                            id=row['Asset Tag'],
+                            model= row['Model'],
+                            brand=row['Brand'],
+                            serial_number=row['Serial Number'],
+                            room_id=row['Location'],
+                            last_located=row['Location'],
+                            status=row['Condition'],
+                            assignee_id=row['Assignee'],
+                            last_update=db.func.current_timestamp(),
+                            notes=null
+                            
+      )
+    
+     db.session.add(new_asset)
+     db.session.commit()
+        
 
     
     
