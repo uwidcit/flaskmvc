@@ -1,11 +1,21 @@
 import os, tempfile, pytest, logging, unittest
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
-from App.models import Assignee, AssetAssignment, Building, Floor, Room
+from App.models import Assignee, AssetAssignment, Building, Floor, Room, Asset, ScanEvent
 from App.controllers import (
     create_building, get_building, 
     create_floor, get_floor,
     create_room, get_room, 
+)
+from App.controllers.asset import(
+    get_asset, get_all_assets,
+    get_all_assets_json, get_all_assets_by_room_id,
+    add_asset, set_last_located,set_status
+)
+from App.controllers.scanevent import(
+    add_scan_event, get_all_scans,
+    get_scan_event, get_scans_by_status,
+    get_scans_by_last_update, get_scans_by_changelog
 )
 from App.main import create_app
 from App.database import db, create_db
@@ -156,6 +166,66 @@ class AssetAssignmentUnitTests(unittest.TestCase):
         }
         self.assertEqual(aa.get_json(), expected)
 
+class AssetUnitTests(unittest.TestCase):
+    def test_new_asset(self):
+        asset = Asset("01", "laptop", "ISP 300", "DELL", "8300164", "R2", "R2", "01", "30-01-2025", "Recently bought", "Good")
+        self.assertEqual(asset.id, "01")
+        self.assertEqual(asset.description, "laptop")
+        self.assertEqual(asset.model, "ISP 300")
+        self.assertEqual(asset.brand, "DELL")
+        self.assertEqual(asset.serial_number, "8300164")
+        self.assertEqual(asset.room_id, "R2")
+        self.assertEqual(asset.last_located, "R2")
+        self.assertEqual(asset.assignee_id, "01")
+        self.assertEqual(asset.last_update, "30-01-2025")
+        self.assertEqual(asset.notes, "Recently bought")
+        self.assertEqual(asset.status, "Good")
+        
+    def test_get_json(self):
+        asset = Asset("01", "laptop", "ISP 300", "DELL", "8300164", "R2", "R2", "01", "30-01-2025", "Recently bought", "Good")
+        expected_json = {
+            'id': "01",
+            'description': "laptop",
+            'model': "ISP 300",
+            'brand': "DELL",
+            'serial_number': "8300164",
+            'room_id': "R2",
+            'last_located': "R2",
+            'assignee_id': "01",
+            'last_update': "30-01-2025",
+            'notes': "Recently bought",
+            'status': "Good"
+        }
+        self.assertDictEqual(asset.get_json(), expected_json)
+        
+class ScanEventUnitTest(unittest.TestCase):
+    def test_new_scanevent(self):
+        scanevent = ScanEvent("01", "01", "01", "01", "30-12-2024", "Good", "scanned successfully", "15-09-2024", "Original owner")
+        self.assertEqual(scanevent.asset_id, "01")
+        self.assertEqual(scanevent.user_id, "01")
+        self.assertEqual(scanevent.room_id, "01")
+        self.assertEqual(scanevent.scan_time, "30-12-2024")
+        self.assertEqual(scanevent.status, "Good")
+        self.assertEqual(scanevent.notes, "scanned successfully")
+        self.assertEqual(scanevent.last_update, "15-09-2024")
+        self.assertEqual(scanevent.changeLog, "Original owner")
+        
+    def test_get_json(self):
+        scanevent = ScanEvent("01", "02", "03", "04", "30-12-2024", "Good", "scanned successfully", "15-09-2024", "Original owner")
+        expected_json = {
+            'scan_id: ': "01",
+            'asset_id: ': "02",
+            'user_id: ': "03",
+            'room_id: ': "04",
+            'scan_time: ': "30-12-2024",
+            'status: ': "Good",
+            'notes: ': "scanned successfully",
+            'last_update: ': "15-09-2024",
+            'change log: ': "Original owner"
+        }
+        self.assertDictEqual(scanevent.get_json(), expected_json)
+        
+        
 '''
     Integration Tests
 '''
