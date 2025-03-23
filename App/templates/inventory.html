@@ -58,6 +58,29 @@
             background-color: #218838;
             color: white;
         }
+       
+        .action-container {
+            margin-left: auto; /* Force to right */
+            display: flex;
+            gap: 10px; /* Adds space between buttons */
+        }
+
+        .add-csv-btn {
+            background-color: var(--primary-color, #0d6efd); /* Uses bootstrap primary color as fallback */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .add-csv-btn:hover {
+            background-color: #0a58ca; /* Slightly darker blue on hover */
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +116,9 @@
             <div class="action-container">
                 <a href="/add-asset" class="add-asset-btn">
                     <i class="bi bi-plus-lg"></i> Add Asset
+                </a>
+                <a href="/upload-csv" class="add-csv-btn">
+                    <i class="bi bi-file-earmark-spreadsheet"></i> Add CSV
                 </a>
             </div>
         </div>
