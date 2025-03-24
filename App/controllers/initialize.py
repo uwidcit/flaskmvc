@@ -17,8 +17,8 @@ def initialize():
     db.create_all()
     create_user('bob@gmail.com','bob marley', 'bobpass')
     
-    add_asset( 1, "Laptop", "ThinkPad X1", "Lenovo", "SN12345", 1, 1, datetime.now(), "Good condition", "Active")
-    add_asset(2, "Projector", "Epson X300", "Epson", "SN67890", 2, 2, datetime.now(), "Mounted on ceiling", "Active")
+    add_asset( 1, "Laptop", "ThinkPad X1", "Lenovo", "SN12345", 1, 1, 1, datetime.now(), "Good condition", "Active")
+    add_asset(2, "Projector", "Epson X300", "Epson", "SN67890", 2, 2, 2, datetime.now(), "Mounted on ceiling", "Active")
     print("Assets created.")
 
     # Sample data for assetassignments
