@@ -34,4 +34,11 @@ def update_user(id, email, username):
         db.session.add(user)
         return db.session.commit()
     return None
-    
+
+def delete_user(id):
+    user = get_user(id)
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        return True
+    return False
