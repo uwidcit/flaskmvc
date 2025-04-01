@@ -1,5 +1,6 @@
 from App.models import Floor
 from App.database import db
+from App.controllers.room import *
 
 def create_floor(floor_id, building_id, floor_name):
     new_floor = Floor(floor_id=floor_id, building_id=building_id, floor_name=floor_name)
@@ -28,3 +29,15 @@ def update_floor(floor_id, building_id, floor_name):
     floor.building_id = building_id
     floor.floor_name = floor_name
     return db.session.commit()
+
+def delete_floor(floor_id):
+    floor = get_floor(floor_id)
+    if floor:
+        rooms = get_rooms_by_floor(floor_id) # Check if there are any rooms in the floor
+        if rooms:
+            return False  # Floor has rooms, can't be deleted
+        else:
+            db.session.delete(floor)
+            db.session.commit()
+            return True  # Floor deleted successfully
+    return False  # Floor not found
