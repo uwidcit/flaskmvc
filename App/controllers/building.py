@@ -1,5 +1,6 @@
 from App.models import Building
 from App.database import db
+from App.controllers.floor import *
 
 def create_building(building_id, building_name):
     new_building = Building(building_id=building_id, building_name=building_name)
@@ -31,4 +32,16 @@ def update_building(building_id, building_name):
     if not building: return None
     building.building_name = building_id
     return db.session.commit()
+
+def delete_building(building_id):
+    building = get_building(building_id)
+    if building:
+        floors = get_floors_by_building(building_id) # Check if there are any floors in the building
+        if floors:
+            return False  # Building has floors, can't be deleted
+        else:
+            db.session.delete(building)
+            db.session.commit()
+            return True  # Building deleted successfully
+    return False  # Building not found
 
