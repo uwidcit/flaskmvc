@@ -1,4 +1,5 @@
 from App.models import Room
+from App.controllers.asset import *
 from App.database import db
 
 def create_room(room_id, floor_id, room_name):
@@ -27,3 +28,16 @@ def update_room(room_id, floor_id, room_name):
     if not room: return None
     room.floor_id = floor_id
     room.room_name = room_name
+
+def delete_room(room_id):
+    room = get_room(room_id)
+    if room:
+        assets = get_all_assets_by_room_id(room_id) # Check if there are any assets in the room
+        if assets:
+            return False  # Room is not empty, can't be deleted
+        else:
+            db.session.delete(room)
+            db.session.commit()
+            return True  # Room deleted successfully
+    return False  # Room not found
+
