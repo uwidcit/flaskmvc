@@ -10,7 +10,7 @@ from App.controllers import (
 from App.controllers.asset import(
     get_asset, get_all_assets,
     get_all_assets_json, get_all_assets_by_room_id,
-    add_asset, set_last_located,set_status
+    add_asset, set_last_located,set_status, upload_csv
 )
 from App.controllers.scanevent import(
     add_scan_event, get_all_scans,
@@ -330,3 +330,30 @@ class AssetAssignmentIntegrationTests(unittest.TestCase):
         self.assertTrue(result)
         aa = get_asset_assignment_by_id("AA3")
         self.assertIsNone(aa)
+        
+class AssetIntegrationTests(unittest.TestCase):
+    def test_create_asset(self):
+        test_asset = add_asset( "1", "laptop", "ISP 300", "DELL", "8300164", "R2", "R2", "01", "30-01-2025", "Recently bought", "Good")
+       # test_2 = Asset( "1", "laptop", "ISP 300", "DELL", "8300164", "R2", "R2", "01", "30-01-2025", "Recently bought", "Good")
+        self.assertEqual(test_asset.id, "1")
+        
+    def test_get_asset_by_id(self):
+        add_asset("01", "laptop", "ISP 300", "DELL", "8300164", "R2", "R2", "01", "30-01-2025", "Recently bought", "Good")#  create_room("R4", "F3", "Asset Room: 104")
+        a = get_asset("01")# room = get_room("R4")
+        self.assertIsNotNone(a)# self.assertIsNotNone(room)
+        self.assertEqual(a.description, "laptop")# self.assertEqual(room.room_name, "Asset Room: 104")
+        
+        
+    # def test_get_all_assets(self):
+        
+        
+        
+    # def test_get_all_assets_by_room_id(self):
+        
+        
+        
+        
+    # def test_status_updated_with_location(self):
+        
+        
+

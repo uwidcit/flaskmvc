@@ -40,6 +40,9 @@ def add_asset(id, description, model, brand, serial_number, room_id, last_locate
     
     newAsset = Asset(id, description, model, brand, serial_number, room_id, last_located, assignee_id, last_update, notes, status)
     
+    # db.session.add(newAsset)
+    # db.session.commit()
+    # return newAsset
     
     try:
         db.session.add(newAsset)
