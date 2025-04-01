@@ -86,6 +86,19 @@ def upload_csv(self):
      db.session.add(new_asset)
      db.session.commit()
         
+def delete_asset(id):
+    asset = get_asset(id)
+    if asset:
+        try:
+            db.session.delete(asset)
+            db.session.commit()
+            return True, f"Asset {id} was successfully deleted."
+        except:
+            db.session.rollback()
+            return False, f"Failed to delete asset {id}."
+    return False, f"Asset {id} does not exist."
+
+
 
     
     
