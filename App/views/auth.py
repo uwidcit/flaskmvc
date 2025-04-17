@@ -41,9 +41,24 @@ def login_action():
         flash('Invalid credentials', 'error')
         return redirect(url_for('auth_views.login_action'))
     
+    # Create response
     response = redirect(url_for('home_views.home_page'))
-    # Set the JWT cookie (if you are using cookie-based JWTs)
+    
+    # Set JWT in both cookie and header
     set_access_cookies(response, token)
+    response.headers['Authorization'] = f'Bearer {token}'
+    
+    # Set cookie max age and other options
+    response.set_cookie(
+        'access_token',
+        token,
+        httponly=True,
+        secure=True,  # Required for SameSite=None
+        samesite='Lax',  # More secure than 'None'
+        max_age=3600,  # 1 hour
+        path='/'  # Ensure cookie is available for all paths
+    )
+    
     flash('Login successful!', 'success')
     return response
 

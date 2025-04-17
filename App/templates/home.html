@@ -4,8 +4,11 @@
   <meta charset="UTF-8" />
   <title>Chef It | Home</title>
   <!-- Google Fonts for refined serif typography -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   <style>
     /* -------------------------
        GLOBAL STYLES
@@ -16,7 +19,7 @@
       box-sizing: border-box;
     }
     html, body {
-      font-family: 'Cormorant Garamond', Garamond, serif;
+      font-family: 'Poppins', 'Cormorant Garamond', Garamond, serif;
       background-color: #1d2b27; /* Moody forest green */
       color: #f5f1e3;
       height: 100%;
@@ -313,21 +316,21 @@
     <aside class="sidebar" id="sidebar">
       <!-- Toggle button is inside the sidebar -->
       <button class="toggle-sidebar" id="sidebarToggle">Toggle Sidebar</button>
-      <h1 class="logo">Chef It</h1>
+      <h1 class="logo animate__animated animate__fadeIn"><i class="fas fa-hat-chef"></i> Chef It</h1>
       <div class="nav-links">
-        <a data-category="all" class="active">All</a>
-        <a data-category="Breakfast">Breakfast</a>
-        <a data-category="Main Meal">Main Meal</a>
-        <a data-category="Desserts">Desserts</a>
-        <a id="new-recipe-link">Make Your Own Recipe</a>
-        <a data-category="inventory">Ingredients</a>
+        <a data-category="all" class="active"><i class="fas fa-th-large"></i> All</a>
+        <a data-category="Breakfast"><i class="fas fa-coffee"></i> Breakfast</a>
+        <a data-category="Main Meal"><i class="fas fa-utensils"></i> Main Meal</a>
+        <a data-category="Desserts"><i class="fas fa-ice-cream"></i> Desserts</a>
+        <a id="new-recipe-link"><i class="fas fa-plus-circle"></i> Make Your Own Recipe</a>
+        <a data-category="inventory"><i class="fas fa-carrot"></i> Ingredients</a>
       </div>
     </aside>
     
     <!-- MAIN CONTENT -->
     <main class="main-content">
       <div class="header-text">
-        <h2 class="header-title">Welcome to Chef It</h2>
+        <h2 class="header-title animate__animated animate__fadeInDown">Welcome to Chef It <i class="fas fa-hat-chef"></i></h2>
         <p class="header-desc">
           Discover curated recipes, manage ingredients, and elevate your cooking experience.
         </p>
@@ -364,13 +367,13 @@
           {% for item in inventory %}
             <li>
               {{ item.ingredient }}
-              <button class="remove-ingredient" data-id="{{ item.id }}">Remove</button>
+              <button class="remove-ingredient" data-id="{{ item.id }}"><i class="fas fa-trash-alt"></i> Remove</button>
             </li>
           {% endfor %}
         </ul>
         <div class="inventory-actions">
-          <button id="refreshIngredients">Refresh Ingredients</button>
-          <button id="add-ingredient-button">Add Ingredient</button>
+          <button id="refreshIngredients" class="animate__animated animate__fadeIn"><i class="fas fa-sync-alt"></i> Refresh</button>
+          <button id="add-ingredient-button" class="animate__animated animate__fadeIn"><i class="fas fa-plus"></i> Add Ingredient</button>
         </div>
       </div>
     </main>
@@ -393,6 +396,14 @@
         <label for="recipeName">Meal Name:</label>
         <input type="text" id="recipeName" name="recipeName" required>
         
+        <label for="recipeCategory">Category:</label>
+        <select id="recipeCategory" name="recipeCategory" required>
+          <option value="">Select a category</option>
+          <option value="Breakfast">Breakfast</option>
+          <option value="Main Meal">Main Meal</option>
+          <option value="Desserts">Desserts</option>
+        </select>
+        
         <label for="recipeIngredients">Ingredients (e.g., "eggs:5, flour:1"):</label>
         <textarea id="recipeIngredients" name="recipeIngredients" rows="3" required></textarea>
         
@@ -402,8 +413,8 @@
         <label for="recipeImage">Meal Image:</label>
         <input type="file" id="recipeImage" name="recipeImage" accept="image/*">
         
-        <button type="submit">Submit Recipe</button>
-        <button type="button" id="cancelNewRecipe">Cancel</button>
+        <button type="submit" class="inventory-button primary"><i class="fas fa-plus"></i> Add Recipe</button>
+        <button type="button" id="cancelNewRecipe" class="inventory-button secondary"><i class="fas fa-times"></i> Cancel</button>
       </form>
     </div>
   </div>
@@ -509,11 +520,77 @@
       
       newRecipeForm.addEventListener("submit", function (event) {
         event.preventDefault();
-        // For demo: process the new recipe form (logic omitted for brevity)
-        alert("Recipe submitted! (This demo adds the recipe to the grid.)");
+        const formData = new FormData(newRecipeForm);
+        
+        // Create recipe object
+        const recipe = {
+          name: formData.get('recipeName'),
+          category: formData.get('recipeCategory'),
+          ingredients: formData.get('recipeIngredients')
+            .split(',')
+            .map(item => {
+              const [name, quantity] = item.trim().split(':');
+              return { name, quantity_required: parseInt(quantity) || 1 };
+            }),
+          instructions: formData.get('recipeInstructions'),
+          image: 'default_recipe.png' // Default image
+        };
+
+        // Handle image upload if provided
+        const imageFile = formData.get('recipeImage');
+        if (imageFile && imageFile.size > 0) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            // Add new recipe card to the grid
+            addRecipeToGrid(recipe, e.target.result);
+          };
+          reader.readAsDataURL(imageFile);
+        } else {
+          // Add new recipe card to the grid with default image
+          addRecipeToGrid(recipe);
+        }
+
+        // Close modal and reset form
         newRecipeModal.style.display = "none";
         newRecipeForm.reset();
       });
+
+      // Function to add new recipe to the grid
+      function addRecipeToGrid(recipe, imageUrl = null) {
+        const recipeGrid = document.getElementById('recipeGrid');
+        const newCard = document.createElement('div');
+        newCard.className = 'recipe-card animate__animated animate__fadeIn';
+        newCard.setAttribute('data-category', recipe.category);
+        newCard.setAttribute('data-title', recipe.name);
+
+        // Create card HTML
+        newCard.innerHTML = `
+          <img src="${imageUrl || '/static/images/default_recipe.png'}" alt="${recipe.name}">
+          <div class="recipe-info">
+            <h2>${recipe.name}</h2>
+            <p>${recipe.instructions}</p>
+            <div class="tag">${recipe.category}</div>
+          </div>
+          <div class="recipe-details" style="display: none;">
+            <p><strong>Ingredients:</strong>
+              ${recipe.ingredients.map(ing => `${ing.name} (Requires ${ing.quantity_required})`).join(', ')}
+            </p>
+            <p><strong>Instructions:</strong> ${recipe.instructions}</p>
+          </div>
+        `;
+
+        // Add click handler for recipe details
+        newCard.addEventListener('click', function(e) {
+          if(document.getElementById('addIngredientModal').style.display === 'block') return;
+          const details = this.querySelector('.recipe-details').innerHTML;
+          const title = this.getAttribute('data-title');
+          modalBody.innerHTML = '<h2>' + title + '</h2>' + details;
+          recipeModal.style.display = 'block';
+        });
+
+        // Add to grid
+        recipeGrid.insertBefore(newCard, recipeGrid.firstChild);
+      }
       
       // Add Ingredient Modal functionality
       const addIngredientBtn = document.getElementById("add-ingredient-button");
@@ -534,49 +611,111 @@
         addIngredientModal.style.display = "none";
       });
       
+      // Function to get JWT token from cookies
+      function getJwtToken() {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+          const [name, value] = cookie.trim().split('=');
+          if (name === 'access_token') {
+            return value;
+          }
+        }
+        return null;
+      }
+
+      // Function to get auth headers
+      function getAuthHeaders() {
+        const token = getJwtToken();
+        return {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        };
+      }
+
+      // Function to refresh the inventory list
+      function refreshInventory() {
+        fetch('/api/inventory', {
+          headers: getAuthHeaders()
+        })
+        .then(response => response.json())
+        .then(inventory => {
+          const inventoryList = document.querySelector(".inventory-list");
+          inventoryList.innerHTML = '';
+          
+          Object.entries(inventory).forEach(([ingredient, quantity]) => {
+            const li = document.createElement("li");
+            li.textContent = `${ingredient} (${quantity})`;
+            
+            const removeBtn = document.createElement("button");
+            removeBtn.textContent = "Remove";
+            removeBtn.onclick = () => removeIngredient(ingredient);
+            li.appendChild(removeBtn);
+            
+            inventoryList.appendChild(li);
+          });
+        })
+        .catch(error => {
+          console.error("Error fetching inventory:", error);
+          alert("Error loading inventory");
+        });
+      }
+
+      // Function to remove an ingredient
+      function removeIngredient(ingredient) {
+        fetch('/api/inventory/remove', {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ ingredient: ingredient, quantity: 1 })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            alert("Error: " + data.error);
+          } else {
+            refreshInventory();
+          }
+        })
+        .catch(error => {
+          console.error("Error removing ingredient:", error);
+          alert("Error removing ingredient");
+        });
+      }
+
+      // Add ingredient form submission
       addIngredientForm.addEventListener("submit", function(e) {
-  e.preventDefault();
-  const formData = new FormData(addIngredientForm);
-  const newIngName = formData.get("ingredientName").trim();
-  if(newIngName === "") return;
-  
-  // Sending the new ingredient data to the back-end
-  fetch('/add_ingredient', {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => response.json())
-  .then(data => {
-    if(data.error) {
-      alert("Error: " + data.error);
-    } else {
-      // Option 1: Update the DOM if you want the change to be immediate.
-      const inventoryList = document.querySelector(".inventory-list");
-      const li = document.createElement("li");
-      li.textContent = newIngName;
-      
-      // Create a remove button (you will need a similar back-end endpoint to remove)
-      const removeBtn = document.createElement("button");
-      removeBtn.textContent = "Remove";
-      removeBtn.addEventListener("click", function() {
-        // Make an AJAX call to remove the ingredient here
-        li.remove();
-        alert(`Ingredient "${newIngName}" removed!`);
+        e.preventDefault();
+        const formData = new FormData(addIngredientForm);
+        const newIngName = formData.get("ingredientName").trim();
+        if(newIngName === "") return;
+        
+        fetch('/api/inventory/add', {
+          method: 'POST',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ ingredient: newIngName })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if(data.error) {
+            alert("Error: " + data.error);
+          } else {
+            refreshInventory();
+            alert("Ingredient added!");
+          }
+        })
+        .catch(error => {
+          console.error("Error adding ingredient:", error);
+          alert("There was an error adding the ingredient.");
+        });
+
+        addIngredientModal.style.display = "none";
+        addIngredientForm.reset();
       });
-      li.appendChild(removeBtn);
-      inventoryList.appendChild(li);
 
-      alert("Ingredient added!");
-    }
-   })
-    .catch(error => {
-    console.error("Error adding ingredient:", error);
-    alert("There was an error adding the ingredient.");
-    });
+      // Add event listener for refresh button
+      document.getElementById('refreshIngredients').addEventListener('click', refreshInventory);
 
-    addIngredientModal.style.display = "none";
-    addIngredientForm.reset();
-    });
+      // Initial load of inventory
+      refreshInventory();
     });
   </script>
 </body>

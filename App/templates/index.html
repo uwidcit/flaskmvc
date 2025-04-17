@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Chef It</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="/static/styles.css">
   </head>
 <body class="login-body">
-  <div class="login-container">
-    <h2 class="login-title">Welcome Back <span class="emoji">🍽️</span></h2>
+  <div class="login-container animate__animated animate__fadeIn">
+    <h1 class="login-title"><i class="fas fa-utensils"></i> Login to Chef It</h1>
     <form action="{{ url_for('auth_views.login_action') }}" method="POST">
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -21,9 +26,15 @@
           </div>
         {% endif %}
       {% endwith %}
-      <input type="text" name="username" placeholder="Username" required value="{{ request.form.username if request.form.username }}">
-      <input type="password" name="password" placeholder="Password" required>
-      <button type="submit">Log In</button>
+      <div class="form-group">
+        <label for="username"><i class="fas fa-user"></i> Username</label>
+        <input type="text" id="username-input" name="username" placeholder="Enter your username" required value="{{ request.form.username if request.form.username }}">
+      </div>
+      <div class="form-group">
+        <label for="password"><i class="fas fa-lock"></i> Password</label>
+        <input type="password" id="password-input" name="password" placeholder="Enter your password" required>
+      </div>
+      <button type="submit"><i class="fas fa-sign-in-alt"></i> Login</button>
     </form>
     <p class="switch-link">Don't have an account? <a href="{{ url_for('auth_views.signup_action') }}">Sign up</a></p>
   </div>
