@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chef It | Home</title>
+  <!-- Google Fonts for refined serif typography -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* -------------------------
+       GLOBAL STYLES
+    ------------------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      font-family: 'Cormorant Garamond', Garamond, serif;
+      background-color: #1d2b27; /* Moody forest green */
+      color: #f5f1e3;
+      height: 100%;
+      overflow-x: hidden;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    a:hover {
+      color: #d4af37; /* Gold hover */
+    }
+    
+    /* -------------------------
+       PAGE LAYOUT
+    ------------------------- */
+    .container {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+    
+    /* Sidebar styling */
+    .sidebar {
+      width: 270px;
+      background-color: #1d2b27;
+      padding: 20px;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+    /* Toggle button is now inside the sidebar, at the top */
+    .sidebar .toggle-sidebar {
+      background-color: #1d2b27;
+      color: #f5f1e3;
+      border: none;
+      padding: 5px 10px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      align-self: flex-end;
+      transition: background-color 0.3s;
+      border-radius: 3px;
+      margin-bottom: 10px;
+    }
+    .sidebar .toggle-sidebar:hover {
+      background-color: #d4af37;
+    }
+    /* When the sidebar is hidden */
+    .sidebar.hidden {
+      transform: translateX(-100%);
+    }
+    .logo {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    .nav-links a {
+      display: block;
+      font-size: 1.2rem;
+      padding: 8px 12px;
+      border-radius: 5px;
+    }
+    .nav-links a.active {
+      background-color: #d4af37;
+      color: #fff;
+    }
+    
+    /* Main content */
+    .main-content {
+      flex: 1;
+      background-color: #f5f1e3; /* Cream background */
+      color: #1d2b27;
+      padding: 30px;
+      overflow-y: auto;
+      transition: margin-left 0.3s ease;
+    }
+    .header-title {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    .header-desc {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    
+    /* Recipe Grid & Card Styles */
+    .recipe-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .recipe-card {
+      background-color: #fff;
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .recipe-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+    .recipe-card img {
+      display: block;
+      width: 100%;
+      max-width: 200px;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 1rem;
+    }
+    .recipe-info h2 {
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      color: #1d2b27;
+    }
+    .recipe-info p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 0.5rem;
+    }
+    .recipe-info .tag {
+      display: inline-block;
+      background-color: #d4af37;
+      color: #fff;
+      padding: 0.3rem 0.7rem;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+    
+    /* Inventory Section Styles */
+    .inventory-section {
+      display: none;
+    }
+    .inventory-section h2 {
+      margin-bottom: 15px;
+      font-size: 2rem;
+    }
+    .inventory-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    .inventory-list li {
+      margin-bottom: 8px;
+      padding: 5px 10px;
+      background-color: #fff;
+      color: #1d2b27;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .inventory-list li button {
+      background-color: #1d2b27;
+      border: none;
+      color: #f5f1e3;
+      padding: 3px 6px;
+      cursor: pointer;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      transition: background-color 0.3s;
+    }
+    .inventory-list li button:hover {
+      background-color: #d4af37;
+    }
+    .inventory-actions {
+      margin-top: 20px;
+    }
+    .inventory-actions button {
+      padding: 10px 20px;
+      margin-right: 10px;
+      border: none;
+      background-color: #1d2b27;
+      color: #f5f1e3;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .inventory-actions button:hover {
+      background-color: #d4af37;
+    }
+    
+    /* Modal Styles for Recipe Details, New Recipe, and New Ingredient */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      color: #1d2b27;
+      position: relative;
+    }
+    .close-button {
+      font-size: 28px;
+      font-weight: bold;
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      cursor: pointer;
+    }
+    
+    /* New Recipe Modal Styles */
+    #newRecipeModal .modal-content {
+      max-width: 500px;
+    }
+    #newRecipeModal label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    #newRecipeModal input[type="text"],
+    #newRecipeModal textarea,
+    #newRecipeModal input[type="file"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+    #newRecipeModal button {
+      padding: 10px 20px;
+      margin-right: 10px;
+      border: none;
+      background-color: #1d2b27;
+      color: #f5f1e3;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    #newRecipeModal button:hover {
+      background-color: #d4af37;
+    }
+    
+    /* New Ingredient Modal Styles */
+    #addIngredientModal .modal-content {
+      max-width: 400px;
+    }
+    #addIngredientModal label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    #addIngredientModal input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+    #addIngredientModal button {
+      padding: 10px 20px;
+      margin-right: 10px;
+      border: none;
+      background-color: #1d2b27;
+      color: #f5f1e3;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    #addIngredientModal button:hover {
+      background-color: #d4af37;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <!-- Toggle button is inside the sidebar -->
+      <button class="toggle-sidebar" id="sidebarToggle">Toggle Sidebar</button>
+      <h1 class="logo">Chef It</h1>
+      <div class="nav-links">
+        <a data-category="all" class="active">All</a>
+        <a data-category="Breakfast">Breakfast</a>
+        <a data-category="Main Meal">Main Meal</a>
+        <a data-category="Desserts">Desserts</a>
+        <a id="new-recipe-link">Make Your Own Recipe</a>
+        <a data-category="inventory">Ingredients</a>
+      </div>
+    </aside>
+    
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <div class="header-text">
+        <h2 class="header-title">Welcome to Chef It</h2>
+        <p class="header-desc">
+          Discover curated recipes, manage ingredients, and elevate your cooking experience.
+        </p>
+      </div>
+      
+      <!-- Recipe Grid -->
+      <div class="recipe-grid" id="recipeGrid">
+        {% for recipe in recipes %}
+          <div class="recipe-card" data-category="{{ recipe.category|default('Custom') }}" data-title="{{ recipe.name }}">
+            <img src="{{ url_for('static', filename='images/' ~ recipe.image|default('default_recipe.png')) }}" alt="{{ recipe.name }}">
+            <div class="recipe-info">
+              <h2>{{ recipe.name }}</h2>
+              <p>{{ recipe.instructions }}</p>
+              <div class="tag">{{ recipe.category|default('Custom') }}</div>
+            </div>
+            <div class="recipe-details" style="display: none;">
+              <p><strong>Ingredients:</strong>
+              {% for ing in recipe.ingredients %}
+                {{ ing.name }} (Requires {{ ing.quantity_required }})
+                {% if not loop.last %}, {% endif %}
+              {% endfor %}
+              </p>
+              <p><strong>Instructions:</strong> {{ recipe.instructions }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      
+      <!-- Inventory Section (hidden by default) -->
+      <div class="inventory-section" id="inventorySection" style="display: none;">
+        <h2>Your Ingredients</h2>
+        <ul class="inventory-list">
+          <!-- Rendered server-side: -->
+          {% for item in inventory %}
+            <li>
+              {{ item.ingredient }}
+              <button class="remove-ingredient" data-id="{{ item.id }}">Remove</button>
+            </li>
+          {% endfor %}
+        </ul>
+        <div class="inventory-actions">
+          <button id="refreshIngredients">Refresh Ingredients</button>
+          <button id="add-ingredient-button">Add Ingredient</button>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Modal for Viewing Recipe Details -->
+  <div id="recipeModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+  
+  <!-- Modal for Creating New Recipe -->
+  <div id="newRecipeModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button new-close-button">&times;</span>
+      <h2>Add Your Own Recipe</h2>
+      <form id="newRecipeForm" enctype="multipart/form-data">
+        <label for="recipeName">Meal Name:</label>
+        <input type="text" id="recipeName" name="recipeName" required>
+        
+        <label for="recipeIngredients">Ingredients (e.g., "eggs:5, flour:1"):</label>
+        <textarea id="recipeIngredients" name="recipeIngredients" rows="3" required></textarea>
+        
+        <label for="recipeInstructions">Instructions:</label>
+        <textarea id="recipeInstructions" name="recipeInstructions" rows="5" required></textarea>
+        
+        <label for="recipeImage">Meal Image:</label>
+        <input type="file" id="recipeImage" name="recipeImage" accept="image/*">
+        
+        <button type="submit">Submit Recipe</button>
+        <button type="button" id="cancelNewRecipe">Cancel</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Modal for Adding a New Ingredient -->
+  <div id="addIngredientModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button ingredient-close-button">&times;</span>
+      <h2>Add a New Ingredient</h2>
+      <form id="addIngredientForm">
+        <label for="ingredientName">Ingredient Name:</label>
+        <input type="text" id="ingredientName" name="ingredientName" required>
+        
+        <button type="submit">Submit</button>
+        <button type="button" id="cancelAddIngredient">Cancel</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- JavaScript for Sidebar Toggle, Filtering, Modal, and Inventory Actions -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Sidebar toggle functionality within the sidebar
+      const sidebar = document.getElementById("sidebar");
+      const sidebarToggle = document.getElementById("sidebarToggle");
+      sidebarToggle.addEventListener("click", function () {
+        sidebar.classList.toggle("hidden");
+      });
+      
+      // Navigation filtering functionality
+      const links = document.querySelectorAll(".nav-links a");
+      const cards = document.querySelectorAll(".recipe-card");
+      const recipeGrid = document.getElementById("recipeGrid");
+      const inventorySection = document.getElementById("inventorySection");
+      
+      links.forEach(link => {
+        link.addEventListener("click", function () {
+          const category = this.getAttribute("data-category") || "";
+          links.forEach(l => l.classList.remove("active"));
+          this.classList.add("active");
+          
+          // If the Ingredients tab is selected
+          if (category.toLowerCase() === "inventory") {
+            recipeGrid.style.display = "none";
+            inventorySection.style.display = "block";
+          } else {
+            inventorySection.style.display = "none";
+            recipeGrid.style.display = "grid";
+            const categoryLower = category.toLowerCase();
+            cards.forEach(card => {
+              const cardCategory = card.getAttribute("data-category").toLowerCase();
+              card.style.display = (categoryLower === "all" || cardCategory === categoryLower) ? "block" : "none";
+            });
+          }
+        });
+      });
+      
+      // Modal functionality for viewing recipe details
+      const recipeCards = document.querySelectorAll('.recipe-card');
+      const recipeModal = document.getElementById('recipeModal');
+      const modalBody = document.getElementById('modal-body');
+      const closeButton = document.querySelector('.close-button');
+      
+      recipeCards.forEach(card => {
+        card.addEventListener('click', function (e) {
+          // Do not trigger modal if add ingredient modal is open
+          if(document.getElementById('addIngredientModal').style.display === 'block') return;
+          const details = card.querySelector('.recipe-details').innerHTML;
+          const title = card.getAttribute('data-title');
+          modalBody.innerHTML = '<h2>' + title + '</h2>' + details;
+          recipeModal.style.display = 'block';
+        });
+      });
+      
+      closeButton.addEventListener('click', function () {
+        recipeModal.style.display = 'none';
+      });
+      
+      window.addEventListener('click', function (event) {
+        if (event.target == recipeModal) {
+          recipeModal.style.display = 'none';
+        }
+      });
+      
+      // New Recipe Modal functionality
+      const newRecipeLink = document.getElementById("new-recipe-link");
+      const newRecipeModal = document.getElementById("newRecipeModal");
+      const newCloseButton = document.querySelector(".new-close-button");
+      const cancelNewRecipe = document.getElementById("cancelNewRecipe");
+      const newRecipeForm = document.getElementById("newRecipeForm");
+      
+      newRecipeLink.addEventListener("click", function () {
+        newRecipeModal.style.display = "block";
+      });
+      
+      newCloseButton.addEventListener("click", function () {
+        newRecipeModal.style.display = "none";
+      });
+      
+      cancelNewRecipe.addEventListener("click", function () {
+        newRecipeModal.style.display = "none";
+      });
+      
+      newRecipeForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        // For demo: process the new recipe form (logic omitted for brevity)
+        alert("Recipe submitted! (This demo adds the recipe to the grid.)");
+        newRecipeModal.style.display = "none";
+        newRecipeForm.reset();
+      });
+      
+      // Add Ingredient Modal functionality
+      const addIngredientBtn = document.getElementById("add-ingredient-button");
+      const addIngredientModal = document.getElementById("addIngredientModal");
+      const addIngredientClose = document.querySelector(".ingredient-close-button");
+      const cancelAddIngredient = document.getElementById("cancelAddIngredient");
+      const addIngredientForm = document.getElementById("addIngredientForm");
+      
+      addIngredientBtn.addEventListener("click", function() {
+        addIngredientModal.style.display = "block";
+      });
+      
+      addIngredientClose.addEventListener("click", function() {
+        addIngredientModal.style.display = "none";
+      });
+      
+      cancelAddIngredient.addEventListener("click", function() {
+        addIngredientModal.style.display = "none";
+      });
+      
+      addIngredientForm.addEventListener("submit", function(e) {
+  e.preventDefault();
+  const formData = new FormData(addIngredientForm);
+  const newIngName = formData.get("ingredientName").trim();
+  if(newIngName === "") return;
+  
+  // Sending the new ingredient data to the back-end
+  fetch('/add_ingredient', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if(data.error) {
+      alert("Error: " + data.error);
+    } else {
+      // Option 1: Update the DOM if you want the change to be immediate.
+      const inventoryList = document.querySelector(".inventory-list");
+      const li = document.createElement("li");
+      li.textContent = newIngName;
+      
+      // Create a remove button (you will need a similar back-end endpoint to remove)
+      const removeBtn = document.createElement("button");
+      removeBtn.textContent = "Remove";
+      removeBtn.addEventListener("click", function() {
+        // Make an AJAX call to remove the ingredient here
+        li.remove();
+        alert(`Ingredient "${newIngName}" removed!`);
+      });
+      li.appendChild(removeBtn);
+      inventoryList.appendChild(li);
+
+      alert("Ingredient added!");
+    }
+   })
+    .catch(error => {
+    console.error("Error adding ingredient:", error);
+    alert("There was an error adding the ingredient.");
+    });
+
+    addIngredientModal.style.display = "none";
+    addIngredientForm.reset();
+    });
+    });
+  </script>
+</body>
+</html>

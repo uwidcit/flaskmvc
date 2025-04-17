@@ -12,8 +12,10 @@ def load_config(app, overrides):
     app.config['UPLOADED_PHOTOS_DEST'] = "App/uploads"
     app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token'
     app.config["JWT_TOKEN_LOCATION"] = ["cookies", "headers"]
-    app.config["JWT_COOKIE_SECURE"] = True
+    # Change this for local testing:
+    app.config["JWT_COOKIE_SECURE"] = False  # Set to True only in production with HTTPS
     app.config["JWT_COOKIE_CSRF_PROTECT"] = False
+    app.config['JWT_COOKIE_SAMESITE'] = 'None'
     app.config['FLASK_ADMIN_SWATCH'] = 'darkly'
     for key in overrides:
         app.config[key] = overrides[key]

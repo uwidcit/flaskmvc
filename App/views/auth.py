@@ -27,17 +27,29 @@ def identify_page():
     return render_template('message.html', title="Identify", message=f"You are logged in as {current_user.id} - {current_user.username}")
     
 
-@auth_views.route('/login', methods=['POST'])
+@auth_views.route('/login', methods=['GET', 'POST'])
 def login_action():
-    data = request.form
-    token = login(data['username'], data['password'])
-    response = redirect(request.referrer)
+    if request.method == 'GET':
+        return render_template('index.html')
+    
+    # Handle POST: get username and password from the login form
+    username = request.form.get('username')
+    password = request.form.get('password')
+    
+    token = login(username, password)  # This should return a JWT if authentication is successful
     if not token:
-        flash('Bad username or password given'), 401
-    else:
-        flash('Login Successful')
-        set_access_cookies(response, token) 
+        flash('Invalid credentials', 'error')
+        return redirect(url_for('auth_views.login_action'))
+    
+    response = redirect(url_for('home_views.home_page'))
+    # Set the JWT cookie (if you are using cookie-based JWTs)
+    set_access_cookies(response, token)
+    flash('Login successful!', 'success')
     return response
+
+@auth_views.route('/signup', methods=['GET'])
+def signup_action():
+    return render_template('signup.html')  # Make sure you have this template
 
 @auth_views.route('/logout', methods=['GET'])
 def logout_action():
@@ -45,6 +57,7 @@ def logout_action():
     flash("Logged Out!")
     unset_jwt_cookies(response)
     return response
+
 
 '''
 API Routes

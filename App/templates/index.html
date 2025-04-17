@@ -1,13 +1,31 @@
-{% extends "layout.html" %}
-{% block title %}Flask MVC App{% endblock %}
-{% block page %}Flask MVC App{% endblock %}
-
-{{ super() }}
-
-{% block content %}
-    <h1>Flask MVC</h1>
-    {% if is_authenticated %}
-        <p> Welcome {{current_user.username}} </p>
-    {% endif %}
-    <p>This is a boileplate flask application which follows the MVC pattern for structuring the project.</p>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Chef It</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+<body class="login-body">
+  <div class="login-container">
+    <h2 class="login-title">Welcome Back <span class="emoji">🍽️</span></h2>
+    <form action="{{ url_for('auth_views.login_action') }}" method="POST">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-messages">
+            {% for category, message in messages %}
+              <div class="flash-msg {{ category }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      <input type="text" name="username" placeholder="Username" required value="{{ request.form.username if request.form.username }}">
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit">Log In</button>
+    </form>
+    <p class="switch-link">Don't have an account? <a href="{{ url_for('auth_views.signup_action') }}">Sign up</a></p>
+  </div>
+</body>
+</html>

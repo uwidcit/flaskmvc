@@ -1,193 +1,445 @@
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/uwidcit/flaskmvc)
-<a href="https://render.com/deploy?repo=https://github.com/uwidcit/flaskmvc">
-  <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
-</a>
+<p align="center">
+    <img src="images/logo.png" alt="Logo" width="30%">
+</p>
 
-![Tests](https://github.com/uwidcit/flaskmvc/actions/workflows/dev.yml/badge.svg)
+<p align="center"><h1 align="center">CHEF-IT.GIT</h1></p>
+<p align="center">
+	<em><code>❯ REPLACE-ME</code></em>
+</p>
+<p align="center">
+	<img src="https://img.shields.io/github/license/Chef-It-Project/Chef-It.git?style=default&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
+	<img src="https://img.shields.io/github/last-commit/Chef-It-Project/Chef-It.git?style=default&logo=git&logoColor=white&color=0080ff" alt="last-commit">
+	<img src="https://img.shields.io/github/languages/top/Chef-It-Project/Chef-It.git?style=default&color=0080ff" alt="repo-top-language">
+	<img src="https://img.shields.io/github/languages/count/Chef-It-Project/Chef-It.git?style=default&color=0080ff" alt="repo-language-count">
+</p>
+<p align="center"><!-- default option, no dependency badges. -->
+</p>
+<p align="center">
+	<!-- default option, no dependency badges. -->
+</p>
+<br>
 
-# Flask MVC Template
-A template for flask applications structured in the Model View Controller pattern [Demo](https://dcit-flaskmvc.herokuapp.com/). [Postman Collection](https://documenter.getpostman.com/view/583570/2s83zcTnEJ)
+## 🔗 Table of Contents
 
+- [📍 Overview](#-overview)
+- [👾 Features](#-features)
+- [📁 Project Structure](#-project-structure)
+  - [📂 Project Index](#-project-index)
+- [🚀 Getting Started](#-getting-started)
+  - [☑️ Prerequisites](#-prerequisites)
+  - [⚙️ Installation](#-installation)
+  - [🤖 Usage](#🤖-usage)
+  - [🧪 Testing](#🧪-testing)
+- [📌 Project Roadmap](#-project-roadmap)
+- [🔰 Contributing](#-contributing)
+- [🎗 License](#-license)
+- [🙌 Acknowledgments](#-acknowledgments)
 
-# Dependencies
-* Python3/pip3
-* Packages listed in requirements.txt
+---
 
-# Installing Dependencies
-```bash
-$ pip install -r requirements.txt
+## 📍 Overview
+
+<code>❯ REPLACE-ME</code>
+
+---
+
+## 👾 Features
+
+<code>❯ REPLACE-ME</code>
+
+---
+
+## 📁 Project Structure
+
+```sh
+└── Chef-It.git/
+    ├── .github
+    │   └── workflows
+    ├── App
+    │   ├── __init__.py
+    │   ├── config.py
+    │   ├── controllers
+    │   ├── database.py
+    │   ├── default_config.py
+    │   ├── main.py
+    │   ├── models
+    │   ├── static
+    │   ├── templates
+    │   ├── tests
+    │   └── views
+    ├── e2e
+    │   ├── config.json
+    │   └── test.js
+    ├── gunicorn_config.py
+    ├── images
+    │   ├── fig1.png
+    │   └── gitperms.png
+    ├── package-lock.json
+    ├── package.json
+    ├── pytest.ini
+    ├── readme.md
+    ├── render.yaml
+    ├── requirements.txt
+    ├── setup.cfg
+    └── wsgi.py
 ```
 
-# Configuration Management
+
+### 📂 Project Index
+<details open>
+	<summary><b><code>CHEF-IT.GIT/</code></b></summary>
+	<details> <!-- __root__ Submodule -->
+		<summary><b>__root__</b></summary>
+		<blockquote>
+			<table>
+			<tr>
+				<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/package-lock.json'>package-lock.json</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			<tr>
+				<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/gunicorn_config.py'>gunicorn_config.py</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			<tr>
+				<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/pytest.ini'>pytest.ini</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			<tr>
+				<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/requirements.txt'>requirements.txt</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			<tr>
+				<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/package.json'>package.json</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			<tr>
+				<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/render.yaml'>render.yaml</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			<tr>
+				<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/wsgi.py'>wsgi.py</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			</table>
+		</blockquote>
+	</details>
+	<details> <!-- .github Submodule -->
+		<summary><b>.github</b></summary>
+		<blockquote>
+			<details>
+				<summary><b>workflows</b></summary>
+				<blockquote>
+					<table>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/.github/workflows/dev.yml'>dev.yml</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					</table>
+				</blockquote>
+			</details>
+		</blockquote>
+	</details>
+	<details> <!-- App Submodule -->
+		<summary><b>App</b></summary>
+		<blockquote>
+			<table>
+			<tr>
+				<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/database.py'>database.py</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			<tr>
+				<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/config.py'>config.py</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			<tr>
+				<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/main.py'>main.py</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			<tr>
+				<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/default_config.py'>default_config.py</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			</table>
+			<details>
+				<summary><b>templates</b></summary>
+				<blockquote>
+					<table>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/templates/home.html'>home.html</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/templates/users.html'>users.html</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/templates/layout.html'>layout.html</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/templates/index.html'>index.html</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/templates/signup.html'>signup.html</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/templates/message.html'>message.html</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/templates/401.html'>401.html</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					</table>
+					<details>
+						<summary><b>admin</b></summary>
+						<blockquote>
+							<table>
+							<tr>
+								<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/templates/admin/index.html'>index.html</a></b></td>
+								<td><code>❯ REPLACE-ME</code></td>
+							</tr>
+							</table>
+						</blockquote>
+					</details>
+				</blockquote>
+			</details>
+			<details>
+				<summary><b>controllers</b></summary>
+				<blockquote>
+					<table>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/controllers/recipe.py'>recipe.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/controllers/inventory.py'>inventory.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/controllers/user.py'>user.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/controllers/initialize.py'>initialize.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/controllers/auth.py'>auth.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					</table>
+				</blockquote>
+			</details>
+			<details>
+				<summary><b>models</b></summary>
+				<blockquote>
+					<table>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/models/recipe.py'>recipe.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/models/userfoodlist.py'>userfoodlist.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/models/user.py'>user.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/models/recipeingredient.py'>recipeingredient.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					</table>
+				</blockquote>
+			</details>
+			<details>
+				<summary><b>views</b></summary>
+				<blockquote>
+					<table>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/views/user.py'>user.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/views/home.py'>home.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/views/index.py'>index.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/views/admin.py'>admin.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					<tr>
+						<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/App/views/auth.py'>auth.py</a></b></td>
+						<td><code>❯ REPLACE-ME</code></td>
+					</tr>
+					</table>
+				</blockquote>
+			</details>
+		</blockquote>
+	</details>
+	<details> <!-- e2e Submodule -->
+		<summary><b>e2e</b></summary>
+		<blockquote>
+			<table>
+			<tr>
+				<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/e2e/config.json'>config.json</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			<tr>
+				<td><b><a href='https://github.com/Chef-It-Project/Chef-It.git/blob/master/e2e/test.js'>test.js</a></b></td>
+				<td><code>❯ REPLACE-ME</code></td>
+			</tr>
+			</table>
+		</blockquote>
+	</details>
+</details>
+
+---
+## 🚀 Getting Started
+
+### ☑️ Prerequisites
+
+Before getting started with Chef-It.git, ensure your runtime environment meets the following requirements:
+
+- **Programming Language:** Python
+- **Package Manager:** Npm, Pip
 
 
-Configuration information such as the database url/port, credentials, API keys etc are to be supplied to the application. However, it is bad practice to stage production information in publicly visible repositories.
-Instead, all config is provided by a config file or via [environment variables](https://linuxize.com/post/how-to-set-and-list-environment-variables-in-linux/).
+### ⚙️ Installation
 
-## In Development
+Install Chef-It.git using one of the following methods:
 
-When running the project in a development environment (such as gitpod) the app is configured via default_config.py file in the App folder. By default, the config for development uses a sqlite database.
+**Build from source:**
 
-default_config.py
-```python
-SQLALCHEMY_DATABASE_URI = "sqlite:///temp-database.db"
-SECRET_KEY = "secret key"
-JWT_ACCESS_TOKEN_EXPIRES = 7
-ENV = "DEVELOPMENT"
+1. Clone the Chef-It.git repository:
+```sh
+❯ git clone https://github.com/Chef-It-Project/Chef-It.git
 ```
 
-These values would be imported and added to the app in load_config() function in config.py
-
-config.py
-```python
-# must be updated to inlude addtional secrets/ api keys & use a gitignored custom-config file instad
-def load_config():
-    config = {'ENV': os.environ.get('ENV', 'DEVELOPMENT')}
-    delta = 7
-    if config['ENV'] == "DEVELOPMENT":
-        from .default_config import JWT_ACCESS_TOKEN_EXPIRES, SQLALCHEMY_DATABASE_URI, SECRET_KEY
-        config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
-        config['SECRET_KEY'] = SECRET_KEY
-        delta = JWT_ACCESS_TOKEN_EXPIRES
-...
+2. Navigate to the project directory:
+```sh
+❯ cd Chef-It.git
 ```
 
-## In Production
+3. Install the project dependencies:
 
-When deploying your application to production/staging you must pass
-in configuration information via environment tab of your render project's dashboard.
 
-![perms](./images/fig1.png)
+**Using `npm`** &nbsp; [<img align="center" src="" />]()
 
-# Flask Commands
-
-wsgi.py is a utility script for performing various tasks related to the project. You can use it to import and test any code in the project. 
-You just need create a manager command function, for example:
-
-```python
-# inside wsgi.py
-
-user_cli = AppGroup('user', help='User object commands')
-
-@user_cli.cli.command("create-user")
-@click.argument("username")
-@click.argument("password")
-def create_user_command(username, password):
-    create_user(username, password)
-    print(f'{username} created!')
-
-app.cli.add_command(user_cli) # add the group to the cli
-
-```
-
-Then execute the command invoking with flask cli with command name and the relevant parameters
-
-```bash
-$ flask user create bob bobpass
+```sh
+❯ echo 'INSERT-INSTALL-COMMAND-HERE'
 ```
 
 
-# Running the Project
+**Using `pip`** &nbsp; [<img align="center" src="https://img.shields.io/badge/Pip-3776AB.svg?style={badge_style}&logo=pypi&logoColor=white" />](https://pypi.org/project/pip/)
 
-_For development run the serve command (what you execute):_
-```bash
-$ flask run
+```sh
+❯ pip install -r requirements.txt
 ```
 
-_For production using gunicorn (what the production server executes):_
-```bash
-$ gunicorn wsgi:app
+
+
+
+### 🤖 Usage
+Run Chef-It.git using the following command:
+**Using `npm`** &nbsp; [<img align="center" src="" />]()
+
+```sh
+❯ echo 'INSERT-RUN-COMMAND-HERE'
 ```
 
-# Deploying
-You can deploy your version of this app to render by clicking on the "Deploy to Render" link above.
 
-# Initializing the Database
-When connecting the project to a fresh empty database ensure the appropriate configuration is set then file then run the following command. This must also be executed once when running the app on heroku by opening the heroku console, executing bash and running the command in the dyno.
+**Using `pip`** &nbsp; [<img align="center" src="https://img.shields.io/badge/Pip-3776AB.svg?style={badge_style}&logo=pypi&logoColor=white" />](https://pypi.org/project/pip/)
 
-```bash
-$ flask init
+```sh
+❯ python {entrypoint}
 ```
 
-# Database Migrations
-If changes to the models are made, the database must be'migrated' so that it can be synced with the new models.
-Then execute following commands using manage.py. More info [here](https://flask-migrate.readthedocs.io/en/latest/)
 
-```bash
-$ flask db init
-$ flask db migrate
-$ flask db upgrade
-$ flask db --help
+### 🧪 Testing
+Run the test suite using the following command:
+**Using `npm`** &nbsp; [<img align="center" src="" />]()
+
+```sh
+❯ echo 'INSERT-TEST-COMMAND-HERE'
 ```
 
-# Testing
 
-## Unit & Integration
-Unit and Integration tests are created in the App/test. You can then create commands to run them. Look at the unit test command in wsgi.py for example
+**Using `pip`** &nbsp; [<img align="center" src="https://img.shields.io/badge/Pip-3776AB.svg?style={badge_style}&logo=pypi&logoColor=white" />](https://pypi.org/project/pip/)
 
-```python
-@test.command("user", help="Run User tests")
-@click.argument("type", default="all")
-def user_tests_command(type):
-    if type == "unit":
-        sys.exit(pytest.main(["-k", "UserUnitTests"]))
-    elif type == "int":
-        sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
-    else:
-        sys.exit(pytest.main(["-k", "User"]))
+```sh
+❯ pytest
 ```
 
-You can then execute all user tests as follows
 
-```bash
-$ flask test user
-```
+---
+## 📌 Project Roadmap
 
-You can also supply "unit" or "int" at the end of the comand to execute only unit or integration tests.
+- [X] **`Task 1`**: <strike>Implement feature one.</strike>
+- [ ] **`Task 2`**: Implement feature two.
+- [ ] **`Task 3`**: Implement feature three.
 
-You can run all application tests with the following command
+---
 
-```bash
-$ pytest
-```
+## 🔰 Contributing
 
-## Test Coverage
+- **💬 [Join the Discussions](https://github.com/Chef-It-Project/Chef-It.git/discussions)**: Share your insights, provide feedback, or ask questions.
+- **🐛 [Report Issues](https://github.com/Chef-It-Project/Chef-It.git/issues)**: Submit bugs found or log feature requests for the `Chef-It.git` project.
+- **💡 [Submit Pull Requests](https://github.com/Chef-It-Project/Chef-It.git/blob/main/CONTRIBUTING.md)**: Review open PRs, and submit your own PRs.
 
-You can generate a report on your test coverage via the following command
+<details closed>
+<summary>Contributing Guidelines</summary>
 
-```bash
-$ coverage report
-```
+1. **Fork the Repository**: Start by forking the project repository to your github account.
+2. **Clone Locally**: Clone the forked repository to your local machine using a git client.
+   ```sh
+   git clone https://github.com/Chef-It-Project/Chef-It.git
+   ```
+3. **Create a New Branch**: Always work on a new branch, giving it a descriptive name.
+   ```sh
+   git checkout -b new-feature-x
+   ```
+4. **Make Your Changes**: Develop and test your changes locally.
+5. **Commit Your Changes**: Commit with a clear message describing your updates.
+   ```sh
+   git commit -m 'Implemented new feature x.'
+   ```
+6. **Push to github**: Push the changes to your forked repository.
+   ```sh
+   git push origin new-feature-x
+   ```
+7. **Submit a Pull Request**: Create a PR against the original project repository. Clearly describe the changes and their motivations.
+8. **Review**: Once your PR is reviewed and approved, it will be merged into the main branch. Congratulations on your contribution!
+</details>
 
-You can also generate a detailed html report in a directory named htmlcov with the following comand
+<details closed>
+<summary>Contributor Graph</summary>
+<br>
+<p align="left">
+   <a href="https://github.com{/Chef-It-Project/Chef-It.git/}graphs/contributors">
+      <img src="https://contrib.rocks/image?repo=Chef-It-Project/Chef-It.git">
+   </a>
+</p>
+</details>
 
-```bash
-$ coverage html
-```
+---
 
-# Troubleshooting
+## 🎗 License
 
-## Views 404ing
+This project is protected under the [SELECT-A-LICENSE](https://choosealicense.com/licenses) License. For more details, refer to the [LICENSE](https://choosealicense.com/licenses/) file.
 
-If your newly created views are returning 404 ensure that they are added to the list in main.py.
+---
 
-```python
-from App.views import (
-    user_views,
-    index_views
-)
+## 🙌 Acknowledgments
 
-# New views must be imported and added to this list
-views = [
-    user_views,
-    index_views
-]
-```
+- List any resources, contributors, inspiration, etc. here.
 
-## Cannot Update Workflow file
-
-If you are running into errors in gitpod when updateding your github actions file, ensure your [github permissions](https://gitpod.io/integrations) in gitpod has workflow enabled ![perms](./images/gitperms.png)
-
-## Database Issues
-
-If you are adding models you may need to migrate the database with the commands given in the previous database migration section. Alternateively you can delete you database file.
+---
