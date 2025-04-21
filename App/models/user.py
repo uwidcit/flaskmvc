@@ -5,8 +5,8 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username =  db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(120), nullable=False)
-    inventory_ingredients = db.relationship('Inventory', backref='user', cascade="all, delete-orphan")
-    recipes = db.relationship('UserRecipe', backref='user', lazy=True)
+    inventory_ingredients = db.relationship('Inventory', backref='user',lazy=True, cascade="all, delete-orphan")
+    recipes = db.relationship('UserRecipe', backref='user', lazy=True, cascade="all, delete-orphan")
 
     def __init__(self, username, password):
         self.username = username
