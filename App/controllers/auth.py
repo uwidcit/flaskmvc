@@ -1,29 +1,36 @@
 from flask_jwt_extended import create_access_token, jwt_required, JWTManager, get_jwt_identity, verify_jwt_in_request
 
 from App.models import User
+from App.database import db
 
 def login(username, password):
-  user = User.query.filter_by(username=username).first()
+  result = db.session.execute(db.select(User).filter_by(username=username))
+  user = result.scalar_one_or_none()
   if user and user.check_password(password):
-    return create_access_token(identity=username)
+    # Store ONLY the user id as a string in JWT 'sub'
+    return create_access_token(identity=str(user.id))
   return None
 
 
 def setup_jwt(app):
   jwt = JWTManager(app)
 
-  # configure's flask jwt to resolve get_current_identity() to the corresponding user's ID
+  # Always store a string user id in the JWT identity (sub),
+  # whether a User object or a raw id is passed.
   @jwt.user_identity_loader
   def user_identity_lookup(identity):
-    user = User.query.filter_by(username=identity).one_or_none()
-    if user:
-        return user.id
-    return None
+    user_id = getattr(identity, "id", identity)
+    return str(user_id) if user_id is not None else None
 
   @jwt.user_lookup_loader
   def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
-    return User.query.get(identity)
+    # Cast back to int primary key
+    try:
+      user_id = int(identity)
+    except (TypeError, ValueError):
+      return None
+    return db.session.get(User, user_id)
 
   return jwt
 
@@ -34,9 +41,10 @@ def add_auth_context(app):
   def inject_user():
       try:
           verify_jwt_in_request()
-          user_id = get_jwt_identity()
-          current_user = User.query.get(user_id)
-          is_authenticated = True
+          identity = get_jwt_identity()
+          user_id = int(identity) if identity is not None else None
+          current_user = db.session.get(User, user_id) if user_id is not None else None
+          is_authenticated = current_user is not None
       except Exception as e:
           print(e)
           is_authenticated = False
