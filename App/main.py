@@ -5,7 +5,6 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
 
-
 from App.database import init_db
 from App.config import load_config
 
@@ -16,6 +15,8 @@ from App.controllers import (
 )
 
 from App.views import views, setup_admin
+
+
 
 def add_views(app):
     for view in views:
